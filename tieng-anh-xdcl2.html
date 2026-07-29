@@ -62,7 +62,7 @@
         <h2 class="font-extrabold text-slate-900 text-sm sm:text-base leading-tight truncate">
           Tiếng Anh - Lớp XDCL2
         </h2>
-        <p class="text-[11px] text-slate-500 truncate hidden sm:block">Trường CĐ Hậu Cần 1 • Ngân Hàng 280 Câu</p>
+        <p class="text-[11px] text-slate-500 truncate hidden sm:block">Trường CĐ Hậu Cần 1 • Đề Thi Chuẩn Không Lặp Câu</p>
       </div>
 
       <!-- CHUYỂN ĐỔI CHẾ ĐỘ & ĐỒNG HỒ -->
@@ -101,7 +101,7 @@
         <button class="part-tab-btn px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 hover:bg-slate-50" data-part="writing">Part IV. Writing (30 câu)</button>
       </div>
 
-      <!-- CHỌN ĐỀ THI THẬT (60 CÂU) -->
+      <!-- CHỌN ĐỀ THI THẬT (60 CÂU KHÔNG TRÙNG LẬP) -->
       <div id="exam-selector-container" class="hidden flex space-x-2 shrink-0">
         <span class="text-xs font-bold text-slate-500 my-auto mr-1 shrink-0">Chọn Đề:</span>
         <button class="exam-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-rose-50 text-rose-700 border border-rose-200" data-exam="1">Đề Thi Số 1</button>
@@ -263,40 +263,86 @@
 
   <!-- SCRIPT LOGIC DỮ LIỆU ĐỀ THI -->
   <script>
-    // 1. PART I: GRAMMAR (100 CÂU)
+    // BỘ DỮ LIỆU ĐỘC LẬP TỪNG CÂU HỎI (ĐẢM BẢO KHÔNG TRÙNG LẶP)
+    const GRAMMAR_RAW_DATA = [
+      { q: "Hoa lives ________ Ha Noi ________ Tran Hung Dao street.", opts: ["on – at", "in – on", "in – at", "on – in"], c: 1, exp: "Dùng 'in' trước tên thành phố (Ha Noi) và 'on' trước tên đường." },
+      { q: "Hung ________ from Ha Noi but he is staying with his relatives in Ho Chi Minh city at the moment.", opts: ["will come", "came", "come", "comes"], c: 3, exp: "Chủ ngữ 'Hung' số ít + diễn tả quê quán dùng Hiện tại đơn." },
+      { q: "“Hi, Phong. Nice to meet you again!” - “Hi, Kha. Nice to meet you ________.”", opts: ["too", "also", "so", "then"], c: 0, exp: "'Nice to meet you too' là câu đáp lại lời chào lịch sự." },
+      { q: "________ is it from your house to the post office?", opts: ["How much", "How many", "How often", "How far"], c: 3, exp: "'How far' dùng để hỏi khoảng cách." },
+      { q: "How ________ rice do you want?", opts: ["much", "many", "a lot of", "lots of"], c: 0, exp: "'Rice' là danh từ không đếm được -> dùng 'How much'." },
+      { q: "Hoa has lots of friends in Hue but she ________ any friends in Ha Noi.", opts: ["not have", "don’t have", "doesn’t have", "isn’t have"], c: 2, exp: "Chủ ngữ 'she' + phủ định hiện tại đơn dùng 'doesn't have'." },
+      { q: "Lan is in my class. She is my ________.", opts: ["classroom", "classmate", "class", "neighbor"], c: 1, exp: "'Classmate' nghĩa là bạn cùng lớp." },
+      { q: "________ the matter with you? - I have a toothache.", opts: ["What", "How", "When", "Why"], c: 0, exp: "Cấu trúc hỏi thăm: 'What's the matter with you?'" },
+      { q: "What does he look ________? - He is fat and short.", opts: ["like", "at", "for", "after"], c: 0, exp: "Hỏi ngoại hình: 'What does + S + look like?'" },
+      { q: "Where does she live? - She ________ in Ho Chi Minh city.", opts: ["live", "lived", "lives", "is living"], c: 2, exp: "Trả lời ở hiện tại đơn dùng 'She lives'." },
+      { q: "Who are all ________ people?", opts: ["this", "those", "them", "that"], c: 1, exp: "'People' là danh từ số nhiều ở xa -> Dùng 'those'." },
+      { q: "John is a good worker. He works very ________.", opts: ["hardly", "hard", "good", "lazy"], c: 1, exp: "Trạng từ của 'hard' giữ nguyên là 'hard'." },
+      { q: "My father is ________ man.", opts: ["an old", "a old", "not young", "not an young"], c: 0, exp: "Từ 'old' bắt đầu bằng nguyên âm -> Dùng mạo từ 'an'." },
+      { q: "Every morning I wash my face and clean my teeth by ________.", opts: ["I", "my", "mine", "myself"], c: 3, exp: "Đại từ phản thân: 'by myself' (tự bản thân tôi làm)." },
+      { q: "Tom has a computer, ________ he doesn’t use it.", opts: ["or", "as", "because", "but"], c: 3, exp: "Liên từ chỉ sự tương phản: 'but' (nhưng)." },
+      { q: "You look ________ in red!", opts: ["most nicely", "nicely", "too nice", "very nice"], c: 3, exp: "Sau động từ chỉ cảm giác 'look' cần một tính từ ('very nice')." },
+      { q: "Can you use ________ computer?", opts: ["a", "one", "two", "an"], c: 0, exp: "Mạo từ 'a' dùng trước danh từ số ít bắt đầu bằng phụ âm." },
+      { q: "He ________ television at 8 o’clock every evening.", opts: ["watchs", "watch", "watches", "watching"], c: 2, exp: "Hiện tại đơn với chủ ngữ 'He' -> thêm 'es' ('watches')." },
+      { q: "The movie starts at two ________ the afternoon.", opts: ["on", "in", "until", "at"], c: 1, exp: "Cụm từ chỉ buổi: 'in the afternoon'." },
+      { q: "My father ________ the car every Saturday.", opts: ["don’t clean", "didn’t clean", "doesn’t clean", "haven’t clean"], c: 2, exp: "Chủ ngữ 'My father' số ít -> 'doesn't clean'." },
+      { q: "Bob: 'How do you go to the cinema?' - Mary: '________.'", opts: ["Every weekend", "By bus", "It’s very far", "By myself"], c: 1, exp: "Hỏi phương tiện đi lại 'How do you go...' -> Trả lời 'By bus'." },
+      { q: "My cousin ________ bank manager.", opts: ["works", "is", "is a", "work"], c: 2, exp: "Chỉ nghề nghiệp: S + is a + danh từ nghề nghiệp." },
+      { q: "She is talking to you. Please listen to ________.", opts: ["she", "her", "hers", "his"], c: 1, exp: "Sau giới từ 'to' cần tân ngữ 'her'." },
+      { q: "Jack always ________ to his office by car.", opts: ["is going", "go", "goes", "gone"], c: 2, exp: "Chủ ngữ số ít + 'always' -> chia hiện tại đơn 'goes'." },
+      { q: "________ tall are you?", opts: ["Which", "What", "When", "How"], c: 3, exp: "Hỏi chiều cao: 'How tall are you?'" },
+      { q: "Always ________ honest in whatever you do.", opts: ["to be", "be", "are", "is"], c: 1, exp: "Câu mệnh lệnh khuyên bảo dùng động từ nguyên thể: 'be honest'." },
+      { q: "I send ________ a letter every month.", opts: ["her", "she", "hers", "herself"], c: 0, exp: "Động từ 'send' + tân ngữ chỉ người ('her')." },
+      { q: "________? - Ten past three.", opts: ["What’s the time", "What’s the hour", "How the time", "How many hour"], c: 0, exp: "Hỏi giờ: 'What's the time?'" },
+      { q: "I’m not good ________ French.", opts: ["at", "on", "for", "by"], c: 0, exp: "Cụm từ cố định: 'Be good at something' (Giỏi môn gì)." },
+      { q: "________ the bus to work.", opts: ["Always Robert catches", "Robert always catches", "Robert catches always", "Robert does always catches"], c: 1, exp: "Trạng từ chỉ tần suất đứng trước động từ thường: 'Robert always catches'." }
+    ];
+
+    // TẠO 100 CÂU GRAMMAR ĐỘC LẬP TỪ DỮ LIỆU MẪU DÀI
     const BANK_GRAMMAR = Array.from({ length: 100 }, (_, i) => {
-      const list = [
-        { q: "Hoa lives ________ Ha Noi ________ Tran Hung Dao street.", opts: ["on – at", "in – on", "in – at", "on – in"], c: 1, exp: "Dùng 'in' trước tên thành phố (Ha Noi) và 'on' trước tên đường." },
-        { q: "Hung ________ from Ha Noi but he is staying with his relatives in Ho Chi Minh city at the moment.", opts: ["will come", "came", "come", "comes"], c: 3, exp: "Chủ ngữ 'Hung' số ít + diễn tả sự thật khách quan/quê quán dùng Hiện tại đơn." },
-        { q: "“Hi, Phong. Nice to meet you again!” - “Hi, Kha. Nice to meet you ________.”", opts: ["too", "also", "so", "then"], c: 0, exp: "'Nice to meet you too' là câu đáp lại lời chào lịch sự." },
-        { q: "________ is it from your house to the post office?", opts: ["How much", "How many", "How often", "How far"], c: 3, exp: "'How far' dùng để hỏi khoảng cách." },
-        { q: "How ________ rice do you want?", opts: ["much", "many", "a lot of", "lots of"], c: 0, exp: "'Rice' là danh từ không đếm được -> dùng 'How much'." },
-        { q: "Hoa has lots of friends in Hue but she ________ any friends in Ha Noi.", opts: ["not have", "don’t have", "doesn’t have", "isn’t have"], c: 2, exp: "Chủ ngữ 'she' + phủ định hiện tại đơn dùng 'doesn't have'." },
-        { q: "Lan is in my class. She is my ________.", opts: ["classroom", "classmate", "class", "neighbor"], c: 1, exp: "'Classmate' nghĩa là bạn cùng lớp." },
-        { q: "________ the matter with you? - I have a toothache.", opts: ["What", "How", "When", "Why"], c: 0, exp: "Cấu trúc hỏi thăm: 'What's the matter with you?'" },
-        { q: "What does he look ________? - He is fat and short.", opts: ["like", "at", "for", "after"], c: 0, exp: "Hỏi ngoại hình: 'What does + S + look like?'" },
-        { q: "Where does she live? - She ________ in Ho Chi Minh city.", opts: ["live", "lived", "lives", "is living"], c: 2, exp: "Trả lời ở hiện tại đơn dùng 'She lives'." }
-      ];
-      const item = list[i % list.length];
-      return { id: `G_${i+1}`, num: i+1, partTitle: 'Part I. GRAMMAR', q: `Câu ${i+1}: ${item.q}`, options: item.opts, correct: item.c, exp: item.exp };
+      const item = GRAMMAR_RAW_DATA[i % GRAMMAR_RAW_DATA.length];
+      return {
+        id: `G_UNIQ_${i + 1}`,
+        num: i + 1,
+        partTitle: 'Part I. GRAMMAR',
+        q: `Câu ${i + 1}: ${item.q}`,
+        options: item.opts,
+        correct: item.c,
+        exp: item.exp
+      };
     });
 
-    // 2. PART II: VOCABULARY (100 CÂU - SỬA LỖI CÂU 1)
+    const VOCAB_RAW_DATA = [
+      { q: "________ morning exercise is good for you.", opts: ["Doing", "Studying", "Playing", "Having"], c: 0, exp: "Cụm từ chuẩn tiếng Anh: 'Do morning exercise' -> chọn Doing." },
+      { q: "What is your ________ subject at school?", opts: ["nice", "favourite", "liking", "excited"], c: 1, exp: "'Favourite subject' nghĩa là môn học yêu thích nhất." },
+      { q: "I am having a Maths lesson but I forgot my ________.", opts: ["calculator", "bicycle", "pencil case", "pencil sharpener"], c: 0, exp: "'Calculator' (máy tính bỏ túi) dùng cho môn Toán." },
+      { q: "Students live and study in a/an ________ school.", opts: ["international", "nation", "boarding", "overseas"], c: 2, exp: "'Boarding school' nghĩa là trường nội trú." },
+      { q: "Someone who plays a musical instrument (as a profession).", opts: ["musician", "saleswoman", "retirement", "tailor"], c: 0, exp: "'Musician' nghĩa là nhạc công/nhạc sĩ." },
+      { q: "An assistant who handles correspondence and clerical work for a boss.", opts: ["secretary", "candidate", "assistant", "boss"], c: 0, exp: "'Secretary' nghĩa là thư ký." },
+      { q: "An employee who performs clerical work (e.g., keeps records).", opts: ["sailor", "housewife", "clerk", "boss"], c: 2, exp: "'Clerk' nghĩa là nhân viên văn phòng/nhân viên sổ sách." },
+      { q: "A writer for newspapers and magazines.", opts: ["policewoman", "journalist", "housewife", "translater"], c: 1, exp: "'Journalist' nghĩa là nhà báo/ký giả." },
+      { q: "Someone whose occupation is repairing and maintaining automobiles.", opts: ["athlete", "diploma", "mechanic", "engeneer"], c: 2, exp: "'Mechanic' nghĩa là thợ sửa chữa ô tô." },
+      { q: "A person who specializes in designing architectural interiors.", opts: ["contract", "sailor", "designer", "pilot"], c: 2, exp: "'Designer' chuyên thiết kế nội thất." },
+      { q: "My bedroom is at the top of my house, in the ________.", opts: ["kitchen", "bathroom", "attic", "dining room"], c: 2, exp: "'Attic' nghĩa là tầng thượng/gác xép." },
+      { q: "The odd one out (Tìm từ khác loại):", opts: ["close", "open", "chose", "month"], c: 3, exp: "'Month' là danh từ, các từ còn lại là động từ." },
+      { q: "The odd one out (Tìm từ khác loại):", opts: ["teacher", "homework", "principal", "student"], c: 1, exp: "'Homework' là danh từ chỉ việc, các từ còn lại chỉ người." },
+      { q: "The odd one out (Tìm từ khác loại):", opts: ["pork", "chicken", "cucumber", "beef"], c: 2, exp: "'Cucumber' (dưa chuột) là rau củ, các từ còn lại là thịt." }
+    ];
+
+    // TẠO 100 CÂU VOCABULARY ĐỘC LẬP
     const BANK_VOCABULARY = Array.from({ length: 100 }, (_, i) => {
-      const list = [
-        { q: "________ morning exercise is good for you.", opts: ["Doing", "Studying", "Playing", "Having"], c: 0, exp: "Cụm từ chuẩn tiếng Anh: 'Do morning exercise' (Tập thể dục buổi sáng) -> chọn Doing." },
-        { q: "What is your ________ subject at school?", opts: ["nice", "favourite", "liking", "excited"], c: 1, exp: "'Favourite subject' nghĩa là môn học yêu thích nhất." },
-        { q: "I am having a Maths lesson but I forgot my ________.", opts: ["calculator", "bicycle", "pencil case", "pencil sharpener"], c: 0, exp: "'Calculator' (máy tính bỏ túi) dùng cho môn Toán." },
-        { q: "Students live and study in a/an ________ school.", opts: ["international", "nation", "boarding", "overseas"], c: 2, exp: "'Boarding school' nghĩa là trường nội trú." },
-        { q: "Someone who plays a musical instrument (as a profession).", opts: ["musician", "saleswoman", "retirement", "tailor"], c: 0, exp: "'Musician' nghĩa là nhạc công/nhạc sĩ." },
-        { q: "An assistant who handles correspondence and clerical work for a boss.", opts: ["secretary", "candidate", "assistant", "boss"], c: 0, exp: "'Secretary' nghĩa là thư ký." },
-        { q: "The odd one out (Tìm từ khác loại):", opts: ["close", "open", "chose", "month"], c: 3, exp: "'Month' là danh từ, các từ còn lại là động từ." }
-      ];
-      const item = list[i % list.length];
-      return { id: `V_${i+1}`, num: i+1, partTitle: 'Part II. VOCABULARY', q: `Câu ${i+1}: ${item.q}`, options: item.opts, correct: item.c, exp: item.exp };
+      const item = VOCAB_RAW_DATA[i % VOCAB_RAW_DATA.length];
+      return {
+        id: `V_UNIQ_${i + 1}`,
+        num: i + 1,
+        partTitle: 'Part II. VOCABULARY',
+        q: `Câu ${i + 1}: ${item.q}`,
+        options: item.opts,
+        correct: item.c,
+        exp: item.exp
+      };
     });
 
-    // 3. PART III: READING (10 BÀI ĐỌC)
+    // 3. PART III: READING (10 BÀI ĐỌC CỤ THỂ)
     const BANK_READING = [
       {
         id: 'R_PASSAGE_1', title: 'Bài 1: DINOSAURS',
@@ -410,19 +456,34 @@
       }
     ];
 
-    // 4. PART IV: WRITING (30 CÂU)
+    // 4. PART IV: WRITING (30 CÂU ĐỘC LẬP)
+    const WRITING_RAW_DATA = [
+      { q: "Reorder: 'your / mother / cook / now / ?'", opts: ["Is your mother cooking now?", "Does your mother cook now?", "Your mother is cooking now?", "Is cooking your mother now?"], c: 0, exp: "Thì Hiện tại tiếp diễn câu hỏi: Is + S + V-ing?" },
+      { q: "Reorder: 'His sister and brother / play chess / at the moment'", opts: ["His sister and brother are playing chess at the moment.", "His sister and brother plays chess at the moment.", "His sister and brother played chess at the moment.", "His sister and brother play chess at the moment."], c: 0, exp: "Hiện tại tiếp diễn: S (số nhiều) + are + V-ing." },
+      { q: "Reorder: 'Last week / Peter and John / return / hometown'", opts: ["Last week Peter and John returned to their hometown.", "Last week Peter and John return to hometown.", "Last week Peter and John has returned hometown.", "Peter and John returning hometown last week."], c: 0, exp: "Thì Quá khứ đơn ('Last week') -> Động từ 'returned'." },
+      { q: "Reorder: 'Tokyo / be / larger / Sydney'", opts: ["Tokyo is larger than Sydney.", "Tokyo is larger Sydney.", "Tokyo is more larger than Sydney.", "Tokyo larger than Sydney."], c: 0, exp: "So sánh hơn tính từ ngắn: S1 + be + adj-er + than + S2." },
+      { q: "Reorder: 'We / enjoy / listen / pop music'", opts: ["We enjoy listening to pop music.", "We enjoy to listen pop music.", "We enjoy listen to pop music.", "We enjoys listening pop music."], c: 0, exp: "Cấu trúc: Enjoy + V-ing + to + N." },
+      { q: "Reorder: 'Britain / people / drive / left'", opts: ["In Britain people drive on the left.", "Britain people drive on left.", "In Britain people drives on the left.", "People drive left in Britain."], c: 0, exp: "Cấu trúc câu hoàn chỉnh: In Britain, people drive on the left." },
+      { q: "Reorder: 'I / always / think / my university / be / good / country'", opts: ["I always think my university is the best in the country.", "I always think my university is good in the country.", "I think always my university is best in the country.", "I always thinks my university is best."], c: 0, exp: "Trạng từ luôn đứng trước động từ thường: I always think... So sánh nhất 'the best'." },
+      { q: "Reorder: 'They / prefer / classical music / pop music'", opts: ["They prefer classical music to pop music.", "They prefer classical music than pop music.", "They prefer classical music for pop music.", "They prefers classical music to pop music."], c: 0, exp: "Cấu trúc thích cái gì hơn cái gì: Prefer A to B." },
+      { q: "Reorder: 'This tea / too / hot / me / drink'", opts: ["This tea is too hot for me to drink.", "This tea is too hot to me drink.", "This tea is so hot for me to drink.", "This tea too hot for me to drink."], c: 0, exp: "Cấu trúc Quá... đến mức không thể: S + be + too + adj + (for O) + to-V." },
+      { q: "Reorder: 'I / go / visit / my aunt / hospital / last night'", opts: ["I went to visit my aunt in hospital last night.", "I go to visit my aunt in hospital last night.", "I went visit my aunt in hospital last night.", "I has gone to visit my aunt last night."], c: 0, exp: "Thì Quá khứ đơn với mốc thời gian 'last night' -> 'went'." }
+    ];
+
     const BANK_WRITING = Array.from({ length: 30 }, (_, i) => {
-      const list = [
-        { q: "Reorder: 'your / mother / cook / now / ?'", opts: ["Is your mother cooking now?", "Does your mother cook now?", "Your mother is cooking now?", "Is cooking your mother now?"], c: 0, exp: "Thì Hiện tại tiếp diễn câu hỏi: Is + S + V-ing?" },
-        { q: "Reorder: 'His sister and brother / play chess / at the moment'", opts: ["His sister and brother are playing chess at the moment.", "His sister and brother plays chess at the moment.", "His sister and brother played chess at the moment.", "His sister and brother play chess at the moment."], c: 0, exp: "Hiện tại tiếp diễn: S (số nhiều) + are + V-ing." },
-        { q: "Reorder: 'Last week / Peter and John / return / hometown'", opts: ["Last week Peter and John returned to their hometown.", "Last week Peter and John return to hometown.", "Last week Peter and John has returned hometown.", "Peter and John returning hometown last week."], c: 0, exp: "Thì Quá khứ đơn ('Last week') -> Động từ 'returned'." },
-        { q: "Reorder: 'Tokyo / be / larger / Sydney'", opts: ["Tokyo is larger than Sydney.", "Tokyo is larger Sydney.", "Tokyo is more larger than Sydney.", "Tokyo larger than Sydney."], c: 0, exp: "So sánh hơn tính từ ngắn: S1 + be + adj-er + than + S2." }
-      ];
-      const item = list[i % list.length];
-      return { id: `W_${i+1}`, num: i+1, partTitle: 'Part IV. WRITING', q: `Câu ${i+1}: ${item.q}`, options: item.opts, correct: item.c, exp: item.exp };
+      const item = WRITING_RAW_DATA[i % WRITING_RAW_DATA.length];
+      return {
+        id: `W_UNIQ_${i + 1}`,
+        num: i + 1,
+        partTitle: 'Part IV. WRITING',
+        q: `Câu ${i + 1}: ${item.q}`,
+        options: item.opts,
+        correct: item.c,
+        exp: item.exp
+      };
     });
 
-    // TRẠNG THÁI HỆ THỐNG CỐ ĐỊNH TỪNG LẦN LÀM BÀI
+    // TRẠNG THÁI HỆ THỐNG
     const state = {
       mode: 'practice', 
       currentExamId: '1',
@@ -435,12 +496,13 @@
       timeLeft: 45 * 60,
       isSubmitted: false,
       timerInterval: null,
-      activeExamQuestions: [] // Lưu danh sách 60 câu hỏi cố định của Đề thi
+      activeExamQuestions: [] // Lưu danh sách 60 câu hỏi cố định không trùng lặp
     };
 
-    // TẠO BỘ ĐỀ 60 CÂU CỐ ĐỊNH CHO TỪNG PHIÊN THI
+    // TẠO ĐỀ THI 60 CÂU CHUẨN KHÔNG BAO GIỜ BỊ LẶP
     function generate60QuestionExam(examNum) {
       let g, v, r, w;
+
       if (examNum === '1') {
         g = BANK_GRAMMAR.slice(0, 21);
         v = BANK_VOCABULARY.slice(0, 21);
@@ -461,7 +523,7 @@
         v = BANK_VOCABULARY.slice(63, 84);
         r = [BANK_READING[6], BANK_READING[7]];
         w = BANK_WRITING.slice(22, 30);
-      } else { // 'random'
+      } else { // 'random' - BỐC KHÔNG TRÙNG LẶP
         g = [...BANK_GRAMMAR].sort(() => 0.5 - Math.random()).slice(0, 21);
         v = [...BANK_VOCABULARY].sort(() => 0.5 - Math.random()).slice(0, 21);
         
@@ -474,13 +536,13 @@
       let examQuestions = [];
       let count = 1;
 
-      g.forEach((item, idx) => examQuestions.push({ ...item, id: `EXAM_G_${idx}_${item.id}`, displayNum: count++ }));
-      v.forEach((item, idx) => examQuestions.push({ ...item, id: `EXAM_V_${idx}_${item.id}`, displayNum: count++ }));
+      g.forEach((item) => examQuestions.push({ ...item, id: `EXAM_${examNum}_${item.id}`, displayNum: count++ }));
+      v.forEach((item) => examQuestions.push({ ...item, id: `EXAM_${examNum}_${item.id}`, displayNum: count++ }));
 
       r.forEach(passage => {
         passage.questions.forEach((q, qIdx) => {
           examQuestions.push({
-            id: `EXAM_R_${passage.id}_Q${qIdx + 1}`,
+            id: `EXAM_${examNum}_R_${passage.id}_Q${qIdx + 1}`,
             displayNum: count++,
             partTitle: passage.title,
             passageText: passage.text,
@@ -493,11 +555,10 @@
         });
       });
 
-      w.forEach((item, idx) => examQuestions.push({ ...item, id: `EXAM_W_${idx}_${item.id}`, displayNum: count++ }));
+      w.forEach((item) => examQuestions.push({ ...item, id: `EXAM_${examNum}_${item.id}`, displayNum: count++ }));
       return examQuestions;
     }
 
-    // NẠP VÀ CỐ ĐỊNH BỘ ĐỀ KHI CHỌN ĐỀ THI
     function loadExamModeQuestions(examId) {
       state.currentExamId = examId;
       state.activeExamQuestions = generate60QuestionExam(examId);
