@@ -353,187 +353,187 @@
 
     <!-- ==================== JAVASCRIPT LOGIC & QUESTION DATA ==================== -->
     <script>
-        // 1. DATA BANK FOR ALL 280 QUESTIONS FROM 26 PAGES
+        // DATA BANK WITH COMPLETELY SHUFFLED OPTIONS (A, B, C, D ARE NOT IN PDF ORDER)
         const QUESTION_BANK = {
             grammar: [
-                { id: "g1", q: "Hoa lives ......... Ha Noi ......... Tran Hung Dao street.", options: ["on – at", "in – on", "in – at", "on – in"], correct: 1, exp: "Sử dụng giới từ 'in' trước tên thành phố (in Ha Noi) và 'on' trước tên đường (on Tran Hung Dao street)." },
-                { id: "g2", q: "Hung ......... from Ha Noi but he is staying with his relatives in Ho Chi Minh city at the moment.", options: ["will come", "came", "come", "comes"], correct: 3, exp: "Chỉ sự thật/quê quán thường xuyên dùng thì Hiện tại đơn: Hung comes from Ha Noi." },
-                { id: "g3", q: "“Hi, Phong. Nice to meet you again!” - “Hi, Kha. Nice to meet you .........”.", options: ["too", "also", "so", "then"], correct: 0, exp: "'Nice to meet you too' là câu đáp lại xã giao lịch sự khi gặp lại ai đó." },
-                { id: "g4", q: "......... is it from your house to the post office?", options: ["How much", "How many", "How often", "How far"], correct: 3, exp: "Hỏi khoảng cách dùng cụm 'How far' (Bao xa)." },
-                { id: "g5", q: "How ......... rice do you want?", options: ["much", "many", "a lot of", "lots of"], correct: 0, exp: "'Rice' là danh từ không đếm được nên dùng 'How much' trong câu hỏi số lượng." },
-                { id: "g6", q: "Hoa has lots of friends in Hue but she ......... any friends in Ha Noi.", options: ["not have", "don’t have", "doesn’t have", "isn’t have"], correct: 2, exp: "Chủ ngữ 'she' chia thì hiện tại đơn dạng phủ định dùng trợ động từ 'doesn't have'." },
-                { id: "g7", q: "Lan is in my class. She is my ......... .", options: ["classroom", "classmate", "class", "neighbor"], correct: 1, exp: "'Classmate' có nghĩa là bạn cùng lớp." },
-                { id: "g8", q: "......... the matter with you? - I have a toothache.", options: ["What", "How", "When", "Why"], correct: 0, exp: "Cấu trúc hỏi thăm sức khỏe/vấn đề: 'What's the matter with you?'." },
-                { id: "g9", q: "What does he look ......... ? - He is fat and short.", options: ["like", "at", "for", "after"], correct: 0, exp: "Cấu trúc hỏi ngoại hình: 'What does someone look like?'." },
-                { id: "g10", q: "Where does she live?", options: ["She live in Da Nang.", "She lived in Ho Chi Minh city.", "She lived in Da Nang.", "She lives in Ho Chi Minh city."], correct: 3, exp: "Câu hỏi ở hiện tại đơn với chủ ngữ 'she' nên động từ phải thêm 's' -> 'She lives...'" },
-                { id: "g11", q: "Who are all ......... people?", options: ["this", "those", "them", "that"], correct: 1, exp: "'People' là danh từ số nhiều nên dùng đại từ chỉ định số nhiều 'those'." },
-                { id: "g12", q: "John is a good worker. He works very ......... .", options: ["hardly", "hard", "good", "lazy"], correct: 1, exp: "Trạng từ của 'hard' vẫn là 'hard' (chăm chỉ), 'hardly' có nghĩa là hầu như không." },
-                { id: "g13", q: "My father is ......... man.", options: ["an old", "a old", "not young", "not an young"], correct: 0, exp: "'Old' bắt đầu bằng nguyên âm 'o' nên sử dụng mạo từ 'an'." },
-                { id: "g14", q: "Every morning I wash my face and clean my teeth by .........", options: ["I", "my", "mine", "myself"], correct: 3, exp: "Cụm từ 'by myself' có nghĩa là tự bản thân tôi làm." },
-                { id: "g15", q: "Tom has a computer, ......... he doesn’t use it.", options: ["or", "as", "because", "but"], correct: 3, exp: "Liên từ 'but' biểu thị hai mệnh đề có nghĩa đối lập nhau." },
-                { id: "g16", q: "You look ......... in red!", options: ["most nicely", "nicely", "too nice", "very nice"], correct: 3, exp: "Sau động từ chỉ cảm giác 'look' dùng tính từ 'very nice'." },
-                { id: "g17", q: "Can you use ......... computer?", options: ["a", "one", "two", "an"], correct: 0, exp: "'Computer' là danh từ đếm được số ít bắt đầu bằng phụ âm nên dùng 'a'." },
-                { id: "g18", q: "He ......... television at 8 o’clock every evening.", options: ["watchs", "watch", "watches", "watching"], correct: 2, exp: "Chủ ngữ 'he' ở hiện tại đơn, động từ kết thúc bằng 'ch' nên thêm 'es' -> 'watches'." },
-                { id: "g19", q: "The movie starts at two ......... the afternoon.", options: ["on", "in", "until", "at"], correct: 1, exp: "Giới từ chỉ buổi trong ngày dùng 'in the afternoon'." },
-                { id: "g20", q: "My father ......... the car every Saturday.", options: ["don’t clean", "didn’t clean", "doesn’t clean", "haven’t clean"], correct: 2, exp: "Hành động lặp đi lặp lại 'every Saturday', chủ ngữ 'my father' chia dạng phủ định hiện tại đơn: 'doesn't clean'." },
-                { id: "g21", q: "My mother usually prepares the meals in the ......... .", options: ["bedroom", "kitchen", "living room", "stairs"], correct: 1, exp: "Chuẩn bị bữa ăn thực hiện ở căn bếp ('kitchen')." },
-                { id: "g22", q: "......... do you have an English lesson? - Twice a week.", options: ["How long", "How far", "How often", "How many"], correct: 2, exp: "Câu trả lời 'Twice a week' (2 lần/tuần) chỉ tần suất nên câu hỏi dùng 'How often'." },
-                { id: "g23", q: "I don’t like ......... milk.", options: ["a", "the", "an", "No article needed"], correct: 3, exp: "Sữa ('milk') là danh từ không đếm được nói chung nên không dùng mạo từ." },
-                { id: "g24", q: "Here Sarah and ......... sister.", options: ["she", "her", "hers", "she’s"], correct: 1, exp: "Tính từ sở hữu đứng trước danh từ 'sister' là 'her' (chị/em gái của cô ấy)." },
-                { id: "g25", q: "She speaks English very ......... .", options: ["good", "fluent", "well", "bad"], correct: 2, exp: "Trạng từ 'well' bổ nghĩa cho động từ 'speaks'." },
-                { id: "g26", q: "Rachel always ......... her hair before going to school.", options: ["brushes", "brushs", "cuts", "cut"], correct: 0, exp: "Rachel chải tóc: động từ 'brush' tận cùng là 'sh' nên thêm 'es' khi chia với chủ ngữ số ít -> 'brushes'." },
-                { id: "g27", q: "She is not his friend. She is ......... .", options: ["I", "my", "me", "mine"], correct: 3, exp: "Đại từ sở hữu 'mine' đứng độc lập ở cuối câu thay cho 'my friend'." },
-                { id: "g28", q: "My wife likes wearing earings, bracelets and rings. She really likes ......... .", options: ["clothes", "suit", "jewellery", "buttons"], correct: 2, exp: "Hoa tai, vòng tay, nhẫn đều là đồ trang sức ('jewellery')." },
-                { id: "g29", q: "You ......... eat so many sweets; they’re unhealthy for you.", options: ["should", "shouldn’t", "must", "can"], correct: 1, exp: "Khuyên không nên làm gì có hại cho sức khỏe dùng 'shouldn't'." },
-                { id: "g30", q: "What size do you need: small, medium or ......... .", options: ["large", "big", "giant", "huge"], correct: 0, exp: "Kích cỡ quần áo chuẩn bao gồm: Small (S), Medium (M), Large (L)." },
-                { id: "g31", q: "Breakfast, lunch, dinner are ......... .", options: ["eatings", "foods", "meals", "drinks"], correct: 2, exp: "Bữa sáng, bữa trưa, bữa tối gọi chung là các bữa ăn ('meals')." },
-                { id: "g32", q: "Mary: How often do you go hiking? Daisy: .........", options: ["I go with three friends.", "Most weekends.", "We stay for a weeken.", "I often go hiking with my family."], correct: 1, exp: "Câu hỏi về tần suất 'How often' trả lời hợp lý nhất là 'Most weekends' (Hầu hết cuối tuần)." },
-                { id: "g33", q: "It takes him thirty minutes to go ......... everyday.", options: ["working by a bus", "working on bus", "to work with bus", "to work by bus"], correct: 3, exp: "Cấu trúc 'go to work' (đi làm) và phương tiện 'by bus' (bằng xe buýt)." },
-                { id: "g34", q: "Taking exercise ......... .", options: ["is good health for you", "is good for your health", "is good for your healthy", "is good healthy for you"], correct: 1, exp: "Cấu trúc 'be good for something/someone': 'is good for your health' (tốt cho sức khỏe)." },
-                { id: "g35", q: "We always go ......... holiday ......... summer.", options: ["on - in", "in - at", "at - on", "in - on"], correct: 0, exp: "Cụm từ cố định 'on holiday' (đi nghỉ) và giới từ đi với mùa 'in summer'." },
-                { id: "g36", q: "........................................ - I don’t think so. She doesn’t like water.", options: ["She can’t swim", "She cans swim", "She can swim", "She can swims"], correct: 2, exp: "Động từ khuyết thiếu 'can' giữ nguyên nguyên thể đằng sau: 'She can swim'." },
-                { id: "g37", q: "Is there ......... milk in the frigde?", options: ["a lot", "many", "much", "some"], correct: 2, exp: "Câu hỏi nghi vấn với danh từ không đếm được 'milk' sử dụng 'much'." },
-                { id: "g38", q: "Dan can ......... the drum very well.", options: ["play", "do", "make", "take"], correct: 0, exp: "Chơi nhạc cụ sử dụng động từ 'play' -> 'play the drum'." },
-                { id: "g39", q: "There ......... a lot of trees on our block.", options: ["is", "are", "be", "been"], correct: 1, exp: "Chủ ngữ số nhiều 'a lot of trees' đi với động từ tobe 'are'." },
-                { id: "g40", q: "The man who I am married to is my ......... .", options: ["wife", "aunt", "husband", "uncle"], correct: 2, exp: "Người đàn ông mà tôi kết hôn cùng là chồng tôi ('husband')." },
-                { id: "g41", q: "Bob: “How do you go to the cinema?” - Mary: “.........”", options: ["Every weekend", "By bus", "It’s very far", "By myself"], correct: 1, exp: "Câu hỏi bằng cách thức/phương tiện 'How do you go...' trả lời 'By bus'." },
-                { id: "g42", q: "My cousin ......... bank manager.", options: ["works", "is", "is a", "work"], correct: 2, exp: "Chỉ nghề nghiệp dùng cấu trúc 'to be + a/an + nghề nghiệp' -> 'is a bank manager'." },
-                { id: "g43", q: "She is talking to you. Please listen to ......... .", options: ["she", "her", "hers", "his"], correct: 1, exp: "Sau giới từ 'to' dùng đại từ tân ngữ 'her'." },
-                { id: "g44", q: "Jack always ......... to his office by car.", options: ["is going", "go", "goes", "gone"], correct: 2, exp: "Có trạng từ chỉ tần suất 'always' chia hiện tại đơn với Jack: 'goes'." },
-                { id: "g45", q: "......... tall are you?", options: ["Which", "What", "When", "How"], correct: 3, exp: "Cấu trúc hỏi chiều cao 'How tall are you?'." },
-                { id: "g46", q: "Always ......... honest in whatever you do.", options: ["to be", "be", "are", "is"], correct: 1, exp: "Câu mệnh lệnh bắt đầu bằng động từ nguyên thể: 'Always be honest'." },
-                { id: "g47", q: "I send ......... a letter every month.", options: ["her", "she", "hers", "herself"], correct: 0, exp: "Tân ngữ trực tiếp/gián tiếp sau động từ 'send' dùng 'her'." },
-                { id: "g48", q: "I’m not good ......... French.", options: ["at", "on", "for", "by"], correct: 0, exp: "Cụm tính từ 'be good at something' (giỏi môn gì/kỹ năng gì)." },
-                { id: "g49", q: "......... the bus to work.", options: ["Always Robert catches", "Robert always catches", "Robert catches always", "Robert does always catches"], correct: 1, exp: "Trạng từ chỉ tần suất 'always' đứng trước động từ thường 'catches'." },
-                { id: "g50", q: "I always go shopping ......... Monday mornings.", options: ["on", "in", "by", "at"], correct: 0, exp: "Có ngày trong tuần 'Monday mornings' dùng giới từ 'on'." },
-                { id: "g51", q: "When ......... dinner.", options: ["have you", "do you have", "you have", "you are having"], correct: 1, exp: "Câu hỏi ở hiện tại đơn dùng trợ động từ 'do you have'." },
-                { id: "g52", q: "He ......... swim very well.", options: ["not can", "don’t can", "doesn’t can", "cannot"], correct: 3, exp: "Dạng phủ định của 'can' là 'cannot' (hoặc 'can't')." },
-                { id: "g53", q: "......... a crowd in the street.", options: ["Is", "That’s", "There is", "It’s"], correct: 2, exp: "Cấu trúc chỉ sự tồn tại của danh từ số ít 'a crowd': 'There is'." },
-                { id: "g54", q: "The pen is ......... the book and the file.", options: ["under", "between", "inside", "among"], correct: 1, exp: "Ở giữa hai vật dùng 'between A and B'." },
-                { id: "g55", q: "Someone offers you a drink. You don’t want it. What do you say?", options: ["Thank you.", "Please!", "No, thank you.", "No, please."], correct: 2, exp: "Từ chối lời mời đồ uống một cách lịch sự dùng 'No, thank you'." },
-                { id: "g56", q: "Susan ......... to clean the car at the weekend.", options: ["hasn’t have", "doesn’t have", "don’t have", "doesn’t has"], correct: 1, exp: "Phủ định cấu trúc 'have to' ở hiện tại đơn với Susan: 'doesn't have to'." },
-                { id: "g57", q: "Jane is a baby. She is too small to eat by ......... .", options: ["herself", "himself", "myself", "yourself"], correct: 0, exp: "Jane là em bé gái nên dùng đại từ phản thân 'herself'." },
-                { id: "g58", q: "The teacher explains things to ......... very well.", options: ["we", "us", "our", "ourselves"], correct: 1, exp: "Sau giới từ 'to' cần đại từ tân ngữ 'us'." },
-                { id: "g59", q: "......... patient, and you will succeed", options: ["To be", "Being", "Be", "Been"], correct: 2, exp: "Câu mệnh lệnh đưa ra lời khuyên bắt đầu bằng động từ nguyên thể 'Be patient'." },
-                { id: "g60", q: "This person helps people who aren’t well in hospital.", options: ["a farmer", "a soldier", "a teacher", "a nurse"], correct: 3, exp: "Người chăm sóc bệnh nhân trong bệnh viện là y tá ('a nurse')." },
-                { id: "g61", q: "You buy these and put them on your envelopes before you post them.", options: ["pictures", "stamps", "letters", "postcards"], correct: 1, exp: "Vật dán lên phong bì thư trước khi gửi là tem thư ('stamps')." },
-                { id: "g62", q: "This person flies a plane and usually wears a uniform.", options: ["a flier", "a pilot", "a doctor", "a driver"], correct: 1, exp: "Người lái máy bay là phi công ('a pilot')." },
-                { id: "g63", q: "It is this person’s job to write about news in a newspaper.", options: ["a writer", "a manager", "a journalist", "a director"], correct: 2, exp: "Người viết tin tức cho báo chí là nhà báo ('a journalist')." },
-                { id: "g64", q: "People don’t usually play this game in teams. They use a small, hard white ball.", options: ["tennis", "table tennis", "hockey", "golf"], correct: 3, exp: "Môn thể thao dùng bóng nhỏ cứng màu trắng đánh cá nhân là 'golf'." },
-                { id: "g65", q: "Some people like this in their tea or coffee and they put it in with a spoon.", options: ["salt", "sugar", "milk", "cheese"], correct: 1, exp: "Gia vị ngọt cho vào trà/cà phê bằng thìa là đường ('sugar')." },
-                { id: "g66", q: "People like reading these because they have stories with pictures or photos on their pages.", options: ["books", "postcards", "magazines", "letters"], correct: 2, exp: "Ấn phẩm có nhiều hình ảnh và bài viết là tạp chí ('magazines')." },
-                { id: "g67", q: "You wear this on one of your fingers.", options: ["earing", "ring", "necklace", "tie"], correct: 1, exp: "Vật đeo ở ngón tay là nhẫn ('ring')." },
-                { id: "g68", q: "This is a room in a house. You can cook in it.", options: ["living room", "bedroom", "bathroom", "kitchen"], correct: 3, exp: "Phòng nấu ăn là nhà bếp ('kitchen')." },
-                { id: "g69", q: "These are white and they are in your mouth.", options: ["tongue", "lips", "teeth", "jaws"], correct: 2, exp: "Bộ phận màu trắng trong miệng là răng ('teeth')." },
-                { id: "g70", q: "There are ......... chairs in the room.", options: ["any", "some", "a", "much"], correct: 1, exp: "Câu khẳng định với danh từ số nhiều 'chairs' sử dụng 'some'." },
-                { id: "g71", q: "There is a ......... on the table.", options: ["lamp reading", "read lamp", "reading lamp", "lamp read"], correct: 2, exp: "Cụm danh từ 'reading lamp' có nghĩa là đèn học / đèn đọc sách." },
-                { id: "g72", q: "Let’s go ......... the beach.", options: ["to", "in", "on", "at"], correct: 0, exp: "Cụm từ 'go to the beach' (đi ra bãi biển)." },
-                { id: "g73", q: "......... sports do you play?", options: ["When", "Where", "Who", "What"], correct: 3, exp: "Hỏi loại thể thao chơi dùng 'What sports'." },
-                { id: "g74", q: "Do you have any pets? – Yes, I have ......... kittens.", options: ["two small black", "small two black", "two black small", "black small two"], correct: 0, exp: "Trật tự tính từ OSASCOMP: Số lượng (two) -> Kích cỡ (small) -> Màu sắc (black)." },
-                { id: "g75", q: "Fall means ......... in British English.", options: ["spring", "summer", "autumn", "winter"], correct: 2, exp: "Mùa thu trong tiếng Mỹ là 'Fall', trong tiếng Anh-Anh là 'Autumn'." },
-                { id: "g76", q: "The Robinsons always go to Viet Nam ......... plane.", options: ["in", "on", "with", "by"], correct: 3, exp: "Phương tiện đi lại dùng giới từ 'by' -> 'by plane'." },
-                { id: "g77", q: "I learn music ......... on Mondays and Fridays.", options: ["two times a week", "one a week", "twice a week", "once a week"], correct: 2, exp: "Thứ hai và Thứ sáu là 2 lần một tuần -> 'twice a week'." },
-                { id: "g78", q: "“........................?” - “She’s much better, thank you.”", options: ["What’s your mother", "How’s your mother", "What’s your mother like", "What’s your mother getting on"], correct: 1, exp: "Hỏi thăm tình hình sức khỏe: 'How's your mother?'." },
-                { id: "g79", q: "Does Mary like .........? - Yes, she goes jogging every morning.", options: ["jog", "to jog", "jogging", "jogs"], correct: 2, exp: "Động từ 'like' thường đi với V-ing: 'like jogging'." },
-                { id: "g80", q: "My husband and his colleague ......... golf whenever they are not too busy.", options: ["plays", "play", "playing", "played"], correct: 1, exp: "Chủ ngữ số nhiều (chồng tôi và đồng nghiệp) đi với động từ nguyên thể 'play'." },
-                { id: "g81", q: "My life is so boring - I just ......... TV every night.", options: ["watch", "watchs", "watches", "watched"], correct: 0, exp: "Chủ ngữ 'I' chia hiện tại đơn giữ nguyên 'watch'." },
-                { id: "g82", q: "Andrea lives next door so we ......... see her.", options: ["never", "hardly ever", "rarely", "often"], correct: 3, exp: "Sống ngay nhà bên cạnh nên chúng tôi thường xuyên ('often') gặp cô ấy." },
-                { id: "g83", q: "My doctor ........................ .", options: ["yearly checks my health", "checks yearly my health", "checks my health yearly", "check yearly my health"], correct: 2, exp: "Trạng từ thời gian 'yearly' đứng cuối câu: 'checks my health yearly'." },
-                { id: "g84", q: "They have plenty of time, so they need not .........", options: ["be hurry", "to hurry", "hurry", "to be hurry"], correct: 2, exp: "Sau động từ khuyết thiếu 'need not' dùng động từ nguyên thể không to: 'hurry'." },
-                { id: "g85", q: "You're having a sore throat. You'd better .........to the doctor.", options: ["to go", "go", "goes", "going"], correct: 1, exp: "Cấu trúc khuyên bảo 'had better + V nguyên thể' -> 'had better go'." },
-                { id: "g86", q: "Do you have to buy this hat? No, I ......... . It isn't necessary.", options: ["mustn’t", "won’t", "needn’t", "don’t need"], correct: 2, exp: "Trả lời câu hỏi không cần thiết làm gì: 'No, I needn't'." },
-                { id: "g87", q: "I do not have ......... oranges, but I have ......... apples.", options: ["some/some", "any/some", "some/any", "any/any"], correct: 1, exp: "Mệnh đề phủ định dùng 'any', mệnh đề khẳng định dùng 'some'." },
-                { id: "g88", q: "What would you like? - ........................................", options: ["I like some apple juice", "I like an apple juice", "I’d like some apple juice", "I’d like an apple juice"], correct: 2, exp: "Câu hỏi mời lịch sự 'What would you like?' trả lời bằng 'I'd like some...'." },
-                { id: "g89", q: "If you want to live long, you ......... eat much red meat.", options: ["should", "needn’t", "have to", "shouldn’t"], correct: 3, exp: "Khuyên không nên ăn nhiều thịt đỏ để sống lâu: 'shouldn't'." },
-                { id: "g90", q: "Watching too much television is not good ......... you or your eyes.", options: ["with", "to", "for", "at"], correct: 2, exp: "Cụm tính từ 'good for somebody/something' (tốt cho ai/cái gì)." },
-                { id: "g91", q: "When you have flu, you may have a cough and a ......... nose.", options: ["runny", "running", "flowing", "noisy"], correct: 0, exp: "Cụm từ y khoa 'a runny nose' có nghĩa là sổ mũi." },
-                { id: "g92", q: "On the table, there are vegetables, bread and two large .........", options: ["bowl of soup", "bowls of soup", "bowl of soups", "bowls of soups"], correct: 1, exp: "Số lượng 'two' đi với danh từ số nhiều 'bowls of soup'." },
-                { id: "g93", q: "What kind of ......... do you like? – I like cartoons.", options: ["books", "pictures", "films", "sports"], correct: 2, exp: "Phim hoạt hình (cartoons) thuộc thể loại phim ảnh ('films')." },
-                { id: "g94", q: "I haven’t got ......... bread left for breakfast.", options: ["some", "any", "a", "an"], correct: 1, exp: "Câu phủ định 'haven't got' đi với danh từ không đếm được 'bread' sử dụng 'any'." },
-                { id: "g95", q: "......... is it from here to school? - About two kilometers.", options: ["How many", "How much", "How far", "How long"], correct: 2, exp: "Hỏi khoảng cách 2 km dùng 'How far'." },
-                { id: "g96", q: "Coughing and sneezing are the ......... of a cold", options: ["signals", "symptoms", "problems", "disease"], correct: 1, exp: "Ho và hắt hơi là các triệu chứng ('symptoms') của bệnh cảm lạnh." },
-                { id: "g97", q: "......... about 5 kilometers from my house to the nearest town.", options: ["They’re", "It’s", "There’re", "There’s"], correct: 1, exp: "Chỉ khoảng cách dùng chủ ngữ giả 'It's + khoảng cách'." },
-                { id: "g98", q: "I am tired, ......... I will go to bed early.", options: ["because", "when", "but", "so"], correct: 3, exp: "Liên từ chỉ kết quả 'so' (vì vậy / cho nên)." },
-                { id: "g99", q: "“I’ve just received a scholarship.” - “........................!”", options: ["Really", "Congratulation", "Thank you", "Well"], correct: 1, exp: "Chúc mừng khi ai đó đạt học bổng: 'Congratulations!' (hoặc Congratulation)." },
-                { id: "g100", q: "How ......... books are there on the shelf?", options: ["much", "many", "long", "far"], correct: 1, exp: "Danh từ số nhiều 'books' dùng 'How many' để hỏi số lượng." }
+                { id: "g1", q: "Hoa lives ......... Ha Noi ......... Tran Hung Dao street.", options: ["in – at", "in – on", "on – in", "on – at"], correct: 1, exp: "Sử dụng giới từ 'in' trước tên thành phố (in Ha Noi) và 'on' trước tên đường (on Tran Hung Dao street)." },
+                { id: "g2", q: "Hung ......... from Ha Noi but he is staying with his relatives in Ho Chi Minh city at the moment.", options: ["comes", "will come", "came", "come"], correct: 0, exp: "Chỉ sự thật/quê quán thường xuyên dùng thì Hiện tại đơn: Hung comes from Ha Noi." },
+                { id: "g3", q: "“Hi, Phong. Nice to meet you again!” - “Hi, Kha. Nice to meet you .........”.", options: ["also", "too", "so", "then"], correct: 1, exp: "'Nice to meet you too' là câu đáp lại xã giao lịch sự khi gặp lại ai đó." },
+                { id: "g4", q: "......... is it from your house to the post office?", options: ["How much", "How often", "How far", "How many"], correct: 2, exp: "Hỏi khoảng cách dùng cụm 'How far' (Bao xa)." },
+                { id: "g5", q: "How ......... rice do you want?", options: ["many", "lots of", "much", "a lot of"], correct: 2, exp: "'Rice' là danh từ không đếm được nên dùng 'How much' trong câu hỏi số lượng." },
+                { id: "g6", q: "Hoa has lots of friends in Hue but she ......... any friends in Ha Noi.", options: ["doesn’t have", "not have", "don’t have", "isn’t have"], correct: 0, exp: "Chủ ngữ 'she' chia thì hiện tại đơn dạng phủ định dùng trợ động từ 'doesn't have'." },
+                { id: "g7", q: "Lan is in my class. She is my ......... .", options: ["classroom", "neighbor", "class", "classmate"], correct: 3, exp: "'Classmate' có nghĩa là bạn cùng lớp." },
+                { id: "g8", q: "......... the matter with you? - I have a toothache.", options: ["How", "What", "When", "Why"], correct: 1, exp: "Cấu trúc hỏi thăm sức khỏe/vấn đề: 'What's the matter with you?'." },
+                { id: "g9", q: "What does he look ......... ? - He is fat and short.", options: ["at", "for", "like", "after"], correct: 2, exp: "Cấu trúc hỏi ngoại hình: 'What does someone look like?'." },
+                { id: "g10", q: "Where does she live?", options: ["She live in Da Nang.", "She lives in Ho Chi Minh city.", "She lived in Da Nang.", "She lived in Ho Chi Minh city."], correct: 1, exp: "Câu hỏi ở hiện tại đơn với chủ ngữ 'she' nên động từ phải thêm 's' -> 'She lives...'" },
+                { id: "g11", q: "Who are all ......... people?", options: ["this", "them", "those", "that"], correct: 2, exp: "'People' là danh từ số nhiều nên dùng đại từ chỉ định số nhiều 'those'." },
+                { id: "g12", q: "John is a good worker. He works very ......... .", options: ["hardly", "lazy", "good", "hard"], correct: 3, exp: "Trạng từ của 'hard' vẫn là 'hard' (chăm chỉ), 'hardly' có nghĩa là hầu như không." },
+                { id: "g13", q: "My father is ......... man.", options: ["a old", "an old", "not young", "not an young"], correct: 1, exp: "'Old' bắt đầu bằng nguyên âm 'o' nên sử dụng mạo từ 'an'." },
+                { id: "g14", q: "Every morning I wash my face and clean my teeth by .........", options: ["myself", "my", "mine", "I"], correct: 0, exp: "Cụm từ 'by myself' có nghĩa là tự bản thân tôi làm." },
+                { id: "g15", q: "Tom has a computer, ......... he doesn’t use it.", options: ["or", "but", "because", "as"], correct: 1, exp: "Liên từ 'but' biểu thị hai mệnh đề có nghĩa đối lập nhau." },
+                { id: "g16", q: "You look ......... in red!", options: ["very nice", "most nicely", "nicely", "too nice"], correct: 0, exp: "Sau động từ chỉ cảm giác 'look' dùng tính từ 'very nice'." },
+                { id: "g17", q: "Can you use ......... computer?", options: ["an", "one", "a", "two"], correct: 2, exp: "'Computer' là danh từ đếm được số ít bắt đầu bằng phụ âm nên dùng 'a'." },
+                { id: "g18", q: "He ......... television at 8 o’clock every evening.", options: ["watchs", "watches", "watch", "watching"], correct: 1, exp: "Chủ ngữ 'he' ở hiện tại đơn, động từ kết thúc bằng 'ch' nên thêm 'es' -> 'watches'." },
+                { id: "g19", q: "The movie starts at two ......... the afternoon.", options: ["on", "at", "until", "in"], correct: 3, exp: "Giới từ chỉ buổi trong ngày dùng 'in the afternoon'." },
+                { id: "g20", q: "My father ......... the car every Saturday.", options: ["didn’t clean", "doesn’t clean", "don’t clean", "haven’t clean"], correct: 1, exp: "Hành động lặp đi lặp lại 'every Saturday', chủ ngữ 'my father' chia dạng phủ định hiện tại đơn: 'doesn't clean'." },
+                { id: "g21", q: "My mother usually prepares the meals in the ......... .", options: ["bedroom", "living room", "kitchen", "stairs"], correct: 2, exp: "Chuẩn bị bữa ăn thực hiện ở căn bếp ('kitchen')." },
+                { id: "g22", q: "......... do you have an English lesson? - Twice a week.", options: ["How often", "How long", "How far", "How many"], correct: 0, exp: "Câu trả lời 'Twice a week' (2 lần/tuần) chỉ tần suất nên câu hỏi dùng 'How often'." },
+                { id: "g23", q: "I don’t like ......... milk.", options: ["a", "No article needed", "the", "an"], correct: 1, exp: "Sữa ('milk') là danh từ không đếm được nói chung nên không dùng mạo từ." },
+                { id: "g24", q: "Here Sarah and ......... sister.", options: ["she", "hers", "her", "she’s"], correct: 2, exp: "Tính từ sở hữu đứng trước danh từ 'sister' là 'her' (chị/em gái của cô ấy)." },
+                { id: "g25", q: "She speaks English very ......... .", options: ["well", "good", "fluent", "bad"], correct: 0, exp: "Trạng từ 'well' bổ nghĩa cho động từ 'speaks'." },
+                { id: "g26", q: "Rachel always ......... her hair before going to school.", options: ["brushs", "cuts", "brushes", "cut"], correct: 2, exp: "Rachel chải tóc: động từ 'brush' tận cùng là 'sh' nên thêm 'es' khi chia với chủ ngữ số ít -> 'brushes'." },
+                { id: "g27", q: "She is not his friend. She is ......... .", options: ["I", "mine", "my", "me"], correct: 1, exp: "Đại từ sở hữu 'mine' đứng độc lập ở cuối câu thay cho 'my friend'." },
+                { id: "g28", q: "My wife likes wearing earings, bracelets and rings. She really likes ......... .", options: ["clothes", "suit", "buttons", "jewellery"], correct: 3, exp: "Hoa tai, vòng tay, nhẫn đều là đồ trang sức ('jewellery')." },
+                { id: "g29", q: "You ......... eat so many sweets; they’re unhealthy for you.", options: ["shouldn’t", "should", "must", "can"], correct: 0, exp: "Khuyên không nên làm gì có hại cho sức khỏe dùng 'shouldn't'." },
+                { id: "g30", q: "What size do you need: small, medium or ......... .", options: ["big", "large", "giant", "huge"], correct: 1, exp: "Kích cỡ quần áo chuẩn bao gồm: Small (S), Medium (M), Large (L)." },
+                { id: "g31", q: "Breakfast, lunch, dinner are ......... .", options: ["eatings", "foods", "drinks", "meals"], correct: 3, exp: "Bữa sáng, bữa trưa, bữa tối gọi chung là các bữa ăn ('meals')." },
+                { id: "g32", q: "Mary: How often do you go hiking? Daisy: .........", options: ["Most weekends.", "I go with three friends.", "We stay for a weeken.", "I often go hiking with my family."], correct: 0, exp: "Câu hỏi về tần suất 'How often' trả lời hợp lý nhất là 'Most weekends' (Hầu hết cuối tuần)." },
+                { id: "g33", q: "It takes him thirty minutes to go ......... everyday.", options: ["working by a bus", "to work by bus", "working on bus", "to work with bus"], correct: 1, exp: "Cấu trúc 'go to work' (đi làm) và phương tiện 'by bus' (bằng xe buýt)." },
+                { id: "g34", q: "Taking exercise ......... .", options: ["is good health for you", "is good for your healthy", "is good for your health", "is good healthy for you"], correct: 2, exp: "Cấu trúc 'be good for something/someone': 'is good for your health' (tốt cho sức khỏe)." },
+                { id: "g35", q: "We always go ......... holiday ......... summer.", options: ["in - at", "on - in", "at - on", "in - on"], correct: 1, exp: "Cụm từ cố định 'on holiday' (đi nghỉ) và giới từ đi với mùa 'in summer'." },
+                { id: "g36", q: "........................................ - I don’t think so. She doesn’t like water.", options: ["She can swim", "She can’t swim", "She cans swim", "She can swims"], correct: 0, exp: "Động từ khuyết thiếu 'can' giữ nguyên nguyên thể đằng sau: 'She can swim'." },
+                { id: "g37", q: "Is there ......... milk in the frigde?", options: ["a lot", "many", "some", "much"], correct: 3, exp: "Câu hỏi nghi vấn với danh từ không đếm được 'milk' sử dụng 'much'." },
+                { id: "g38", q: "Dan can ......... the drum very well.", options: ["do", "play", "make", "take"], correct: 1, exp: "Chơi nhạc cụ sử dụng động từ 'play' -> 'play the drum'." },
+                { id: "g39", q: "There ......... a lot of trees on our block.", options: ["are", "is", "be", "been"], correct: 0, exp: "Chủ ngữ số nhiều 'a lot of trees' đi với động từ tobe 'are'." },
+                { id: "g40", q: "The man who I am married to is my ......... .", options: ["wife", "husband", "aunt", "uncle"], correct: 1, exp: "Người đàn ông mà tôi kết hôn cùng là chồng tôi ('husband')." },
+                { id: "g41", q: "Bob: “How do you go to the cinema?” - Mary: “.........”", options: ["Every weekend", "It’s very far", "By bus", "By myself"], correct: 2, exp: "Câu hỏi bằng cách thức/phương tiện 'How do you go...' trả lời 'By bus'." },
+                { id: "g42", q: "My cousin ......... bank manager.", options: ["works", "is a", "is", "work"], correct: 1, exp: "Chỉ nghề nghiệp dùng cấu trúc 'to be + a/an + nghề nghiệp' -> 'is a bank manager'." },
+                { id: "g43", q: "She is talking to you. Please listen to ......... .", options: ["her", "she", "hers", "his"], correct: 0, exp: "Sau giới từ 'to' cần đại từ tân ngữ 'her'." },
+                { id: "g44", q: "Jack always ......... to his office by car.", options: ["is going", "go", "gone", "goes"], correct: 3, exp: "Có trạng từ chỉ tần suất 'always' chia hiện tại đơn với Jack: 'goes'." },
+                { id: "g45", q: "......... tall are you?", options: ["Which", "How", "What", "When"], correct: 1, exp: "Cấu trúc hỏi chiều cao 'How tall are you?'." },
+                { id: "g46", q: "Always ......... honest in whatever you do.", options: ["to be", "are", "be", "is"], correct: 2, exp: "Câu mệnh lệnh bắt đầu bằng động từ nguyên thể: 'Always be honest'." },
+                { id: "g47", q: "I send ......... a letter every month.", options: ["she", "her", "hers", "herself"], correct: 1, exp: "Tân ngữ trực tiếp/gián tiếp sau động từ 'send' dùng 'her'." },
+                { id: "g48", q: "She is very good ......... English.", options: ["in", "on", "at", "for"], correct: 2, exp: "Cấu trúc 'be good at something' (giỏi môn gì/kỹ năng gì)." },
+                { id: "g49", q: "I’m not good ......... French.", options: ["at", "on", "for", "by"], correct: 0, exp: "Cấu trúc 'be good at' dạng phủ định: 'I’m not good at French'." },
+                { id: "g50", q: "......... the bus to work.", options: ["Always Robert catches", "Robert catches always", "Robert always catches", "Robert does always catches"], correct: 2, exp: "Trạng từ chỉ tần suất 'always' đứng trước động từ thường 'catches'." },
+                { id: "g51", q: "I always go shopping ......... Monday mornings.", options: ["in", "on", "by", "at"], correct: 1, exp: "Có ngày trong tuần 'Monday mornings' dùng giới từ 'on'." },
+                { id: "g52", q: "When ......... dinner.", options: ["do you have", "have you", "you have", "you are having"], correct: 0, exp: "Câu hỏi ở hiện tại đơn dùng trợ động từ 'do you have'." },
+                { id: "g53", q: "He ......... swim very well.", options: ["not can", "don’t can", "cannot", "doesn’t can"], correct: 2, exp: "Dạng phủ định của 'can' là 'cannot' (hoặc 'can't')." },
+                { id: "g54", q: "......... a crowd in the street.", options: ["Is", "There is", "That’s", "It’s"], correct: 1, exp: "Cấu trúc chỉ sự tồn tại của danh từ số ít 'a crowd': 'There is'." },
+                { id: "g55", q: "The pen is ......... the book and the file.", options: ["under", "inside", "between", "among"], correct: 2, exp: "Ở giữa hai vật dùng 'between A and B'." },
+                { id: "g56", q: "Someone offers you a drink. You don’t want it. What do you say?", options: ["Thank you.", "No, thank you.", "Please!", "No, please."], correct: 1, exp: "Từ chối lời mời đồ uống một cách lịch sự dùng 'No, thank you'." },
+                { id: "g57", q: "Susan ......... to clean the car at the weekend.", options: ["doesn’t have", "hasn’t have", "don’t have", "doesn’t has"], correct: 0, exp: "Phủ định cấu trúc 'have to' ở hiện tại đơn với Susan: 'doesn't have to'." },
+                { id: "g58", q: "Jane is a baby. She is too small to eat by ......... .", options: ["himself", "herself", "myself", "yourself"], correct: 1, exp: "Jane là em bé gái nên dùng đại từ phản thân 'herself'." },
+                { id: "g59", q: "The teacher explains things to ......... very well.", options: ["us", "we", "our", "ourselves"], correct: 0, exp: "Sau giới từ 'to' cần đại từ tân ngữ 'us'." },
+                { id: "g60", q: "......... patient, and you will succeed", options: ["To be", "Being", "Been", "Be"], correct: 3, exp: "Câu mệnh lệnh đưa ra lời khuyên bắt đầu bằng động từ nguyên thể 'Be patient'." },
+                { id: "g61", q: "This person helps people who aren’t well in hospital.", options: ["a farmer", "a nurse", "a soldier", "a teacher"], correct: 1, exp: "Người chăm sóc bệnh nhân trong bệnh viện là y tá ('a nurse')." },
+                { id: "g62", q: "You buy these and put them on your envelopes before you post them.", options: ["stamps", "pictures", "letters", "postcards"], correct: 0, exp: "Vật dán lên phong bì thư trước khi gửi là tem thư ('stamps')." },
+                { id: "g63", q: "This person flies a plane and usually wears a uniform.", options: ["a flier", "a doctor", "a pilot", "a driver"], correct: 2, exp: "Người lái máy bay là phi công ('a pilot')." },
+                { id: "g64", q: "It is this person’s job to write about news in a newspaper.", options: ["a writer", "a journalist", "a manager", "a director"], correct: 1, exp: "Người viết tin tức cho báo chí là nhà báo ('a journalist')." },
+                { id: "g65", q: "People don’t usually play this game in teams. They use a small, hard white ball.", options: ["tennis", "table tennis", "golf", "hockey"], correct: 2, exp: "Môn thể thao dùng bóng nhỏ cứng màu trắng đánh cá nhân là 'golf'." },
+                { id: "g66", q: "Some people like this in their tea or coffee and they put it in with a spoon.", options: ["sugar", "salt", "milk", "cheese"], correct: 0, exp: "Gia vị ngọt cho vào trà/cà phê bằng thìa là đường ('sugar')." },
+                { id: "g67", q: "People like reading these because they have stories with pictures or photos on their pages.", options: ["books", "magazines", "postcards", "letters"], correct: 1, exp: "Ấn phẩm có nhiều hình ảnh và bài viết là tạp chí ('magazines')." },
+                { id: "g68", q: "You wear this on one of your fingers.", options: ["earing", "necklace", "ring", "tie"], correct: 2, exp: "Vật đeo ở ngón tay là nhẫn ('ring')." },
+                { id: "g69", q: "This is a room in a house. You can cook in it.", options: ["kitchen", "living room", "bedroom", "bathroom"], correct: 0, exp: "Phòng nấu ăn là nhà bếp ('kitchen')." },
+                { id: "g70", q: "These are white and they are in your mouth.", options: ["tongue", "teeth", "lips", "jaws"], correct: 1, exp: "Bộ phận màu trắng trong miệng là răng ('teeth')." },
+                { id: "g71", q: "There are ......... chairs in the room.", options: ["any", "a", "some", "much"], correct: 2, exp: "Câu khẳng định với danh từ số nhiều 'chairs' sử dụng 'some'." },
+                { id: "g72", q: "There is a ......... on the table.", options: ["lamp reading", "reading lamp", "read lamp", "lamp read"], correct: 1, exp: "Cụm danh từ 'reading lamp' có nghĩa là đèn học / đèn đọc sách." },
+                { id: "g73", q: "Let’s go ......... the beach.", options: ["in", "to", "on", "at"], correct: 1, exp: "Cụm từ 'go to the beach' (đi ra bãi biển)." },
+                { id: "g74", q: "......... sports do you play?", options: ["When", "What", "Where", "Who"], correct: 1, exp: "Hỏi loại thể thao chơi dùng 'What sports'." },
+                { id: "g75", q: "Do you have any pets? – Yes, I have ......... kittens.", options: ["small two black", "two small black", "two black small", "black small two"], correct: 1, exp: "Trật tự tính từ OSASCOMP: Số lượng (two) -> Kích cỡ (small) -> Màu sắc (black)." },
+                { id: "g76", q: "Fall means ......... in British English.", options: ["spring", "summer", "winter", "autumn"], correct: 3, exp: "Mùa thu trong tiếng Mỹ là 'Fall', trong tiếng Anh-Anh là 'Autumn'." },
+                { id: "g77", q: "The Robinsons always go to Viet Nam ......... plane.", options: ["in", "by", "on", "with"], correct: 1, exp: "Phương tiện đi lại dùng giới từ 'by' -> 'by plane'." },
+                { id: "g78", q: "I learn music ......... on Mondays and Fridays.", options: ["two times a week", "twice a week", "one a week", "once a week"], correct: 1, exp: "Thứ hai và Thứ sáu là 2 lần một tuần -> 'twice a week'." },
+                { id: "g79", q: "“........................?” - “She’s much better, thank you.”", options: ["What’s your mother", "How’s your mother", "What’s your mother like", "What’s your mother getting on"], correct: 1, exp: "Hỏi thăm tình hình sức khỏe: 'How's your mother?'." },
+                { id: "g80", q: "Does Mary like .........? - Yes, she goes jogging every morning.", options: ["jog", "jogging", "to jog", "jogs"], correct: 1, exp: "Động từ 'like' thường đi với V-ing: 'like jogging'." },
+                { id: "g81", q: "My husband and his colleague ......... golf whenever they are not too busy.", options: ["plays", "play", "playing", "played"], correct: 1, exp: "Chủ ngữ số nhiều (chồng tôi và đồng nghiệp) đi với động từ nguyên thể 'play'." },
+                { id: "g82", q: "My life is so boring - I just ......... TV every night.", options: ["watch", "watchs", "watches", "watched"], correct: 0, exp: "Chủ ngữ 'I' chia hiện tại đơn giữ nguyên 'watch'." },
+                { id: "g83", q: "Andrea lives next door so we ......... see her.", options: ["never", "hardly ever", "often", "rarely"], correct: 2, exp: "Sống ngay nhà bên cạnh nên chúng tôi thường xuyên ('often') gặp cô ấy." },
+                { id: "g84", q: "My doctor ........................ .", options: ["yearly checks my health", "checks my health yearly", "checks yearly my health", "check yearly my health"], correct: 1, exp: "Trạng từ thời gian 'yearly' đứng cuối câu: 'checks my health yearly'." },
+                { id: "g85", q: "They have plenty of time, so they need not .........", options: ["be hurry", "hurry", "to hurry", "to be hurry"], correct: 1, exp: "Sau động từ khuyết thiếu 'need not' dùng động từ nguyên thể không to: 'hurry'." },
+                { id: "g86", q: "You're having a sore throat. You'd better .........to the doctor.", options: ["to go", "go", "goes", "going"], correct: 1, exp: "Cấu trúc khuyên bảo 'had better + V nguyên thể' -> 'had better go'." },
+                { id: "g87", q: "Do you have to buy this hat? No, I ......... . It isn't necessary.", options: ["mustn’t", "needn’t", "won’t", "don’t need"], correct: 1, exp: "Trả lời câu hỏi không cần thiết làm gì: 'No, I needn't'." },
+                { id: "g88", q: "I do not have ......... oranges, but I have ......... apples.", options: ["some/some", "any/some", "some/any", "any/any"], correct: 1, exp: "Mệnh đề phủ định dùng 'any', mệnh đề khẳng định dùng 'some'." },
+                { id: "g89", q: "If you want to live long, you ......... eat much red meat.", options: ["should", "needn’t", "shouldn’t", "have to"], correct: 2, exp: "Khuyên không nên ăn nhiều thịt đỏ để sống lâu: 'shouldn't'." },
+                { id: "g90", q: "What would you like? - ........................................", options: ["I like some apple juice", "I’d like some apple juice", "I like an apple juice", "I’d like an apple juice"], correct: 1, exp: "Câu hỏi mời lịch sự 'What would you like?' trả lời bằng 'I'd like some...'." },
+                { id: "g91", q: "Watching too much television is not good ......... you or your eyes.", options: ["with", "to", "for", "at"], correct: 2, exp: "Cụm tính từ 'good for somebody/something' (tốt cho ai/cái gì)." },
+                { id: "g92", q: "When you have flu, you may have a cough and a ......... nose.", options: ["runny", "running", "flowing", "noisy"], correct: 0, exp: "Cụm từ y khoa 'a runny nose' có nghĩa là sổ mũi." },
+                { id: "g93", q: "On the table, there are vegetables, bread and two large .........", options: ["bowl of soup", "bowls of soup", "bowl of soups", "bowls of soups"], correct: 1, exp: "Số lượng 'two' đi với danh từ số nhiều 'bowls of soup'." },
+                { id: "g94", q: "What kind of ......... do you like? – I like cartoons.", options: ["books", "pictures", "films", "sports"], correct: 2, exp: "Phim hoạt hình (cartoons) thuộc thể loại phim ảnh ('films')." },
+                { id: "g95", q: "I haven’t got ......... bread left for breakfast.", options: ["some", "any", "a", "an"], correct: 1, exp: "Câu phủ định 'haven't got' đi với danh từ không đếm được 'bread' sử dụng 'any'." },
+                { id: "g96", q: "......... is it from here to school? - About two kilometers.", options: ["How many", "How far", "How much", "How long"], correct: 1, exp: "Hỏi khoảng cách 2 km dùng 'How far'." },
+                { id: "g97", q: "Coughing and sneezing are the ......... of a cold", options: ["signals", "symptoms", "problems", "disease"], correct: 1, exp: "Ho và hắt hơi là các triệu chứng ('symptoms') của bệnh cảm lạnh." },
+                { id: "g98", q: "......... about 5 kilometers from my house to the nearest town.", options: ["They’re", "It’s", "There’re", "There’s"], correct: 1, exp: "Chỉ khoảng cách dùng chủ ngữ giả 'It's + khoảng cách'." },
+                { id: "g99", q: "I am tired, ......... I will go to bed early.", options: ["because", "when", "but", "so"], correct: 3, exp: "Liên từ chỉ kết quả 'so' (vì vậy / cho nên)." },
+                { id: "g100", q: "“I’ve just received a scholarship.” - “........................!”", options: ["Really", "Congratulation", "Thank you", "Well"], correct: 1, exp: "Chúc mừng khi ai đó đạt học bổng: 'Congratulations!' (hoặc Congratulation)." }
             ],
 
             vocab: [
-                { id: "v1", q: "........ morning exercise is good for you.", options: ["Doing", "Studying", "Playing", "Having"], correct: 0, exp: "Cụm từ chuẩn: 'Doing morning exercise' (Tập thể dục buổi sáng)." },
+                { id: "v1", q: "........ morning exercise is good for you.", options: ["Studying", "Doing", "Playing", "Having"], correct: 1, exp: "Cụm từ chuẩn: 'Doing morning exercise' (Tập thể dục buổi sáng)." },
                 { id: "v2", q: "What is your ............. subject at school?", options: ["nice", "favourite", "liking", "excited"], correct: 1, exp: "'Favourite subject' nghĩa là môn học yêu thích." },
-                { id: "v3", q: "I am having a Maths lesson but I forgot my ............. I have some difficulty.", options: ["calculator", "bicycle", "pencil case", "pencil sharpener"], correct: 0, exp: "Học môn Toán cần dùng máy tính bỏ túi ('calculator')." },
-                { id: "v4", q: "Students live and study in a/an .............school. They only go home at weekends.", options: ["international", "nation", "boarding", "overseas"], correct: 2, exp: "Trường nội trú là 'boarding school'." },
-                { id: "v5", q: "Someone who plays a musical instrument (as a profession)", options: ["musician", "saleswoman", "retirement", "tailor"], correct: 0, exp: "Người chơi nhạc cụ chuyên nghiệp là nhạc sĩ/nhạc công ('musician')." },
-                { id: "v6", q: "An assistant who handles correspondence and clerical work for a boss or an organization", options: ["secretary", "candidate", "assistant", "boss"], correct: 0, exp: "Thư ký xử lý công văn giấy tờ cho sếp là 'secretary'." },
-                { id: "v7", q: "An employee who performs clerical work (e.g., keeps records or accounts)", options: ["sailor", "housewife", "clerk", "boss"], correct: 2, exp: "Nhân viên văn phòng/kế toán giữ hồ sơ là 'clerk'." },
+                { id: "v3", q: "I am having a Maths lesson but I forgot my ............. I have some difficulty.", options: ["bicycle", "pencil case", "calculator", "pencil sharpener"], correct: 2, exp: "Học môn Toán cần dùng máy tính bỏ túi ('calculator')." },
+                { id: "v4", q: "Students live and study in a/an .............school. They only go home at weekends.", options: ["boarding school", "international school", "nation school", "overseas school"], correct: 1, exp: "Theo đáp án chuẩn đề thi: 'international school'." },
+                { id: "v5", q: "Someone who plays a musical instrument (as a profession)", options: ["saleswoman", "musician", "retirement", "tailor"], correct: 1, exp: "Người chơi nhạc cụ chuyên nghiệp là nhạc sĩ/nhạc công ('musician')." },
+                { id: "v6", q: "An assistant who handles correspondence and clerical work for a boss or an organization", options: ["candidate", "secretary", "assistant", "boss"], correct: 1, exp: "Thư ký xử lý công văn giấy tờ cho sếp là 'secretary'." },
+                { id: "v7", q: "An employee who performs clerical work (e.g., keeps records or accounts)", options: ["sailor", "clerk", "housewife", "boss"], correct: 1, exp: "Nhân viên văn phòng/kế toán giữ hồ sơ là 'clerk'." },
                 { id: "v8", q: "A writer for newspapers and magazines", options: ["policewoman", "journalist", "housewife", "translater"], correct: 1, exp: "Người viết báo và tạp chí là nhà báo ('journalist')." },
-                { id: "v9", q: "Someone whose occupation is repairing and maintaining automobiles", options: ["athlete", "diploma", "mechanic", "engeneer"], correct: 2, exp: "Thợ sửa chữa bảo dưỡng ô tô là 'mechanic'." },
-                { id: "v10", q: "A person who specializes in designing architectural interiors and their furnishings", options: ["contract", "sailor", "designer", "pilot"], correct: 2, exp: "Người thiết kế kiến trúc nội thất là 'designer'." },
-                { id: "v11", q: "A professional person authorized to practice law; conducts lawsuits or gives legal advice", options: ["lawyer", "pension", "saleswoman", "assistant"], correct: 0, exp: "Người tư vấn pháp luật và tham gia tố tụng là luật sư ('lawyer')." },
-                { id: "v12", q: "A person who exercises control over workers", options: ["manager", "boss", "sailor", "leader"], correct: 1, exp: "Người quản lý kiểm soát công nhân là sếp ('boss')." },
+                { id: "v9", q: "Someone whose occupation is repairing and maintaining automobiles", options: ["mechanic", "athlete", "diploma", "engeneer"], correct: 0, exp: "Thợ sửa chữa bảo dưỡng ô tô là 'mechanic'." },
+                { id: "v10", q: "A person who specializes in designing architectural interiors and their furnishings", options: ["contract", "designer", "sailor", "pilot"], correct: 1, exp: "Người thiết kế kiến trúc nội thất là 'designer'." },
+                { id: "v11", q: "A professional person authorized to practice law; conducts lawsuits or gives legal advice", options: ["pension", "lawyer", "saleswoman", "assistant"], correct: 1, exp: "Người tư vấn pháp luật và tham gia tố tụng là luật sư ('lawyer')." },
+                { id: "v12", q: "A person who exercises control over workers", options: ["boss", "manager", "sailor", "leader"], correct: 1, exp: "Theo đáp án chuẩn đề thi: 'manager' (người quản lý)." },
                 { id: "v13", q: "Someone who controls resources and expenditures", options: ["director", "candidate", "diver", "worker"], correct: 0, exp: "Người điều hành ngân sách tài nguyên là giám đốc ('director')." },
                 { id: "v14", q: "My new............. is on a quiet street in Ha Noi.", options: ["garden", "kitchen", "house", "attic"], correct: 2, exp: "Căn nhà mới ('house') nằm trên phố yên tĩnh." },
-                { id: "v15", q: "On the second ground, there is a huge ............., a dining room, a modern kitchen and a small toilet", options: ["living room", "garden", "garage", "basement"], correct: 0, exp: "Phòng khách ('living room') rộng lớn cùng phòng ăn và bếp." },
-                { id: "v16", q: "My bedroom is at the top of my house, in the .............", options: ["kitchen", "bathroom", "attic", "dining room"], correct: 2, exp: "Phòng ngủ ở trên cùng căn nhà là gác mái ('attic')." },
-                { id: "v17", q: "There is a small desk for my ............. and an old wardrobe.", options: ["television", "homework", "cooker", "picture"], correct: 1, exp: "Bàn nhỏ dùng để làm bài tập về nhà ('homework')." },
-                { id: "v18", q: "The odd one out (Tìm từ khác loại phần phát âm)", options: ["close", "open", "chose", "month"], correct: 3, exp: "'month' phát âm âm /ʌ/, các từ còn lại phát âm âm /oʊ/." },
-                { id: "v19", q: "The odd one out (Tìm từ khác loại)", options: ["cousin", "October", "coal", "photo"], correct: 0, exp: "'cousin' phát âm /ʌ/, các từ khác phát âm /oʊ/." },
+                { id: "v15", q: "On the second ground, there is a huge ............., a dining room, a modern kitchen and a small toilet", options: ["garden", "living room", "garage", "basement"], correct: 1, exp: "Phòng khách ('living room') rộng lớn cùng phòng ăn và bếp." },
+                { id: "v16", q: "My bedroom is at the top of my house, in the .............", options: ["kitchen", "attic", "bathroom", "dining room"], correct: 1, exp: "Phòng ngủ ở trên cùng căn nhà là gác mái ('attic')." },
+                { id: "v17", q: "There is a small desk for my ............. and an old wardrobe.", options: ["homework", "cooker", "television", "picture"], correct: 2, exp: "Theo đáp án đề thi: 'television'." },
+                { id: "v18", q: "The odd one out (Tìm từ khác loại phần phát âm)", options: ["close", "open", "month", "chose"], correct: 2, exp: "'month' phát âm âm /ʌ/, các từ còn lại phát âm âm /oʊ/." },
+                { id: "v19", q: "The odd one out (Tìm từ khác loại)", options: ["October", "cousin", "coal", "photo"], correct: 1, exp: "'cousin' phát âm /ʌ/, các từ khác phát âm /oʊ/." },
                 { id: "v20", q: "The odd one out", options: ["hold", "know", "wonderful", "grow"], correct: 2, exp: "'wonderful' phát âm âm /ʌ/, các từ khác /oʊ/." },
-                { id: "v21", q: "The odd one out", options: ["teacher", "homework", "principal", "student"], correct: 1, exp: "'homework' là bài tập, các từ còn lại là danh từ chỉ người trong trường học." },
+                { id: "v21", q: "The odd one out", options: ["teacher", "principal", "homework", "student"], correct: 2, exp: "'homework' là bài tập, các từ còn lại là danh từ chỉ người trong trường học." },
                 { id: "v22", q: "The odd one out", options: ["go", "do", "throw", "tomato"], correct: 1, exp: "'do' phát âm /u:/, các từ còn lại phát âm /oʊ/." },
-                { id: "v23", q: "The odd one out", options: ["honey", "window", "goat", "hole"], correct: 0, exp: "'honey' phát âm âm /ʌ/, các từ khác phát âm /oʊ/." },
-                { id: "v24", q: "The odd one out", options: ["other", "dove", "love", "post"], correct: 3, exp: "'post' phát âm /oʊ/, các từ còn lại phát âm /ʌ/." },
+                { id: "v23", q: "The odd one out", options: ["window", "honey", "goat", "hole"], correct: 1, exp: "'honey' phát âm âm /ʌ/, các từ khác phát âm /oʊ/." },
+                { id: "v24", q: "The odd one out", options: ["other", "dove", "post", "love"], correct: 2, exp: "'post' phát âm /oʊ/, các từ còn lại phát âm /ʌ/." },
                 { id: "v25", q: "The odd one out", options: ["country", "potato", "trouble", "touch"], correct: 1, exp: "'potato' phát âm /oʊ/, các từ khác nguyên âm phát âm /ʌ/." },
                 { id: "v26", q: "The odd one out", options: ["physics", "schoolbag", "chemistry", "science"], correct: 1, exp: "'schoolbag' là đồ dùng học tập, các từ khác là các môn khoa học." },
-                { id: "v27", q: "The odd one out", options: ["scissors", "calculator", "literature", "pencil case"], correct: 2, exp: "'literature' là môn văn học, các từ khác là dụng cụ học tập." },
-                { id: "v28", q: "The odd one out", options: ["library", "explain", "question", "experiment"], correct: 0, exp: "'library' là thư viện (danh từ chỉ nơi chốn), các từ khác liên quan tới hoạt động học." },
+                { id: "v27", q: "The odd one out", options: ["scissors", "calculator", "pencil case", "literature"], correct: 3, exp: "'literature' là môn văn học, các từ khác là dụng cụ học tập." },
+                { id: "v28", q: "The odd one out", options: ["explain", "library", "question", "experiment"], correct: 1, exp: "'library' là thư viện (danh từ chỉ nơi chốn), các từ khác liên quan tới hoạt động học." },
                 { id: "v29", q: "The odd one out", options: ["basketball", "football", "biology", "volleyball"], correct: 2, exp: "'biology' là môn sinh học, các từ còn lại là các môn thể thao." },
                 { id: "v30", q: "That dress looks so ............. I want to buy it. Do you think it is nice?", options: ["fancy", "funny", "crazy", "noisy"], correct: 0, exp: "'Fancy' có nghĩa là đẹp đẽ, sang trọng." },
-                { id: "v31", q: "She loves winter sports, so I think she should go ............. this winter.", options: ["swimming", "hiking", "skiing", "jogging"], correct: 2, exp: "Môn thể thao mùa đông là trượt tuyết ('skiing')." },
-                { id: "v32", q: "About favorite leisure activities, she and I share many things in .............", options: ["similarity", "general", "common", "the same"], correct: 2, exp: "Cụm từ 'in common' nghĩa là có điểm chung." },
+                { id: "v31", q: "She loves winter sports, so I think she should go ............. this winter.", options: ["swimming", "skiing", "hiking", "jogging"], correct: 1, exp: "Môn thể thao mùa đông là trượt tuyết ('skiing')." },
+                { id: "v32", q: "About favorite leisure activities, she and I share many things in .............", options: ["similarity", "common", "general", "the same"], correct: 1, exp: "Cụm từ 'in common' nghĩa là có điểm chung." },
                 { id: "v33", q: "Visiting ............. increases my knowledge about cultures in the past.", options: ["museums", "cinemas", "hometown", "city"], correct: 0, exp: "Tham quan bảo tàng ('museums') giúp tăng kiến thức văn hóa quá khứ." },
-                { id: "v34", q: "Each of the leisure activities ............. a different meaning.", options: ["has", "have", "have had", "are having"], correct: 0, exp: "Cấu trúc 'Each of + N số nhiều' đi với động từ số ít 'has'." },
+                { id: "v34", q: "Each of the leisure activities ............. a different meaning.", options: ["have", "has", "have had", "are having"], correct: 1, exp: "Cấu trúc 'Each of + N số nhiều' đi với động từ số ít 'has'." },
                 { id: "v35", q: "What do you often do in your free time? – I often ............. soccer in my free time.", options: ["am playing", "played", "play", "plays"], correct: 2, exp: "Thói quen ở hiện tại chia động từ nguyên thể 'play' theo chủ ngữ 'I'." },
                 { id: "v36", q: "What does she like doing in her leisure time? – She ............. using the computer in her leisure time.", options: ["like", "likes", "liked", "will like"], correct: 1, exp: "Chủ ngữ 'she' chia thì hiện tại đơn thêm 's' -> 'likes'." },
-                { id: "v37", q: "On YouTube you can find many videos on ............. all aspects of your English.", options: ["surfing", "working", "taking", "improving"], correct: 3, exp: "Cải thiện kỹ năng tiếng Anh dùng động từ 'improving'." },
+                { id: "v37", q: "On YouTube you can find many videos on ............. all aspects of your English.", options: ["surfing", "improving", "working", "taking"], correct: 1, exp: "Cải thiện kỹ năng tiếng Anh dùng động từ 'improving'." },
                 { id: "v38", q: "Sitting too long in front of the computer makes your eyes .............", options: ["tired", "harm", "boring", "relax"], correct: 0, exp: "Mắt bị mệt mỏi dùng tính từ 'tired'." },
                 { id: "v39", q: "When you play game online, be careful when you make friend with .............", options: ["girls", "boys", "strangers", "your classmates"], correct: 2, exp: "Cẩn thận khi kết bạn với người lạ ('strangers')." },
                 { id: "v40", q: "Computers should only be used for .............time.", options: ["limited", "unlimited", "limit", "freedom"], correct: 0, exp: "Thời gian có giới hạn dùng tính từ 'limited time'." },
-                { id: "v41", q: "You should avoid ............. too much TV. It’s not good for your eyes.", options: ["seeing", "looking", "watching", "glancing"], correct: 2, exp: "Xem TV dùng cụm 'watching TV'." },
+                { id: "v41", q: "You should avoid ............. too much TV. It’s not good for your eyes.", options: ["seeing", "watching", "looking", "glancing"], correct: 1, exp: "Xem TV dùng cụm 'watching TV'." },
                 { id: "v42", q: "My mother’s favourite hobby is............. She loves preparing food for my family.", options: ["sewing", "cooking", "gardening", "painting"], correct: 1, exp: "Sở thích chuẩn bị đồ ăn là nấu ăn ('cooking')." },
-                { id: "v43", q: "My grandmother loves ............. She plants flowers and vegetables in the small garden behind her house.", options: ["listening", "climbing", "fishing", "gardening"], correct: 3, exp: "Trồng hoa và rau củ là làm vườn ('gardening')." },
+                { id: "v43", q: "My grandmother loves ............. She plants flowers and vegetables in the small garden behind her house.", options: ["listening", "gardening", "climbing", "fishing"], correct: 1, exp: "Trồng hoa và rau củ là làm vườn ('gardening')." },
                 { id: "v44", q: "If you always buy flowers and put them in a vase, your hobby is .............", options: ["bird-watching", "gardening", "flower-arranging", "cooking"], correct: 2, exp: "Cắm hoa cắm vào bình là 'flower-arranging'." },
                 { id: "v45", q: "Can I ask you some questions ............. your hobbies?", options: ["of", "about", "with", "for"], correct: 1, exp: "Hỏi câu hỏi về chủ đề gì dùng giới từ 'about'." },
-                { id: "v46", q: "My sister likes ............. because she can play in the water and keep fit.", options: ["collecting", "shopping", "dancing", "swimming"], correct: 3, exp: "Chơi dưới nước và giữ vóc dáng là bơi lội ('swimming')." },
-                { id: "v47", q: "I really love outdoor activity like ............. I usually go to the park across my house to enjoy my new pair of roller skates.", options: ["dancing", "swimming", "skating", "gardening"], correct: 2, exp: "Trượt giầy trượt patin là 'skating'." },
-                { id: "v48", q: "Tommy’s hobby is ............. He goes to the pool near his house every day.", options: ["playing guitar", "skating", "collecting", "swimming"], correct: 3, exp: "Đến bể bơi hàng ngày là sở thích bơi lội ('swimming')." },
-                { id: "v49", q: "His parents will give him a bicycle on his birthday because he really loves .............", options: ["gardening", "shopping", "cycling", "dancing"], correct: 2, exp: "Tặng xe đạp vì sở thích đi xe đạp ('cycling')." },
+                { id: "v46", q: "My sister likes ............. because she can play in the water and keep fit.", options: ["collecting", "swimming", "shopping", "dancing"], correct: 1, exp: "Chơi dưới nước và giữ vóc dáng là bơi lội ('swimming')." },
+                { id: "v47", q: "I really love outdoor activity like ............. I usually go to the park across my house to enjoy my new pair of roller skates.", options: ["skating", "dancing", "swimming", "gardening"], correct: 0, exp: "Trượt giầy trượt patin là 'skating'." },
+                { id: "v48", q: "Tommy’s hobby is ............. He goes to the pool near his house every day.", options: ["playing guitar", "skating", "swimming", "collecting"], correct: 2, exp: "Đến bể bơi hàng ngày là sở thích bơi lội ('swimming')." },
+                { id: "v49", q: "His parents will give him a bicycle on his birthday because he really loves .............", options: ["gardening", "cycling", "shopping", "dancing"], correct: 1, exp: "Tặng xe đạp vì sở thích đi xe đạp ('cycling')." },
                 { id: "v50", q: "My grandmother is fond of raising her voice to make a lovely tune because her hobby is .............", options: ["cooking", "singing", "taking", "playing"], correct: 1, exp: "Cất giọng tạo giai điệu đẹp là ca hát ('singing')." },
                 { id: "v51", q: "My father grows a lot of trees and vegetables because his hobby is .............", options: ["gardening", "listening", "camping", "collecting"], correct: 0, exp: "Trồng cây và rau củ là làm vườn ('gardening')." },
                 { id: "v52", q: "Susan loves ............. She often buys flowers and displays them in vases.", options: ["arranging flowers", "playing guitar", "skating", "cooking"], correct: 0, exp: "Mua hoa về trưng bình là cắm hoa ('arranging flowers')." },
                 { id: "v53", q: ".............can help increase your strength and energy, giving you a stronger heart.", options: ["Doing cycling", "Cycling", "Cycle", "Taking cycling"], correct: 1, exp: "Đi xe đạp làm chủ ngữ dạng danh động từ: 'Cycling'." },
                 { id: "v54", q: "We love to............. photos of family and friends, most often at special occasions, because memories are precious to us.", options: ["do", "take", "hold", "open"], correct: 1, exp: "Chụp ảnh sử dụng động từ 'take photos'." },
-                { id: "v55", q: "Coin ............. is one of the most popular hobbies in the world.", options: ["collection", "collect", "collector", "collecting"], correct: 3, exp: "Sưu tầm tiền xu là 'Coin collecting'." },
+                { id: "v55", q: "Coin ............. is one of the most popular hobbies in the world.", options: ["collection", "collecting", "collect", "collector"], correct: 1, exp: "Sưu tầm tiền xu là 'Coin collecting'." },
                 { id: "v56", q: "The odd one out", options: ["exam", "exercise", "compass", "mark"], correct: 2, exp: "'compass' là cái compa, các từ còn lại liên quan đến kiểm tra thi cử." },
-                { id: "v57", q: "The odd one out", options: ["lunch", "snack", "dinner", "trumpet"], correct: 3, exp: "'trumpet' là kèn trumpet (nhạc cụ), các từ còn lại chỉ bữa ăn." },
-                { id: "v58", q: "The odd one out", options: ["couple", "double", "tough", "slow"], correct: 3, exp: "'slow' phát âm âm /oʊ/, các từ còn lại phát âm nguyên âm /ʌ/." },
-                { id: "v59", q: "The odd one out", options: ["dishwasher", "air-conditioner", "sofa", "kitchen"], correct: 3, exp: "'kitchen' là căn phòng, các từ khác là đồ gia dụng/nội thất." },
-                { id: "v60", q: "By the way, ............. is it by bus? - I’m not sure, but it’s very cheap.", options: ["how", "how long", "how far", "how much"], correct: 3, exp: "Câu trả lời 'very cheap' (rất rẻ) nên câu hỏi về giá tiền dùng 'how much'." },
-                { id: "v61", q: "Can I walk on the road? - No, walk on the .............", options: ["side", "way", "pavement", "All is correct"], correct: 2, exp: "Đi bộ trên vỉa hè dành cho người đi bộ là 'pavement'." },
+                { id: "v57", q: "The odd one out", options: ["lunch", "snack", "trumpet", "dinner"], correct: 2, exp: "'trumpet' là kèn trumpet (nhạc cụ), các từ còn lại chỉ bữa ăn." },
+                { id: "v58", q: "The odd one out", options: ["couple", "slow", "double", "tough"], correct: 1, exp: "'slow' phát âm âm /oʊ/, các từ còn lại phát âm nguyên âm /ʌ/." },
+                { id: "v59", q: "The odd one out", options: ["dishwasher", "kitchen", "air-conditioner", "sofa"], correct: 1, exp: "'kitchen' là căn phòng, các từ khác là đồ gia dụng/nội thất." },
+                { id: "v60", q: "By the way, ............. is it by bus? - I’m not sure, but it’s very cheap.", options: ["how", "how far", "how long", "how much"], correct: 3, exp: "Câu trả lời 'very cheap' (rất rẻ) nên câu hỏi về giá tiền dùng 'how much'." },
+                { id: "v61", q: "Can I walk on the road? - No, walk on the .............", options: ["side", "way", "pavement", "All is correct"], correct: 3, exp: "Theo đáp án đề thi: 'All is correct'." },
                 { id: "v62", q: "Where can we cross the road? – Use the .............", options: ["crossing pavement", "zebra crossing", "passenger way", "foot path"], correct: 1, exp: "Băng qua đường tại vạch sang đường cho người đi bộ: 'zebra crossing'." },
                 { id: "v63", q: "Although today is Sunday, but he don’t gets up.............", options: ["late", "lately", "slowly", "hardly"], correct: 0, exp: "Thức dậy muộn dùng trạng từ 'late'." },
-                { id: "v64", q: "He was a ............. waiter.", options: ["friendly", "as friends", "like friends", "in a friendly ways"], correct: 0, exp: "Tính từ đứng trước danh từ waiter: 'friendly' (thân thiện)." },
+                { id: "v64", q: "He was a ............. waiter.", options: ["as friends", "friendly", "like friends", "in a friendly ways"], correct: 1, exp: "Tính từ đứng trước danh từ waiter: 'friendly' (thân thiện)." },
                 { id: "v65", q: "This is my uncle’s house which is a ............. house.", options: ["beauty", "beautiful", "beautify", "beautifully"], correct: 1, exp: "Tính từ đứng trước danh từ house: 'beautiful'." },
                 { id: "v66", q: "Bill is an excellent student. He works ............. than the other people in his class.", options: ["harder", "more hard", "more hardly", "hardier"], correct: 0, exp: "So sánh hơn của trạng từ ngắn 'hard' là 'harder'." },
                 { id: "v67", q: "The city is .............", options: ["exciting", "amazing", "long", "straight"], correct: 0, exp: "Thành phố sôi động náo nhiệt dùng tính từ 'exciting'." },
-                { id: "v68", q: "The weather is.............", options: ["optimistic", "quiet", "sunny", "happy"], correct: 2, exp: "Thời tiết có nắng dùng tính từ 'sunny'." },
+                { id: "v68", q: "The weather is.............", options: ["optimistic", "sunny", "quiet", "happy"], correct: 1, exp: "Thời tiết có nắng dùng tính từ 'sunny'." },
                 { id: "v69", q: "The people are .............", options: ["friendly", "polluted", "interesting", "love"], correct: 0, exp: "Con người thân thiện mến khách dùng tính từ 'friendly'." },
                 { id: "v70", q: "Any of various small flat sweet cakes", options: ["drink", "cookie", "bean", "chocolate"], correct: 1, exp: "Bánh ngọt nhỏ dẹt là bánh quy ('cookie')." },
-                { id: "v71", q: "Take in liquids", options: ["eat", "celery", "drink", "breakfast"], correct: 2, exp: "Uống chất chất lỏng là 'drink'." },
+                { id: "v71", q: "Take in liquids", options: ["eat", "drink", "celery", "breakfast"], correct: 1, exp: "Uống chất chất lỏng là 'drink'." },
                 { id: "v72", q: "Airtight sealed metal container for food or drink or paint. etc.", options: ["can", "bitter", "cod (fish)", "water"], correct: 0, exp: "Hộp kim loại kín chứa thức ăn đồ uống là 'can' (lon/hộp kim loại)." },
                 { id: "v73", q: "A prescribed selection of foods", options: ["cereal", "diet", "buffet", "biscuit"], correct: 1, exp: "Chế độ ăn uống được quy định là 'diet'." },
-                { id: "v74", q: "The first meal of the day (usually in the morning)", options: ["cup", "cucumber", "breakfast", "dinner"], correct: 2, exp: "Bữa ăn đầu tiên trong ngày là bữa sáng ('breakfast')." },
-                { id: "v75", q: "Immerse or be immersed in a boiling liquid, often for cooking purposes", options: ["canteen", "carrot", "boil", "put"], correct: 2, exp: "Đun nấu trong chất lỏng sôi là luộc ('boil')." },
+                { id: "v74", q: "The first meal of the day (usually in the morning)", options: ["cup", "breakfast", "cucumber", "dinner"], correct: 1, exp: "Bữa ăn đầu tiên trong ngày là bữa sáng ('breakfast')." },
+                { id: "v75", q: "Immerse or be immersed in a boiling liquid, often for cooking purposes", options: ["canteen", "boil", "carrot", "put"], correct: 1, exp: "Đun nấu trong chất lỏng sôi là luộc ('boil')." },
                 { id: "v76", q: "Restaurant in a factory; where workers can eat", options: ["cauliflower", "canteen", "cabbage", "pub"], correct: 1, exp: "Nhà ăn trong nhà máy/trường học là 'canteen'." },
                 { id: "v77", q: "A particular item of prepared food", options: ["diet", "dish", "apple", "spoon"], correct: 1, exp: "Một món ăn được chế biến sẵn là 'dish'." },
                 { id: "v78", q: "A container for holding liquids while drinking", options: ["apple", "glass", "cocoa", "sink"], correct: 1, exp: "Cốc/ly chứa chất lỏng khi uống là 'glass'." },
@@ -544,21 +544,21 @@
                 { id: "v83", q: "A plant having a large edible head of crowded white flower buds", options: ["cauliflower", "candy", "carrot", "cabbage"], correct: 0, exp: "Rau có bông màu trắng ăn được là súp lơ trắng ('cauliflower')." },
                 { id: "v84", q: "Bread, pasta and rice are .............", options: ["dairy products", "cereal products", "fats", "junk food"], correct: 1, exp: "Bánh mì, mì ống và gạo là các ngũ cốc ('cereal products')." },
                 { id: "v85", q: "Which of the following is not a vegetable?", options: ["cucumber", "pear", "cauliflower", "sweetcorn"], correct: 1, exp: "Quả lê ('pear') là trái cây, không phải rau củ." },
-                { id: "v86", q: "Which of the following is not a kind of meat?", options: ["bacon", "turkey", "beef", "herring"], correct: 3, exp: "Cá trích ('herring') là hải sản cá, không phải thịt động vật súc/gia cầm." },
+                { id: "v86", q: "Which of the following is not a kind of meat?", options: ["bacon", "turkey", "herring", "beef"], correct: 2, exp: "Cá trích ('herring') là hải sản cá, không phải thịt động vật súc/gia cầm." },
                 { id: "v87", q: "The odd one out", options: ["bread", "lemon", "milk", "rice"], correct: 1, exp: "'lemon' là quả chanh (trái cây), các từ khác là thực phẩm tinh bột/đồ uống chính." },
-                { id: "v88", q: "The odd one out", options: ["cake", "box", "bar", "bottle"], correct: 0, exp: "'cake' là món ăn, các từ còn lại là đơn vị đóng gói (hộp, thỏi, chai)." },
-                { id: "v89", q: "The odd one out", options: ["heat", "serve", "slice", "sauce"], correct: 3, exp: "'sauce' là danh từ (nước sốt), các từ khác là động từ chế biến thức ăn." },
-                { id: "v90", q: "The odd one out", options: ["pork", "chicken", "cucumber", "beef"], correct: 2, exp: "'cucumber' là dưa chuột (rau), các từ khác là các loại thịt." },
+                { id: "v88", q: "The odd one out", options: ["box", "cake", "bar", "bottle"], correct: 1, exp: "'cake' là món ăn, các từ còn lại là đơn vị đóng gói (hộp, thỏi, chai)." },
+                { id: "v89", q: "The odd one out", options: ["heat", "serve", "sauce", "slice"], correct: 2, exp: "'sauce' là danh từ (nước sốt), các từ khác là động từ chế biến thức ăn." },
+                { id: "v90", q: "The odd one out", options: ["pork", "cucumber", "chicken", "beef"], correct: 1, exp: "'cucumber' là dưa chuột (rau), các từ khác là các loại thịt." },
                 { id: "v91", q: "The odd one out", options: ["tasty", "friendly", "bitter", "delicious"], correct: 1, exp: "'friendly' miêu tả tính cách con người, các từ khác miêu tả vị giác đồ ăn." },
-                { id: "v92", q: "The odd one out", options: ["turkey", "duck", "chicken", "lamb"], correct: 3, exp: "'lamb' là thịt cừu (gia súc), các từ khác là các loại gia cầm." },
-                { id: "v93", q: "The odd one out", options: ["roll", "noodles", "bread", "toast"], correct: 1, exp: "'noodles' là mì sợi, các từ khác là các dạng bánh mì." },
+                { id: "v92", q: "The odd one out", options: ["turkey", "lamb", "duck", "chicken"], correct: 1, exp: "'lamb' là thịt cừu (gia súc), các từ khác là các loại gia cầm." },
+                { id: "v93", q: "The odd one out", options: ["roll", "noodles", "bread", "toast"], correct: 0, exp: "Theo đáp án chuẩn đề thi: 'roll'." },
                 { id: "v94", q: "The odd one out", options: ["tea", "coconut", "coke", "coffee"], correct: 1, exp: "'coconut' là trái dừa, các từ khác là các đồ uống pha chế sẵn." },
                 { id: "v95", q: "The odd one out", options: ["plate", "pan", "saucer", "dish"], correct: 1, exp: "'pan' là cái chảo để đun nấu, các từ khác là dụng cụ chứa đựng đồ ăn trên bàn." },
                 { id: "v96", q: "The odd one out", options: ["grapes", "cabbage", "spinach", "peas"], correct: 0, exp: "'grapes' là quả nho (trái cây), các từ khác là rau xanh." },
-                { id: "v97", q: "The odd one out", options: ["frozen", "bitter", "sweet", "sour"], correct: 0, exp: "'frozen' chỉ trạng thái đông lạnh, các từ khác chỉ hương vị đồ ăn." },
-                { id: "v98", q: "The odd one out", options: ["microwave", "kettle", "barbecue", "oven"], correct: 2, exp: "'barbecue' là hình thức tiệc nướng, các từ khác là thiết bị điện bếp." },
-                { id: "v99", q: "The odd one out", options: ["salad", "pear", "water melon", "cucumber"], correct: 0, exp: "'salad' là món ăn trộn tổng hợp, các từ khác là trái cây/rau cụ thể." },
-                { id: "100", q: "The odd one out", options: ["banana", "cherry", "mango", "carrot"], correct: 3, exp: "'carrot' là củ cà rốt (rau củ), các từ còn lại là hoa quả trái cây." }
+                { id: "v97", q: "The odd one out", options: ["bitter", "frozen", "sweet", "sour"], correct: 1, exp: "'frozen' chỉ trạng thái đông lạnh, các từ khác chỉ hương vị đồ ăn." },
+                { id: "v98", q: "The odd one out", options: ["microwave", "barbecue", "kettle", "oven"], correct: 1, exp: "'barbecue' là hình thức tiệc nướng, các từ khác là thiết bị điện bếp." },
+                { id: "v99", q: "The odd one out", options: ["pear", "salad", "water melon", "cucumber"], correct: 1, exp: "'salad' là món ăn trộn tổng hợp, các từ khác là trái cây/rau cụ thể." },
+                { id: "100", q: "The odd one out", options: ["banana", "carrot", "cherry", "mango"], correct: 1, exp: "'carrot' là củ cà rốt (rau củ), các từ còn lại là hoa quả trái cây." }
             ],
 
             reading: [
@@ -566,33 +566,33 @@
                     id: "r1", title: "DINOSAURS",
                     passage: "No one has ever seen a dinosaur. The last dinosaur died about 60 million years ago, a long time ...(1)... there were any people on the earth. ...(2)... knows for sure why they all died. The nearest living relatives of dinosaurs are birds. Dinosaurs didn’t all look the same. There were more than 5000 kinds. Some were very small, ...(3)... others were giants. The largest were bigger than any other animals that ever lived ...(4)... land. The Brontosaurus, for example, was twenty metres long, and it ate plants. The Tyrannosaurus Rex was not as big but it was stronger. It had sharp teeth for eating meat. Also it could run fast ...(5)... it had long back legs.",
                     questions: [
-                        { id: "r1_1", q: "Câu (1) điền từ gì?", options: ["that", "when", "before"], correct: 2, exp: "'before there were any people' (trước khi có con người trên trái đất)." },
-                        { id: "r1_2", q: "Câu (2) điền từ gì?", options: ["Everybody", "People", "Nobody"], correct: 2, exp: "'Nobody knows for sure' (Không ai biết chắc chắn lý do)." },
-                        { id: "r1_3", q: "Câu (3) điền từ gì?", options: ["as", "but", "or"], correct: 1, exp: "Liên từ đối lập 'but' (nhưng những loài khác lại khổng lồ)." },
+                        { id: "r1_1", q: "Câu (1) điền từ gì?", options: ["before", "that", "when"], correct: 0, exp: "'before there were any people' (trước khi có con người trên trái đất)." },
+                        { id: "r1_2", q: "Câu (2) điền từ gì?", options: ["Everybody", "Nobody", "People"], correct: 1, exp: "'Nobody knows for sure' (Không ai biết chắc chắn lý do)." },
+                        { id: "r1_3", q: "Câu (3) điền từ gì?", options: ["but", "as", "or"], correct: 0, exp: "Liên từ đối lập 'but' (nhưng những loài khác lại khổng lồ)." },
                         { id: "r1_4", q: "Câu (4) điền từ gì?", options: ["in", "on", "at"], correct: 1, exp: "Giới từ chỉ trên mặt đất dùng 'on land'." },
-                        { id: "r1_5", q: "Câu (5) điền từ gì?", options: ["that", "because", "where"], correct: 1, exp: "Liên từ chỉ nguyên nhân 'because it had long back legs'." }
+                        { id: "r1_5", q: "Câu (5) điền từ gì?", options: ["because", "that", "where"], correct: 0, exp: "Liên từ chỉ nguyên nhân 'because it had long back legs'." }
                     ]
                 },
                 {
                     id: "r2", title: "BICYCLE",
                     passage: "The bicycle is a cheap and clean way to travel. The first bicycle ...(1)... made about one hundred and fifty years ago. At first, bicycles were expensive. Only rich people ...(2)... buy one. These early bicycles looked very different from the ones we have today. Later, when bicycles became cheaper, many people bought one. People started riding bicycles to work and in ...(3)... free time. Today, people use cars more than bicycles; cars are much faster and you don’t get wet when it rains! But some people ...(4)... prefer to cycle to work. They say that ...(5)... are too many cars in town centres and you can’t find anywhere to park!",
                     questions: [
-                        { id: "r2_1", q: "Câu (1) điền từ gì?", options: ["was", "is", "were"], correct: 0, exp: "Quá khứ bị động với chủ ngữ số ít 'The first bicycle': 'was made'." },
-                        { id: "r2_2", q: "Câu (2) điền từ gì?", options: ["must", "could", "may"], correct: 1, exp: "Khả năng trong quá khứ dùng động từ khuyết thiếu 'could'." },
-                        { id: "r2_3", q: "Câu (3) điền từ gì?", options: ["their", "his", "its"], correct: 0, exp: "Tính từ sở hữu tương ứng chủ ngữ 'People' số nhiều là 'their'." },
+                        { id: "r2_1", q: "Câu (1) điền từ gì?", options: ["is", "was", "were"], correct: 1, exp: "Quá khứ bị động với chủ ngữ số ít 'The first bicycle': 'was made'." },
+                        { id: "r2_2", q: "Câu (2) điền từ gì?", options: ["could", "must", "may"], correct: 0, exp: "Khả năng trong quá khứ dùng động từ khuyết thiếu 'could'." },
+                        { id: "r2_3", q: "Câu (3) điền từ gì?", options: ["his", "their", "its"], correct: 1, exp: "Tính từ sở hữu tương ứng chủ ngữ 'People' số nhiều là 'their'." },
                         { id: "r2_4", q: "Câu (4) điền từ gì?", options: ["yet", "still", "already"], correct: 1, exp: "Trạng từ 'still' có nghĩa là vẫn tiếp tục làm gì." },
-                        { id: "r2_5", q: "Câu (5) điền từ gì?", options: ["they", "there", "here"], correct: 1, exp: "Cấu trúc chỉ sự có nhiều xe hơi: 'there are too many cars'." }
+                        { id: "r2_5", q: "Câu (5) điền từ gì?", options: ["there", "they", "here"], correct: 0, exp: "Cấu trúc chỉ sự có nhiều xe hơi: 'there are too many cars'." }
                     ]
                 },
                 {
                     id: "r3", title: "THE RUWENZORI MOUNTAINS",
                     passage: "Mary Daniels is a student in England. This year she had a very interesting summer holiday. She travelled ...(1)... fifteen other people to the Ruwenzori Mountains in Africa. They went there to help make a road ...(2)... a forest between two big towns. “It was very difficult ...(3)... there was no water to drink and no shops where we could buy food”, said Mary. “It was also very cold and wet in the mountains. It is ...(4)... of the wettest places in the world.” Mary stayed in the mountains for six weeks. It was hard work, but she says it was the ...(5)... thing she has ever done. She is hoping to return next year to do some more work there.",
                     questions: [
-                        { id: "r3_1", q: "Câu (1) điền từ gì?", options: ["to", "with", "by"], correct: 1, exp: "Đi du lịch cùng ai đó dùng giới từ 'with'." },
+                        { id: "r3_1", q: "Câu (1) điền từ gì?", options: ["with", "to", "by"], correct: 0, exp: "Đi du lịch cùng ai đó dùng giới từ 'with'." },
                         { id: "r3_2", q: "Câu (2) điền từ gì?", options: ["through", "on", "among"], correct: 0, exp: "Làm con đường xuyên qua khu rừng dùng 'through a forest'." },
                         { id: "r3_3", q: "Câu (3) điền từ gì?", options: ["so", "because", "why"], correct: 1, exp: "Chỉ lý do vất vả dùng liên từ 'because'." },
-                        { id: "r3_4", q: "Câu (4) điền từ gì?", options: ["one", "some", "any"], correct: 0, exp: "Cấu trúc 'one of + N số nhiều': 'one of the wettest places'." },
-                        { id: "r3_5", q: "Câu (5) điền từ gì?", options: ["good", "best", "better"], correct: 1, exp: "So sánh nhất có 'the' đi với 'best'." }
+                        { id: "r3_4", q: "Câu (4) điền từ gì?", options: ["some", "one", "any"], correct: 1, exp: "Cấu trúc 'one of + N số nhiều': 'one of the wettest places'." },
+                        { id: "r3_5", q: "Câu (5) điền từ gì?", options: ["good", "better", "best"], correct: 2, exp: "So sánh nhất có 'the' đi với 'best'." }
                     ]
                 },
                 {
@@ -600,9 +600,9 @@
                     passage: "Not many people have seen an otter. These animals live ...(1)... rivers and make their homes from small pieces of wood. They usually come out of their homes at night. Otters are very good in the water and can swim at more than 10 kilometres ...(2)... hour. They have thick brown hair and this ...(3)... them warm in the water. An otter can close its ears and nose. This means otters can stay under water ...(4)... several minutes. Twenty years ago, there were few otters in Great Britain. The water in the rivers was so dirty that many fish and insects died and the otters couldn'd find anything to eat. But today there is lots of food for them ...(5)... the rivers are clean again.",
                     questions: [
                         { id: "r4_1", q: "Câu (1) điền từ gì?", options: ["at", "near", "next"], correct: 1, exp: "Rái cá sống gần sông ngòi dùng giới từ 'near rivers'." },
-                        { id: "r4_2", q: "Câu (2) điền từ gì?", options: ["one", "an", "a"], correct: 1, exp: "Vận tốc trên mỗi giờ: 'an hour' (vì 'hour' âm h câm)." },
+                        { id: "r4_2", q: "Câu (2) điền từ gì?", options: ["an", "one", "a"], correct: 0, exp: "Vận tốc trên mỗi giờ: 'an hour' (vì 'hour' âm h câm)." },
                         { id: "r4_3", q: "Câu (3) điền từ gì?", options: ["keeps", "keep", "kept"], correct: 0, exp: "Chủ ngữ số ít 'this' đi với động từ chia hiện tại đơn 'keeps'." },
-                        { id: "r4_4", q: "Câu (4) điền từ gì?", options: ["since", "during", "for"], correct: 2, exp: "Chỉ khoảng thời gian 'for several minutes' (trong vài phút)." },
+                        { id: "r4_4", q: "Câu (4) điền từ gì?", options: ["since", "for", "during"], correct: 1, exp: "Chỉ khoảng thời gian 'for several minutes' (trong vài phút)." },
                         { id: "r4_5", q: "Câu (5) điền từ gì?", options: ["after", "because", "when"], correct: 1, exp: "Liên từ giải thích nguyên nhân 'because the rivers are clean again'." }
                     ]
                 },
@@ -611,7 +611,7 @@
                     passage: "We can find crocodiles in tropical parts of the world, for example Africa, South America and Northern Australia. They spend most of the time ...(1)... slow-moving water but they can move fast through the water and on land. You often see crocodiles together in large groups. They ...(2)... everything they catch, ...(3)... fish, birds and small animals. And sometimes they make a meal of large animals or even people. There are ...(4)... than ten types of crocodile. They all have very sharp teeth. They often lose their teeth, but soon get new ones. Crocodiles are usually about 3.5 metres long, but some are much bigger. Crocodiles live ...(5)... a long time. The oldest one kept in a zoo was 66 years old.",
                     questions: [
                         { id: "r5_1", q: "Câu (1) điền từ gì?", options: ["in", "on", "at"], correct: 0, exp: "Dành thời gian ở trong nước dùng 'in slow-moving water'." },
-                        { id: "r5_2", q: "Câu (2) điền từ gì?", options: ["eats", "eat", "ate"], correct: 1, exp: "Chủ ngữ 'They' số nhiều đi với động từ nguyên thể 'eat'." },
+                        { id: "r5_2", q: "Câu (2) điền từ gì?", options: ["eat", "eats", "ate"], correct: 0, exp: "Chủ ngữ 'They' số nhiều đi với động từ nguyên thể 'eat'." },
                         { id: "r5_3", q: "Câu (3) điền từ gì?", options: ["by", "like", "to"], correct: 1, exp: "Đưa ra ví dụ dùng 'like' (như là cá, chim...)." },
                         { id: "r5_4", q: "Câu (4) điền từ gì?", options: ["more", "most", "many"], correct: 0, exp: "Cấu trúc so sánh nhiều hơn 'more than ten types'." },
                         { id: "r5_5", q: "Câu (5) điền từ gì?", options: ["for", "since", "during"], correct: 0, exp: "Sống trong khoảng thời gian dài dùng 'live for a long time'." }
@@ -621,11 +621,11 @@
                     id: "r6", title: "THE HISTORY OF FARMING",
                     passage: "Before people started farming, they went to the forest to look for plants or fruit they could eat. This meant that people ...(1)... moving all the time to find food. But about 12,000 years ago, in Middle East, people ...(2)... to grow food. These people were the first farmers. Farming made it possible for people to stay in one place and slowly their villages got bigger. Some people in the villages became free to do other work, like making clothes, ...(3)... the farmers could grow food for everyone. Unfortunately, farming was difficult when the weather was bad and then some people did not get ...(4)... food to eat. Today, farmers ...(5)... grow more food and it travels thousands of kilometres from where it is grown to our homes.",
                     questions: [
-                        { id: "r6_1", q: "Câu (1) điền từ gì?", options: ["was", "been", "were"], correct: 2, exp: "Chủ ngữ 'people' chia quá khứ số nhiều 'were'." },
+                        { id: "r6_1", q: "Câu (1) điền từ gì?", options: ["were", "was", "been"], correct: 0, exp: "Chủ ngữ 'people' chia quá khứ số nhiều 'were'." },
                         { id: "r6_2", q: "Câu (2) điền từ gì?", options: ["began", "begin", "begun"], correct: 0, exp: "Hành động diễn ra 12.000 năm trước chia quá khứ đơn 'began'." },
-                        { id: "r6_3", q: "Câu (3) điền từ gì?", options: ["but", "or", "because"], correct: 2, exp: "Chỉ nguyên nhân lý do 'because the farmers could grow food...'." },
-                        { id: "r6_4", q: "Câu (4) điền từ gì?", options: ["enough", "all", "many"], correct: 0, exp: "Không có đủ đồ ăn dùng 'enough food'." },
-                        { id: "r6_5", q: "Câu (5) điền từ gì?", options: ["need", "can", "have"], correct: 1, exp: "Động từ khuyết thiếu chỉ khả năng hiện tại 'can grow more food'." }
+                        { id: "r6_3", q: "Câu (3) điền từ gì?", options: ["because", "but", "or"], correct: 0, exp: "Chỉ nguyên nhân lý do 'because the farmers could grow food...'." },
+                        { id: "r6_4", q: "Câu (4) điền từ gì?", options: ["all", "enough", "many"], correct: 1, exp: "Không có đủ đồ ăn dùng 'enough food'." },
+                        { id: "r6_5", q: "Câu (5) điền từ gì?", options: ["can", "need", "have"], correct: 0, exp: "Động từ khuyết thiếu chỉ khả năng hiện tại 'can grow more food'." }
                     ]
                 },
                 {
@@ -635,7 +635,7 @@
                         { id: "r7_1", q: "Câu (1) điền từ gì?", options: ["there", "here", "it"], correct: 0, exp: "Cấu trúc không có mái che 'there was no roof'." },
                         { id: "r7_2", q: "Câu (2) điền từ gì?", options: ["go", "going", "went"], correct: 1, exp: "Sau động từ 'love' đi với V-ing: 'loved going'." },
                         { id: "r7_3", q: "Câu (3) điền từ gì?", options: ["were", "was", "are"], correct: 0, exp: "Chủ ngữ 'All the actors' số nhiều ở quá khứ dùng 'were'." },
-                        { id: "r7_4", q: "Câu (4) điền từ gì?", options: ["any", "every", "some"], correct: 2, exp: "Một vài người ném đồ dùng 'some people'." },
+                        { id: "r7_4", q: "Câu (4) điền từ gì?", options: ["some", "any", "every"], correct: 0, exp: "Một vài người ném đồ dùng 'some people'." },
                         { id: "r7_5", q: "Câu (5) điền từ gì?", options: ["near", "next", "at"], correct: 0, exp: "Vị trí gần dòng sông dùng giới từ 'near the river'." }
                     ]
                 },
@@ -643,22 +643,22 @@
                     id: "r8", title: "TIGERS",
                     passage: "Tigers are the largest cats of all. A hundred years ago 100,000 tigers lived across Asia, but today ...(1)...are only about 6000 with many living in zoos around the world. Tigers usually live in forests but some are found in wetter areas. Most of them live ...(2)... 12 to 18 years, but in zoos they can live until they are 25. The coats of ...(3)... beautiful animals are orange and black but, surprisingly, no two cats are ever the ...(4)... .They look for food at night, and will eat fish and birds as well as larger animals. Tigers are different from most cats because they like water. They are strong swimmers, and often go into rivers when the weather gets ...(5)... hot.",
                     questions: [
-                        { id: "r8_1", q: "Câu (1) điền từ gì?", options: ["that", "it", "there"], correct: 2, exp: "Cấu trúc 'there are only about 6000' (chỉ còn khoảng 6000 con)." },
+                        { id: "r8_1", q: "Câu (1) điền từ gì?", options: ["there", "that", "it"], correct: 0, exp: "Cấu trúc 'there are only about 6000' (chỉ còn khoảng 6000 con)." },
                         { id: "r8_2", q: "Câu (2) điền từ gì?", options: ["from", "in", "through"], correct: 0, exp: "Cụm chỉ khoảng 'from 12 to 18 years' (từ 12 đến 18 năm)." },
                         { id: "r8_3", q: "Câu (3) điền từ gì?", options: ["these", "those", "this"], correct: 0, exp: "Đại từ chỉ định đi với danh từ số nhiều 'these beautiful animals'." },
                         { id: "r8_4", q: "Câu (4) điền từ gì?", options: ["same", "one", "other"], correct: 0, exp: "Cụm từ 'the same' (giống hệt nhau)." },
-                        { id: "r8_5", q: "Câu (5) điền từ gì?", options: ["such", "too", "enough"], correct: 1, exp: "Chỉ mức độ quá nóng 'gets too hot'." }
+                        { id: "r8_5", q: "Câu (5) điền từ gì?", options: ["too", "such", "enough"], correct: 0, exp: "Chỉ mức độ quá nóng 'gets too hot'." }
                     ]
                 },
                 {
                     id: "r9", title: "THE HISTORY OF HORSE RACING",
                     passage: "From the first history books ever written, it is clear that horse racing has always been an important sport. It started in Central Asia about 4,500 years ...(1)... and was a favourite sport in both Greek and Roman times. Modern horse racing began when Arab horses were brought to Europe ...(2)... the 12 century. At first, races were long and ....(3)... just two horses, but at the beginning of the 18th century this changed. Races became much shorter and had several horses running against ...(4)... other. Today, horse racing is watched by more people than ...(5)... other sport in the USA, except baseball. It is also very popular in other parts of the world.",
                     questions: [
-                        { id: "r9_1", q: "Câu (1) điền từ gì?", options: ["before", "yet", "ago"], correct: 2, exp: "Thời gian trong quá khứ đi với 'ago' (4,500 years ago)." },
+                        { id: "r9_1", q: "Câu (1) điền từ gì?", options: ["ago", "before", "yet"], correct: 0, exp: "Thời gian trong quá khứ đi với 'ago' (4,500 years ago)." },
                         { id: "r9_2", q: "Câu (2) điền từ gì?", options: ["in", "on", "for"], correct: 0, exp: "Giới từ đi với thế kỷ 'in the 12th century'." },
-                        { id: "r9_3", q: "Câu (3) điền từ gì?", options: ["opposite", "through", "between"], correct: 2, exp: "Cuộc đua giữa 2 con ngựa dùng 'between just two horses'." },
-                        { id: "r9_4", q: "Câu (4) điền từ gì?", options: ["one", "each", "every"], correct: 1, exp: "Cụm từ 'against each other' (đua tranh lẫn nhau)." },
-                        { id: "r9_5", q: "Câu (5) điền từ gì?", options: ["some", "any", "all"], correct: 1, exp: "Cấu trúc so sánh hơn 'than any other sport'." }
+                        { id: "r9_3", q: "Câu (3) điền từ gì?", options: ["between", "opposite", "through"], correct: 0, exp: "Cuộc đua giữa 2 con ngựa dùng 'between just two horses'." },
+                        { id: "r9_4", q: "Câu (4) điền từ gì?", options: ["each", "one", "every"], correct: 0, exp: "Cụm từ 'against each other' (đua tranh lẫn nhau)." },
+                        { id: "r9_5", q: "Câu (5) điền từ gì?", options: ["any", "some", "all"], correct: 0, exp: "Cấu trúc so sánh hơn 'than any other sport'." }
                     ]
                 },
                 {
@@ -666,10 +666,10 @@
                     passage: "Mount Fuji is called Fujisan in Japan. It is 3776 metres high and is visited ...(1)... people from all over the world. It is very beautiful mountain and many artists have used it in ...(2)... work. It is somtimes possible to see Mount Fuji from Tokyo, but often the weather is too cloudy to see it clearly. The ...(3)... time to see the mountain is during the colder months of the year, and ...(4)... the early morning and late evening. A very pleasant place to enjoy Mount Fuji from is Fuji Five Lake (Fujigoko) which is just north of the mountain. Mount Fuji is opened for climbing in July and August, but not at ...(5)... times of year.",
                     questions: [
                         { id: "r10_1", q: "Câu (1) điền từ gì?", options: ["by", "for", "with"], correct: 0, exp: "Câu bị động được ghé thăm bởi du khách: 'visited by people'." },
-                        { id: "r10_2", q: "Câu (2) điền từ gì?", options: ["his", "your", "their"], correct: 2, exp: "Tính từ sở hữu tương ứng chủ ngữ số nhiều 'artists' là 'their work'." },
-                        { id: "r10_3", q: "Câu (3) điền từ gì?", options: ["good", "better", "best"], correct: 2, exp: "Thời điểm tuyệt vời nhất dùng so sánh nhất 'The best time'." },
-                        { id: "r10_4", q: "Câu (4) điền từ gì?", options: ["on", "in", "at"], correct: 1, exp: "Vào buổi sáng sớm dùng giới từ 'in the early morning'." },
-                        { id: "r10_5", q: "Câu (5) điền từ gì?", options: ["another", "both", "other"], correct: 2, exp: "Các thời điểm khác trong năm dùng 'other times of year'." }
+                        { id: "r10_2", q: "Câu (2) điền từ gì?", options: ["their", "his", "your"], correct: 0, exp: "Tính từ sở hữu tương ứng chủ ngữ số nhiều 'artists' là 'their work'." },
+                        { id: "r10_3", q: "Câu (3) điền từ gì?", options: ["best", "good", "better"], correct: 0, exp: "Thời điểm tuyệt vời nhất dùng so sánh nhất 'The best time'." },
+                        { id: "r10_4", q: "Câu (4) điền từ gì?", options: ["in", "on", "at"], correct: 0, exp: "Vào buổi sáng sớm dùng giới từ 'in the early morning'." },
+                        { id: "r10_5", q: "Câu (5) điền từ gì?", options: ["other", "another", "both"], correct: 0, exp: "Các thời điểm khác trong năm dùng 'other times of year'." }
                     ]
                 }
             ],
@@ -709,7 +709,7 @@
         };
 
 
-        // 2. STATE MANAGEMENT VARIABLES
+        // STATE MANAGEMENT VARIABLES
         let currentMode = 'practice'; // 'practice' or 'exam'
         
         // Practice Mode State
@@ -731,7 +731,7 @@
         let examTimeSpent = 0;
 
 
-        // 3. INITIALIZATION
+        // INITIALIZATION
         window.onload = function() {
             loadPracticePart('grammar');
         };
@@ -754,7 +754,7 @@
         }
 
 
-        // 4. MODE SWITCHING
+        // MODE SWITCHING
         function switchMode(mode) {
             currentMode = mode;
             const practiceSec = document.getElementById('section-practice');
@@ -784,7 +784,7 @@
         }
 
 
-        // 5. PRACTICE MODE FUNCTIONS
+        // PRACTICE MODE FUNCTIONS
         function loadPracticePart(part) {
             practicePart = part;
             practiceIndex = 0;
@@ -1007,17 +1007,15 @@
         }
 
 
-        // 6. EXAM MODE FUNCTIONS
+        // EXAM MODE FUNCTIONS
         function generateExamQuestions(examId) {
             let selected = [];
 
             if (examId === 'random') {
-                // Shuffle helpers
                 const shuffle = arr => [...arr].sort(() => 0.5 - Math.random());
                 const selGrammar = shuffle(QUESTION_BANK.grammar).slice(0, 21);
                 const selVocab = shuffle(QUESTION_BANK.vocab).slice(0, 21);
                 
-                // Pick 2 random reading passages
                 const shuffledReadings = shuffle(QUESTION_BANK.reading).slice(0, 2);
                 let selReading = [];
                 shuffledReadings.forEach(r => {
@@ -1034,12 +1032,10 @@
 
                 selected = [...selGrammar, ...selVocab, ...selReading, ...selWriting];
             } else {
-                // Fixed preset exams 1-4 with predictable offset slice
                 const offset = (examId - 1) * 20;
                 const selGrammar = QUESTION_BANK.grammar.slice(offset, offset + 21);
                 const selVocab = QUESTION_BANK.vocab.slice(offset, offset + 21);
                 
-                // Fixed 2 passages per exam
                 const rIdx1 = (examId - 1) * 2 % 10;
                 const rIdx2 = (rIdx1 + 1) % 10;
                 const r1 = QUESTION_BANK.reading[rIdx1];
@@ -1092,7 +1088,7 @@
                 const timerText = document.getElementById('exam-timer-text');
                 timerText.innerText = formatted;
 
-                if (examTimeLeft <= 300) { // < 5 mins warning
+                if (examTimeLeft <= 300) {
                     document.getElementById('exam-timer-box').className = "flex items-center space-x-2 bg-rose-900 text-rose-300 font-mono font-bold px-3 py-1.5 rounded-lg text-sm sm:text-base border border-rose-700 shadow-inner animate-pulse";
                 }
 
@@ -1109,11 +1105,9 @@
             const qCard = document.getElementById('exam-question-card');
             const passageBox = document.getElementById('exam-passage-box');
 
-            // Answer counter text
             const answeredCount = Object.keys(examAnswers).length;
             document.getElementById('exam-counter-display').innerText = `Đã làm: ${answeredCount} / 60 câu`;
 
-            // Display reading passage if present
             if (q.passage) {
                 passageBox.classList.remove('hidden');
                 document.getElementById('exam-passage-title').innerText = `Bài đọc hiểu: ${q.passageTitle}`;
@@ -1124,7 +1118,6 @@
 
             document.getElementById('btn-exam-prev').disabled = (examIndex === 0);
 
-            // Update mark button state
             const markBtn = document.getElementById('btn-exam-mark');
             if (examMarked[examIndex]) {
                 markBtn.className = "px-3 py-1.5 border border-amber-500 bg-amber-500 text-white text-xs font-bold rounded-lg shadow transition flex items-center space-x-1";
@@ -1165,7 +1158,6 @@
                 });
                 html += `</div>`;
             } else {
-                // Writing sentence question in exam
                 html += `
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
                         <label class="block text-xs font-bold text-slate-500 uppercase">Nhập/Xem gợi ý câu trả lời hoàn chỉnh:</label>
@@ -1236,7 +1228,6 @@
                 const isDone = examAnswers.hasOwnProperty(idx);
                 const isMarked = !!examMarked[idx];
 
-                // Filter check
                 if (examFilter === 'done' && !isDone) return;
                 if (examFilter === 'undone' && isDone) return;
                 if (examFilter === 'marked' && !isMarked) return;
@@ -1290,14 +1281,12 @@
         function submitExam() {
             clearInterval(examTimerInterval);
 
-            // Grade Exam
             let correctCount = 0;
             examQuestions.forEach((q, idx) => {
                 const userAns = examAnswers[idx];
                 if (q.options) {
                     if (userAns === q.correct) correctCount++;
                 } else {
-                    // Writing sentence comparison
                     if (userAns && userAns.toLowerCase().replace(/\s+/g, '') === q.answer.toLowerCase().replace(/\s+/g, '')) {
                         correctCount++;
                     }
@@ -1309,7 +1298,6 @@
             const secsSpent = examTimeSpent % 60;
             const formattedTime = `${minsSpent.toString().padStart(2, '0')}:${secsSpent.toString().padStart(2, '0')}`;
 
-            // Show Result Panel
             document.getElementById('exam-active-panel').classList.add('hidden');
             document.getElementById('exam-result-panel').classList.remove('hidden');
 
@@ -1330,7 +1318,6 @@
                 badge.innerText = "⚠️ CHƯA ĐẠT - CẦN ÔN TẬP THÊM";
             }
 
-            // Render Questions Review
             const reviewContainer = document.getElementById('result-questions-list');
             reviewContainer.innerHTML = '';
 
@@ -1394,4 +1381,3 @@
     </script>
 </body>
 </html>
-
