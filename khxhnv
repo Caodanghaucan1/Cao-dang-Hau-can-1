@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Ôn Thi Trắc Nghiệm - Đặc Công Bộ 198</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Custom scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col antialiased">
+
+    <!-- Top Navigation Bar (Bright Elegant Theme) -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-500 p-2.5 rounded-xl text-white shadow-sm shadow-blue-200">
+                    <svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">HỆ THỐNG THI TRẮC NGHIỆM</h1>
+                    <p class="text-[11px] sm:text-xs text-slate-500">
+                        Tác giả website: <span class="font-bold text-slate-800">Huỳnh Văn Được - Đặc công bộ 198 - K53D</span>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Live Info Bar -->
+            <div id="exam-live-info" class="hidden flex items-center space-x-6">
+                <!-- Progress Bar -->
+                <div class="hidden md:block w-40 bg-slate-100 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div class="text-right">
+                    <span class="text-[10px] text-slate-400 font-medium block uppercase tracking-wider">Thời gian còn lại</span>
+                    <span id="timer-display" class="font-mono text-lg font-bold text-blue-600">90:00</span>
+                </div>
+                <button onclick="showSubmitConfirmModal()" class="bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all text-white font-bold px-4 py-2 rounded-xl text-xs sm:text-sm shadow-sm">
+                    Nộp Bài
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 flex flex-col justify-center">
+        
+        <!-- SECTION 1: WELCOME & CONFIGURATION DASHBOARD (Bright minimalist design) -->
+        <div id="config-panel" class="bg-white rounded-3xl shadow-sm border border-slate-200/70 p-6 sm:p-8 max-w-2xl mx-auto w-full my-6 space-y-6">
+            <div class="text-center space-y-3">
+                <span class="bg-blue-50 text-blue-600 text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider border border-blue-100">Cổng thi trắc nghiệm trực tuyến</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">Ôn Luyện Đề Thi 250 Câu</h2>
+                <p class="text-slate-500 text-sm max-w-md mx-auto">Hệ thống ôn luyện chất lượng cao dành riêng cho chiến sĩ. Tự động xáo trộn đề, hiển thị kết quả và chấm điểm thông minh.</p>
+            </div>
+
+            <!-- Profile Badge -->
+            <div class="bg-slate-50/80 rounded-2xl p-4 border border-slate-150 flex items-center space-x-4">
+                <div class="bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center font-extrabold text-lg shadow-sm">
+                    198
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 text-sm sm:text-base">Huỳnh Văn Được</h4>
+                    <p class="text-xs text-slate-500">Đặc công bộ 198 - Lớp K53D</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Mode Selection -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Chế độ thi</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setExamMode('test')" id="btn-mode-test" class="flex flex-col p-3 rounded-2xl border-2 border-blue-600 bg-blue-50/50 text-blue-900 transition-all text-left">
+                            <span class="font-bold text-sm">Thi Thử</span>
+                            <span class="text-[10px] text-blue-600 mt-1">Đồng hồ 90 phút, chấm điểm khi nộp</span>
+                        </button>
+                        <button onclick="setExamMode('practice')" id="btn-mode-practice" class="flex flex-col p-3 rounded-2xl border border-slate-200 hover:border-slate-300 transition-all text-left text-slate-600">
+                            <span class="font-bold text-sm text-slate-800">Luyện Tập</span>
+                            <span class="text-[10px] text-slate-500 mt-1">Xem đáp án đúng/sai ngay lập tức</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Range selection -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Số lượng câu hỏi</label>
+                    <select id="select-quantity" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-3 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                        <option value="20">Ngẫu nhiên 20 câu</option>
+                        <option value="50">Ngẫu nhiên 50 câu</option>
+                        <option value="100">Ngẫu nhiên 100 câu</option>
+                        <option value="250" selected>Tất cả 250 câu hỏi</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Advanced Configuration Toggles -->
+            <div class="border-t border-slate-100 pt-4 space-y-3">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Cài đặt đề thi</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <label class="flex items-center space-x-3 bg-slate-50/50 p-3 rounded-2xl border border-slate-200 cursor-pointer select-none hover:bg-slate-50 transition-all">
+                        <input type="checkbox" id="chk-shuffle-questions" checked class="w-4.5 h-4.5 text-blue-600 focus:ring-blue-500 border-slate-300 rounded">
+                        <div class="text-left">
+                            <span class="text-xs font-bold text-slate-700 block">Xáo trộn câu hỏi</span>
+                            <span class="text-[10px] text-slate-400 block">Xếp lại thứ tự ngẫu nhiên</span>
+                        </div>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-slate-50/50 p-3 rounded-2xl border border-slate-200 cursor-pointer select-none hover:bg-slate-50 transition-all">
+                        <input type="checkbox" id="chk-shuffle-options" checked class="w-4.5 h-4.5 text-blue-600 focus:ring-blue-500 border-slate-300 rounded">
+                        <div class="text-left">
+                            <span class="text-xs font-bold text-slate-700 block">Xáo trộn đáp án</span>
+                            <span class="text-[10px] text-slate-400 block">Tráo thứ tự các phương án A, B, C, D</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <button onclick="startExam()" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-md shadow-blue-100 text-center flex items-center justify-center space-x-2">
+                <span>Bắt đầu vào thi</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+
+
+        <!-- SECTION 2: EXAM INTERACTIVE LAYOUT -->
+        <div id="exam-panel" class="hidden flex-grow grid grid-cols-1 lg:grid-cols-4 gap-6 items-start my-4">
+            
+            <!-- Left Side: Navigation Sidebar -->
+            <div id="question-sidebar" class="hidden lg:block lg:col-span-1 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <h3 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Danh sách câu</h3>
+                    <span id="completed-badge" class="bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-0.5 rounded-full border border-blue-100">0/250</span>
+                </div>
+
+                <!-- Color legend -->
+                <div class="grid grid-cols-3 gap-1 mb-4 text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                    <div class="flex items-center space-x-1">
+                        <span class="w-2.5 h-2.5 rounded bg-slate-100 border border-slate-200 inline-block"></span>
+                        <span>Trống</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <span class="w-2.5 h-2.5 rounded bg-blue-600 inline-block"></span>
+                        <span>Đã chọn</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <span class="w-2.5 h-2.5 rounded bg-amber-400 inline-block"></span>
+                        <span>Xem lại</span>
+                    </div>
+                </div>
+
+                <!-- Lưới ô câu hỏi -->
+                <div id="sidebar-question-grid" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-1.5">
+                    <!-- Generated via JS -->
+                </div>
+            </div>
+
+            <!-- Right Side: Active Question Panel -->
+            <div class="lg:col-span-3 space-y-4">
+                
+                <!-- Quick Controls Block -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Đang trả lời câu hỏi số</span>
+                        <span id="current-index-badge" class="bg-slate-100 text-slate-800 font-extrabold px-3 py-1 rounded-xl text-sm">1</span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2">
+                        <!-- Flag Button -->
+                        <button onclick="toggleFlag()" id="btn-flag" class="flex items-center space-x-1 px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-all text-xs font-bold uppercase tracking-wider">
+                            <svg class="w-3.5 h-3.5 text-slate-400" id="flag-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                            <span id="flag-text">Xem lại sau</span>
+                        </button>
+
+                        <!-- Mobile view Grid toggle -->
+                        <button onclick="toggleMobileGrid()" class="lg:hidden flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider">
+                            <span>Mở bản đồ</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Question Content Card -->
+                <div id="active-question-card" class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm min-h-[350px] flex flex-col justify-between space-y-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between">
+                            <span id="question-original-index" class="text-[10px] font-extrabold text-blue-500 bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider">Câu hỏi gốc số 1</span>
+                        </div>
+                        <h3 id="question-text" class="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
+                            Đang tải câu hỏi...
+                        </h3>
+                    </div>
+
+                    <!-- Answers Options Stack -->
+                    <div id="options-container" class="space-y-3">
+                        <!-- Rendered via JS -->
+                    </div>
+
+                    <!-- Navigator Controls inside Card -->
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-5 mt-6">
+                        <button onclick="navigateQuestion(-1)" id="btn-prev" class="flex items-center space-x-1.5 px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 transition-all text-sm font-semibold">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                            <span>Câu trước</span>
+                        </button>
+                        <button onclick="navigateQuestion(1)" id="btn-next" class="flex items-center space-x-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-all text-sm font-semibold ml-auto shadow-sm">
+                            <span>Câu tiếp</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SECTION 3: FINAL SCORE REPORT & REVIEW -->
+        <div id="results-panel" class="hidden max-w-4xl mx-auto w-full space-y-6 my-6">
+            
+            <!-- White Scoreboard Card with Premium Gradient Accents -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-3">
+                
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-8 flex flex-col justify-center items-center text-center space-y-3">
+                    <span class="text-blue-100 text-[10px] font-extrabold uppercase tracking-wider">Điểm Số Đạt Được</span>
+                    <div class="relative flex items-center justify-center">
+                        <div class="w-32 h-32 rounded-full border-4 border-white/20 bg-white/5 flex flex-col items-center justify-center">
+                            <span id="final-score" class="text-4xl font-black text-white">9.50</span>
+                            <span class="text-[10px] text-blue-100 font-bold uppercase tracking-wider mt-0.5">Thang điểm 10</span>
+                        </div>
+                    </div>
+                    <span id="score-rating" class="bg-white/20 text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full border border-white/10 uppercase tracking-widest">XUẤT SẮC</span>
+                </div>
+
+                <div class="p-6 sm:p-8 md:col-span-2 flex flex-col justify-between space-y-6">
+                    <div class="space-y-2">
+                        <h3 class="font-extrabold text-xl text-slate-950">Chúc mừng bạn đã hoàn thành bài thi!</h3>
+                        <p class="text-xs text-slate-500">Thông tin học viên: <span class="font-bold text-slate-700">Huỳnh Văn Được - Đặc công bộ 198 - K53D</span></p>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-150 text-center">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Trả lời đúng</span>
+                            <span id="stats-correct" class="text-xl font-extrabold text-emerald-600 mt-1 block">230 câu</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-150 text-center">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Trả lời sai</span>
+                            <span id="stats-incorrect" class="text-xl font-extrabold text-rose-500 mt-1 block">15 câu</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-150 text-center col-span-2 sm:col-span-1">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Thời gian thi</span>
+                            <span id="stats-time-spent" class="text-xl font-extrabold text-slate-700 mt-1 block">12:35</span>
+                        </div>
+                    </div>
+
+                    <!-- Action buttons -->
+                    <div class="flex flex-wrap gap-3 items-center pt-4 border-t border-slate-100">
+                        <button onclick="resetApp()" class="flex-1 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-md shadow-blue-150 text-sm text-center">
+                            Làm Đề Thi Mới
+                        </button>
+                        <button onclick="toggleShareSection()" class="flex-1 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 font-bold py-3 px-6 rounded-xl transition-all text-sm text-center">
+                            Chia sẻ đề thi
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Share QR code card -->
+            <div id="share-card" class="hidden bg-slate-100 border border-slate-200 text-slate-800 rounded-3xl p-6 shadow-sm items-center justify-between gap-6 flex-wrap md:flex">
+                <div class="space-y-2 max-w-md">
+                    <h4 class="text-base font-extrabold text-slate-900">Chia sẻ bộ câu hỏi cho bạn bè</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">Gửi nhanh liên kết này cho đồng đội khác để cùng ôn luyện kiến thức. Thiết bị di động có thể quét mã QR bên cạnh để truy cập tức thì.</p>
+                    <div class="pt-2">
+                        <button onclick="copyAppLink()" class="bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all inline-flex items-center space-x-1.5 shadow-sm">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                            <span>Sao chép Link đề thi</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col items-center space-y-1.5 mx-auto md:mx-0">
+                    <img id="qr-code-img" class="w-24 h-24" src="" alt="QR Code">
+                    <span class="text-[9px] text-slate-400 font-bold tracking-wider uppercase">Quét Để Thi Thử</span>
+                </div>
+            </div>
+
+            <!-- Detailed Answer Keys Review Section -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h3 class="font-extrabold text-slate-900 text-lg">Chi tiết các câu đã thi</h3>
+                        <p class="text-xs text-slate-400">Xem lại những lỗi sai để ghi nhớ tốt hơn.</p>
+                    </div>
+
+                    <!-- Filter badges -->
+                    <div class="flex flex-wrap gap-1.5">
+                        <button onclick="filterReviewList('all')" id="filter-all" class="bg-slate-900 text-white text-xs font-bold px-3.5 py-1.5 rounded-full transition-all">Tất cả</button>
+                        <button onclick="filterReviewList('correct')" id="filter-correct" class="bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all">Câu đúng</button>
+                        <button onclick="filterReviewList('incorrect')" id="filter-incorrect" class="bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-700 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all">Câu sai</button>
+                    </div>
+                </div>
+
+                <div id="review-list-container" class="space-y-4">
+                    <!-- Reviewed cards dynamically generated -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Global Floating Mobile Grid Sheet -->
+    <div id="mobile-grid-drawer" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 transition-all duration-300 hidden flex justify-end">
+        <div class="bg-white w-80 max-w-full h-full p-6 shadow-2xl flex flex-col space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-800 text-sm uppercase tracking-wider">Bản đồ câu hỏi</h3>
+                <button onclick="toggleMobileGrid()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div id="mobile-grid-content" class="flex-grow overflow-y-auto grid grid-cols-4 gap-2 pr-1">
+                <!-- Mobile Grid items render here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Submit Modal -->
+    <div id="submit-confirm-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden animate-fade-in">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl space-y-4 border border-slate-250 text-center">
+            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl">
+                ❓
+            </div>
+            <div class="space-y-1">
+                <h4 class="font-extrabold text-slate-900 text-base">Xác nhận nộp bài?</h4>
+                <p class="text-xs text-slate-500 leading-relaxed">Đồng chí đã chắc chắn muốn hoàn thành bài thi này? Vui lòng soát lại kĩ trước khi nộp.</p>
+            </div>
+            
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-600 flex justify-around font-semibold">
+                <div>Đã làm: <span id="modal-stat-done" class="font-bold text-blue-600">0</span></div>
+                <div>Cần xem lại: <span id="modal-stat-flagged" class="font-bold text-amber-500">0</span></div>
+                <div>Bỏ trống: <span id="modal-stat-left" class="font-bold text-rose-500">0</span></div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="closeSubmitConfirmModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition-all">
+                    Làm tiếp
+                </button>
+                <button onclick="submitExam()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm transition-all shadow-sm">
+                    Nộp bài
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast box -->
+    <div id="toast-message" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-xl transition-all duration-300 translate-y-10 opacity-0 pointer-events-none flex items-center space-x-2">
+        <span id="toast-text">Đã sao chép liên kết!</span>
+    </div>
+
+    <!-- Footnote with Updated Requested Author Tag -->
+    <footer class="bg-white border-t border-slate-200 text-center py-5 text-xs text-slate-500 mt-12 shadow-inner">
+        <p class="font-semibold text-slate-600">Tác giả website : Huỳnh Văn Được - Đặc công bộ 198 - K53D</p>
+    </footer>
+
+    <!-- App Logic Scripts and Full 250 Questions Database -->
+    <script>
+        // THE FULL ORIGINAL 250 QUESTIONS DATABASE
+        const RAW_QUESTIONS = [
+            {q: "Đại hội VI của Đảng xác định tập trung thực hiện bao nhiêu chương trình kinh tế lớn?", a: ["Hai chương trình lớn", "Ba chương trình lớn", "Bốn chương trình lớn", "Năm chương trình lớn"], c: 1, sIdx: 1},
+            {q: "Ba chương trình kinh tế lớn của Đại hội VI gồm:", a: ["Lương thực, giáo dục, y tế", "Công nghiệp, dịch vụ, du lịch", "Lương thực, tiêu dùng, xuất khẩu", "Thương mại, đầu tư, tài chính"], c: 2, sIdx: 2},
+            {q: "Theo Đại hội VI, cải tạo xã hội chủ nghĩa là nhiệm vụ:", a: ["Ngắn hạn, tạm thời", "Thường xuyên, liên tục", "Theo từng giai đoạn", "Khi đủ điều kiện"], c: 1, sIdx: 3},
+            {q: "Đại hội VI chủ trương xóa bỏ cơ chế quản lý kinh tế nào?", a: ["Cơ chế thị trường mở", "Bao cấp tập trung", "Hạch toán doanh nghiệp", "Quản lý theo luật"], c: 1, sIdx: 4},
+            {q: "Theo Đại hội VI, phát triển kinh tế phải gắn với:", a: ["Phát triển đô thị", "Giải quyết xã hội", "Mở rộng quân đội", "Tăng thu ngân sách"], c: 1, sIdx: 5},
+            {q: "Nghị quyết 10 năm 1986 còn được gọi là:", a: ["Khoán 100", "Khoán 05", "Khoán 10", "Khoán 20"], c: 2, sIdx: 6},
+            {q: "Theo Nghị quyết 10 năm 1988, đơn vị kinh tế độc lập là:", a: ["Hợp tác xã", "Doanh nghiệp nhà nước", "Hộ xã viên", "Tổ sản xuất"], c: 2, sIdx: 7},
+            {q: "Đại hội VI xác định nền kinh tế nước ta vận hành theo:", a: ["Cơ chế bao cấp", "Kế hoạch hóa cứng", "Cơ cơ thị trường", "Quản lý tập trung"], c: 2, sIdx: 8},
+            {q: "Đại hội VII thực hiện chính sách đối ngoại:", a: ["Khép kín thị trường", "Đa dạng, đa phương", "Chỉ hợp tác ASEAN", "Chỉ hợp tác châu Á"], c: 1, sIdx: 9},
+            {q: "Đại hội VIII đổi tên \"kinh tế quốc doanh\" thành:", a: ["Kinh tế công cộng", "Kinh tế nhà nước", "Kinh tế hỗn hợp", "Kinh tế tập thể"], c: 1, sIdx: 10},
+            {q: "Đại hội IX xác định nhiệm vụ đầu tiên trong phát triển kinh tế là:", a: ["Phát triển du lịch", "Đẩy mạnh công nghiệp hóa", "Mở rộng xuất khẩu", "Tăng đầu tư công"], c: 1, sIdx: 11},
+            {q: "Chiến lược phát triển kinh tế-xã hội 10 năm theo Đại hội IX, 2001 - 2010 hướng tới mục tiêu:", a: ["Trở thành nước phát triển", "Trở thành nước công nghiệp", "Trở thành nước giàu nhất", "Trở thành nước dịch vụ"], c: 1, sIdx: 12},
+            {q: "Đại hội X nhấn mạnh tiếp tục hoàn thiện:", a: ["Thể chế giáo dục quốc gia", "Thể chế kinh tế thị trường", "Hệ thống chính quyền số", "Cơ chế bao cấp mới"], c: 1, sIdx: 13},
+            {q: "Một trong ba đột phá chiến lược của Đại hội XI là:", a: ["Mở rộng xuất khẩu", "Phát triển nguồn nhân lực", "Giảm thuế doanh nghiệp", "Tăng vốn đầu tư nước"], c: 1, sIdx: 14},
+            {q: "Theo Đại hội XII, phát triển kinh tế phải bảo đảm:", a: ["Nhanh và bền vững", "Chậm nhưng chắc", "Chỉ tăng trưởng cao", "Chỉ mở rộng đầu tư"], c: 0, sIdx: 15},
+            {q: "Đại hội VI mở đầu công cuộc:", a: ["Cải cách hành chính", "Đổi mới toàn diện", "Công nghiệp hóa mới", "Hội nhập quốc tế"], c: 1, sIdx: 16},
+            {q: "Đại hội VII thông qua văn kiện nào?", a: ["Hiến pháp năm 1992", "Cương lĩnh năm 1991", "Luật Đất đai mới", "Chiến lược 2021"], c: 1, sIdx: 17},
+            {q: "Theo Đại hội IX của Đảng, Nhà nước Cộng hòa xã hội chủ nghĩa Việt Nam được xác định là gì?", a: ["Cơ quan quản lý nền kinh tế quốc dân.", "Công cụ chủ yếu để thực hiện quyền làm chủ của nhân dân.", "Tổ chức xã hội - nghề nghiệp của nhân dân.", "Bộ máy hành chính thực hiện chức năng quản lý nhà nước."], c: 1, sIdx: 18},
+            {q: "Theo Cương lĩnh (bổ sung, phát triển năm 2011), đặc trưng đầu tiên của xã hội xã hội chủ nghĩa ở Việt Nam là gì?", a: ["Giàu mạnh, hiện đại", "Dân giàu, nước mạnh, dân chủ, công bằng, văn minh", "Công nghiệp phát triển", "Hội nhập toàn diện"], c: 1, sIdx: 19},
+            {q: "Đại hội XII xác định nhiệm vụ trọng tâm của đổi mới hệ thống chính trị là:", a: ["Đổi mới giáo dục", "Hoàn thiện Nhà nước pháp quyền", "Mở rộng đối ngoại", "Phát triển kinh tế số"], c: 1, sIdx: 20},
+            {q: "Theo Đại hội XIII, phát triển kinh tế - xã hội là nhiệm vụ:", a: ["Trọng tâm của đất nước", "Quan trọng của địa phương", "Thường xuyên của ngành", "Chủ yếu của doanh nghiệp"], c: 0, sIdx: 21},
+            {q: "Theo Đại hội XIII, nhiệm vụ then chốt là:", a: ["Phát triển kinh tế", "Xây dựng Đảng", "Phát triển văn hóa", "Mở rộng đối ngoại"], c: 1, sIdx: 22},
+            {q: "Theo Đại hội XIII, nền tảng tinh thần của xã hội là:", a: ["Kinh tế phát triển", "Văn hóa dân tộc", "Quốc phòng toàn dân", "Đối ngoại nhân dân"], c: 1, sIdx: 23},
+            {q: "Theo Đại hội XIII, nguồn lực quan trọng nhất là:", a: ["Vốn đầu tư", "Khoa học kỹ thuật", "Nguồn lực con người", "Tài nguyên thiên nhiên"], c: 2, sIdx: 24},
+            {q: "Theo Đại hội IX, lực lượng nòng cốt bảo vệ Tổ quốc là:", a: ["Thanh niên, sinh viên", "Quân đội, Công an", "Mặt trận, đoàn thể", "Doanh nghiệp, nhân dân"], c: 1, sIdx: 25},
+            {q: "Theo Đại hội XI, cần chủ động ứng phó với:", a: ["Khủng hoảng tài chính", "An ninh phi truyền thống", "Thiếu lao động trẻ", "Suy gia tăng dân số"], c: 1, sIdx: 26},
+            {q: "Theo Đại hội XIII, giải quyết tranh chấp quốc tế bằng:", a: ["Biện pháp quân sự", "Biện pháp hòa bình", "Biện pháp cấm vận", "Biện pháp kinh tế"], c: 1, sIdx: 27},
+            {q: "Theo Đại hội VII, phương châm đối ngoại là:", a: ["Hợp tác có chọn lọc", "Là bạn với mọi nước", "Chỉ hợp tác khu vực", "Mở cửa từng bước"], c: 1, sIdx: 28},
+            {q: "Đại hội IX phát triển phương châm đối ngoại thành:", a: ["Việt Nam mở cửa toàn diện", "Việt Nam là đối tác tin cậy", "Việt Nam ưu tiên ASEAN", "Việt Nam phát triển độc lập"], c: 1, sIdx: 29},
+            {q: "Theo Đại hội XIII, nền ngoại giao Việt Nam gồm mấy trụ cột?", a: ["Hai trụ cột chính", "Ba trụ cột chính", "Cốn trụ cột chính", "Năm trụ cột chính"], c: 1, sIdx: 30},
+            {q: "Theo nghĩa rộng, tự nhiên được hiểu là:", a: ["Toàn bộ thế giới vật chất", "Môi trường của con người", "Hệ thống sinh vật sống", "Không gian địa lý"], c: 0, sIdx: 31},
+            {q: "Theo nghĩa rộng, xã hội được hiểu là", a: ["Một bộ phận đặc thù của tự nhiên, là hình thái vận động cao nhất của thế giới vật chất.", "Một dạng sinh vật.", "Một hiện tượng địa lý.", "Một quy luật sinh học."], c: 0, sIdx: 32},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, sự ra đời của con người là kết quả của", a: ["Quá trình tiến hóa của giới tự nhiên kết hợp với vai trò quyết định của lao động.", "Lao động và giáo dục.", "Tự nhiên và văn hóa.", "Sinh học và xã hội."], c: 0, sIdx: 33},
+            {q: "Yếu tố giữ vai trò gắn kết tự nhiên và xã hội là:", a: ["Lao động sản xuất", "Khoa học kỹ thuật", "Nhà nước xã hội", "Quan hệ chính trị"], c: 0, sIdx: 34},
+            {q: "Theo nghĩa rộng, xã hội là:", a: ["Hình thái vận động cao nhất", "Một cộng đồng dân cư", "Một quốc gia độc lập", "Một tổ chức xã hội"], c: 0, sIdx: 35},
+            {q: "Theo quan điểm chủ nghĩa Mác - Lênin, xã hội là:", a: ["Tổng hòa các quan hệ xã hội giữa con người", "Cộng đồng các dân tộc", "Tập hợp các cá nhân", "Liên minh các giai cấp"], c: 0, sIdx: 36},
+            {q: "Cơ sở hình thành và phát triển xã hội là:", a: ["Lao động sản xuất", "Phát triển dân số", "Điều kiện tự nhiên", "Hoạt động chính trị"], c: 0, sIdx: 37},
+            {q: "Theo nghĩa hẹp, xã hội được hiểu là:", a: ["Hệ thống xã hội cụ thể", "Toàn bộ loài người", "Thế giới vật chất", "Môi trường tự nhiên"], c: 0, sIdx: 38},
+            {q: "Vai trò của tự nhiên đối với xã hội là:", a: ["Điều kiện tồn tại", "Mục tiêu phát triển", "Động lực chính trị", "Phương thức quản lý"], c: 0, sIdx: 39},
+            {q: "Theo quan điểm chủ nghĩa Mác - Lênin, công nhân không thể tạo ra cái gì nếu thiếu:", a: ["Giới tự nhiên", "Công cụ lao động", "Nhà máy sản xuất", "Khoa học kỹ thuật"], c: 0, sIdx: 40},
+            {q: "Tự nhiên tác động đến xã hội trước hết với tư cách là:", a: ["Môi trường sống", "Đối tượng quản lý", "Hệ thống chính trị", "Quan hệ xã hội"], c: 0, sIdx: 41},
+            {q: "Sự tác động của tự nhiên đối với xã hội có thể:", a: ["Thuận lợi hoặc khó khăn", "Tích cực hoặc tiêu cực", "Trực tiếp hoặc gián tiếp", "Nhanh hoặc chậm"], c: 0, sIdx: 42},
+            {q: "Lịch sử xã hội được xem là:", a: ["Sự tiếp tục của tự nhiên", "Sự thay thế tự nhiên", "Sự phủ định tự nhiên", "Sự tách rời tự nhiên"], c: 0, sIdx: 43},
+            {q: "Xã hội tác động vào tự nhiên thông qua:", a: ["Hoạt động có ý thức", "Quy luật sinh học", "Quá trình tiến hóa", "Biến đổi khí hậu"], c: 0, sIdx: 44},
+            {q: "Theo chủ nghĩa Mác - Lênin, sản xuất vật chất được hiểu là gì?", a: ["Phương thức con người thực hiện sự trao đổi chất với tự nhiên", "Hình thức phân phối của cải", "Động lực phát triển dân số", "Cơ sở quản lý nhà nước"], c: 0, sIdx: 45},
+            {q: "Nếu con người tác động đúng quy luật vào tự nhiên thì sẽ:", a: ["Làm tự nhiên phong phú hơn", "Làm tự nhiên thu hẹp lại", "Làm xã hội tách tự nhiên", "Làm quy luật mất đi"], c: 0, sIdx: 46},
+            {q: "Nếu con người tác động không đúng quy luật vào tự nhiên sẽ:", a: ["Tự nhiên phát triển nhanh", "Phá vỡ cân bằng sinh thái", "Xã hội phát triển hơn", "Tài nguyên tăng lên"], c: 1, sIdx: 47},
+            {q: "Theo quan điểm chủ nghĩa Mác - Lênin, con người làm chủ tự nhiên bằng cách:", a: ["Chinh phục mọi quy luật", "Nhận thức đúng quy luật", "Cải tạo toàn bộ tự nhiên", "Thay thế giới tự nhiên"], c: 1, sIdx: 48},
+            {q: "Tính chất tác động của xã hội đối với tự nhiên phụ thuộc trước hết vào:", a: ["Điều kiện địa lý", "Chế độ xã hội", "Khí hậu tự nhiên", "Quy mô dân số"], c: 1, sIdx: 49},
+            {q: "Sự tác động của xã hội vào tự nhiên còn phụ thuộc vào:", a: ["Trình độ nhận thức", "Diện tích lãnh thổ", "Nguồn nước ngọt", "Điều kiện thời tiết"], c: 0, sIdx: 50},
+            {q: "Trong hoạt động quân sự, điều kiện tự nhiên ảnh hưởng trực tiếp đến:", a: ["Tổ chức bộ máy", "Phương án tác chiến", "Chính sách quốc phòng", "Quan hệ quốc tế"], c: 1, sIdx: 51},
+            {q: "Nguồn dự trữ nguyên liệu chiến lược phục vụ quốc phòng là:", a: ["Nguồn nhân lực", "Điều kiện tự nhiên", "Hệ thống chính trị", "Khoa học xã hội"], c: 1, sIdx: 52},
+            {q: "Người chỉ huy quân sự giỏi cần:", a: ["Đánh giá đúng tự nhiên", "Chỉ dựa vào vũ khí", "Phụ thuộc địa hình", "Dựa hoàn toàn công nghệ"], c: 0, sIdx: 53},
+            {q: "Theo chủ nghĩa Mác - Lênin, chiến tranh phi nghĩa:", a: ["Bảo vệ hòa bình", "Tàn phá môi trường", "Thúc đẩy phát triển", "Tăng cân bằng sinh thái"], c: 1, sIdx: 54},
+            {q: "Chiến tranh chính nghĩa được ủng hộ vì:", a: ["Bảo vệ hòa bình", "Mở rộng lãnh thổ", "Tăng tài nguyên", "Phát triển công nghiệp"], c: 0, sIdx: 55},
+            {q: "Môi trường sinh thái là:", a: ["Môi trường tự nhiên - xã hội", "Môi trường địa lý", "Môi trường sinh học", "Môi trường khí hậu"], c: 0, sIdx: 56},
+            {q: "Một trong những vấn đề môi trường toàn cầu hiện nay là:", a: ["Hiệu ứng nhà kính", "Gia tăng mưa phùn", "Mực nước sông giảm", "Mở rộng đồng bằng"], c: 0, sIdx: 57},
+            {q: "Theo chủ nghĩa Mác - Lênin, dân số được xem là gì đối với sự tồn tại và phát triển của xã hội?", a: ["Quy luật xã hội", "Điều kiện tồn tại xã hội", "Hình thái kinh tế", "Quan hệ sản xuất"], c: 1, sIdx: 58},
+            {q: "Đảng và Nhà nước ta coi giảm tốc độ tăng dân số là:", a: ["Mục tiêu lâu dài", "Quốc sách quan trọng", "Chính sách tạm thời", "Nhiệm vụ địa phương"], c: 1, sIdx: 59},
+            {q: "Theo Đại hội XIII, cần nâng cao chất lượng dân số gắn với:", a: ["Chất lượng nguồn nhân lực", "Tăng diện tích đất ở", "Mở rộng đô thị hóa", "Phát triển công nghiệp"], c: 0, sIdx: 60},
+            {q: "Sản xuất hàng hóa là kiểu tổ chức kinh tế mà sản phẩm được sản xuất ra để", a: ["tiêu dùng trực tiếp.", "dự trữ lâu dài.", "bán trên thị trường.", "phân phối miễn phí."], c: 2, sIdx: 61},
+            {q: "Điều kiện đầu tiên để sản xuất hàng hóa ra đời là", a: ["có tiền tệ.", "phân công lao động xã hội.", "có nhà nước.", "có ngân hàng."], c: 1, sIdx: 62},
+            {q: "Điều kiện thứ hai để sản xuất hàng hóa ra đời là", a: ["có sở hữu khác nhau về tư liệu sản xuất.", "có nhiều doanh nghiệp.", "có thị trường quốc tế.", "có khoa học kỹ thuật."], c: 0, sIdx: 63},
+            {q: "Hàng hóa là", a: ["mọi sản phẩm lao động.", "sản phẩm để sử dụng cá nhân.", "sản phẩm lao động dùng để trao đổi, mua bán.", "sản phẩm của tự nhiên."], c: 2, sIdx: 64},
+            {q: "Hai thuộc tính của hàng hóa là", a: ["giá trị và giá trị sử dụng.", "giá cả và lợi nhuận.", "cung và cầu.", "lao động và tư bản."], c: 0, sIdx: 65},
+            {q: "Giá trị sử dụng của hàng hóa là", a: ["chi phí sản xuất.", "công dụng của hàng hóa.", "giá bán trên thị trường.", "lợi nhuận thu được."], c: 1, sIdx: 66},
+            {q: "Giá trị của hàng hóa là", a: ["công dụng của sản phẩm.", "lao động xã hội kết tinh trong hàng hóa.", "giá bán của hàng hóa.", "lợi nhuận của doanh nghiệp."], c: 1, sIdx: 67},
+            {q: "Theo kinh tế chính trị Mác – Lênin, tiền tệ được hiểu là", a: ["vật trao đổi bất kỳ.", "hàng hóa đặc biệt làm vật ngang giá chung.", "giấy do nhà nước phát hành.", "phương tiện thanh toán duy nhất."], c: 1, sIdx: 68},
+            {q: "Quy luật kinh tế cơ bản của sản xuất hàng hóa là", a: ["quy luật cạnh tranh.", "quy luật cung cầu.", "quy luật giá trị.", "quy luật lợi nhuận."], c: 2, sIdx: 69},
+            {q: "Theo kinh tế chính trị Mác – Lênin, chủ nghĩa tư bản chỉ ra đời khi có đủ điều kiện nào sau đây?", a: ["có tiền tệ.", "có hàng hóa.", "có lao động làm thuê và tiền vốn lớn.", "có thương mại quốc tế."], c: 2, sIdx: 70},
+            {q: "Hàng hóa đặc biệt tạo ra giá trị thặng dư là", a: ["máy móc.", "nguyên liệu.", "sức lao động.", "tiền tệ."], c: 2, sIdx: 71},
+            {q: "Sức lao động trở thành hàng hóa khi người lao động", a: ["có nhiều đất đai.", "không có tư liệu sản xuất.", "có vốn lớn.", "có nhiều máy móc."], c: 1, sIdx: 72},
+            {q: "Theo kinh tế chính trị Mác – Lênin, giá trị thặng dư là", a: ["phần giá trị do máy móc tạo ra.", "phần giá trị dôi ra ngoài giá trị sức lao động.", "tiền lương của công nhân.", "chi phí sản xuất."], c: 1, sIdx: 73},
+            {q: "Bản chất của chủ nghĩa tư bản là", a: ["cạnh tranh tự do.", "bóc lột giá trị thặng dư.", "phát triển thương mại.", "mở rộng thị trường."], c: 1, sIdx: 74},
+            {q: "Giá trị thặng dư tuyệt đối được tạo ra bằng cách", a: ["tăng năng suất lao động.", "kéo dài ngày lao động.", "giảm giá nguyên liệu.", "giảm quy mô sản xuất."], c: 1, sIdx: 75},
+            {q: "Giá trị thặng dư tương đối được tạo ra bằng cách", a: ["kéo dài ngày lao động.", "tăng năng suất lao động.", "giảm vốn đầu tư.", "tăng giá bán."], c: 1, sIdx: 76},
+            {q: "Quy luật kinh tế cơ bản của chủ nghĩa tư bản là", a: ["quy luật giá trị.", "quy luật cạnh tranh.", "quy luật giá trị thặng dư.", "quy luật cung cầu."], c: 2, sIdx: 77},
+            {q: "Tích lũy tư bản là", a: ["tăng tiền lương.", "tư bản hóa giá trị thặng dư.", "giảm chi phí sản xuất.", "mở rộng tiêu dùng."], c: 1, sIdx: 78},
+            {q: "Nguồn gốc duy nhất của tích lũy tư bản là", a: ["lợi nhuận thương nghiệp.", "giá trị thặng dư.", "tiền vay ngân hàng.", "địa tô."], c: 1, sIdx: 79},
+            {q: "Theo kinh tế chính trị Mác - Lênin, tuần hoàn của tư bản là", a: ["quá trình lưu thông tiền tệ.", "sự tuần hoàn của tư bản được lặp đi lặp lại một cách định kỳ", "hoạt động của ngân hàng.", "quá trình mua bán hàng hóa."], c: 1, sIdx: 80},
+            {q: "Chu chuyển tư bản là", a: ["tuần hoàn lặp lại có định kỳ.", "trao đổi hàng hóa.", "sản xuất hàng hóa.", "tích lũy vốn."], c: 0, sIdx: 81},
+            {q: "Chủ nghĩa tư bản phát triển qua", a: ["một giai đoạn.", "hai giai đoạn.", "ba giai đoạn.", "bốn giai đoạn."], c: 1, sIdx: 82},
+            {q: "Đặc điểm nổi bật của chủ nghĩa tư bản tự do cạnh tranh là", a: ["cạnh tranh giữ vai trò thống trị.", "nhà nước quản lý toàn bộ kinh tế.", "không có cạnh tranh.", "chỉ có doanh nghiệp nhà nước."], c: 0, sIdx: 83},
+            {q: "Đặc điểm đầu tiên của chủ nghĩa tư bản độc quyền là", a: ["xuất khẩu lao động.", "tập trung sản xuất và hình thành tổ chức độc quyền.", "quốc hữu hóa doanh nghiệp.", "xóa bỏ cạnh tranh."], c: 1, sIdx: 84},
+            {q: "Tư bản tài chính là sự kết hợp giữa", a: ["tư bản công nghiệp và nông nghiệp.", "tư bản ngân hàng và tư bản công nghiệp.", "tư bản thương nghiệp và nông nghiệp.", "tư bản nhà nước và tư nhân."], c: 1, sIdx: 85},
+            {q: "Xuất khẩu tư bản là", a: ["bán hàng hóa ra nước ngoài.", "đầu tư tư bản ra nước ngoài để thu lợi nhuận.", "xuất khẩu lao động.", "viện trợ kinh tế."], c: 1, sIdx: 86},
+            {q: "Mục đích trực tiếp của nền sản xuất tư bản chủ nghĩa là", a: ["Tạo ra nhiều hàng hóa.", "Thỏa mãn nhu cầu xã hội.", "Tạo ra giá trị thặng dư tối đa cho nhà tư bản.", "Mở rộng thị trường tiêu dùng."], c: 2, sIdx: 87},
+            {q: "Theo Chủ tịch Hồ Chí Minh, mục tiêu tổng quát của chủ nghĩa xã hội ở Việt Nam là", a: ["Dân giàu, nước mạnh, dân chủ, công bằng, văn minh.", "Giàu nhanh, mạnh sớm", "Kinh tế phát triển", "Công nghiệp hiện đại"], c: 0, sIdx: 88},
+            {q: "Theo Hồ Chí Minh, nhà nước xã hội chủ nghĩa là nhà nước:", a: ["Của Đảng lãnh đạo", "Của dân, do dân, vì dân", "Do Quốc hội quản lý", "Do Chính phủ điều hành"], c: 1, sIdx: 89},
+            {q: "Theo chủ nghĩa Mác - Lênin, xã hội loài người phát triển:", a: ["Theo ý chí người", "Theo ngẫu nhiên", "Theo lịch sử tự nhiên", "Theo khoa học kỹ thuật"], c: 2, sIdx: 90},
+            {q: "Theo chủ nghĩa Mác - Lênin, mâu thuẫn cơ bản của chủ nghĩa tư bản là mâu thuẫn giữa", a: ["Thành thị và nông thôn", "Nhà nước và nhân dân", "Lao động và vốn", "Lực lượng sản xuất và quan hệ sản xuất"], c: 3, sIdx: 91},
+            {q: "Biểu hiện kinh tế của mâu thuẫn trong chủ nghĩa tư bản là:", a: ["Khủng hoảng kinh tế", "Thiếu lao động", "Thiếu vốn đầu tư", "Thiếu tài nguyên"], c: 0, sIdx: 92},
+            {q: "Biểu hiện xã hội của mâu thuẫn trong chủ nghĩa tư bản là:", a: ["Công nhân và tư sản", "Nông dân và địa chủ", "Trí thức và doanh nhân", "Thành thị và nông thôn"], c: 0, sIdx: 93},
+            {q: "Cách mạng xã hội chủ nghĩa nhằm:", a: ["Giữ nguyên chế độ cũ", "Xóa bỏ bóc lột", "Mở rộng tư hữu", "Phát triển tư bản"], c: 1, sIdx: 94},
+            {q: "Chế độ sở hữu được xác lập trong chủ nghĩa xã hội là:", a: ["Tư hữu hoàn toàn", "Sở hữu hỗn hợp", "Công hữu chủ yếu", "Sở hữu phong kiến"], c: 2, sIdx: 95},
+            {q: "Cơ sở vật chất của chủ nghĩa xã hội là:", a: ["Đại công nghiệp hiện đại", "Nông nghiệp truyền thống", "Thương mại phát triển", "Dịch vụ chất lượng"], c: 0, sIdx: 96},
+            {q: "Nguyên tắc phân phối chủ yếu trong chủ nghĩa xã hội là:", a: ["Theo vốn góp", "Theo thị trường", "Theo nhu cầu", "Theo lao động"], c: 3, sIdx: 97},
+            {q: "Dân chủ xã hội chủ nghĩa bảo đảm:", a: ["Đặc quyền giai cấp", "Quyền làm chủ của Nhân dân trên mọi lĩnh vực của đời sống xã hội", "Quyền doanh nghiệp", "Quyền địa phương"], c: 1, sIdx: 98},
+            {q: "Nền văn hóa xã hội chủ nghĩa mang tính:", a: ["Hiện đại tuyệt đối", "Quốc tế hóa cao", "Tiên tiến, đậm đà bản sắc dân tộc", "Thị trường hóa mạnh"], c: 2, sIdx: 99},
+            {q: "Theo Cương lĩnh (bổ sung, phát triển năm 2011), một trong những đặc trưng của xã hội xã hội chủ nghĩa mà Nhân dân ta xây dựng là", a: ["Dân giàu nước mạnh, dân chủ, công bằng, văn minh", "Kinh tế tư bản", "Quân đội mạnh", "Thị trường tự do"], c: 0, sIdx: 100},
+            {q: "Theo Cương lĩnh 2011, chủ thể làm chủ xã hội là:", a: ["Đàng Cộng sản", "Nhà nước", "Nhân dân", "Chính phủ"], c: 2, sIdx: 101},
+            {q: "Một đặc trưng của xã hội xã hội chủ nghĩa ở Việt Nam là:", a: ["Quan hệ đối đầu", "Bình đẳng dân tộc", "Tư hữu tuyệt đối", "Độc quyền kinh tế"], c: 1, sIdx: 102},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, thời đại ngày nay là thời đại", a: ["Công nghiệp hóa nhanh", "Quá độ lên chủ nghĩa xã hội", "Toàn cầu hóa mạnh", "Phát triển tư bản"], c: 1, sIdx: 103},
+            {q: "Theo chủ nghĩa Mác - Lênin, thời kỳ quá độ lên chủ nghĩa xã hội bắt đầu khi", a: ["Có Hiến pháp mới", "Kinh tế phát triển", "Giành chính quyền", "Hoàn thành công nghiệp"], c: 2, sIdx: 104},
+            {q: "Đối tượng cải tạo của thời kỳ quá độ là:", a: ["Xã hội cũ", "Nhà nước mới", "Giai cấp công nhân", "Lực lượng vũ trang"], c: 0, sIdx: 105},
+            {q: "Đặc điểm nổi bật của thời kỳ quá độ là:", a: ["Một thành phần kinh tế", "Chỉ còn công hữu", "Nhiều thành phần kinh tế", "Không còn giai cấp"], c: 2, sIdx: 106},
+            {q: "Trong thời kỳ quá độ tồn tại:", a: ["Một hình thức sở hữu", "Hai giai cấp chính", "Một thành phần kinh tế", "Nhiều hình thức sở hữu"], c: 3, sIdx: 107},
+            {q: "Trong nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam, kinh tế nhà nước giữ vai trò nào?", a: ["Vai trò chủ đạo", "Vai trò hỗ trợ", "Vai trò thứ yếu", "Vai trò tạm thời"], c: 0, sIdx: 108},
+            {q: "Nền kinh tế trong thời kỳ quá độ là:", a: ["Kế hoạch hóa tuyệt đối", "Bao cấp hoàn toàn", "Thị trường tự do", "Thị trường định hướng XHCN"], c: 3, sIdx: 109},
+            {q: "Theo Cương lĩnh xây dựng đất nước trong thời kỳ quá độ lên chủ nghĩa xã hội, các thành phần kinh tế ở Việt Nam được", a: ["Độc quyền kinh doanh", "Bình đẳng trước pháp luật", "Nhà nước bao cấp hoàn toàn", "Cấm cạnh tranh với nhau"], c: 1, sIdx: 110},
+            {q: "Theo Cương lĩnh xây dựng đất nước trong thời kỳ quá độ lên chủ nghĩa xã hội, về chính trị cần xây dựng", a: ["Nhà nước quân sự", "Nhà nước tự sản", "Nhà nước pháp quyền xã hội chủ nghĩa của Nhân dân, do Nhân dân, vì Nhân dân", "Nhà nước liên bang"], c: 2, sIdx: 111},
+            {q: "Liên minh chính trị trong thời kỳ quá độ gồm:", a: ["Công nhân, nông dân", "Công nhân, trí thức", "Nông dân, doanh nhân", "Công nhân, nông dân, trí thức"], c: 3, sIdx: 112},
+            {q: "Trong lĩnh vực tư tưởng ở thời kỳ quá độ lên chủ nghĩa xã hội, nền tảng tư tưởng giữ vai trò chủ đạo là", a: ["Chủ nghĩa dân tộc", "Chủ nghĩa Mác - Lênin", "Chủ nghĩa tự do", "Chủ nghĩa thực dụng"], c: 1, sIdx: 113},
+            {q: "Nhiệm vụ văn hóa là:", a: ["Xóa bỏ giáo dục", "Giảm dân trí", "Nâng cao dân trí", "Hạn chế sáng tạo"], c: 2, sIdx: 114},
+            {q: "Quá độ lên chủ nghĩa xã hội ở Việt Nam là:", a: ["Ngẫu nhiên lịch sử", "Quyết định cá nhân", "Lựa chọn tạm thời", "Tất yếu khách quan"], c: 3, sIdx: 115},
+            {q: "Theo Cương lĩnh xây dựng đất nước trong thời kỳ quá độ lên chủ nghĩa xã hội, con đường phát triển của Việt Nam là", a: ["Phát triển theo con đường tư bản chủ nghĩa", "Phát triển theo con đường xã hội chủ nghĩa", "Xây dựng chế độ quân chủ lập hiến", "Phát triển theo kinh tế thị trường tự do hoàn toàn"], c: 1, sIdx: 116},
+            {q: "Động lực chủ yếu phát triển đất nước là:", a: ["Đại đoàn kết toàn dân", "Đầu tư nước ngoài", "Khoa học kỹ thuật", "Tài nguyên thiên nhiên"], c: 0, sIdx: 117},
+            {q: "Tư tưởng Hồ Chí Minh là kết quả của việc vận dụng và phát triển sáng tạo:", a: ["Chủ nghĩa tư bản", "Chủ nghĩa Mác - Lênin", "Chủ nghĩa Tam dân", "Chủ nghĩa dân tộc"], c: 1, sIdx: 118},
+            {q: "Theo Đại hội IX của Đảng, tư tưởng Hồ Chí Minh được xác định là:", a: ["Hệ thống quan điểm toàn diện về cách mạng Việt Nam", "Hệ thống tư tưởng phương Đông", "Học thuyết quân sự", "Hệ thống pháp luật"], c: 0, sIdx: 119},
+            {q: "Nguồn gốc lý luận trực tiếp của tư tưởng Hồ Chí Minh là:", a: ["Phật giáo", "Nho giáo", "Chủ nghĩa Mác - Lênin", "Chủ nghĩa Tam dân"], c: 2, sIdx: 120},
+            {q: "Giá trị truyền thống có ảnh hưởng lớn nhất đến tư tưởng Hồ Chí Minh là:", a: ["Ham học hỏi", "Nhân nghĩa, thủy chung", "Chủ nghĩa yêu nước", "Đoàn kết"], c: 2, sIdx: 121},
+            {q: "Hồ Chí Minh ra đi tìm đường cứu nước vào năm:", a: ["1905", "1908", "1911", "1915"], c: 2, sIdx: 122},
+            {q: "Sau khi đọc Luận cương của Lênin, Hồ Chí Minh đã tìm thấy:", a: ["Con đường phát triển tư bản", "Con đường cứu nước đúng đắn", "Con đường cải cách", "Con đường quân chủ lập hiến"], c: 1, sIdx: 123},
+            {q: "Theo tư tưởng Hồ Chí Minh, mục tiêu cao nhất của cách mạng Việt Nam là gì?", a: ["Xây dựng nền kinh tế thị trường", "Giành độc lập dân tộc gắn liền với chủ nghĩa xã hội", "Phát triển công nghiệp nặng", "Mở rộng quan hệ đối ngoại"], c: 1, sIdx: 124},
+            {q: "Nguồn gốc nào quyết định bản chất khoa học của tư tưởng Hồ Chí Minh?", a: ["Văn hóa phương Đông", "Chủ nghĩa Mác - Lênin", "Văn hóa dân tộc", "Tôn giáo"], c: 1, sIdx: 125},
+            {q: "Theo tư tưởng Hồ Chí Minh, sức mạnh quyết định thắng lợi của cách mạng Việt Nam bắt nguồn từ đâu?", a: ["Sức mạnh quân sự", "Sức mạnh đại đoàn kết toàn dân tộc", "Sự giúp đỡ của nước ngoài", "Tiềm lực kinh tế"], c: 1, sIdx: 126},
+            {q: "Theo tư tưởng Hồ Chí Minh, lực lượng giữ vai trò lãnh đạo cách mạng Việt Nam là", a: ["Giai cấp nông dân", "Giai cấp công nhân thông qua Đảng Cộng sản Việt Nam", "Đội ngũ trí thức", "Liên minh doanh nhân"], c: 1, sIdx: 127},
+            {q: "Theo tư tưởng Hồ Chí Minh, xây dựng chủ nghĩa xã hội trước hết nhằm mục tiêu gì?", a: ["Tăng trưởng kinh tế nhanh", "Nâng cao đời sống vật chất và tinh thần của Nhân dân", "Phát triển công nghiệp nặng", "Mở rộng thị trường"], c: 1, sIdx: 128},
+            {q: "Theo Cương lĩnh năm 2011, mục tiêu tổng quát của thời kỳ quá độ lên chủ nghĩa xã hội ở Việt Nam là", a: ["Xây dựng nước Việt Nam xã hội chủ nghĩa giàu mạnh, dân chủ, công bằng, văn minh", "Trở thành nước tư bản phát triển", "Xây dựng nền kinh tế bao cấp", "Chỉ phát triển công nghiệp"], c: 0, sIdx: 129},
+            {q: "Theo tư tưởng Hồ Chí Minh, đạo đức cách mạng được hình thành chủ yếu thông qua", a: ["Học tập lý thuyết đơn thuần", "Rèn luyện trong thực tiễn và suốt đời phấn đấu", "Điều kiện kinh tế gia đình", "Trình độ học vấn"], c: 1, sIdx: 130},
+            {q: "Khẩu hiệu nổi tiếng của Hồ Chí Minh về đoàn kết là:", a: ["Đoàn kết là sức mạnh", "Đoàn kết, đoàn kết, đại đoàn kết", "Muốn thắng phải đoàn kết", "Toàn dân đoàn kết"], c: 1, sIdx: 131},
+            {q: "Theo tư tưởng Hồ Chí Minh, Nhà nước Việt Nam phải bảo đảm nguyên tắc nào dưới đây?", a: ["Quyền lực thuộc về Nhân dân", "Quyền lực thuộc về doanh nghiệp", "Quyền lực thuộc về quân đội", "Quyền lực thuộc về địa phương"], c: 0, sIdx: 132},
+            {q: "Theo tư tưởng Hồ Chí Minh, sức mạnh của khối đại đoàn kết toàn dân tộc được xây dựng trên nền tảng nào?", a: ["Liên minh công nhân - nông dân - trí thức", "Liên minh doanh nghiệp - nông dân", "Quan hệ quốc tế", "Khoa học kỹ thuật"], c: 0, sIdx: 133},
+            {q: "Theo tư tưởng Hồ Chí Minh, nguyên tắc hoạt động cơ bản của Đảng Cộng sản Việt Nam là", a: ["Tập trung dân chủ", "Phân quyền tuyệt đối", "Độc lập tổ chức", "Tự do cá nhân"], c: 0, sIdx: 134},
+            {q: "Theo Hồ Chí Minh, phẩm chất đạo đức đầu tiên của cán bộ là:", a: ["Cần, kiệm", "Chí công vô tư", "Liêm chính", "Trung với nước, hiếu với dân"], c: 3, sIdx: 135},
+            {q: "Theo Hồ Chí Minh, những biểu hiện nào được Người gọi là \"giặc nội xâm\"?", a: ["Tham ô, lãng phí, quan liêu.", "Tham ô, tiêu cực, cửa quyền.", "Quan liêu, nhũng nhiễu, vô trách nhiệm.", "Lãng phí, tham nhũng, vi phạm pháp luật."], c: 0, sIdx: 136},
+            {q: "Theo Hồ Chí Minh, cách mạng muốn thành công trước hết phải có:", a: ["Quân đội mạnh", "ĐGrid cách mạng lãnh đạo", "Kinh tế - xã hội phát triển", "Ngoại giao tốt"], c: 1, sIdx: 137},
+            {q: "Theo Hồ Chí Minh, sức mạnh lớn nhất của dân tộc là:", a: ["Quân đội", "Nhân dân", "Kinh tế", "Khoa học"], c: 1, sIdx: 138},
+            {q: "Theo tư tưởng Hồ Chí Minh, một trong những chuẩn mực đạo đức cách mạng của cán bộ, đảng viên là", a: ["Cần, kiệm, liêm, chính, chí công vô tư", "Tự do cạnh tranh", "Làm giàu cá nhân", "Phát triển thương mại"], c: 0, sIdx: 139},
+            {q: "Theo tư tưởng Hồ Chí Minh, việc học tập lý luận phải gắn với yêu cầu nào?", a: ["Gắn với thực tiễn cách mạng", "Chỉ học để thi cử", "Chỉ nghiên cứu sách vở", "Học theo kinh nghiệm cá nhân"], c: 0, sIdx: 140},
+            {q: "Theo Hồ Chí Minh, Đảng phải:", a: ["Trong sạch, vững mạnh", "Vững mạnh toàn diện", "Đông đảng viên", "Có nhiều tài sản"], c: 0, sIdx: 141},
+            {q: "Theo Hồ Chí Minh, Đảng phải thường xuyên:", a: ["Tự phê bình - phê bình", "Kiểm tra - giám sát", "Thanh tra kiểm tra", "Kiểm toán"], c: 0, sIdx: 142},
+            {q: "Ý nghĩa quan trọng nhất của việc nghiên cứu, học tập tư tưởng Hồ Chí Minh là", a: ["Góp phần nâng cao trình độ chuyên môn và năng lực quản lý nhà nước.", "Nâng cao nhận thức lý luận, rèn luyện phẩm chất đạo đức, củng cố bản lĩnh chính trị và định hướng đúng đắn hoạt động thực tiễn.", "Chủ yếu phục vụ nghiên cứu lịch sử và truyền thống dân tộc.", "Chỉ nhằm bồi dưỡng đội ngũ cán bộ, đảng viên."], c: 1, sIdx: 143},
+            {q: "Theo Hồ Chí Minh, chủ thể sáng tạo lịch sử là:", a: ["Đảng", "Nhân dân", "Quân đội", "Trí thức"], c: 1, sIdx: 144},
+            {q: "Đại đoàn kết dân tộc phải đặt trên nền tảng:", a: ["Liên minh công - nông - trí thức", "Địa chủ", "Tư sản", "Thương nhân"], c: 0, sIdx: 145},
+            {q: "Theo Hồ Chí Minh, học tập chủ nghĩa Mác - Lênin là học:", a: ["Thuộc lòng", "Máy móc", "Tinh thần cách mạng và khoa học", "Sao chép"], c: 2, sIdx: 146},
+            {q: "Theo Hồ Chí Minh, độc lập dân tộc là điều kiện để:", a: ["Phát triển đất nước", "Thực hiện chủ nghĩa xã hội", "Hội nhập", "Mở rộng thương mại"], c: 1, sIdx: 147},
+            {q: "Mục tiêu tổng quát của phát triển kinh tế - xã hội là gì?", a: ["Phát triển nhanh, bền vững", "Phát triển kinh tế thị trường", "Mở rộng hội nhập quốc tế", "Tăng trưởng kinh tế cao"], c: 0, sIdx: 148},
+            {q: "Nền kinh tế Việt Nam được xây dựng theo mô hình nào?", a: ["Kinh tế kế hoạch hóa tập trung", "Kinh tế thị trường định hướng xã hội chủ nghĩa", "Kinh tế tư bản chủ nghĩa hiện đại", "Kinh tế thị trường tự do hoàn toàn"], c: 1, sIdx: 149},
+            {q: "Một trong ba đột phá chiến lược được Đại hội XI của Đảng xác định là", a: ["Hoàn thiện thể chế phát triển", "Mở rộng xuất khẩu", "Phát triển du lịch", "Tăng chi ngân sách"], c: 0, sIdx: 150},
+            {q: "Theo Đại hội XI, đột phá chiến lược về nguồn nhân lực tập trung vào nội dung nào?", a: ["Phát triển nguồn nhân lực, nhất là nguồn nhân lực chất lượng cao", "Mở rộng xuất khẩu lao động", "Tăng dân số lao động", "Phát triển thương mại"], c: 0, sIdx: 151},
+            {q: "Theo Văn kiện Đại hội XIII của Đảng, một trong ba đột phá chiến lược để phát triển đất nước là", a: ["Hoàn thiện đồng bộ thể chế phát triển", "Mở rộng hoạt động xuất khẩu", "Phát triển mạnh ngành du lịch", "Tăng chi ngân sách nhà nước"], c: 0, sIdx: 152},
+            {q: "Theo Văn kiện Đại hội XIII của Đảng, đột phá chiến lược về nguồn nhân lực được xác định là", a: ["Phát triển nguồn nhân lực, nhất là nguồn nhân lực chất lượng cao", "Phát triển công nghiệp chế biến, chế tạo", "Xây dựng nông thôn mới nâng cao", "Phát triển mạnh các ngành dịch vụ"], c: 0, sIdx: 153},
+            {q: "Theo Văn kiện Đại hội XIII của Đảng, đột phá chiến lược về kết cấu hạ tầng là", a: ["Xây dựng hệ thống kết cấu hạ tầng đồng bộ, hiện đại", "Phát triển giáo dục và đào tạo", "Đẩy mạnh quá trình đô thị hóa", "Tăng nhanh kim ngạch xuất khẩu"], c: 0, sIdx: 154},
+            {q: "Theo Đại hội XIII của Đảng, khâu đột phá trong phát triển đất nước cần gắn với yêu cầu nào?", a: ["Đổi mới sáng tạo và chuyển đổi số", "Mở rộng bao cấp", "Giảm vai trò khoa học", "Hạn chế hội nhập"], c: 0, sIdx: 155},
+            {q: "Theo Đại hội XIII, yếu tố được xác định là động lực quan trọng để phát triển nhanh và bền vững là", a: ["Khoa học, công nghệ và đổi mới sáng tạo", "Tài nguyên thiên nhiên", "Lao động giản đơn", "Khai thác khoáng sản"], c: 0, sIdx: 156},
+            {q: "Theo Đại hội XIII, mục tiêu đến năm 2045 là", a: ["Trở thành nước phát triển, thu nhập cao", "Trở thành nước công nghiệp nặng", "Trở thành nước xuất khẩu lớn nhất thế giới", "Trở thành nước nông nghiệp"], c: 0, sIdx: 157},
+            {q: "Theo Đại hội XIII, để phát triển đất nước nhanh và bền vững cần phát huy mạnh mẽ yếu tố nào?", a: ["Ý chí, khát vọng phát triển đất nước và sức mạnh đại đoàn kết toàn dân tộc", "Chỉ dựa vào vốn đầu tư nước ngoài", "Chỉ khai thác tài nguyên thiên nhiên", "Chỉ mở rộng thị trường trong nước"], c: 0, sIdx: 158},
+            {q: "Nền quốc phòng Việt Nam được xây dựng theo phương châm nào?", a: ["Quốc phòng toàn dân", "Quốc phòng hiện đại", "Quốc phòng khu vực", "Quốc phòng chuyên nghiệp"], c: 0, sIdx: 159},
+            {q: "Đường lối quốc phòng nhấn mạnh yếu tố nào?", a: ["Tự lực, tự cường", "Liên minh quân sự", "Mở rộng căn cứ quân sự", "Tăng chi quốc phòng"], c: 0, sIdx: 160},
+            {q: "Theo tài liệu, Hiến pháp là đạo luật có hiệu lực pháp lý như thế nào?", a: ["Cao nhất trong hệ thống pháp luật Việt Nam", "Chỉ áp dụng cho cơ quan nhà nước", "Thấp hơn luật", "Chỉ có giá trị tham khảo"], c: 0, sIdx: 161},
+            {q: "Theo quy định của pháp luật Việt Nam, mọi công dân đều bình đẳng trước", a: ["Cơ quan hành chính", "Pháp luật", "Chính quyền địa phương", "Doanh nghiệp"], c: 1, sIdx: 162},
+            {q: "Một trong những nguyên tắc cơ bản của việc xây dựng Nhà nước pháp quyền xã hội chủ nghĩa Việt Nam là gì?", a: ["Thượng tôn Hiến pháp và pháp luật", "Quản lý bằng mệnh lệnh hành chính", "Quản lý bằng tập quán", "Điều hành theo ý chí cá nhân"], c: 0, sIdx: 163},
+            {q: "Một trong những yêu cầu của nhiệm vụ quốc phòng, an ninh là gì?", a: ["Không để đất nước bị bất ngờ về chiến lược", "Đẩy mạnh xuất khẩu hàng hóa", "Phát triển công nghiệp chế biến", "Thu hút mạnh đầu tư nước ngoài"], c: 0, sIdx: 164},
+            {q: "Đại hội XIII xác định củng cố quốc phòng, an ninh là nhiệm vụ của ai?", a: ["Đảng, Nhà nước, hệ thống chính trị và toàn dân", "Quân đội và Công an", "Chính phủ và địa phương", "Các bộ, ngành trung ương"], c: 0, sIdx: 165},
+            {q: "Lực lượng nòng cốt trong bảo vệ Tổ quốc là ai?", a: ["Quân đội nhân dân và Công an nhân dân", "Quân đội nhân dân và Dân quân tự vệ", "Công an nhân dân và Biên phòng", "Hải quân và Không quân"], c: 0, sIdx: 166},
+            {q: "Quốc phòng cần được kết hợp chặt chẽ với lĩnh vực nào?", a: ["An ninh, đối ngoại, kinh tế, văn hóa và xã hội", "Giáo dục, y tế và thể thao", "Công nghiệp, thương mại và dịch vụ", "Tài chính, ngân hàng và thuế"], c: 0, sIdx: 167},
+            {q: "Việt Nam chủ trương hội nhập quốc tế về quốc phòng theo tinh thần nào?", a: ["Chủ động, tích cực, giữ vững độc lập tự chủ", "Phụ thuộc vào các nước lớn", "Ưu tiên liên minh quân sự", "Hạn chế hợp tác quốc tế"], c: 0, sIdx: 168},
+            {q: "Kế sách bảo vệ Tổ quốc được xác định là gì?", a: ["Bảo vệ Tổ quốc từ sớm, từ xa", "Phòng thủ khi có chiến tranh", "Xây dựng căn cứ quân sự", "Tăng quân số thường trực"], c: 0, sIdx: 169},
+            {q: "Quan điểm của Việt Nam trong giải quyết tranh chấp là gì?", a: ["Kiên trì biện pháp hòa bình trên cơ sở luật pháp quốc tế", "Sử dụng sức mạnh quân sự trước", "Nhờ nước ngoài can thiệp", "Áp dụng biện pháp cấm vận"], c: 0, sIdx: 170},
+            {q: "Khi lợi ích quốc gia bị xâm phạm, Việt Nam sẽ như thế nào?", a: ["Sẵn sàng sử dụng sức mạnh quân sự để tự vệ", "Chỉ sử dụng biện pháp ngoại giao", "Chỉ áp dụng biện pháp kinh tế", "Chờ quyết định của Liên hợp quốc"], c: 0, sIdx: 171},
+            {q: "Quân đội nhân dân là lực lượng như thế nào?", a: ["Trung thành tuyệt đối với Đảng, Nhà nước và Nhân dân", "Chỉ thực hiện nhiệm vụ chiến đấu", "Chỉ bảo vệ biên giới quốc gia", "Chỉ tham gia cứu hộ cứu nạn"], c: 0, sIdx: 172},
+            {q: "Ngoài nhiệm vụ chiến đấu, Quân đội nhân dân còn có nhiệm vụ gì?", a: ["Công tác và lao động sản xuất", "Quản lý doanh nghiệp nhà nước", "Quản lý hoạt động thương mại", "Điều hành chính quyền địa phương"], c: 0, sIdx: 173},
+            {q: "Nhiệm vụ quan trọng trong công tác quốc phòng hiện nay là gì?", a: ["Nâng cao chất lượng nghiên cứu, dự báo chiến lược", "Tăng quy mô lực lượng thường trực", "Mở rộng nghĩa vụ quân sự", "Tăng ngân sách quốc phòng"], c: 0, sIdx: 174},
+            {q: "Mục tiêu của công tác dự báo chiến lược là gì?", a: ["Chủ động phòng ngừa xung đột và chiến tranh", "Tăng cường xuất khẩu vũ khí", "Mở rộng thị trường quốc phòng", "Phát triển công nghiệp nặng"], c: 0, sIdx: 175},
+            {q: "Hoạt động quốc tế nào được Việt Nam tích cực tham gia?", a: ["Gìn giữ hòa bình Liên hợp quốc", "Liên minh quân sự khu vực", "Khối quân sự quốc tế", "Căn cứ quân sự nước ngoài"], c: 0, sIdx: 176},
+            {q: "Mục tiêu cuối cùng của nhiệm vụ quốc phòng, an ninh là gì?", a: ["Bảo vệ vững chắc Tổ quốc và giữ vững môi trường hòa bình", "Tăng nhanh ngân sách quốc phòng", "Mở rộng quy mô lực lượng vũ trang", "Phát triển công nghiệp quốc phòng hiện đại"], c: 0, sIdx: 177},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, xã hội nào chưa có pháp luật?", a: ["Xã hội phong kiến", "Xã hội cộng sản nguyên thủy", "Xã hội chiếm hữu nô lệ", "Xã hội tư bản chủ nghĩa"], c: 1, sIdx: 178},
+            {q: "Trong xã hội cộng sản nguyên thủy, quan hệ xã hội chủ yếu được điều chỉnh bằng", a: ["pháp luật và nghị quyết", "pháp luật và án lệ", "tập quan, đạo đức và tín điều tôn giáo", "quy phạm pháp luật của nhà nước"], c: 2, sIdx: 179},
+            {q: "Nguồn gốc trực tiếp của pháp luật là", a: ["sự phát triển lực lượng sản xuất", "sự xuất hiện chế độ tư hữu", "sự hình thành nhà nước", "sự phân chia giai cấp"], c: 2, sIdx: 180},
+            {q: "Pháp luật là", a: ["hệ thống quy tắc xử sự do xã hội thừa nhận", "hệ thống quy tắc xử sự chung do nhà nước đặt ra hoặc thừa nhận và bảo đảm thực hiện", "hệ thống quy tắc xử sự do tổ chức xã hội ban hành", "những chuẩn mực đạo đức bắt buộc"], c: 1, sIdx: 181},
+            {q: "Theo chủ nghĩa Mác - Lênin, pháp luật mang", a: ["tính dân chủ và tính quốc tế", "tính chính trị và tính đạo đức", "tính giai cấp và tính xã hội", "tính nhân văn và tính truyền thống"], c: 2, sIdx: 182},
+            {q: "Bản chất giai cấp của pháp luật xuất phát từ", a: ["bản chất giai cấp của nhà nước", "quyền lực của nhân dân", "truyền thống dân tộc", "phong tục tập quán"], c: 0, sIdx: 183},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, trước hết pháp luật có chức năng gì?", a: ["bảo vệ lợi ích cá nhân", "điều chỉnh quan hệ giai cấp và bảo vệ lợi ích của giai cấp thống trị", "bảo vệ quyền lợi của mọi tổ chức", "phát triển các phong tục tập quán"], c: 1, sIdx: 184},
+            {q: "Tính xã hội của pháp luật thể hiện ở việc", a: ["phản ánh lợi ích của mọi quốc gia", "chỉ bảo vệ lợi ích của giai cấp thống trị", "góp phần bảo vệ lợi ích chung của cộng đồng và duy trì trật tự xã hội", "thay thế hoàn toàn đạo đức"], c: 2, sIdx: 185},
+            {q: "Đặc trưng nổi bật thể hiện bản chất của pháp luật là", a: ["mang tính nhân đạo", "mang tính quyền lực", "mang tính ý chí của nhà nước", "mang tính truyền thống"], c: 2, sIdx: 186},
+            {q: "Nếu vi phạm pháp luật thì", a: ["chỉ bị phê bình", "chỉ bị xử lý khi gây hậu quả nghiêm trọng", "bị truy cứu trách nhiệm pháp lý theo quy định", "chỉ bị xử lý khi có yêu cầu của người bị hại"], c: 2, sIdx: 187},
+            {q: "Đặc trưng nào cho thấy pháp luật bắt buộc mọi cá nhân, tổ chức phải tuân theo?", a: ["Tính cưỡng chế của nhà nước", "Tính đạo đức", "Tính lịch sử", "Tính truyền thống"], c: 0, sIdx: 188},
+            {q: "Pháp luật là khuôn mẫu xử sự chung vì mang đặc trưng", a: ["tính xác định về hình thức", "tính quy phạm, phổ biến", "tính giáo dục", "tính nhân văn"], c: 1, sIdx: 189},
+            {q: "Hệ thống pháp luật được cấu tạo bởi", a: ["các phong tục", "các tập quán", "các quy phạm pháp luật có quan hệ thống nhất", "các điều ước quốc tế"], c: 2, sIdx: 190},
+            {q: "Hình thức pháp luật phổ biến và tiến bộ nhất hiện nay là", a: ["tập quán pháp", "tiền lệ pháp", "văn bản quy phạm pháp luật", "quy ước cộng đồng"], c: 2, sIdx: 191},
+            {q: "Chức năng cơ bản đầu tiên của pháp luật là", a: ["giáo dục", "điều chỉnh", "cưỡng chế", "tuyên truyền"], c: 1, sIdx: 192},
+            {q: "Hình thức pháp luật xuất hiện sớm nhất là", a: ["văn bản quy phạm pháp luật", "tiền lệ pháp", "tập quán pháp", "nghị quyết"], c: 2, sIdx: 193},
+            {q: "Pháp chế xã hội chủ nghĩa là nguyên tắc tổ chức và hoạt động của", a: ["doanh nghiệp", "bộ máy nhà nước", "trường học", "gia đình"], c: 1, sIdx: 194},
+            {q: "Công dân có trách nhiệm như thế nào trong việc chấp hành pháp luật?", a: ["Chỉ thực hiện pháp luật khi điều kiện thuận lợi", "Tự giác tôn trọng và thực hiện pháp luật", "Chỉ thực hiện pháp luật khi có cơ quan kiểm tra", "Chỉ thực hiện pháp luật khi có yêu cầu của cơ quan có thẩm quyền"], c: 1, sIdx: 195},
+            {q: "Pháp chế xã hội chủ nghĩa có quan hệ mật thiết với", a: ["kinh tế thị trường", "pháp luật và dân chủ xã hội chủ nghĩa", "đạo đức nghề nghiệp", "phong tục tập quán"], c: 1, sIdx: 196},
+            {q: "Hiến pháp năm 2013 khẳng định", a: ["Hiến pháp có hiệu lực ngang luật", "Hiến pháp là luật cơ bản, có hiệu lực pháp lý cao nhất", "luật cao hơn Hiến pháp", "nghị quyết cao hơn Hiến pháp"], c: 1, sIdx: 197},
+            {q: "Một yêu cầu của pháp chế xã hội chủ nghĩa là", a: ["bảo đảm tính tối cao của Hiến pháp và luật", "ưu tiên văn bản địa phương", "giảm hiệu lực pháp luật", "tăng quyền tùy nghi"], c: 0, sIdx: 198},
+            {q: "Bảo đảm tính thống nhất của pháp chế nghĩa là", a: ["địa phương được ban hành quy định trái luật", "thống nhất nhận thức và thực hiện pháp luật trên phạm vi cả nước", "mỗi ngành áp dụng pháp luật khác nhau", "ưu tiên tập quán hơn pháp luật"], c: 1, sIdx: 199},
+            {q: "Biện pháp cơ bản đầu tiên để tăng cường pháp chế xã hội chủ nghĩa là", a: ["tăng cường sự lãnh đạo của Đảng", "mở rộng hợp tác quốc tế", "phát triển kinh tế", "cải cách giáo dục"], c: 0, sIdx: 200},
+            {q: "Nội dung nào được Đại hội VI xác định là tiêu điểm của Chiến lược phát triển kinh tế - xã hội?", a: ["Ba chương trình kinh tế", "Bốn vùng kinh tế", "Năm ngành mũi nhọn", "Sáu lĩnh vực trọng điểm"], c: 0, sIdx: 201},
+            {q: "Điểm mới nổi bật của Nghị quyết 10 (1988) là:", a: ["Thành lập doanh nghiệp tư nhân", "Giao đất lâu dài cho hộ", "Xóa bỏ hợp tác xã cũ", "Bỏ toàn bộ kế hoạch hóa"], c: 1, sIdx: 202},
+            {q: "Đại hội X bổ sung nội dung nào trong phát triển kinh tế?", a: ["Kinh tế số là chủ đạo", "Gắn với kinh tế tri thức", "Chỉ ưu tiên nông nghiệp", "Tăng bao cấp sản xuất"], c: 1, sIdx: 203},
+            {q: "Theo Đại hội VI, ba chương trình kinh tế lớn được xác định có ý nghĩa như thế nào?", a: ["Là nhiệm vụ trước mắt nhằm giải quyết khó khăn về sản xuất và ổn định đời sống nhân dân.", "Là tiêu điểm của Chiến lược phát triển kinh tế - xã hội, cụ thể hóa nội dung công nghiệp hóa trong chặng đường đầu của thời kỳ quá độ.", "Là giải pháp trọng tâm để hoàn thành mục tiêu công nghiệp hóa và hiện đại hóa đất nước đến năm 2020.", "Là định hướng phát triển kinh tế lâu dài nhằm xây dựng nền kinh tế thị trường hiện đại và hội nhập quốc tế."], c: 1, sIdx: 204},
+            {q: "Điểm đổi mới cơ bản của Nghị quyết số 10-NQ/TW (Khoán 10) năm 1988 là gì?", a: ["Giao đất ổn định lâu dài cho hộ xã viên, coi hộ xã viên là đơn vị kinh tế tự chủ trong sản xuất nông nghiệp", "Chuyển toàn bộ đất nông nghiệp sang sở hữu của hộ gia đình và xóa bỏ hoàn toàn mô hình hợp tác xã", "Giao quyền quản lý đất đai cho doanh nghiệp nhà nước để nâng cao hiệu quả sản xuất nông nghiệp", "Thực hiện cơ chế thị trường hoàn toàn trong sản xuất nông nghiệp và bãi bỏ mọi hình thức khoán sản phẩm"], c: 0, sIdx: 205},
+            {q: "Đại hội X của Đảng đã bổ sung nội dung nào trong hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa?", a: ["Đẩy mạnh công nghiệp hóa gắn với phát triển kinh tế tri thức, coi kinh tế tri thức là yếu tố quan trọng của nền kinh tế", "Phát triển mạnh kinh tế tư nhân trở thành động lực chủ yếu của nền kinh tế thị trường định hướng xã hội chủ nghĩa", "Hoàn thiện cơ cơ quản lý kinh tế theo hướng tập trung thống nhất, nâng cao vai trò điều tiết trực tiếp của Nhà nước", "Xây dựng nền kinh tế thị trường hoàn chỉnh theo mô hình của các nước phát triển, giảm dần vai trò quản lý của Nhà nước"], c: 0, sIdx: 206},
+            {q: "Theo Chiến lược phát triển kinh tế - xã hội 2011-2020 được Đại hội XI thông qua, ba đột phá chiến lược gồm những nội dung nào?", a: ["Hoàn thiện thể chế kinh tế; phát triển nguồn nhân lực chất lượng cao; xây dựng hệ thống kết cấu hạ tầng đồng bộ", "Hoàn thiện thể chế kinh tế; phát triển khoa học công nghệ; xây dựng nền kinh tế số và chuyển đổi số quốc gia", "Phát triển nguồn nhân lực; mở rộng hội nhập quốc tế; xây dựng nền công nghiệp hiện đại và bền vững", "Đổi mới quản lý nhà nước; phát triển doanh nghiệp tư nhân; hiện đại hóa nông nghiệp và nông thôn"], c: 0, sIdx: 207},
+            {q: "Theo Đại hội XII, lực lượng nào được xác định là động lực quan trọng nâng cao sức cạnh tranh và tính tự chủ của nền kinh tế?", a: ["Doanh nghiệp nhà nước giữ vai trò chủ đạo và là động lực quan trọng của nền kinh tế quốc dân", "Doanh nghiệp tư nhân được tạo điều kiện phát triển mạnh, trở thành động lực quan trọng của nền kinh tế", "Doanh nghiệp có vốn đầu tư nước ngoài là lực lượng quyết định thúc đẩy tăng trưởng và hội nhập quốc tế", "Hợp tác xã kiểu mới được xác định là lực lượng chủ yếu tạo động lực phát triển nền kinh tế thị trường"], c: 1, sIdx: 208},
+            {q: "Lao động có vai trò như thế nào trong mối quan hệ giữa tự nhiên và xã hội?", a: ["Lao động là quá trình con người tác động vào tự nhiên, cải biến tự nhiên, hình thành các quan hệ xã hội và thực hiện phương thức trao đổi chất đặc thù giữa tự nhiên với xã hội", "Lao động là quá trình con người chủ yếu cải tạo giới tự nhiên nhằm tạo ra của cải vật chất, còn các quan hệ xã hội được hình thành chủ yếu từ hoạt động chính trị", "Lao động là hoạt động giúp con người tách khỏi giới tự nhiên, từ đó xã hội phát triển độc lập và không còn phụ thuộc vào các điều kiện tự nhiên khách quan", "Lao động là hoạt động tạo ra công cụ sản xuất và phát triển lực lượng sản xuất, còn mối quan hệ giữa tự nhiên với xã hội chủ yếu do quy luật sinh học quyết định"], c: 0, sIdx: 209},
+            {q: "Theo quan điểm Chủ nghĩa Mác - Lênin, xã hội được hiểu đúng nhất là", a: ["Xã hội là cộng đồng những con người cùng sinh sống, cùng lao động và cùng phát triển trong một điều kiện tự nhiên và lịch sử nhất định", "Tổng hòa các mối quan hệ xã hội được hình thành và phát triển trong hoạt động thực tiễn của con người", "Xã hội là hình thức tổ chức của con người nhằm thực hiện các hoạt động sản xuất vật chất và quản lý đời sống kinh tế của cộng đồng", "Xã hội là sự kết hợp giữa các nhóm người có chung lợi ích kinh tế, chính trị và văn hóa trong quá trình phát triển của lịch sử nhân loại"], c: 1, sIdx: 210},
+            {q: "Nếu con người tác động vào tự nhiên không đúng quy luật thì hậu quả chủ yếu là:", a: ["Làm cho tài nguyên thiên nhiên giảm dần nhưng đồng thời tạo điều kiện thúc đẩy khoa học kỹ thuật phát triển để khắc phục các khó khăn phát sinh", "Làm cho tự nhiên ngày càng nghèo nàn, phá vỡ cân bằng sinh thái và cuối cùng tự nhiên sẽ tác động trở lại gây hậu quả đối với con người", "Làm giảm hiệu quả sản xuất trong một số lĩnh vực nhưng không ảnh hưởng nhiều đến sự phát triển lâu dài của xã hội và môi trường tự nhiên", "Làm cho xã hội phải tăng cường khai thác tài nguyên thiên nhiên để bù dắp sự thiếu hụt về nguồn lực phục vụ phát triển kinh tế"], c: 1, sIdx: 211},
+            {q: "Theo quan điểm chủ nghĩa Mác - Lênin, con người có thể làm chủ tự nhiên bằng cách nào?", a: ["Không ngừng mở rộng khả năng cải tạo tự nhiên thông qua khoa học kỹ thuật để từng bước khống chế hoàn toàn các quy luật tự nhiên.", "Nhận thức đúng các quy luật của tự nhiên, vận dụng chính xác các quy luật đó trong hoạt động thực tiễn và khai thác hợp lý các nguồn tài nguyên", "Tăng cường khai thác tối đa tài nguyên thiên nhiên nhằm tạo ra nguồn lực phát triển kinh tế và nâng cao chất lượng cuộc sống của con người", "Kết hợp giữa tiến bộ khoa học với mở rộng quy mô sản xuất để giảm dần sự phụ thuộc của xã hội vào các điều kiện tự nhiên khách quan"], c: 1, sIdx: 212},
+            {q: "Theo quan điểm của chủ nghĩa Mác – Lênin, tính chất tác động của xã hội đối với tự nhiên trước hết phụ thuộc vào yếu tố nào?", a: ["Trình độ phát triển của lực lượng sản xuất và khoa học kỹ thuật", "Chế độ xã hội và quan hệ sản xuất", "Điều kiện địa lý", "Quy mô dân số"], c: 1, sIdx: 213},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, chiến tranh phi nghĩa được hiểu là:", a: ["Cuộc chiến tranh nhằm bảo vệ độc lập dân tộc và quyền tự quyết của nhân dân trước sự xâm lược từ bên ngoài", "Cuộc chiến tranh do các lực lượng phản động tiến hành nhằm phục vụ lợi ích áp bức, bóc lột và là nguyên nhân chủ yếu tàn phá môi trường tự nhiên", "Cuộc chiến tranh diễn ra giữa các quốc gia có trình độ phát triển khác nhau nhằm giải quyết các tranh chấp về lãnh thổ và tài nguyên", "Cuộc chiến tranh sử dụng các loại vũ khí hiện đại gây hậu quả lớn đối với môi trường sinh thái và đời sống của con người"], c: 1, sIdx: 214},
+            {q: "Môi trường sống của con người được hiểu đúng là:", a: ["Môi trường địa lý bao gồm đất, nước, không khí và các yếu tố tự nhiên cần thiết cho sự tồn tại của con người", "Môi trường tự nhiên - xã hội, hay môi trường tự nhiên đã được con người cải biến trong quá trình lao động và phát triển xã hội", "Môi trường sinh học được hình thành từ sự tác động qua lại giữa các loài sinh vật và điều kiện tự nhiên trên trái đất", "Môi trường kinh tế - xã hội được tạo nên bởi các hoạt động sản xuất vật chất và các quan hệ xã hội của con người"], c: 1, sIdx: 215},
+            {q: "Vấn đề môi trường sinh thái hiện nay được coi là cấp bách vì:", a: ["Sự phát triển của khoa học kỹ thuật đã làm thay đổi hoàn toàn các quy luật tự nhiên và gây mất cân bằng sinh thái trên phạm vi toàn cầu", "Sự khai thác tài nguyên thiếu hợp lý cùng lối sống phi sinh thái đã làm cạn kiệt tài nguyên, ô nhiễm môi trường và đe dọa sự tồn tại của xã hội loài người", "Quá trình công nghiệp hóa diễn ra quá nhanh đã làm giảm diện tích đất sản xuất nhưng vẫn bảo đảm được sự cân bằng của các hệ sinh thái", "Sự gia tăng dân số cùng với biến đổi khí hậu là nguyên nhân duy nhất dẫn đến khủng hoảng môi trường trên toàn thế giới"], c: 1, sIdx: 216},
+            {q: "Theo Nghị quyết Đại hội XIII, công tác dân số cần tập trung vào nội dung nào?", a: ["Kiểm soát tốc độ gia tăng dân số, mở rộng phân bố dân cư hợp lý và tăng cường khai thác nguồn nhân lực cho phát triển kinh tế", "Nâng cao chất lượng dân số gắn với nâng cao chất lượng nguồn nhân lực, bảo đảm tăng dân số hợp lý và cân bằng giới tính khi sinh", "Giảm nhanh quy mô dân số, điều chỉnh cơ cấu lao động và tăng tỷ lệ dân cư thành thị nhằm đáp ứng yêu cầu phát triển đất nước", "Phát triển nguồn nhân lực chất lượng cao, tăng tuổi thọ bình quan và mở rộng quy mô dân số phù hợp với tốc độ tăng trưởng kinh tế"], c: 1, sIdx: 217},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, điều kiện nào làm xuất hiện nền sản xuất hàng hóa?", a: ["Có phân công lao động xã hội và tồn tại nhiều hình thức sở hữu về tư liệu sản xuất làm cho người sản xuất độc lập với nhau", "Có sự phát triển của lực lượng sản xuất và nhà nước quản lý nền kinh tế bằng pháp luật", "Có nền sản xuất lớn và sự xuất hiện của tiền tệ làm phương tiện trao đổi", "Có nền kinh tế thị trường cùng với hoạt động mua bán diễn ra thường xuyên"], c: 0, sIdx: 218},
+            {q: "Vì sao giá trị của hàng hóa không được quyết định bởi hao phí lao động cá biệt của từng người sản xuất?", a: ["Vì giá trị hàng hóa do quan hệ cung - cầu quyết định", "Vì giá trị hàng hóa được quyết định bởi thời gian lao động xã hội cần thiết, không phải thời gian lao động cá biệt", "Vì giá trị hàng hóa do giá bán trên thị trường quyết định", "Vì mọi người sản xuất đều có năng suất lao động như nhau"], c: 1, sIdx: 219},
+            {q: "Theo lý luận của Mác - Lênin, yếu tố nào giải quyết mâu thuẫn trong công thức chung của tư bản (T - H - T') và là nguồn gốc trực tiếp của giá trị thặng dư?", a: ["Tiền tệ thực hiện đầy đủ các chức năng trong lưu thông", "Nhà tư bản mua hàng hóa với giá thấp và bán với giá cao", "Sự tồn tại của hàng hóa sức lao động có khả năng tạo ra giá trị mới lớn hơn giá trị của bản thân nó", "Việc tăng tốc độ lưu thông và chu chuyển của tư bản"], c: 2, sIdx: 220},
+            {q: "Trong quá trình sản xuất tư bản chủ nghĩa, bộ phận tư bản nào là nguồn gốc trực tiếp tạo ra giá trị thặng dư?", a: ["Tư bản bất biến vì quyết định năng suất của quá trình sản xuất", "Tư bản khả biến vì thông qua sức lao động tạo ra giá trị mới lớn hơn giá trị của chính nó", "Toàn bộ tư bản ứng trước vì đều tham gia vào quá trình tạo ra sản phẩm", "Máy móc và nguyên liệu vì trực tiếp cấu thành giá trị của hàng hóa"], c: 1, sIdx: 221},
+            {q: "Theo học thuyết giá trị thặng dư, trường hợp nào phản ánh phương pháp sản xuất giá trị thặng dư tương đối?", a: ["Doanh nghiệp kéo dài ngày lao động nhưng không thay đổi năng suất lao động", "Doanh nghiệp tăng cường độ lao động trong khi năng suất không đổi", "Doanh nghiệp áp dụng công nghệ mới làm tăng năng suất lao động, rút ngắn thời gian lao động tất yếu", "Doanh nghiệp giảm tiền công nhưng vẫn giữ nguyên thời gian lao động"], c: 2, sIdx: 222},
+            {q: "Tích lũy tư bản thực chất là", a: ["biến toàn bộ lợi nhuận thành vốn để mở rộng sản xuất", "biến một phần giá trị thặng dư thành tư bản phụ thêm nhằm mở rộng sản xuất", "sử dụng toàn bộ doanh thu để đầu tư đổi mới công nghệ", "tăng quy mô sản xuất thông qua vay vốn ngân hàng"], c: 1, sIdx: 223},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, nguyên nhân chủ yếu dẫn đến sự chuyển biến từ chủ nghĩa tư bản tự do cạnh tranh sang chủ nghĩa tư bản độc quyền là", a: ["sự phát triển của thương mại quốc tế làm giảm cạnh tranh giữa các doanh nghiệp", "quá trình tích tụ và tập trung sản xuất đạt trình độ cao, hình thành các tổ chức độc quyền", "nhà nước tư sản mở rộng quyền quản lý nền kinh tế bằng các chính sách tài chính", "các doanh nghiệp nhỏ tự nguyện hợp nhất nhằm nâng cao hiệu quả sản xuất"], c: 1, sIdx: 224},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin tư bản tài chính được hình thành trên cơ sở", a: ["sự hợp nhất giữa tư bản thương nghiệp với tư bản cho vay", "sự dung hợp giữa tổ chức độc quyền ngân hàng và tổ chức độc quyền công nghiệp", "sự kết hợp giữa tư bản công nghiệp với tư bản kinh doanh ruộng đất", "sự phát triển đồng thời của tư bản thương nghiệp và tư bản ngân hàng"], c: 1, sIdx: 225},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, mục đích chủ yếu của xuất khẩu tư bản trong giai đoạn chủ nghĩa tư bản độc quyền là", a: ["thúc đẩy quá trình công nghiệp hóa ở các nước đang phát triển", "mở rộng hợp tác quốc tế nhằm phát triển thương mại bình đẳng", "đầu tư ra nước ngoài để thu được lợi nhuận độc quyền cao", "hỗ trợ các nước nghèo xây dựng cơ sở hạ tầng và phát triển kinh tế"], c: 2, sIdx: 226},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, nhận định nào phản ánh đầy đủ nhất vai trò lịch sử của chủ nghĩa tư bản?", a: ["Chủ nghĩa tư bản chỉ tạo ra những thành tựu về khoa học và công nghệ nhưng không làm thay đổi phương thức sản xuất", "Chủ nghĩa tư bản vừa thúc đẩy mạnh mẽ sự phát triển lực lượng sản xuất và xã hội hóa sản xuất, vừa chứa đựng những mâu thuẫn cơ bản không thể khắc phục trong khuôn khổ của nó", "Chủ nghĩa tư bản đã giải quyết triệt để mâu thuẫn giữa lao động và tư bản thông qua cơ chế thị trường hiện đại", "Chủ nghĩa tư bản là hình thái kinh tế - xã hội cuối cùng của lịch sử phát triển nhân loại"], c: 1, sIdx: 227},
+            {q: "Nguyên nhân căn bản làm cho chủ nghĩa xã hội ra đời một cách tất yếu là gì?", a: ["Chủ nghĩa tư bản phát triển mạnh nhưng vẫn duy trì quan hệ chiếm hữu tư nhân, làm nảy sinh mâu thuẫn giữa lực lượng sản xuất xã hội hóa cao với quan hệ sản xuất tư bản chủ nghĩa", "Chủ nghĩa tư bản phát triển mạnh, tạo ra nhiều của cải vật chất nên có đủ điều kiện chuyển ngay sang chủ nghĩa xã hội mà không cần cải biến quan hệ sản xuất", "Chủ nghĩa tư bản phát triển khoa học và công nghệ nhưng vẫn bảo đảm sự phù hợp lâu dài giữa lực lượng sản xuất với quan hệ sản xuất tư bản chủ nghĩa", "Chủ nghĩa tư bản đạt trình độ phát triển cao nên giai cấp tư sản tự nguyện chuyển giao quyền lực nhà nước cho giai cấp công nhân và nhân dân lao động"], c: 0, sIdx: 228},
+            {q: "Cách mạng xã hội chủ nghĩa có ý nghĩa cơ bản nào?", a: ["Là cuộc cải cách kinh tế nhằm mở rộng sở hữu tư nhân và phát triển lực lượng sản xuất theo cơ chế thị trường tự do", "Là cuộc cách mạng toàn diện nhằm xóa bỏ chế độ tư hữu về tư liệu sản xuất chủ yếu, thiết lập chính quyền của nhân dân lao động và xây dựng xã hội mới", "Là quá trình điều chỉnh chính sách kinh tế của nhà nước để giảm mâu thuẫn xã hội mà vẫn giữ nguyên chế độ tư bản chủ nghĩa", "Là sự thay đổi bộ máy hành chính nhằm nâng cao hiệu quả quản lý nhà nước nhưng không làm thay đổi bản chất chế độ xã hội"], c: 1, sIdx: 229},
+            {q: "Theo Cương lĩnh năm 2011, đặc trưng nào phản ánh đầy đủ mục tiêu xây dựng xã hội xã hội chủ nghĩa ở Việt Nam?", a: ["Xây dựng nền kinh tế phát triển nhanh, mở rộng thị trường tự do và bảo đảm cạnh tranh bình đẳng giữa các doanh nghiệp thuộc mọi thành phần kinh tế", "Xây dựng xã hội dân giàu, nước mạnh, dân chủ, công bằng, văn minh; nhân dân làm chủ; kinh tế phát triển; văn hóa tiên tiến và con người phát triển toàn diện", "Xây dựng nền kinh tế thị trường hoàn chỉnh theo mô hình tư bản hiện đại, lấy tăng trưởng kinh tế làm mục tiêu quan trọng nhất của đất nước", "Xây dựng xã hội ưu tiên phát triển kinh tế trước, còn các mục tiêu về văn hóa, công bằng xã hội và dân chủ sẽ từng bước thực hiện sau"], c: 1, sIdx: 230},
+            {q: "Đặc điểm nổi bật của thời kỳ quá độ lên chủ nghĩa xã hội là gì?", a: ["Chỉ còn duy nhất chế độ công hữu và nền kinh tế xã hội chủ nghĩa, các thành phần kinh tế khác hoàn toàn không còn tồn tại", "Có nhiều hình thức sở hữu, nhiều thành phần kinh tế và nhiều giai cấp, tầng lớp xã hội cùng tồn tại trong quá trình phát triển theo định hướng xã hội chủ nghĩa", "Toàn bộ nền kinh tế chuyển ngay sang cơ chế kế hoạch hóa tập trung và không còn quan hệ hàng hóa, tiền tệ trong đời sống xã hội", "Chỉ còn tồn tại kinh tế nhà nước và kinh tế tập thể, các thành phần kinh tế khác đều bị xóa bỏ ngay từ đầu thời kỳ quá độ"], c: 1, sIdx: 231},
+            {q: "Nội dung trọng tâm của quá trình xây dựng chủ nghĩa xã hội trong lĩnh vực kinh tế là gì?", a: ["Phát triển lực lượng sản xuất hiện đại, từng bước xây dựng quan hệ sản xuất phù hợp và phát huy mọi thành phần kinh tế theo định hướng xã hội chủ nghĩa", "Phát triển nhanh khu vực kinh tế tư nhân, giảm vai trò quản lý của Nhà nước và mở rộng hoàn toàn quyền tự do cạnh tranh trên thị trường", "Ưu tiên mở rộng đầu tư nước ngoài, giảm tỷ trọng kinh tế nhà nước và chuyển toàn bộ nền kinh tế sang cơ chế thị trường tự do", "Duy trì nền kinh tế bao cấp, hạn chế cạnh tranh giữa các thành phần kinh tế nhằm bảo đảm sự ổn định lâu dài của nền kinh tế quốc dân"], c: 0, sIdx: 232},
+            {q: "Vì sao thời kỳ quá độ lên chủ nghĩa xã hội phải diễn ra trong thời gian tương đối dài?", a: ["Vì cần từng bước cải tạo toàn diện xã hội cũ, xây dựng cơ sở vật chất, hoàn thiện quan hệ sản xuất mới và phát triển đồng bộ kinh tế, chính trị, văn hóa, xã hội", "Vì cần tập trung phát triển kinh tế thị trường, sau đó mới từng bước xây dựng quan hệ sản xuất xã hội chủ nghĩa và hoàn thiện hệ thống chính trị khi điều kiện cho phép", "Vì chỉ cần phát triển lực lượng sản xuất đến trình độ cao, còn các lĩnh vực chính trị, văn hóa và xã hội sẽ tự động chuyển biến phù hợp theo quy luật", "Vì mục tiêu chủ yếu là mở rộng quan hệ đối ngoại, thu hút đầu tư nước ngoài và phát triển thương mại quốc tế trước khi xây dựng đầy đủ chủ nghĩa xã hội"], c: 0, sIdx: 233},
+            {q: "Sự kiện nào đánh dấu bước chuyển biến quyết định của Nguyễn Ái Quốc từ chủ nghĩa yêu nước đến với chủ nghĩa Mác - Lênin?", a: ["Đi nhiều nước", "Học ngoại ngữ", "Đọc “Sơ thảo lần thứ nhất những luận cương về vấn đề dân tộc và vẫn đề thuộc địa” của V.I. Lênin.", "Làm báo"], c: 2, sIdx: 234},
+            {q: "Điểm sáng tạo nổi bật của Hồ Chí Minh trong vận dụng chủ nghĩa Mác - Lênin là:", a: ["Nhập nguyên bản lý thuyết không đổi", "Vận dụng phù hợp điều kiện thực tế Việt Nam", "Chỉ áp dụng kinh tế - xã hội", "Chỉ áp dụng quân sự - chính trị"], c: 1, sIdx: 235},
+            {q: "Theo tư tưởng Hồ Chí Minh, mục tiêu cao nhất của sự nghiệp cách mạng Việt Nam là gì?", a: ["Phát triển kinh tế - xã hội", "Giải phóng dân tộc, giải phóng giai cấp và giải phóng con người", "Giải phóng giai cấp và con người", "Công nghiệp hóa - hiện đại hóa"], c: 1, sIdx: 236},
+            {q: "Theo Hồ Chí Minh, yếu tố quyết định thắng lợi của cách mạng là:", a: ["Quân đội", "Đảng cách mạng lãnh đạo", "Quốc tế giúp đỡ", "Vũ khí"], c: 1, sIdx: 237},
+            {q: "Theo tư tưởng Hồ Chí Minh, mối quan hệ giữa độc lập dân tộc và chủ nghĩa xã hội được thể hiện đầy đủ nhất ở nội dung nào?", a: ["Độc lập dân tộc là điều kiện tiên quyết để nhân dân lựa chọn và xây dựng chủ nghĩa xã hội; đồng thời chủ nghĩa xã hội là cơ sở bảo đảm vững chắc nhất để giữ vững nền độc lập dân tộc, phát triển đất nước và nâng cao đời sống nhân dân", "Độc lập dân tộc là mục tiêu trước mắt, còn chủ nghĩa xã hội là mục tiêu lâu dài; hai nhiệm vụ có mối quan hệ hỗ trợ lẫn nhau nhưng có thể thực hiện độc lập tùy theo điều kiện phát triển của từng giai đoạn lịch sử", "Chủ nghĩa xã hội giữ vai trò quyết định đối với việc giành độc lập dân tộc, còn độc lập dân tộc chỉ tạo điều kiện để mở rộng quan hệ quốc tế, phát triển kinh tế và từng bước hoàn thiện chế độ chính trị", "Độc lập dân tộc và chủ nghĩa xã hội đều là mục tiêu của cách mạng Việt Nam, song việc xây dựng chủ nghĩa xã hội chỉ có thể thực hiện sau khi hoàn thành toàn bộ nhiệm vụ phát triển kinh tế và hội nhập quốc tế"], c: 0, sIdx: 238},
+            {q: "Theo tư tưởng Hồ Chí Minh, sức mạnh của khối đại đoàn kết toàn dân tộc được hình thành trên cơ sở nào?", a: ["Được xây dựng trên nền tảng liên minh giữa giai cấp công nhân với giai cấp nông dân và đội ngũ trí thức dưới sự lãnh đạo của Đảng, nhằm tập hợp mọi lực lượng yêu nước thành sức mạnh tổng hợp của dân tộc", "Được xây dựng trên cơ sở liên minh giữa giai cấp công nhân với giai cấp nông dân và các tổ chức chính trị - xã hội, dưới sự quản lý thống nhất của Nhà nước nhằm phát huy quyền làm chủ của nhân dân", "Được hình thành từ sự đoàn kết giữa mọi giai cấp, tầng lớp xã hội và các lực lượng vũ trang, lấy mục tiêu phát triển kinh tế, giữ vững quốc phòng và bảo đảm an sinh xã hội làm nền tảng", "Được hình thành trên cơ sở thống nhất lợi ích kinh tế giữa các thành phần kinh tế"], c: 0, sIdx: 239},
+            {q: "Theo tư tưởng Hồ Chí Minh, đặc trưng nổi bật của Nhà nước của dân, do dân, vì dân là gì?", a: ["Là Nhà nước mang bản chất giai cấp công nhân, có tính nhân dân và tính dân tộc sâu sắc, do Đảng lãnh đạo, mọi quyền lực thuộc về nhân dân và hoạt động vì lợi ích của nhân dân", "Là Nhà nước hoạt động theo nguyên tắc tập trung dân chủ, thực hiện thống nhất quyền lực, bảo đảm quyền làm chủ của nhân dân thông qua hệ thống pháp luật và các cơ quan quyền lực nhà nước", "Là Nhà nước đặt dưới sự lãnh đạo của Đảng, lấy phát triển kinh tế, giữ vững quốc phòng, xây dựng nền hành chính hiện đại và nâng cao hiệu lực quản lý xã hội làm nhiệm vụ trung tâm", "Là Nhà nước bảo đảm quyền dân chủ rộng rãi của nhân dân, xây dựng đội ngũ cán bộ có phẩm chất đạo đức, trình độ chuyên môn và tăng cường cải cách hành chính đáp ứng yêu cầu phát triển"], c: 0, sIdx: 240},
+            {q: "Theo tư tưởng Hồ Chí Minh, nội dung cốt lõi của đạo đức cách mạng được thể hiện đầy đủ nhất ở phương án nào?", a: ["Trung với nước, hiếu với dân; suốt đời phấn đấu hy sinh vì độc lập dân tộc và chủ nghĩa xã hội; thực hành cần, kiệm, liêm, chính, chí công vô tư làm nền tảng rèn luyện của người cách mạng", "Trung thành với lý tưởng của Đảng, tận tụy phục vụ nhân dân; thường xuyên rèn luyện phẩm chất cần, kiệm, liêm, chính; nâng cao trình độ chuyên môn và tinh thần trách nhiệm trong mọi nhiệm vụ được giao", "Đặt lợi ích tập thể lên trên lợi ích cá nhân; phát huy tinh thần đoàn kết, ý thức tổ chức kỷ luật, lối sống giản dị, trung thực và trách nhiệm đối với sự nghiệp xây dựng và bảo vệ Tổ quốc", "Không ngừng học tập, tu dưỡng phẩm chất đạo đức, phát huy tinh thần yêu nước, ý thức phục vụ nhân dân, chống chủ nghĩa cá nhân và xây dựng lối sống trong sạch, lành mạnh trong mọi hoàn cảnh"], c: 0, sIdx: 241},
+            {q: "Theo tư tưởng Hồ Chí Minh, vì sao việc xây dựng Đảng trong sạch, vững mạnh giữ vị trí đặc biệt quan trọng?", a: ["Vì cách mạng muốn thành công phải có Đảng cách mạng chân chính lãnh đạo; Đảng phải có đường lối đúng đắn, đoàn kết thống nhất, thực hiện nghiêm nguyên tắc tập trung dân chủ và thường xuyên tự phê bình, phê bình", "Vì Đảng là lực lượng lãnh đạo Nhà nước và xã hội nên phải không ngừng nâng cao năng lực cầm quyền, xây dựng đội ngũ cán bộ có trình độ chuyên môn cao, đáp ứng yêu cầu phát triển đất nước trong thời kỳ mới", "Vì Đảng là tổ chức đại diện cho lợi ích của nhân dân lao động và dân tộc nên phải mở rộng dân chủ, phát huy sức mạnh đại đoàn kết, tăng cường kiểm tra, giám sát và đổi mới phương thức lãnh đạo", "Vì Đảng giữ vai trò quyết định trong mọi lĩnh vực của đời sống xã hội nên cần chú trọng xây dựng tổ chức vững mạnh, nâng cao chất lượng đảng viên và tăng cường hiệu lực quản lý của bộ máy nhà nước"], c: 0, sIdx: 242},
+            {q: "Ý nghĩa quan trọng của việc nghiên cứu, học tập tư tưởng Hồ Chí Minh được thể hiện đầy đủ nhất ở nội dung nào?", a: ["Giúp nâng cao nhận thức lý luận, giáo dục đạo đức cách mạng, củng cố bản lĩnh chính trị, phát huy tinh thần độc lập, tự chủ, đổi mới, sáng tạo và vận dụng đúng đắn tư tưởng Hồ Chí Minh vào thực tiễn", "Giúp nâng cao trình độ lý luận chính trị, phát triển năng lực chuyên môn, xây dựng đạo đức nghề nghiệp, củng cố tinh thần đoàn kết và góp phần thực hiện thắng lợi các nhiệm vụ phát triển kinh tế - xã hội", "Giúp giáo dục truyền thống yêu nước, nâng cao ý thức công dân, xây dựng bản lĩnh chính trị, phát huy sức mạnh đại đoàn kết và tích cực tham gia bảo vệ nền tảng tư tưởng của Đảng trong giai đoạn mới", "Giúp hoàn thiện nhân cách, nâng cao năng lực tư duy, đổi mới phương pháp công tác, phát huy tinh thần trách nhiệm và xây dựng đội ngũ cán bộ đáp ứng yêu cầu của sự nghiệp công nghiệp hóa, hiện đại hóa"], c: 0, sIdx: 243},
+            {q: "Theo Chiến lược Quốc phòng Việt Nam, nhiệm vụ chung của quốc phòng, an ninh hiện nay được xác định đầy đủ nhất là gì?", a: ["Xây dựng nền quốc phòng toàn dân vững mạnh; phát triển kinh tế kết hợp quốc phòng; mở rộng đối ngoại quốc phòng; nâng cao vị thế quốc tế và bảo đảm môi trường hòa bình lâu dài", "Bảo vệ Đảng, Nhà nước và nhân dân; phát triển kinh tế gắn với quốc phòng; tăng cường sức mạnh quân đội; mở rộng hợp tác quốc tế và giữ vững ổn định chính trị trong mọi tình huống", "Bảo vệ vững chắc độc lập, tự chủ, chủ quyền, thống nhất, toàn vẹn lãnh thổ; bảo vệ Đảng, Nhà nước, nhân dân và chế độ xã hội chủ nghĩa; giữ vững hòa bình, ngăn ngừa chiến tranh và sẵn sàng đánh thắng mọi hình thái chiến tranh xâm lược", "Bảo vệ chủ quyền, toàn vẹn lãnh thổ; giữ vững ổn định chính trị; phát triển kinh tế nhanh; mở rộng hội nhập quốc tế; từng bước hiện đại hóa lực lượng vũ trang đáp ứng yêu cầu mới"], c: 2, sIdx: 244},
+            {q: "Đại hội XIII của Đảng xác định nhiệm vụ củng cố quốc phòng, an ninh thuộc về lực lượng nào?", a: ["Là nhiệm vụ trọng yếu, thường xuyên của Đảng, Nhà nước, hệ thống chính trị và toàn dân; trong đó Quân đội nhân dân và Công an nhân dân là lực lượng nòng cốt", "Là nhiệm vụ của Quân đội nhân dân, Công an nhân dân và các cơ quan chuyên trách; dưới sự lãnh đạo của Đảng và quản lý thống nhất của Nhà nước", "Là nhiệm vụ của toàn dân và toàn quân; trong đó Quân đội nhân dân giữ vai trò chủ trì, Công an nhân dân phối hợp và các địa phương trực tiếp tổ chức thực hiện", "Là nhiệm vụ của hệ thống chính trị, các lực lượng vũ trang và chính quyền địa phương; trong đó Quân đội nhân dân là lực lượng chủ yếu bảo vệ Tổ quốc"], c: 0, sIdx: 245},
+            {q: "Theo Đại hội XIII của Đảng, quan điểm kết hợp các lĩnh vực trong xây dựng và bảo vệ Tổ quốc được xác định như thế nào?", a: ["Phát triển kinh tế gắn với quốc phòng; tăng cường đối ngoại; xây dựng nền văn hóa tiên tiến; phát huy sức mạnh của toàn dân trong mọi lĩnh vực", "Kết hợp quốc phòng với phát triển kinh tế; nâng cao tiềm lực khoa học, công nghệ; xây dựng lực lượng vũ trang hiện đại và mở rộng hợp tác quốc tế", "Xây dựng nền quốc phòng toàn dân gắn với phát triển kinh tế, văn hóa và giáo dục; phát huy sức mạnh dân tộc kết hợp sức mạnh thời đại", "Kiên trì quốc phòng toàn dân, chiến tranh nhân dân; tự lực, tự cường; kết hợp chặt chẽ quốc phòng với an ninh, đối ngoại, kinh tế, văn hóa và xã hội"], c: 3, sIdx: 246},
+            {q: "Quan điểm của Việt Nam về hội nhập quốc tế trong lĩnh vực quốc phòng là gì?", a: ["Đẩy mạnh đối ngoại quốc phòng; phát triển quan hệ với các nước lớn; tăng cường hợp tác quân sự nhằm nâng cao sức mạnh quốc phòng quốc gia", "Giữ vững độc lập, tự chủ; chủ động, tích cực hội nhập quốc tế về quốc phòng; vừa hợp tác vừa đấu tranh; bảo vệ Tổ quốc từ sớm, từ xa", "Chủ động hội nhập quốc tế; mở rộng hợp tác an ninh; tăng cường trao đổi quốc phòng; kết hợp chặt chẽ giữa đối ngoại và phát triển kinh tế", "Mở rộng hợp tác quốc phòng với tất cả các nước; tăng cường liên kết quốc tế; tranh thủ nguồn lực bên ngoài để hiện đại hóa quân đội"], c: 1, sIdx: 247},
+            {q: "Theo quan điểm của chủ nghĩa Mác - Lênin, nhận định nào phản ánh đầy đủ nhất mối quan hệ giữa bản chất giai cấp và tính xã hội của pháp luật?", a: ["Pháp luật chủ yếu phản ánh lợi ích chung của toàn xã hội, còn bản chất giai cấp chỉ thể hiện trong từng giai đoạn lịch sử và không giữ vai trò quyết định đối với việc điều chỉnh các quan hệ xã hội", "Pháp luật vừa mang bản chất giai cấp vừa mang tính xã hội; trong đó bản chất giai cấp giữ vai trò cốt lõi, quyết định, còn tính xã hội thể hiện ở việc đáp ứng lợi ích chung và duy trì trật tự xã hội trong phạm vi nhất định", "Pháp luật chỉ phản ánh ý chí của giai cấp thống trị, còn những lợi ích chung của xã hội chỉ được bảo đảm thông qua đạo đức, tập quán và các quy phạm xã hội khác nên không thuộc phạm vi điều chỉnh của pháp luật", "Pháp luật chủ yếu mang tính xã hội vì được áp dụng đối với mọi cá nhân, tổ chức; còn bản chất giai cấp chỉ là yếu tố lịch sử và không còn giữ vai trò trong nhà nước hiện đại"], c: 1, sIdx: 248},
+            {q: "Vì sao sự ra đời của nhà nước là nguồn gốc trực tiếp của pháp luật?", a: ["Vì nhà nước là tổ chức duy nhất có quyền quản lý kinh tế, còn pháp luật chỉ hình thành khi hoạt động quản lý kinh tế phát triển đến trình độ nhất định", "Vì khi xuất hiện nhà nước thì các quy phạm xã hội trước đây hoàn toàn bị xóa bỏ và chỉ còn các quy phạm pháp luật điều chỉnh mọi quan hệ xã hội", "Vì sự hình thành nhà nước làm xuất hiện nhu cầu thay thế toàn bộ tập quán bằng các quy phạm pháp luật mới, không còn kế thừa bất kỳ tập quán nào trước đó", "Vì nhà nước có quyền đặt ra hoặc thừa nhận các quy tắc xử sự chung và bảo đảm thực hiện bằng quyền lực nhà nước"], c: 3, sIdx: 249},
+            {q: "Đặc trưng nào giúp phân biệt pháp luật với các quy phạm đạo đức, tôn giáo hoặc quy tắc của các tổ chức xã hội khác?", a: ["Pháp luật do nhà nước ban hành hoặc thừa nhận, được bảo đảm thực hiện bằng quyền lực và sức mạnh cưỡng chế của nhà nước, đồng thời có hiệu lực bắt buộc chung đối với mọi tổ chức, cá nhân thuộc phạm vi điều chỉnh", "Pháp luật phản ánh những giá trị đạo đức và phong tục truyền thống, được cộng đồng thừa nhận và thực hiện chủ yếu trên cơ sở tự nguyện của các thành viên trong xã hội", "Pháp luật được hình thành từ các tập quán xã hội, được mọi người tự giác thực hiện và chỉ áp dụng khi các bên có thỏa thuận hoặc đồng thuận với nhau", "Pháp luật được xây dựng trên cơ sở những quy tắc đạo đức phổ biến, chủ yếu bảo đảm bằng dư luận xã hội và sự đánh giá của cộng đồng đối với mỗi cá nhân."], c: 0, sIdx: 250}
+        ];
+
+        // EXAM STATE
+        let examState = {
+            mode: 'test', 
+            quantity: 250,
+            shuffleQuestions: true,
+            shuffleOptions: true,
+            questions: [], 
+            userAnswers: {}, 
+            flags: {}, 
+            currentIndex: 0,
+            startTime: null,
+            timerInterval: null,
+            timeLimit: 90 * 60, // 90 mins in secs
+            timeRemaining: 90 * 60,
+            isSubmitted: false
+        };
+
+        // CONFIGURE TEST / PRACTICE
+        function setExamMode(mode) {
+            examState.mode = mode;
+            const btnTest = document.getElementById('btn-mode-test');
+            const btnPractice = document.getElementById('btn-mode-practice');
+
+            if (mode === 'test') {
+                btnTest.className = "flex flex-col p-3 rounded-2xl border-2 border-blue-600 bg-blue-50/50 text-blue-900 transition-all text-left";
+                btnPractice.className = "flex flex-col p-3 rounded-2xl border border-slate-200 hover:border-slate-300 transition-all text-left text-slate-600";
+            } else {
+                btnPractice.className = "flex flex-col p-3 rounded-2xl border-2 border-blue-600 bg-blue-50/50 text-blue-900 transition-all text-left";
+                btnTest.className = "flex flex-col p-3 rounded-2xl border border-slate-200 hover:border-slate-300 transition-all text-left text-slate-600";
+            }
+        }
+
+        // HELPER: SHUFFLE
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // START BUTTON ACTION
+        function startExam() {
+            const qtySelect = document.getElementById('select-quantity');
+            examState.quantity = parseInt(qtySelect.value);
+            examState.shuffleQuestions = document.getElementById('chk-shuffle-questions').checked;
+            examState.shuffleOptions = document.getElementById('chk-shuffle-options').checked;
+
+            let prepared = RAW_QUESTIONS.map((item, idx) => {
+                const correctText = item.a[item.c];
+                return {
+                    id: idx,
+                    q: item.q,
+                    originalIndex: item.sIdx,
+                    options: item.a,
+                    correctValue: correctText
+                };
+            });
+
+            // Shuffling Questions
+            if (examState.shuffleQuestions) {
+                prepared = shuffleArray(prepared);
+            }
+            prepared = prepared.slice(0, examState.quantity);
+
+            // Shuffling Options
+            if (examState.shuffleOptions) {
+                prepared = prepared.map(item => {
+                    return {
+                        ...item,
+                        options: shuffleArray(item.options)
+                    };
+                });
+            }
+
+            examState.questions = prepared;
+            examState.userAnswers = {};
+            examState.flags = {};
+            examState.currentIndex = 0;
+            examState.isSubmitted = false;
+            examState.startTime = new Date();
+
+            // Toggle Panels view
+            document.getElementById('config-panel').classList.add('hidden');
+            document.getElementById('exam-panel').classList.remove('hidden');
+            document.getElementById('exam-live-info').classList.remove('hidden');
+
+            if (examState.mode === 'test') {
+                examState.timeRemaining = examState.timeLimit;
+                startTimer();
+            } else {
+                document.getElementById('timer-display').innerText = "Luyện Tập";
+                document.getElementById('progress-bar').parentElement.classList.add('hidden');
+            }
+
+            renderSidebarGrid();
+            renderActiveQuestion();
+            updateProgressState();
+        }
+
+        // CLOCK CONTROLS
+        function startTimer() {
+            clearInterval(examState.timerInterval);
+            document.getElementById('progress-bar').parentElement.classList.remove('hidden');
+            
+            examState.timerInterval = setInterval(() => {
+                examState.timeRemaining--;
+                if (examState.timeRemaining <= 0) {
+                    clearInterval(examState.timerInterval);
+                    submitExam();
+                    showToast("Thời gian làm bài đã kết thúc! Hệ thống tự động nộp bài.");
+                } else {
+                    updateTimerUI();
+                }
+            }, 1000);
+            updateTimerUI();
+        }
+
+        function updateTimerUI() {
+            const minutes = Math.floor(examState.timeRemaining / 60);
+            const seconds = examState.timeRemaining % 60;
+            const displayStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            const timerEl = document.getElementById('timer-display');
+            timerEl.innerText = displayStr;
+
+            if (examState.timeRemaining < 600) {
+                timerEl.classList.remove('text-blue-600');
+                timerEl.classList.add('text-rose-500', 'animate-pulse');
+            } else {
+                timerEl.classList.remove('text-rose-500', 'animate-pulse');
+                timerEl.classList.add('text-blue-600');
+            }
+        }
+
+        // UPDATE BAR & PROGRESS VALUE
+        function updateProgressState() {
+            const answeredCount = Object.keys(examState.userAnswers).length;
+            const progressPct = (answeredCount / examState.quantity) * 100;
+            
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) progressBar.style.width = `${progressPct}%`;
+
+            const completedBadge = document.getElementById('completed-badge');
+            if (completedBadge) completedBadge.innerText = `${answeredCount}/${examState.quantity}`;
+        }
+
+        // RENDER ACTIVE CARD INTERACTIVE ELEMENTS
+        function renderActiveQuestion() {
+            const currentQ = examState.questions[examState.currentIndex];
+            if (!currentQ) return;
+
+            document.getElementById('current-index-badge').innerText = (examState.currentIndex + 1).toString();
+            document.getElementById('question-original-index').innerText = `Câu hỏi gốc số ${currentQ.originalIndex}`;
+            document.getElementById('question-text').innerText = currentQ.q;
+
+            // Flag system values
+            const flagBtn = document.getElementById('btn-flag');
+            const flagIcon = document.getElementById('flag-icon');
+            const flagText = document.getElementById('flag-text');
+            
+            if (examState.flags[examState.currentIndex]) {
+                flagBtn.className = "flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 transition-all text-xs font-bold uppercase tracking-wider";
+                flagIcon.setAttribute('fill', 'currentColor');
+                flagIcon.classList.remove('text-slate-400');
+                flagIcon.classList.add('text-amber-500');
+                flagText.innerText = "Đã đánh dấu";
+            } else {
+                flagBtn.className = "flex items-center space-x-1 px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-all text-xs font-bold uppercase tracking-wider";
+                flagIcon.setAttribute('fill', 'none');
+                flagIcon.classList.remove('text-amber-500');
+                flagIcon.classList.add('text-slate-400');
+                flagText.innerText = "Xem lại sau";
+            }
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const selectedValue = examState.userAnswers[examState.currentIndex];
+
+            currentQ.options.forEach((opt, idx) => {
+                const isSelected = selectedValue === opt;
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.onclick = () => selectOption(opt);
+                
+                let styleClass = "w-full flex items-center space-x-3 p-4 rounded-2xl border transition-all text-left text-sm font-semibold ";
+                
+                if (isSelected) {
+                    styleClass += "bg-blue-50/70 border-blue-500 text-blue-950 shadow-sm ";
+                } else {
+                    styleClass += "bg-white border-slate-200 text-slate-700 hover:bg-slate-50/75 hover:border-slate-300 ";
+                }
+
+                // In practice mode, provide instant responses
+                if (examState.mode === 'practice' && selectedValue) {
+                    card.disabled = true;
+                    if (opt === currentQ.correctValue) {
+                        styleClass = "w-full flex items-center space-x-3 p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-955 text-left text-sm font-bold shadow-sm";
+                    } else if (isSelected) {
+                        styleClass = "w-full flex items-center space-x-3 p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-955 text-left text-sm font-bold shadow-sm";
+                    }
+                }
+
+                card.className = styleClass;
+                const charCode = String.fromCharCode(65 + idx);
+
+                card.innerHTML = `
+                    <span class="w-7 h-7 rounded-lg flex items-center justify-center font-extrabold text-xs shrink-0 select-none ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 border border-slate-200 text-slate-500'}">
+                        ${charCode}
+                    </span>
+                    <span class="flex-grow">${opt}</span>
+                    ${examState.mode === 'practice' && selectedValue && opt === currentQ.correctValue ? 
+                        `<span class="text-emerald-600 text-xs font-bold uppercase ml-2 shrink-0">Chính xác</span>` : ''}
+                `;
+
+                container.appendChild(card);
+            });
+
+            document.getElementById('btn-prev').disabled = examState.currentIndex === 0;
+            document.getElementById('btn-prev').style.opacity = examState.currentIndex === 0 ? '0.4' : '1';
+        }
+
+        // ANSWER INPUT SELECTION
+        function selectOption(value) {
+            if (examState.isSubmitted) return;
+
+            examState.userAnswers[examState.currentIndex] = value;
+            
+            renderActiveQuestion();
+            updateProgressState();
+            renderSidebarGrid();
+
+            // Swift automatic forward swipe on Practice mode
+            if (examState.mode === 'practice' && examState.currentIndex < examState.quantity - 1) {
+                setTimeout(() => {
+                    if (examState.userAnswers[examState.currentIndex] === value) {
+                        navigateQuestion(1);
+                    }
+                }, 750);
+            }
+        }
+
+        // FLAG TOGGLER
+        function toggleFlag() {
+            if (examState.flags[examState.currentIndex]) {
+                delete examState.flags[examState.currentIndex];
+            } else {
+                examState.flags[examState.currentIndex] = true;
+            }
+            renderActiveQuestion();
+            renderSidebarGrid();
+        }
+
+        // DIRECTION TRAVERSAL
+        function navigateQuestion(direction) {
+            const nextIdx = examState.currentIndex + direction;
+            if (nextIdx >= 0 && nextIdx < examState.quantity) {
+                examState.currentIndex = nextIdx;
+                renderActiveQuestion();
+                renderSidebarGrid();
+            }
+        }
+
+        // INDEX NAVIGATE JUMP
+        function jumpToQuestion(index) {
+            examState.currentIndex = index;
+            renderActiveQuestion();
+            renderSidebarGrid();
+            
+            const mobileDrawer = document.getElementById('mobile-grid-drawer');
+            if (!mobileDrawer.classList.contains('hidden')) {
+                toggleMobileGrid();
+            }
+        }
+
+        // GRID GENERATOR
+        function renderSidebarGrid() {
+            const gridDesktop = document.getElementById('sidebar-question-grid');
+            const gridMobile = document.getElementById('mobile-grid-content');
+
+            const makeGridHTML = () => {
+                let html = '';
+                for (let i = 0; i < examState.quantity; i++) {
+                    const isCurrent = i === examState.currentIndex;
+                    const isAnswered = examState.userAnswers[i] !== undefined;
+                    const isFlagged = examState.flags[i] === true;
+
+                    let bgClass = "bg-slate-50 border border-slate-200 text-slate-500 hover:bg-slate-100";
+                    if (isAnswered) {
+                        bgClass = "bg-blue-600 border border-blue-600 text-white hover:bg-blue-700";
+                    }
+                    if (isFlagged) {
+                        bgClass = "bg-amber-400 border border-amber-400 text-slate-955 hover:bg-amber-500";
+                    }
+                    if (isCurrent) {
+                        bgClass += " ring-2 ring-offset-2 ring-blue-500 scale-105 font-bold text-slate-900";
+                    }
+
+                    html += `
+                        <button onclick="jumpToQuestion(${i})" class="w-full aspect-square flex items-center justify-center rounded-xl text-xs font-bold transition-all ${bgClass}">
+                            ${i + 1}
+                        </button>
+                    `;
+                }
+                return html;
+            };
+
+            const gridHTML = makeGridHTML();
+            gridDesktop.innerHTML = gridHTML;
+            gridMobile.innerHTML = gridHTML;
+        }
+
+        // DRAWER VISIBILITY
+        function toggleMobileGrid() {
+            const drawer = document.getElementById('mobile-grid-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        // MODAL TRIGGER SYSTEMS
+        function showSubmitConfirmModal() {
+            const answeredCount = Object.keys(examState.userAnswers).length;
+            const flaggedCount = Object.keys(examState.flags).length;
+            const unansweredCount = examState.quantity - answeredCount;
+
+            document.getElementById('modal-stat-done').innerText = answeredCount;
+            document.getElementById('modal-stat-flagged').innerText = flaggedCount;
+            document.getElementById('modal-stat-left').innerText = unansweredCount;
+
+            document.getElementById('submit-confirm-modal').classList.remove('hidden');
+        }
+
+        function closeSubmitConfirmModal() {
+            document.getElementById('submit-confirm-modal').classList.add('hidden');
+        }
+
+        // SUBMIT AND SCORE REPORT CALCULATOR
+        function submitExam() {
+            clearInterval(examState.timerInterval);
+            examState.isSubmitted = true;
+            closeSubmitConfirmModal();
+
+            let correctCount = 0;
+            examState.questions.forEach((q, idx) => {
+                const userVal = examState.userAnswers[idx];
+                if (userVal === q.correctValue) {
+                    correctCount++;
+                }
+            });
+
+            const incorrectCount = Object.keys(examState.userAnswers).length - correctCount;
+
+            // Compute score values (10-point scale)
+            const finalScoreVal = (correctCount / examState.quantity) * 10;
+            const roundedScore = Math.round(finalScoreVal * 100) / 100;
+
+            let ratingText = "CHƯA ĐẠT";
+            let ratingColorClass = "bg-rose-50 border-rose-200 text-rose-700";
+            if (roundedScore >= 9.0) {
+                ratingText = "XUẤT SẮC";
+                ratingColorClass = "bg-emerald-50 border-emerald-200 text-emerald-700";
+            } else if (roundedScore >= 8.0) {
+                ratingText = "GIỎI";
+                ratingColorClass = "bg-teal-50 border-teal-200 text-teal-700";
+            } else if (roundedScore >= 6.5) {
+                ratingText = "KHÁ";
+                ratingColorClass = "bg-amber-50 border-amber-200 text-amber-700";
+            } else if (roundedScore >= 5.0) {
+                ratingText = "TRUNG BÌNH";
+                ratingColorClass = "bg-slate-100 border-slate-300 text-slate-700";
+            }
+
+            // Calculation for times spent
+            const timeDiffSec = Math.floor((new Date() - examState.startTime) / 1000);
+            const mSpent = Math.floor(timeDiffSec / 60);
+            const sSpent = timeDiffSec % 60;
+            const timeStr = `${mSpent} phút ${sSpent} giây`;
+
+            // Display components setup
+            document.getElementById('final-score').innerText = roundedScore.toFixed(2);
+            document.getElementById('score-rating').innerText = ratingText;
+            document.getElementById('score-rating').className = `${ratingColorClass} text-[11px] font-extrabold px-4 py-1.5 rounded-full border uppercase tracking-wider`;
+            document.getElementById('stats-correct').innerText = `${correctCount} câu`;
+            document.getElementById('stats-incorrect').innerText = `${incorrectCount} câu`;
+            document.getElementById('stats-time-spent').innerText = timeStr;
+
+            // Load QR code API dynamically
+            const currentURL = window.location.href;
+            const qrImage = document.getElementById('qr-code-img');
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(currentURL)}`;
+
+            // Switch presentation views
+            document.getElementById('exam-panel').classList.add('hidden');
+            document.getElementById('exam-live-info').classList.add('hidden');
+            document.getElementById('results-panel').classList.remove('hidden');
+
+            filterReviewList('all');
+        }
+
+        // GENERATE FILTER REVIEW LIST CARDS
+        function filterReviewList(filterType) {
+            const container = document.getElementById('review-list-container');
+            container.innerHTML = '';
+
+            const filters = ['all', 'correct', 'incorrect'];
+            filters.forEach(type => {
+                const btn = document.getElementById(`filter-${type}`);
+                if (type === filterType) {
+                    btn.className = "bg-slate-900 text-white text-xs font-bold px-3.5 py-1.5 rounded-full transition-all";
+                } else {
+                    btn.className = "bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all";
+                }
+            });
+
+            examState.questions.forEach((q, idx) => {
+                const userVal = examState.userAnswers[idx];
+                const isCorrect = userVal === q.correctValue;
+
+                if (filterType === 'correct' && !isCorrect) return;
+                if (filterType === 'incorrect' && isCorrect) return;
+
+                const reviewCard = document.createElement('div');
+                reviewCard.className = `p-5 rounded-2xl border ${isCorrect ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-200 bg-rose-50/20'} space-y-4`;
+
+                let answersMarkup = '';
+                q.options.forEach((opt, oIdx) => {
+                    const charCode = String.fromCharCode(65 + oIdx);
+                    let optStyle = "flex items-center space-x-2 text-xs p-2.5 rounded-xl border ";
+
+                    if (opt === q.correctValue) {
+                        optStyle += "bg-emerald-50 border-emerald-300 text-emerald-900 font-extrabold";
+                    } else if (opt === userVal && !isCorrect) {
+                        optStyle += "bg-rose-50 border-rose-300 text-rose-900 font-extrabold";
+                    } else {
+                        optStyle += "bg-white border-slate-200 text-slate-500";
+                    }
+
+                    answersMarkup += `
+                        <div class="${optStyle}">
+                            <span class="w-5 h-5 rounded-md flex items-center justify-center font-bold text-[10px] shrink-0 bg-slate-100 border border-slate-200 text-slate-600">${charCode}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `;
+                });
+
+                reviewCard.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider ${isCorrect ? 'text-emerald-600' : 'text-rose-500'}">
+                                Câu hỏi ${idx + 1} (${isCorrect ? 'ĐÚNG' : 'SAI'}) - Gốc: Câu ${q.originalIndex}
+                            </span>
+                            <h4 class="font-bold text-slate-900 text-sm mt-1 leading-relaxed">${q.q}</h4>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${answersMarkup}
+                    </div>
+                `;
+
+                container.appendChild(reviewCard);
+            });
+
+            if (container.children.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-400 text-sm">
+                        Không có kết quả nào khớp với bộ lọc.
+                    </div>
+                `;
+            }
+        }
+
+        // INTERACTIVE QR CONTROL
+        function toggleShareSection() {
+            const shareCard = document.getElementById('share-card');
+            shareCard.classList.toggle('hidden');
+        }
+
+        // COPY TO CLIPBOARD FALLBACK
+        function copyAppLink() {
+            const url = window.location.href;
+            
+            const el = document.createElement('textarea');
+            el.value = url;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            showToast("Đã sao chép đường liên kết đề thi!");
+        }
+
+        // SHOW NOTIFICATIONS
+        function showToast(message) {
+            const toast = document.getElementById('toast-message');
+            const toastText = document.getElementById('toast-text');
+            toastText.innerText = message;
+
+            toast.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+            }, 3000);
+        }
+
+        // RESET APPLICATION
+        function resetApp() {
+            clearInterval(examState.timerInterval);
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('exam-panel').classList.add('hidden');
+            document.getElementById('exam-live-info').classList.add('hidden');
+            document.getElementById('config-panel').className = "bg-white rounded-3xl shadow-sm border border-slate-200/70 p-6 sm:p-8 max-w-2xl mx-auto w-full my-6 space-y-6";
+        }
+
+        // WINDOW LOAD
+        window.onload = function() {
+            setExamMode('test');
+        };
+    </script>
+</body>
+</html>
