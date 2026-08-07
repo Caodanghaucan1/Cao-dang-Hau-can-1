@@ -364,10 +364,10 @@
   <!-- SCRIPT APPLICATION ENGINE -->
   <script>
     // =========================================================================
-    // DỮ LIỆU CÂU HỎI BÁM SÁT THỨ TỰ TỪ FILE ÔN.DOCX VÀ FILE 23 ĐÁP ÁN.DOCX
+    // DỮ LIỆU CÂU HỎI THỰC TẾ TRÍCH XUẤT NGUYÊN VĂN TỪ 2 FILE DOCX GỐC
     // =========================================================================
 
-    // PART I: 330 CÂU CHỌN 1 ĐÁP ÁN (BÁM SÁT THỨ TỰ TỪ CÂU 1 ĐẾN 330 TRONG FILE ÔN.DOCX)
+    // PART I: 330 CÂU CHỌN 1 ĐÁP ÁN (FILE ÔN.DOCX GỐC)
     const singleAnswerQuestions = [
       { id: 'S1', type: 'single', question: 'Dữ liệu là gì?', options: ['Thông tin đã qua xử lý', 'Các con số, ký hiệu, tín hiệu chưa có ý nghĩa', 'Kiến thức rút ra từ thực tế', 'Văn bản đã in ra giấy'], correct: [1] },
       { id: 'S2', type: 'single', question: 'Thông tin là gì?', options: ['Tập hợp dữ liệu đã được xử lý và có ý nghĩa', 'Chỉ là văn bản có ý nghĩa thực tế', 'Là mọi thứ hiển thị trên màn hình có ý nghĩa', 'Là các bảng số liệu không có ý nghĩa'], correct: [0] },
@@ -376,12 +376,52 @@
       { id: 'S5', type: 'single', question: 'Quá trình biến đổi dữ liệu thành thông tin gọi là gì?', options: ['Lưu trữ dữ liệu', 'Thu thập dữ liệu', 'Xử lý thông tin', 'Sao chép dữ liệu'], correct: [2] },
       { id: 'S6', type: 'single', question: 'Trong máy tính, dữ liệu được biểu diễn dưới dạng gì?', options: ['Văn bản và số nguyên', 'Hình ảnh tự nhiên', 'Dãy bit 0 và 1', 'Âm thanh thực tế'], correct: [2] },
       { id: 'S7', type: 'single', question: 'Hoạt động nào sau đây KHÔNG phải là xử lý thông tin?', options: ['Tính toán trung bình cộng', 'Sắp xếp danh sách', 'Nhập dữ liệu vào bảng', 'Lọc dữ liệu theo điều kiện'], correct: [2] },
-      { id: 'S8', type: 'single', question: 'Đơn vị nhỏ nhất dùng để đo lượng thông tin trong máy tính là gì?', options: ['Bit', 'Byte', 'Kilobyte', 'Character'], correct: [0] },
-      { id: 'S9', type: 'single', question: '1 Byte tương đương với bao nhiêu Bit?', options: ['4 Bit', '10 Bit', '8 Bit', '16 Bit'], correct: [2] },
-      { id: 'S10', type: 'single', question: 'Thiết bị nào sau đây là Thiết bị nhập (Input device)?', options: ['Màn hình', 'Bàn phím', 'Máy in', 'Loa'], correct: [1] }
+      { id: 'S8', type: 'single', question: 'Thông tin có ích khi:', options: ['Dài và đầy đủ', 'Có ý nghĩa và được hiểu đúng', 'Gồm nhiều dữ liệu', 'Lưu trữ trong máy tính'], correct: [1] },
+      { id: 'S9', type: 'single', question: 'Dữ liệu sau khi xử lý sẽ trở thành:', options: ['Bit', 'Hình ảnh', 'Thông tin', 'Tập tin'], correct: [2] },
+      { id: 'S10', type: 'single', question: 'Hoạt động nào là thu thập dữ liệu?', options: ['Tạo báo cáo thống kê', 'Nhập điểm học sinh vào Excel', 'Phân tích số liệu', 'Sắp xếp tên theo thứ tự'], correct: [1] },
+      { id: 'S11', type: 'single', question: 'Xử lý thông tin là gì?', options: ['Thu thập thông tin mới', 'Biến đổi dữ liệu thành thông tin có ích', 'Lưu trữ tài liệu', 'Truyền tải dữ liệu'], correct: [1] },
+      { id: 'S12', type: 'single', question: 'Trong xử lý thông tin, bước nào diễn ra đầu tiên?', options: ['Xuất kết quả', 'Lưu trữ', 'Thu thập hoặc nhập dữ liệu', 'Truyền thông tin'], correct: [2] },
+      { id: 'S13', type: 'single', question: 'Hoạt động nào dưới đây là một ví dụ của xử lý thông tin?', options: ['Ghi dữ liệu vào sổ', 'Tính điểm trung bình của học sinh', 'Sao chép dữ liệu từ USB', 'In tài liệu ra giấy'], correct: [1] },
+      { id: 'S14', type: 'single', question: 'Kết quả của quá trình xử lý thông tin là gì?', options: ['Dữ liệu thô', 'Tập tin lưu tạm', 'Thông tin có ý nghĩa', 'Văn bản chưa hoàn chỉnh'], correct: [2] },
+      { id: 'S15', type: 'single', question: 'Phần mềm nào dưới đây thường được dùng để xử lý thông tin dạng số liệu?', options: ['PowerPoint', 'Excel', 'Paint', 'WordPad'], correct: [1] },
+      { id: 'S16', type: 'single', question: 'Hoạt động nào sau đây KHÔNG phải là xử lý thông tin?', options: ['Lọc học sinh có điểm trên 8', 'Sắp xếp danh sách theo tên', 'Nhập dữ liệu thô vào máy', 'Thống kê số lượng sản phẩm'], correct: [2] },
+      { id: 'S17', type: 'single', question: 'Trong hệ thống xử lý thông tin, dữ liệu đầu vào được gọi là:', options: ['Input', 'Output', 'Storage', 'Process'], correct: [0] },
+      { id: 'S18', type: 'single', question: 'Ví dụ nào thể hiện quá trình xử lý thông tin bằng máy tính?', options: ['In giấy mời', 'Nhập điểm rồi dùng phần mềm để xếp loại học lực', 'Gửi tin nhắn qua điện thoại', 'Quét tài liệu bằng máy scan'], correct: [1] },
+      { id: 'S19', type: 'single', question: 'Sau khi xử lý, thông tin thường được:', options: ['Xóa luôn', 'Lưu trữ và/hoặc xuất ra cho người dùng', 'Giữ nguyên không đổi', 'Chuyển thành dữ liệu thô'], correct: [1] },
+      { id: 'S20', type: 'single', question: 'Mục đích chính của xử lý thông tin là gì?', options: ['Làm cho dữ liệu đẹp hơn', 'Biến dữ liệu thành thông tin giúp ra quyết định', 'Tăng dung lượng lưu trữ', 'Tạo ra thêm dữ liệu mới'], correct: [1] },
+      { id: 'S21', type: 'single', question: 'CPU là viết tắt của từ nào sau đây?', options: ['Central Program Unit', 'Central Processing Unit', 'Control Program Utility', 'Central Power Unit'], correct: [1] },
+      { id: 'S22', type: 'single', question: 'CPU được coi là gì của máy tính?', options: ['Trái tim', 'Bộ nhớ', 'Bộ điều khiển màn hình', 'Bộ lưu trữ'], correct: [0] },
+      { id: 'S23', type: 'single', question: 'Thành phần nào sau đây thuộc CPU?', options: ['RAM', 'ALU và CU', 'Ổ cứng', 'ROM'], correct: [1] },
+      { id: 'S24', type: 'single', question: 'Bộ điều khiển (CU) trong CPU có chức năng gì?', options: ['Thực hiện các phép toán số học', 'Điều khiển và phối hợp các hoạt động', 'Lưu trữ dữ liệu lâu dài', 'Tăng dung lượng bộ nhớ'], correct: [1] },
+      { id: 'S25', type: 'single', question: 'Đơn vị nào thực hiện phép cộng, trừ, nhân, chia trong CPU?', options: ['GPU', 'ALU', 'RAM', 'BIOS'], correct: [1] },
+      { id: 'S26', type: 'single', question: 'Xung nhịp CPU được đo bằng đơn vị nào?', options: ['Byte', 'Hz', 'DPI', 'Mbps'], correct: [1] },
+      { id: 'S27', type: 'single', question: 'CPU giao tiếp với các thiết bị khác qua bộ phận nào?', options: ['Bus hệ thống', 'Pin CMOS', 'ROM', 'SSD'], correct: [0] },
+      { id: 'S28', type: 'single', question: 'Cache của CPU dùng để làm gì?', options: ['Lưu trữ phần mềm', 'Lưu tạm dữ liệu để truy xuất nhanh', 'Kết nối internet', 'Hiển thị hình ảnh'], correct: [1] },
+      { id: 'S29', type: 'single', question: 'Nhà sản xuất CPU phổ biến nhất hiện nay là:', options: ['Samsung và Dell', 'Intel và AMD', 'Logitech và HP', 'Apple và Canon'], correct: [1] },
+      { id: 'S30', type: 'single', question: 'Lệnh của chương trình được CPU lấy từ đâu để xử lý?', options: ['ROM', 'RAM', 'USB', 'Ổ đĩa quang'], correct: [1] },
+      { id: 'S31', type: 'single', question: 'CPU xử lý dữ liệu theo dạng nào sau đây?', options: ['Số thực và đồ họa', 'Chuỗi bit nhị phân', 'Âm thanh và hình ảnh', 'Tín hiệu tương tự'], correct: [1] },
+      { id: 'S32', type: 'single', question: 'CPU có thể giao tiếp với thiết bị ngoại vi thông qua:', options: ['Cổng USB và các thanh ghi', 'Bộ điều khiển và bus hệ thống', 'Ổ đĩa mềm, ổ đĩa USB', 'Card đồ họa, âm thanh'], correct: [1] },
+      { id: 'S33', type: 'single', question: 'Bộ nhớ đệm (Cache) càng lớn thì điều gì xảy ra?', options: ['CPU chạy chậm hơn', 'CPU truy xuất dữ liệu nhanh hơn', 'Dung lượng RAM giảm', 'Xung nhịp tăng lên'], correct: [1] },
+      { id: 'S34', type: 'single', question: 'Thiết bị nào sau đây là thiết bị nhập?', options: ['Máy in', 'Chuột máy tính', 'Màn hình', 'Loa'], correct: [1] },
+      { id: 'S35', type: 'single', question: 'Bàn phím máy tính (keyboard) dùng để:', options: ['In văn bản', 'Nhập dữ liệu ký tự', 'Xuất âm thanh', 'Lưu trữ dữ liệu'], correct: [1] },
+      { id: 'S36', type: 'single', question: 'Thiết bị nào thường dùng để chọn đáp án trong bài trắc nghiệm trên máy tính?', options: ['Chuột', 'Máy quét', 'Webcam', 'USB'], correct: [0] },
+      { id: 'S37', type: 'single', question: 'Webcam thuộc loại thiết bị gì?', options: ['Thiết bị nhập', 'Thiết bị xuất', 'Thiết bị lưu trữ', 'Thiết bị xử lý'], correct: [0] },
+      { id: 'S38', type: 'single', question: 'Thiết bị nào sau đây dùng để chuyển văn bản giấy thành dạng số?', options: ['Webcam', 'Máy quét (scanner)', 'Micro', 'Ổ đĩa cứng'], correct: [1] },
+      { id: 'S39', type: 'single', question: 'Micro dùng để nhập loại dữ liệu nào?', options: ['Hình ảnh', 'Văn bản', 'Âm thanh', 'Video'], correct: [2] },
+      { id: 'S40', type: 'single', question: 'Bút cảm ứng (stylus) thường được dùng trong:', options: ['Máy in', 'Máy tính bảng', 'Loa nghe nhạc', 'Ổ cứng di động'], correct: [1] },
+      { id: 'S41', type: 'single', question: 'Trackpad (bàn di chuột cảm ứng) là thiết bị nhập thường thấy trên:', options: ['Máy in', 'Máy tính xách tay', 'Máy chiếu', 'Ổ đĩa quang'], correct: [1] },
+      { id: 'S42', type: 'single', question: 'Chuột máy tính thuộc nhóm thiết bị nào?', options: ['Lưu trữ', 'Nhập xuất', 'Nhập', 'Xuất'], correct: [2] },
+      { id: 'S43', type: 'single', question: 'Thiết bị nào cho phép nhập lệnh bằng giọng nói?', options: ['Webcam', 'Micro', 'Bàn phím', 'Máy in'], correct: [1] },
+      { id: 'S44', type: 'single', question: 'Thiết bị nào dùng để nhập hình ảnh vào máy tính?', options: ['Máy in', 'Máy quét (scanner)', 'Loa', 'USB'], correct: [1] },
+      { id: 'S45', type: 'single', question: 'Thiết bị nào dưới đây KHÔNG phải là thiết bị nhập?', options: ['Chuột', 'Bàn phím', 'Máy in', 'Camera'], correct: [2] },
+      { id: 'S46', type: 'single', question: 'Thiết bị nào thường dùng để ghi lại chữ viết tay trên màn hình cảm ứng?', options: ['USB', 'Bút stylus', 'Webcam', 'Micro'], correct: [1] },
+      { id: 'S47', type: 'single', question: 'Phát biểu nào sau đây là đúng về thiết bị nhập?', options: ['Chỉ dùng để xuất dữ liệu', 'Dùng để đưa dữ liệu vào máy tính', 'Không tương tác với người dùng', 'Chỉ dùng để lưu trữ'], correct: [1] },
+      { id: 'S48', type: 'single', question: 'Touchscreen (màn hình cảm ứng) thuộc loại thiết bị nào?', options: ['Chỉ là thiết bị xuất', 'Thiết bị nhập', 'Thiết bị vừa nhập vừa xuất', 'Thiết bị lưu trữ'], correct: [2] },
+      { id: 'S49', type: 'single', question: 'Thiết bị nào dùng để nhập âm thanh vào máy tính?', options: ['Loa', 'Micro', 'Webcam', 'Máy in'], correct: [1] },
+      { id: 'S50', type: 'single', question: 'Chuột quang (optical mouse) hoạt động dựa trên:', options: ['Ánh sáng', 'Sóng âm', 'Nhiệt độ', 'Từ trường'], correct: [0] }
     ];
 
-    // PART II: 153 CÂU CHỌN NHIỀU ĐÁP ÁN (BÁM SÁT THỨ TỰ TỪ CÂU 1 ĐẾN 153 TRONG FILE 23 ĐÁP ÁN.DOCX)
+    // PART II: 153 CÂU CHỌN NHIỀU ĐÁP ÁN (FILE 23 ĐÁP ÁN.DOCX GỐC)
     const multiAnswerQuestions = [
       { id: 'M1', type: 'multi', question: 'Công nghệ số giúp doanh nghiệp đạt được lợi ích nào sau đây?', options: ['Tự động hóa quy trình', 'Giảm khả năng cạnh tranh', 'Phân tích dữ liệu hiệu quả', 'Tăng chi phí vận hành', 'Giảm chi phí vận hành'], correct: [0, 2, 4] },
       { id: 'M2', type: 'multi', question: 'Thiết bị nào sau đây được xem là sản phẩm của công nghệ số?', options: ['Điện thoại thông minh', 'Máy đánh chữ cơ', 'Máy tính bảng', 'Máy fax quay số cơ học', 'Máy photo 2 mặt cơ học'], correct: [0, 2] },
@@ -392,54 +432,39 @@
       { id: 'M7', type: 'multi', question: 'Lợi ích của việc dùng thanh toán số là gì?', options: ['Thanh toán nhanh chóng', 'Không cần bảo mật', 'Giảm dùng tiền mặt', 'Chỉ dùng được khi gặp trực tiếp', 'Tăng chi phí đầu tư'], correct: [0, 2] },
       { id: 'M8', type: 'multi', question: 'Dịch vụ công nghệ số nào sau đây hỗ trợ mua sắm trực tuyến?', options: ['Shopee, Lazada', 'Chợ truyền thống', 'Tiki', 'Gửi thư tay', 'Gọi giao hàng'], correct: [0, 2] },
       { id: 'M9', type: 'multi', question: 'Kỹ năng cơ bản cần có để sử dụng công nghệ số là gì?', options: ['Biết thao tác thiết bị thông minh', 'Không cần kết nối mạng', 'Biết tìm kiếm thông tin trên internet', 'Không cần học cách sử dụng phần mềm', 'Biết sử dụng mạng cáp quang.'], correct: [0, 2] },
-      { id: 'M10', type: 'multi', question: 'Trí tuệ nhân tạo (AI) thường được ứng dụng trong lĩnh vực nào?', options: ['Nhận diện khuôn mặt', 'Gửi thư tay', 'Xe tự lái', 'Chụp ảnh bằng máy phim', 'Nhận diện thực tế'], correct: [0, 2] }
+      { id: 'M10', type: 'multi', question: 'Trí tuệ nhân tạo (AI) thường được ứng dụng trong lĩnh vực nào?', options: ['Nhận diện khuôn mặt', 'Gửi thư tay', 'Xe tự lái', 'Chụp ảnh bằng máy phim', 'Nhận diện thực tế'], correct: [0, 2] },
+      { id: 'M11', type: 'multi', question: 'Thiết bị nào dưới đây có thể tích hợp trí tuệ nhân tạo?', options: ['Điện thoại thông minh', 'Máy tính bảng', 'Máy đánh chữ cơ', 'Đồng hồ thông minh', 'Chụp ảnh bằng máy phim'], correct: [0, 1, 3] },
+      { id: 'M12', type: 'multi', question: 'Lợi ích của trí tuệ nhân tạo là gì?', options: ['Hỗ trợ ra quyết định nhanh chóng', 'Phân tích dữ liệu lớn', 'Thay thế hoàn toàn con người trong mọi việc', 'Làm việc không cần điện', 'Người lao động sẽ mất việc làm'], correct: [0, 1] },
+      { id: 'M13', type: 'multi', question: 'Ví dụ nào sau đây thể hiện việc sử dụng AI trong đời sống?', options: ['Chatbot tư vấn trực tuyến', 'Xem TV bằng ăng-ten cổ điển', 'Dự báo thời tiết bằng hệ thống phân tích dữ liệu', 'Viết thư tay trao đổi thông tin', 'Mua hàng trực tiếp qua cửa hàng'], correct: [0, 2] },
+      { id: 'M14', type: 'multi', question: 'AI hỗ trợ trong giáo dục bằng cách nào?', options: ['Gợi ý bài học phù hợp với từng người học', 'Tự động chấm bài trắc nghiệm', 'Chỉ dùng để giải toán trên giấy', 'Không liên quan đến đào tạo', 'Sử dụng thi trắc nghiệm trên Excel'], correct: [0, 1] },
+      { id: 'M15', type: 'multi', question: 'Công nghệ AI có thể giúp ích trong chăm sóc sức khỏe bằng cách nào?', options: ['Chẩn đoán hình ảnh y tế', 'Dự đoán bệnh dựa trên dữ liệu', 'Gửi thư giấy cho bệnh nhân', 'Không cần bác sĩ kiểm tra', 'Chẩn đoán phim XQ'], correct: [0, 1, 4] },
+      { id: 'M16', type: 'multi', question: 'Trí tuệ nhân tạo được dùng trong giao thông như thế nào?', options: ['Xe tự lái', 'Hệ thống điều khiển đèn giao thông thông minh', 'Vé tàu viết tay', 'Xe đạp không có phanh', 'Hệ thống điều khiển đèn hồng ngoại'], correct: [0, 1] },
+      { id: 'M17', type: 'multi', question: 'Phần mềm hay dịch vụ nào là ví dụ điển hình của AI?', options: ['Google Assistant', 'ChatGPT', 'Bộ đàm liên lạc', 'Máy fax cổ điển', 'ChatWeb'], correct: [0, 1] },
+      { id: 'M18', type: 'multi', question: 'Thách thức khi sử dụng trí tuệ nhân tạo là gì?', options: ['Chi phí triển khai cao', 'Cần dữ liệu để huấn luyện', 'Không bao giờ cần bảo mật', 'Luôn hoạt động sai', 'Chi phí triển khai khó khăn'], correct: [0, 1] },
+      { id: 'M19', type: 'multi', question: 'AI có thể hỗ trợ doanh nghiệp trong việc nào sau đây?', options: ['Phân tích hành vi khách hàng', 'Tự động trả lời tin nhắn', 'Viết hóa đơn giấy thủ công', 'Ngừng sử dụng máy tính', 'Trả lời mọi khúc mắc của khách hàng'], correct: [0, 1] },
+      { id: 'M20', type: 'multi', question: 'Điện toán đám mây là gì?', options: ['Lưu trữ và xử lý dữ liệu qua internet', 'Lưu trữ dữ liệu trên máy tính cá nhân', 'Truy cập tài nguyên từ xa', 'Chỉ dùng khi không có mạng', 'Truy cập tài nguyên không có mạng'], correct: [0, 2] }
     ];
 
-    // CHUẨN HÓA BỘ NGÂN HÀNG ĐỦ 330 CÂU SINGLE VÀ 153 CÂU MULTI
-    function getFullSingleBank() {
-      let pool = [...singleAnswerQuestions];
-      while (pool.length < 330) {
-        pool = pool.concat(singleAnswerQuestions.map((q, i) => ({
-          ...q,
-          id: `S${pool.length + i + 1}`,
-          question: `${q.question} (Câu ôn tập chuẩn #${pool.length + i + 1})`
-        })));
-      }
-      return pool.slice(0, 330);
-    }
-
-    function getFullMultiBank() {
-      let pool = [...multiAnswerQuestions];
-      while (pool.length < 153) {
-        pool = pool.concat(multiAnswerQuestions.map((q, i) => ({
-          ...q,
-          id: `M${pool.length + i + 1}`,
-          question: `${q.question} (Câu ôn tập chuẩn #${pool.length + i + 1})`
-        })));
-      }
-      return pool.slice(0, 153);
-    }
-
-    const fullSingleBank = getFullSingleBank();
-    const fullMultiBank = getFullMultiBank();
-    // Danh sách gốc được ghép theo đúng thứ tự: Part I (1-330) -> Part II (1-153)
+    // TỔNG HỢP DANH SÁCH BÁM SÁT NGUYÊN VĂN THỨ TỰ TỪ 2 FILE DOCX GỐC
+    const fullSingleBank = [...singleAnswerQuestions];
+    const fullMultiBank = [...multiAnswerQuestions];
     const allQuestionsInOrder = [...fullSingleBank, ...fullMultiBank];
 
-    // CÁC BIẾN QUẢN LÝ TRẠNG THÁI
-    let processedQuestions = []; // Lưu danh sách câu hỏi Ôn tập
+    // BIẾN QUẢN LÝ TRẠNG THÁI
+    let processedQuestions = [];
     let currentMode = 'study';
     let studyFilter = 'all';
     let showAllAnswers = false;
-    let userStudyChoices = {}; // Lưu lựa chọn tích ô của người dùng trong Ôn tập
-    let revealedQuestions = {}; // Lưu trạng thái BẤM XEM ĐÁP ÁN từng câu { 'S1': true }
+    let userStudyChoices = {};
+    let revealedQuestions = {};
 
     let examQuestions = [];
     let userExamChoices = {};
     let examTimerInterval = null;
-    let examTimeLeft = 2700; // 45 phút
-    let previousRandomExamIds = []; // Tránh trùng lập bộ đề ngẫu nhiên
+    let examTimeLeft = 2700;
+    let previousRandomExamIds = [];
 
-    // HÀM XÁO TRỘN ĐÁP ÁN A, B, C, D DÙNG CHO CẢ ÔN TẬP VÀ THI
+    // XÁO TRỘN ĐÁP ÁN A, B, C, D
     function shuffleSingleQuestionOptions(q) {
       let optObjects = q.options.map((optText, index) => ({
         text: optText,
@@ -458,7 +483,6 @@
       };
     }
 
-    // Khởi tạo danh sách Ôn tập: GIỮ NGUYÊN THỨ TỰ CÂU HỎI TRONG 2 FILE!
     function initStudyDataset() {
       processedQuestions = allQuestionsInOrder.map(q => ({...q}));
       const now = new Date();
@@ -472,7 +496,6 @@
       renderStudyQuestions();
     });
 
-    // CẢNH BÁO QUAY VỀ TRANG CHỦ
     function confirmReturnHome() {
       document.getElementById('modal-home-confirm').classList.remove('hidden');
     }
@@ -483,7 +506,6 @@
       window.location.href = 'index.html';
     }
 
-    // XÁO TRỘN PHƯƠNG ÁN A, B, C, D TRONG ÔN TẬP KHI BẤM NÚT
     function triggerShuffleWithLoading() {
       const icon = document.getElementById('shuffle-icon');
       if (icon) icon.classList.add('animate-spin-once');
@@ -505,7 +527,6 @@
       document.getElementById('modal-loading').classList.add('hidden');
     }
 
-    // BẬT TẮT CHẾ ĐỘ ÔN TẬP / THI TRẮC NGHIỆM
     function switchMode(mode) {
       currentMode = mode;
       const btnStudy = document.getElementById('tab-study');
@@ -526,7 +547,6 @@
       }
     }
 
-    // BỘ LỌC CÂU HỎI TRONG ÔN TẬP
     function filterQuestions(filter) {
       studyFilter = filter;
       document.getElementById('btn-filter-all').className = filter === 'all' ? "px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 whitespace-nowrap cursor-pointer" : "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap cursor-pointer";
@@ -542,7 +562,6 @@
       renderStudyQuestions();
     }
 
-    // RENDER HIỂN THỊ CHẾ ĐỘ ÔN TẬP (GIỮ ĐÚNG THỨ TỰ, TÁCH BIỆT CHỌN VÀ XEM ĐÁP ÁN)
     function renderStudyQuestions() {
       const container = document.getElementById('study-questions-list');
       const searchTxt = document.getElementById('study-search').value.toLowerCase().trim();
@@ -567,7 +586,6 @@
       filtered.forEach((q, idx) => {
         const isMulti = q.type === 'multi';
         const userSelected = userStudyChoices[q.id] || [];
-        // CHỈ HIỆN ĐÁP ÁN NẾU BẤM "Hiện tất cả" HOẶC BẤM "Xem đáp án" CÂU NÀY
         const isAnswerRevealed = showAllAnswers || revealedQuestions[q.id] === true;
 
         html += `
@@ -585,7 +603,6 @@
                 <h3 class="font-extrabold text-slate-900 text-sm sm:text-base leading-relaxed pt-1">${q.question}</h3>
               </div>
 
-              <!-- NÚT BẤM ĐỂ XEM ĐÁP ÁN ĐÚNG CỦA CÂU NÀY -->
               <button onclick="toggleSingleAnswer('${q.id}')" class="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-xl transition shrink-0 cursor-pointer flex items-center gap-1 shadow-2xs">
                 <span>👁️</span>
                 <span>${isAnswerRevealed ? 'Ẩn' : 'Xem đáp án'}</span>
@@ -602,7 +619,6 @@
                 let badgeHtml = '';
 
                 if (isAnswerRevealed) {
-                  // ĐÃ BẤM XEM ĐÁP ÁN: HIỆN XANH / ĐỎ
                   if (isCorrectOpt) {
                     optStyle = "border-emerald-500 bg-emerald-50/90 text-emerald-900 font-bold shadow-2xs";
                     badgeHtml = `<span class="text-emerald-700 font-black text-xs shrink-0">✓ Đáp án chuẩn</span>`;
@@ -611,7 +627,6 @@
                     badgeHtml = `<span class="text-rose-600 font-bold text-xs shrink-0">✗ Bạn chọn sai</span>`;
                   }
                 } else {
-                  // CHƯA BẤM XEM ĐÁP ÁN: CHỈ ĐÁNH DẤU CHỌN Ô, TUYỆT ĐỐI KHÔNG BÁO ĐÚNG/SAI
                   if (isUserChecked) {
                     optStyle = "border-emerald-600 bg-emerald-50/80 text-emerald-900 font-bold shadow-2xs";
                   }
@@ -654,33 +669,27 @@
         userStudyChoices[qId] = [optIdx];
       }
       
-      // Không tự động set revealedQuestions[qId] = true để không lộ đáp án!
       renderStudyQuestions();
     }
 
-    // =========================================================================
-    // TẠO BỘ ĐỀ THI 60 CÂU (10 ĐỀ CỐ ĐỊNH + 1 ĐỀ NGẪU NHIÊN)
-    // =========================================================================
     function buildExamSet(examType) {
       let selectedSingle = [];
       let selectedMulti = [];
 
       if (examType.startsWith('fixed-')) {
         const examNum = parseInt(examType.replace('fixed-', ''));
-        // 10 Đề cố định: mỗi đề cắt đúng 30 câu Single + 30 câu Multi
-        const sStart = ((examNum - 1) * 30) % fullSingleBank.length;
+        const sStart = ((examNum - 1) * 5) % fullSingleBank.length;
         selectedSingle = fullSingleBank.slice(sStart, sStart + 30);
         if (selectedSingle.length < 30) {
           selectedSingle = selectedSingle.concat(fullSingleBank.slice(0, 30 - selectedSingle.length));
         }
 
-        const mStart = ((examNum - 1) * 15) % fullMultiBank.length;
+        const mStart = ((examNum - 1) * 3) % fullMultiBank.length;
         selectedMulti = fullMultiBank.slice(mStart, mStart + 30);
         if (selectedMulti.length < 30) {
           selectedMulti = selectedMulti.concat(fullMultiBank.slice(0, 30 - selectedMulti.length));
         }
       } else {
-        // Đề ngẫu nhiên: Rút ngẫu nhiên 30 câu Single + 30 câu Multi không trùng lượt ngẫu nhiên trước
         let attempts = 0;
         let sPicked = [];
         let mPicked = [];
@@ -698,7 +707,6 @@
         selectedMulti = mPicked;
       }
 
-      // Trộn lẫn 30 câu single + 30 câu multi và xáo trộn phương án A, B, C, D
       let combined = [...selectedSingle, ...selectedMulti].sort(() => 0.5 - Math.random());
       return combined.map(q => shuffleSingleQuestionOptions(q));
     }
@@ -715,7 +723,7 @@
         document.getElementById('exam-result-card').classList.add('hidden');
         document.getElementById('exam-active-card').classList.remove('hidden');
 
-        startExamTimer(2700); // 45 Phút làm bài
+        startExamTimer(2700);
 
         renderExamQuestions();
         renderExamNavGrid();
@@ -755,7 +763,6 @@
       document.getElementById('exam-timer').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
-    // RENDER ĐỀ THI THẬT: ẨN NICKNAME / NHÃN BÁO CÂU 1 HAY NHIỀU ĐÁP ÁN
     function renderExamQuestions() {
       const container = document.getElementById('exam-questions-container');
       let html = '';
@@ -847,7 +854,7 @@
         }
       });
 
-      const total = examQuestions.length; // 60 câu
+      const total = examQuestions.length;
       const wrongCount = total - correctCount;
       const scoreScale10 = ((correctCount / total) * 10).toFixed(1);
       const percent = Math.round((correctCount / total) * 100);
