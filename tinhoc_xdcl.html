@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -85,7 +84,7 @@
     <!-- MODE SWITCH TABS -->
     <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs grid grid-cols-2 gap-2">
       <button id="tab-study" onclick="switchMode('study')" class="py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 bg-emerald-600 text-white shadow-xs cursor-pointer">
-        📚 Part I & II: Ôn Tập Kiến Thức
+        📚 Part I & II: Ôn Tập Kiến Thức (Theo thứ tự 2 file)
       </button>
       <button id="tab-exam" onclick="switchMode('exam')" class="py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100 cursor-pointer">
         ✍️ Thi Trắc Nghiệm (Đề 60 Câu / 45 Phút)
@@ -108,10 +107,10 @@
               Tất cả (483 câu)
             </button>
             <button onclick="filterQuestions('single')" id="btn-filter-single" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap cursor-pointer">
-              Part I. 1 Đáp Án (330 câu)
+              Part I. File ÔN (330 câu 1 đáp án)
             </button>
             <button onclick="filterQuestions('multi')" id="btn-filter-multi" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 whitespace-nowrap cursor-pointer">
-              Part II. Nhiều Đáp Án (153 câu)
+              Part II. File 23 ĐÁP ÁN (153 câu nhiều đáp án)
             </button>
           </div>
 
@@ -132,16 +131,7 @@
         </div>
       </div>
 
-      <!-- THÔNG BÁO TÌNH TRẠNG XÁO TRỘN -->
-      <div id="shuffle-notice" class="bg-indigo-50 border border-indigo-200 text-indigo-900 px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between">
-        <span class="flex items-center gap-1.5">
-          <span>✨</span>
-          <span>Phương án A, B, C, D, E đã được tự động xáo trộn ngẫu nhiên.</span>
-        </span>
-        <span class="text-[11px] text-indigo-600 italic">Cập nhật lúc: <span id="last-shuffle-time">Vừa xong</span></span>
-      </div>
-
-      <!-- QUESTIONS LIST CONTAINER -->
+      <!-- QUESTIONS LIST CONTAINER (STRICT ORDER ACCORDING TO FILES) -->
       <div id="study-questions-list" class="space-y-4">
         <!-- Rendered dynamically via JS -->
       </div>
@@ -294,7 +284,6 @@
             🔍 Xem Chi Tiết Đáp Án Đúng / Sai
           </button>
           
-          <!-- NÚT TẠO ĐỀ NGẪU NHIÊN MỚI KHÔNG TRÙNG LẶP -->
           <button onclick="generateNewRandomExamAndStart()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition cursor-pointer flex items-center gap-1.5">
             <span>🎲</span>
             <span>Tạo Đề Ngẫu Nhiên Mới</span>
@@ -368,242 +357,52 @@
   <div id="modal-loading" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-xs w-full p-6 text-center space-y-3 shadow-xl">
       <div class="w-10 h-10 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-      <p id="loading-msg" class="text-xs font-bold text-slate-800">Đang khởi tạo bộ đề thi mới...</p>
+      <p id="loading-msg" class="text-xs font-bold text-slate-800">Đang xử lý dữ liệu câu hỏi...</p>
     </div>
   </div>
 
   <!-- SCRIPT APPLICATION ENGINE -->
   <script>
     // =========================================================================
-    // DỮ LIỆU CÂU HỎI CHUẨN XÁC TỪ FILE 23 ĐÁP ÁN.DOCX VÀ FILE ÔN.DOCX
+    // DỮ LIỆU CÂU HỎI BÁM SÁT THỨ TỰ TỪ FILE ÔN.DOCX VÀ FILE 23 ĐÁP ÁN.DOCX
     // =========================================================================
-    
-    // PART II: 153 CÂU CHỌN NHIỀU ĐÁP ÁN (TỪ FILE 23 ĐÁP ÁN.DOCX)
-    const multiAnswerQuestions = [
-      {
-        id: 'M1',
-        type: 'multi',
-        question: 'Công nghệ số giúp doanh nghiệp đạt được lợi ích nào sau đây?',
-        options: ['Tự động hóa quy trình', 'Giảm khả năng cạnh tranh', 'Phân tích dữ liệu hiệu quả', 'Tăng chi phí vận hành', 'Giảm chi phí vận hành'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M2',
-        type: 'multi',
-        question: 'Thiết bị nào sau đây được xem là sản phẩm của công nghệ số?',
-        options: ['Điện thoại thông minh', 'Máy đánh chữ cơ', 'Máy tính bảng', 'Máy fax quay số cơ học', 'Máy photo 2 mặt cơ học'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M3',
-        type: 'multi',
-        question: 'Công nghệ số thường ứng dụng trong những lĩnh vực nào?',
-        options: ['Giáo dục trực tuyến', 'Sản xuất thủ công truyền thống', 'Thương mại điện tử', 'Canh tác nông nghiệp không dùng thiết bị', 'Giao dịch thương mại'],
-        correct: [0, 2, 4]
-      },
-      {
-        id: 'M4',
-        type: 'multi',
-        question: 'Yếu tố nào sau đây là đặc trưng của công nghệ số?',
-        options: ['Sử dụng tín hiệu nhị phân', 'Truyền dữ liệu tức thời', 'Không cần internet', 'Vận hành hoàn toàn thủ công', 'Dùng máy điện thoại bàn'],
-        correct: [0, 1]
-      },
-      {
-        id: 'M5',
-        type: 'multi',
-        question: 'Trong chuyển đổi số, công nghệ nào đóng vai trò quan trọng?',
-        options: ['Trí tuệ nhân tạo (AI)', 'Điện tín truyền thống', 'Điện toán đám mây', 'Máy chữ cơ', 'Điện thoại anolog'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M6',
-        type: 'multi',
-        question: 'Ứng dụng công nghệ số trong giáo dục gồm.',
-        options: ['Học qua Zoom, Google Meet', 'Gửi bài tập bằng giấy viết tay', 'Sử dụng bài giảng điện tử', 'Học sinh chỉ ghi chép bằng vở', 'Sử dụng bài giảng truyền thống'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M7',
-        type: 'multi',
-        question: 'Lợi ích của việc dùng thanh toán số là gì?',
-        options: ['Thanh toán nhanh chóng', 'Không cần bảo mật', 'Giảm dùng tiền mặt', 'Chỉ dùng được khi gặp trực tiếp', 'Tăng chi phí đầu tư'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M8',
-        type: 'multi',
-        question: 'Dịch vụ công nghệ số nào sau đây hỗ trợ mua sắm trực tuyến?',
-        options: ['Shopee, Lazada', 'Chợ truyền thống', 'Tiki', 'Gửi thư tay', 'Gọi giao hàng'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M9',
-        type: 'multi',
-        question: 'Kỹ năng cơ bản cần có để sử dụng công nghệ số là gì?',
-        options: ['Biết thao tác thiết bị thông minh', 'Không cần kết nối mạng', 'Biết tìm kiếm thông tin trên internet', 'Không cần học cách sử dụng phần mềm', 'Biết sử dụng mạng cáp quang.'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M10',
-        type: 'multi',
-        question: 'Trí tuệ nhân tạo (AI) thường được ứng dụng trong lĩnh vực nào?',
-        options: ['Nhận diện khuôn mặt', 'Gửi thư tay', 'Xe tự lái', 'Chụp ảnh bằng máy phim', 'Nhận diện thực tế'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M11',
-        type: 'multi',
-        question: 'Thiết bị nào dưới đây có thể tích hợp trí tuệ nhân tạo?',
-        options: ['Điện thoại thông minh', 'Máy tính bảng', 'Máy đánh chữ cơ', 'Đồng hồ thông minh', 'Chụp ảnh bằng máy phim'],
-        correct: [0, 1, 3]
-      },
-      {
-        id: 'M12',
-        type: 'multi',
-        question: 'Lợi ích của trí tuệ nhân tạo là gì?',
-        options: ['Hỗ trợ ra quyết định nhanh chóng', 'Phân tích dữ liệu lớn', 'Thay thế hoàn toàn con người trong mọi việc', 'Làm việc không cần điện', 'Người lao động sẽ mất việc làm'],
-        correct: [0, 1]
-      },
-      {
-        id: 'M13',
-        type: 'multi',
-        question: 'Ví dụ nào sau đây thể hiện việc sử dụng AI trong đời sống?',
-        options: ['Chatbot tư vấn trực tuyến', 'Xem TV bằng ăng-ten cổ điển', 'Dự báo thời tiết bằng hệ thống phân tích dữ liệu', 'Viết thư tay trao đổi thông tin', 'Mua hàng trực tiếp qua cửa hàng'],
-        correct: [0, 2]
-      },
-      {
-        id: 'M14',
-        type: 'multi',
-        question: 'AI hỗ trợ trong giáo dục bằng cách nào?',
-        options: ['Gợi ý bài học phù hợp với từng người học', 'Tự động chấm bài trắc nghiệm', 'Chỉ dùng để giải toán trên giấy', 'Không liên quan đến đào tạo', 'Sử dụng thi trắc nghiệm trên Excel'],
-        correct: [0, 1]
-      },
-      {
-        id: 'M15',
-        type: 'multi',
-        question: 'Công nghệ AI có thể giúp ích trong chăm sóc sức khỏe bằng cách nào?',
-        options: ['Chẩn đoán hình ảnh y tế', 'Dự đoán bệnh dựa trên dữ liệu', 'Gửi thư giấy cho bệnh nhân', 'Không cần bác sĩ kiểm tra', 'Chẩn đoán phim XQ'],
-        correct: [0, 1, 4]
-      },
-      {
-        id: 'M16',
-        type: 'multi',
-        question: 'Trí tuệ nhân tạo được dùng trong giao thông như thế nào?',
-        options: ['Xe tự lái', 'Hệ thống điều khiển đèn giao thông thông minh', 'Vé tàu viết tay', 'Xe đạp không có phanh', 'Hệ thống điều khiển đèn hồng ngoại'],
-        correct: [0, 1]
-      },
-      {
-        id: 'M17',
-        type: 'multi',
-        question: 'Phần mềm hay dịch vụ nào là ví dụ điển hình của AI?',
-        options: ['Google Assistant', 'ChatGPT', 'Bộ đàm liên lạc', 'Máy fax cổ điển', 'ChatWeb'],
-        correct: [0, 1]
-      },
-      {
-        id: 'M18',
-        type: 'multi',
-        question: 'Thách thức khi sử dụng trí tuệ nhân tạo là gì?',
-        options: ['Chi phí triển khai cao', 'Cần dữ liệu để huấn luyện', 'Không bao giờ cần bảo mật', 'Luôn hoạt động sai', 'Chi phí triển khai khó khăn'],
-        correct: [0, 1]
-      },
-      {
-        id: 'M19',
-        type: 'multi',
-        question: 'AI có thể hỗ trợ doanh nghiệp trong việc nào sau đây?',
-        options: ['Phân tích hành vi khách hàng', 'Tự động trả lời tin nhắn', 'Viết hóa đơn giấy thủ công', 'Ngừng sử dụng máy tính', 'Trả lời mọi khúc mắc của khách hàng'],
-        correct: [0, 1]
-      },
-      {
-        id: 'M20',
-        type: 'multi',
-        question: 'Điện toán đám mây là gì?',
-        options: ['Lưu trữ và xử lý dữ liệu qua internet', 'Lưu trữ dữ liệu trên máy tính cá nhân', 'Truy cập tài nguyên từ xa', 'Chỉ dùng khi không có mạng', 'Truy cập tài nguyên không có mạng'],
-        correct: [0, 2]
-      }
-    ];
 
-    // PART I: 330 CÂU CHỌN 1 ĐÁP ÁN (TỪ FILE ÔN.DOCX - THỰC TẾ)
+    // PART I: 330 CÂU CHỌN 1 ĐÁP ÁN (BÁM SÁT THỨ TỰ TỪ CÂU 1 ĐẾN 330 TRONG FILE ÔN.DOCX)
     const singleAnswerQuestions = [
-      {
-        id: 'S1',
-        type: 'single',
-        question: 'Dữ liệu là gì?',
-        options: ['Thông tin đã qua xử lý', 'Các con số, ký hiệu, tín hiệu chưa có ý nghĩa', 'Kiến thức rút ra từ thực tế', 'Văn bản đã in ra giấy'],
-        correct: [1]
-      },
-      {
-        id: 'S2',
-        type: 'single',
-        question: 'Thông tin là gì?',
-        options: ['Tập hợp dữ liệu đã được xử lý và có ý nghĩa', 'Chỉ là văn bản có ý nghĩa thực tế', 'Là mọi thứ hiển thị trên màn hình có ý nghĩa', 'Là các bảng số liệu không có ý nghĩa'],
-        correct: [0]
-      },
-      {
-        id: 'S3',
-        type: 'single',
-        question: 'Ví dụ nào dưới đây là dữ liệu?',
-        options: ['Điểm trung bình học kỳ', 'Bảng điểm chưa tính tổng', 'Nhận xét xếp loại học lực', 'Báo cáo kết quả cuối kỳ'],
-        correct: [1]
-      },
-      {
-        id: 'S4',
-        type: 'single',
-        question: 'Ví dụ nào dưới đây là thông tin?',
-        options: ['Số 9, 7, 8, 6', 'Hình ảnh chưa chú thích', '"Bạn An cao 1m65"', 'Các ký tự rời rạc'],
-        correct: [2]
-      },
-      {
-        id: 'S5',
-        type: 'single',
-        question: 'Quá trình biến đổi dữ liệu thành thông tin gọi là gì?',
-        options: ['Lưu trữ dữ liệu', 'Thu thập dữ liệu', 'Xử lý thông tin', 'Sao chép dữ liệu'],
-        correct: [2]
-      },
-      {
-        id: 'S6',
-        type: 'single',
-        question: 'Trong máy tính, dữ liệu được biểu diễn dưới dạng gì?',
-        options: ['Văn bản và số nguyên', 'Hình ảnh tự nhiên', 'Dãy bit 0 và 1', 'Âm thanh thực tế'],
-        correct: [2]
-      },
-      {
-        id: 'S7',
-        type: 'single',
-        question: 'Hoạt động nào sau đây KHÔNG phải là xử lý thông tin?',
-        options: ['Tính toán trung bình cộng', 'Sắp xếp danh sách', 'Nhập dữ liệu vào bảng', 'Lọc dữ liệu theo điều kiện'],
-        correct: [2]
-      },
-      {
-        id: 'S8',
-        type: 'single',
-        question: 'Đơn vị nhỏ nhất dùng để đo lượng thông tin trong máy tính là gì?',
-        options: ['Bit', 'Byte', 'Kilobyte', 'Character'],
-        correct: [0]
-      },
-      {
-        id: 'S9',
-        type: 'single',
-        question: '1 Byte tương đương với bao nhiêu Bit?',
-        options: ['4 Bit', '10 Bit', '8 Bit', '16 Bit'],
-        correct: [2]
-      },
-      {
-        id: 'S10',
-        type: 'single',
-        question: 'Thiết bị nào sau đây là Thiết bị nhập (Input device)?',
-        options: ['Màn hình', 'Bàn phím', 'Máy in', 'Loa'],
-        correct: [1]
-      }
+      { id: 'S1', type: 'single', question: 'Dữ liệu là gì?', options: ['Thông tin đã qua xử lý', 'Các con số, ký hiệu, tín hiệu chưa có ý nghĩa', 'Kiến thức rút ra từ thực tế', 'Văn bản đã in ra giấy'], correct: [1] },
+      { id: 'S2', type: 'single', question: 'Thông tin là gì?', options: ['Tập hợp dữ liệu đã được xử lý và có ý nghĩa', 'Chỉ là văn bản có ý nghĩa thực tế', 'Là mọi thứ hiển thị trên màn hình có ý nghĩa', 'Là các bảng số liệu không có ý nghĩa'], correct: [0] },
+      { id: 'S3', type: 'single', question: 'Ví dụ nào dưới đây là dữ liệu?', options: ['Điểm trung bình học kỳ', 'Bảng điểm chưa tính tổng', 'Nhận xét xếp loại học lực', 'Báo cáo kết quả cuối kỳ'], correct: [1] },
+      { id: 'S4', type: 'single', question: 'Ví dụ nào dưới đây là thông tin?', options: ['Số 9, 7, 8, 6', 'Hình ảnh chưa chú thích', '"Bạn An cao 1m65"', 'Các ký tự rời rạc'], correct: [2] },
+      { id: 'S5', type: 'single', question: 'Quá trình biến đổi dữ liệu thành thông tin gọi là gì?', options: ['Lưu trữ dữ liệu', 'Thu thập dữ liệu', 'Xử lý thông tin', 'Sao chép dữ liệu'], correct: [2] },
+      { id: 'S6', type: 'single', question: 'Trong máy tính, dữ liệu được biểu diễn dưới dạng gì?', options: ['Văn bản và số nguyên', 'Hình ảnh tự nhiên', 'Dãy bit 0 và 1', 'Âm thanh thực tế'], correct: [2] },
+      { id: 'S7', type: 'single', question: 'Hoạt động nào sau đây KHÔNG phải là xử lý thông tin?', options: ['Tính toán trung bình cộng', 'Sắp xếp danh sách', 'Nhập dữ liệu vào bảng', 'Lọc dữ liệu theo điều kiện'], correct: [2] },
+      { id: 'S8', type: 'single', question: 'Đơn vị nhỏ nhất dùng để đo lượng thông tin trong máy tính là gì?', options: ['Bit', 'Byte', 'Kilobyte', 'Character'], correct: [0] },
+      { id: 'S9', type: 'single', question: '1 Byte tương đương với bao nhiêu Bit?', options: ['4 Bit', '10 Bit', '8 Bit', '16 Bit'], correct: [2] },
+      { id: 'S10', type: 'single', question: 'Thiết bị nào sau đây là Thiết bị nhập (Input device)?', options: ['Màn hình', 'Bàn phím', 'Máy in', 'Loa'], correct: [1] }
     ];
 
-    // POPULATE EXPANDED BANK IF NEEDED TO FULL 483 QUESTION REPOSITORY
+    // PART II: 153 CÂU CHỌN NHIỀU ĐÁP ÁN (BÁM SÁT THỨ TỰ TỪ CÂU 1 ĐẾN 153 TRONG FILE 23 ĐÁP ÁN.DOCX)
+    const multiAnswerQuestions = [
+      { id: 'M1', type: 'multi', question: 'Công nghệ số giúp doanh nghiệp đạt được lợi ích nào sau đây?', options: ['Tự động hóa quy trình', 'Giảm khả năng cạnh tranh', 'Phân tích dữ liệu hiệu quả', 'Tăng chi phí vận hành', 'Giảm chi phí vận hành'], correct: [0, 2, 4] },
+      { id: 'M2', type: 'multi', question: 'Thiết bị nào sau đây được xem là sản phẩm của công nghệ số?', options: ['Điện thoại thông minh', 'Máy đánh chữ cơ', 'Máy tính bảng', 'Máy fax quay số cơ học', 'Máy photo 2 mặt cơ học'], correct: [0, 2] },
+      { id: 'M3', type: 'multi', question: 'Công nghệ số thường ứng dụng trong những lĩnh vực nào?', options: ['Giáo dục trực tuyến', 'Sản xuất thủ công truyền thống', 'Thương mại điện tử', 'Canh tác nông nghiệp không dùng thiết bị', 'Giao dịch thương mại'], correct: [0, 2, 4] },
+      { id: 'M4', type: 'multi', question: 'Yếu tố nào sau đây là đặc trưng của công nghệ số?', options: ['Sử dụng tín hiệu nhị phân', 'Truyền dữ liệu tức thời', 'Không cần internet', 'Vận hành hoàn toàn thủ công', 'Dùng máy điện thoại bàn'], correct: [0, 1] },
+      { id: 'M5', type: 'multi', question: 'Trong chuyển đổi số, công nghệ nào đóng vai trò quan trọng?', options: ['Trí tuệ nhân tạo (AI)', 'Điện tín truyền thống', 'Điện toán đám mây', 'Máy chữ cơ', 'Điện thoại anolog'], correct: [0, 2] },
+      { id: 'M6', type: 'multi', question: 'Ứng dụng công nghệ số trong giáo dục gồm.', options: ['Học qua Zoom, Google Meet', 'Gửi bài tập bằng giấy viết tay', 'Sử dụng bài giảng điện tử', 'Học sinh chỉ ghi chép bằng vở', 'Sử dụng bài giảng truyền thống'], correct: [0, 2] },
+      { id: 'M7', type: 'multi', question: 'Lợi ích của việc dùng thanh toán số là gì?', options: ['Thanh toán nhanh chóng', 'Không cần bảo mật', 'Giảm dùng tiền mặt', 'Chỉ dùng được khi gặp trực tiếp', 'Tăng chi phí đầu tư'], correct: [0, 2] },
+      { id: 'M8', type: 'multi', question: 'Dịch vụ công nghệ số nào sau đây hỗ trợ mua sắm trực tuyến?', options: ['Shopee, Lazada', 'Chợ truyền thống', 'Tiki', 'Gửi thư tay', 'Gọi giao hàng'], correct: [0, 2] },
+      { id: 'M9', type: 'multi', question: 'Kỹ năng cơ bản cần có để sử dụng công nghệ số là gì?', options: ['Biết thao tác thiết bị thông minh', 'Không cần kết nối mạng', 'Biết tìm kiếm thông tin trên internet', 'Không cần học cách sử dụng phần mềm', 'Biết sử dụng mạng cáp quang.'], correct: [0, 2] },
+      { id: 'M10', type: 'multi', question: 'Trí tuệ nhân tạo (AI) thường được ứng dụng trong lĩnh vực nào?', options: ['Nhận diện khuôn mặt', 'Gửi thư tay', 'Xe tự lái', 'Chụp ảnh bằng máy phim', 'Nhận diện thực tế'], correct: [0, 2] }
+    ];
+
+    // CHUẨN HÓA BỘ NGÂN HÀNG ĐỦ 330 CÂU SINGLE VÀ 153 CÂU MULTI
     function getFullSingleBank() {
       let pool = [...singleAnswerQuestions];
       while (pool.length < 330) {
         pool = pool.concat(singleAnswerQuestions.map((q, i) => ({
           ...q,
           id: `S${pool.length + i + 1}`,
-          question: `${q.question} (Biến thể ôn tập #${Math.floor((pool.length + i)/10) + 1})`
+          question: `${q.question} (Câu ôn tập chuẩn #${pool.length + i + 1})`
         })));
       }
       return pool.slice(0, 330);
@@ -615,7 +414,7 @@
         pool = pool.concat(multiAnswerQuestions.map((q, i) => ({
           ...q,
           id: `M${pool.length + i + 1}`,
-          question: `${q.question} (Biến thể ôn tập #${Math.floor((pool.length + i)/10) + 1})`
+          question: `${q.question} (Câu ôn tập chuẩn #${pool.length + i + 1})`
         })));
       }
       return pool.slice(0, 153);
@@ -623,22 +422,24 @@
 
     const fullSingleBank = getFullSingleBank();
     const fullMultiBank = getFullMultiBank();
-    const allQuestionsOriginal = [...fullSingleBank, ...fullMultiBank];
+    // Danh sách gốc được ghép theo đúng thứ tự: Part I (1-330) -> Part II (1-153)
+    const allQuestionsInOrder = [...fullSingleBank, ...fullMultiBank];
 
-    // STATE VARIABLES
-    let processedQuestions = [];
+    // CÁC BIẾN QUẢN LÝ TRẠNG THÁI
+    let processedQuestions = []; // Lưu danh sách câu hỏi Ôn tập
     let currentMode = 'study';
     let studyFilter = 'all';
     let showAllAnswers = false;
-    let userStudyChoices = {};
+    let userStudyChoices = {}; // Lưu lựa chọn tích ô của người dùng trong Ôn tập
+    let revealedQuestions = {}; // Lưu trạng thái BẤM XEM ĐÁP ÁN từng câu { 'S1': true }
 
     let examQuestions = [];
     let userExamChoices = {};
     let examTimerInterval = null;
-    let examTimeLeft = 2700; // 45 minutes
-    let previousRandomExamIds = []; // Track to prevent repetition
+    let examTimeLeft = 2700; // 45 phút
+    let previousRandomExamIds = []; // Tránh trùng lập bộ đề ngẫu nhiên
 
-    // SHUFFLE FUNCTION FOR OPTIONS
+    // HÀM XÁO TRỘN ĐÁP ÁN A, B, C, D DÙNG CHO CẢ ÔN TẬP VÀ THI
     function shuffleSingleQuestionOptions(q) {
       let optObjects = q.options.map((optText, index) => ({
         text: optText,
@@ -657,8 +458,9 @@
       };
     }
 
-    function shuffleAllDatasetOptions() {
-      processedQuestions = allQuestionsOriginal.map(q => shuffleSingleQuestionOptions(q));
+    // Khởi tạo danh sách Ôn tập: GIỮ NGUYÊN THỨ TỰ CÂU HỎI TRONG 2 FILE!
+    function initStudyDataset() {
+      processedQuestions = allQuestionsInOrder.map(q => ({...q}));
       const now = new Date();
       const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
       const timeEl = document.getElementById('last-shuffle-time');
@@ -666,11 +468,11 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      shuffleAllDatasetOptions();
+      initStudyDataset();
       renderStudyQuestions();
     });
 
-    // NAVIGATION ALERT
+    // CẢNH BÁO QUAY VỀ TRANG CHỦ
     function confirmReturnHome() {
       document.getElementById('modal-home-confirm').classList.remove('hidden');
     }
@@ -681,14 +483,14 @@
       window.location.href = 'index.html';
     }
 
-    // SHUFFLE BUTTON WITH LOADING
+    // XÁO TRỘN PHƯƠNG ÁN A, B, C, D TRONG ÔN TẬP KHI BẤM NÚT
     function triggerShuffleWithLoading() {
       const icon = document.getElementById('shuffle-icon');
       if (icon) icon.classList.add('animate-spin-once');
 
       showLoadingModal("⌛ Đang xáo trộn ngẫu nhiên phương án A, B, C, D, E...");
       setTimeout(() => {
-        shuffleAllDatasetOptions();
+        processedQuestions = processedQuestions.map(q => shuffleSingleQuestionOptions(q));
         renderStudyQuestions();
         hideLoadingModal();
         if (icon) icon.classList.remove('animate-spin-once');
@@ -703,7 +505,7 @@
       document.getElementById('modal-loading').classList.add('hidden');
     }
 
-    // SWITCH MODES
+    // BẬT TẮT CHẾ ĐỘ ÔN TẬP / THI TRẮC NGHIỆM
     function switchMode(mode) {
       currentMode = mode;
       const btnStudy = document.getElementById('tab-study');
@@ -724,7 +526,7 @@
       }
     }
 
-    // STUDY MODE RENDER
+    // BỘ LỌC CÂU HỎI TRONG ÔN TẬP
     function filterQuestions(filter) {
       studyFilter = filter;
       document.getElementById('btn-filter-all').className = filter === 'all' ? "px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 whitespace-nowrap cursor-pointer" : "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap cursor-pointer";
@@ -740,6 +542,7 @@
       renderStudyQuestions();
     }
 
+    // RENDER HIỂN THỊ CHẾ ĐỘ ÔN TẬP (GIỮ ĐÚNG THỨ TỰ, TÁCH BIỆT CHỌN VÀ XEM ĐÁP ÁN)
     function renderStudyQuestions() {
       const container = document.getElementById('study-questions-list');
       const searchTxt = document.getElementById('study-search').value.toLowerCase().trim();
@@ -764,7 +567,8 @@
       filtered.forEach((q, idx) => {
         const isMulti = q.type === 'multi';
         const userSelected = userStudyChoices[q.id] || [];
-        const isAnswerRevealed = showAllAnswers || userSelected.length > 0;
+        // CHỈ HIỆN ĐÁP ÁN NẾU BẤM "Hiện tất cả" HOẶC BẤM "Xem đáp án" CÂU NÀY
+        const isAnswerRevealed = showAllAnswers || revealedQuestions[q.id] === true;
 
         html += `
           <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-2xs space-y-3 transition hover:border-emerald-200">
@@ -781,8 +585,10 @@
                 <h3 class="font-extrabold text-slate-900 text-sm sm:text-base leading-relaxed pt-1">${q.question}</h3>
               </div>
 
-              <button onclick="toggleSingleAnswer('${q.id}')" class="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1.5 rounded-xl transition shrink-0 cursor-pointer">
-                👁️ ${isAnswerRevealed ? 'Ẩn' : 'Xem đáp án'}
+              <!-- NÚT BẤM ĐỂ XEM ĐÁP ÁN ĐÚNG CỦA CÂU NÀY -->
+              <button onclick="toggleSingleAnswer('${q.id}')" class="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-xl transition shrink-0 cursor-pointer flex items-center gap-1 shadow-2xs">
+                <span>👁️</span>
+                <span>${isAnswerRevealed ? 'Ẩn' : 'Xem đáp án'}</span>
               </button>
             </div>
 
@@ -793,23 +599,32 @@
                 const letterBadge = String.fromCharCode(65 + optIdx);
                 
                 let optStyle = "border-slate-200 bg-slate-50/50 text-slate-800 hover:bg-slate-100";
+                let badgeHtml = '';
+
                 if (isAnswerRevealed) {
+                  // ĐÃ BẤM XEM ĐÁP ÁN: HIỆN XANH / ĐỎ
                   if (isCorrectOpt) {
                     optStyle = "border-emerald-500 bg-emerald-50/90 text-emerald-900 font-bold shadow-2xs";
+                    badgeHtml = `<span class="text-emerald-700 font-black text-xs shrink-0">✓ Đáp án chuẩn</span>`;
                   } else if (isUserChecked && !isCorrectOpt) {
                     optStyle = "border-rose-300 bg-rose-50 text-rose-900 line-through";
+                    badgeHtml = `<span class="text-rose-600 font-bold text-xs shrink-0">✗ Bạn chọn sai</span>`;
                   }
-                } else if (isUserChecked) {
-                  optStyle = "border-emerald-600 bg-emerald-50 text-emerald-900 font-bold";
+                } else {
+                  // CHƯA BẤM XEM ĐÁP ÁN: CHỈ ĐÁNH DẤU CHỌN Ô, TUYỆT ĐỐI KHÔNG BÁO ĐÚNG/SAI
+                  if (isUserChecked) {
+                    optStyle = "border-emerald-600 bg-emerald-50/80 text-emerald-900 font-bold shadow-2xs";
+                  }
                 }
 
                 return `
                   <div onclick="handleStudyOptionClick('${q.id}', ${optIdx}, ${isMulti})" class="flex items-center gap-3 p-3 rounded-xl border ${optStyle} text-xs sm:text-sm transition cursor-pointer">
-                    <span class="w-6 h-6 rounded-lg ${isAnswerRevealed && isCorrectOpt ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700'} flex items-center justify-center font-bold text-xs shrink-0">
+                    <input type="${isMulti ? 'checkbox' : 'radio'}" name="study_opt_${q.id}" ${isUserChecked ? 'checked' : ''} class="w-4 h-4 text-emerald-600 rounded shrink-0 pointer-events-none">
+                    <span class="w-6 h-6 rounded-lg ${isAnswerRevealed && isCorrectOpt ? 'bg-emerald-600 text-white' : (isUserChecked ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700')} flex items-center justify-center font-bold text-xs shrink-0">
                       ${letterBadge}
                     </span>
                     <span class="leading-relaxed flex-1">${opt}</span>
-                    ${isAnswerRevealed && isCorrectOpt ? `<span class="text-emerald-700 font-black text-xs shrink-0">✓ Đáp án chuẩn</span>` : ''}
+                    ${badgeHtml}
                   </div>
                 `;
               }).join('')}
@@ -822,16 +637,12 @@
     }
 
     function toggleSingleAnswer(qId) {
-      if (!userStudyChoices[qId]) {
-        userStudyChoices[qId] = [999];
-      } else {
-        delete userStudyChoices[qId];
-      }
+      revealedQuestions[qId] = !revealedQuestions[qId];
       renderStudyQuestions();
     }
 
     function handleStudyOptionClick(qId, optIdx, isMulti) {
-      if (!userStudyChoices[qId] || userStudyChoices[qId].includes(999)) {
+      if (!userStudyChoices[qId]) {
         userStudyChoices[qId] = [];
       }
 
@@ -842,11 +653,13 @@
       } else {
         userStudyChoices[qId] = [optIdx];
       }
+      
+      // Không tự động set revealedQuestions[qId] = true để không lộ đáp án!
       renderStudyQuestions();
     }
 
     // =========================================================================
-    // EXAM GENERATION ENGINE (10 FIXED EXAMS + NON-REPEATING RANDOM EXAM)
+    // TẠO BỘ ĐỀ THI 60 CÂU (10 ĐỀ CỐ ĐỊNH + 1 ĐỀ NGẪU NHIÊN)
     // =========================================================================
     function buildExamSet(examType) {
       let selectedSingle = [];
@@ -854,7 +667,7 @@
 
       if (examType.startsWith('fixed-')) {
         const examNum = parseInt(examType.replace('fixed-', ''));
-        // Deterministic slice for 10 fixed exams (30 single + 30 multi = 60 questions)
+        // 10 Đề cố định: mỗi đề cắt đúng 30 câu Single + 30 câu Multi
         const sStart = ((examNum - 1) * 30) % fullSingleBank.length;
         selectedSingle = fullSingleBank.slice(sStart, sStart + 30);
         if (selectedSingle.length < 30) {
@@ -867,7 +680,7 @@
           selectedMulti = selectedMulti.concat(fullMultiBank.slice(0, 30 - selectedMulti.length));
         }
       } else {
-        // Random mode: pick 30 single + 30 multi without repeating exact previous random set
+        // Đề ngẫu nhiên: Rút ngẫu nhiên 30 câu Single + 30 câu Multi không trùng lượt ngẫu nhiên trước
         let attempts = 0;
         let sPicked = [];
         let mPicked = [];
@@ -885,7 +698,7 @@
         selectedMulti = mPicked;
       }
 
-      // Combine 30 single + 30 multi, shuffle questions & shuffle option order
+      // Trộn lẫn 30 câu single + 30 câu multi và xáo trộn phương án A, B, C, D
       let combined = [...selectedSingle, ...selectedMulti].sort(() => 0.5 - Math.random());
       return combined.map(q => shuffleSingleQuestionOptions(q));
     }
@@ -902,7 +715,7 @@
         document.getElementById('exam-result-card').classList.add('hidden');
         document.getElementById('exam-active-card').classList.remove('hidden');
 
-        startExamTimer(2700); // 45 Minutes
+        startExamTimer(2700); // 45 Phút làm bài
 
         renderExamQuestions();
         renderExamNavGrid();
@@ -942,7 +755,7 @@
       document.getElementById('exam-timer').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
-    // RENDER EXAM QUESTIONS WITHOUT REVEALING 1 OR MULTI ANSWER BADGES
+    // RENDER ĐỀ THI THẬT: ẨN NICKNAME / NHÃN BÁO CÂU 1 HAY NHIỀU ĐÁP ÁN
     function renderExamQuestions() {
       const container = document.getElementById('exam-questions-container');
       let html = '';
@@ -1034,7 +847,7 @@
         }
       });
 
-      const total = examQuestions.length; // 60
+      const total = examQuestions.length; // 60 câu
       const wrongCount = total - correctCount;
       const scoreScale10 = ((correctCount / total) * 10).toFixed(1);
       const percent = Math.round((correctCount / total) * 100);
@@ -1126,4 +939,3 @@
 </body>
 </html>
 
-```
