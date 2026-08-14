@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Thi Tiếng Anh Online - Trường CĐ Hậu Cần 1</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800">
+
+    <!-- HEADER TAC GIA & THONG TIN DE THI -->
+    <header class="bg-gradient-to-r from-emerald-800 via-green-700 to-teal-800 text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-3 py-2 flex flex-wrap justify-between items-center border-b border-emerald-600/50 text-xs sm:text-sm">
+            <div class="flex items-center space-x-2 font-bold tracking-wide text-amber-300">
+                <span class="inline-block p-1 bg-amber-500/20 rounded border border-amber-400/40">
+                    <i class="fa-solid fa-shield-halved text-amber-400 text-base"></i>
+                </span>
+                <span>Huỳnh Văn Được - Đặc công 198 - Đắk Lắk 🗡️</span>
+            </div>
+            <div class="text-emerald-100 font-medium hidden md:block">
+                Trường CĐ Hậu Cần 1 - Khoa Khoa Học Cơ Bản
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-3 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="confirmExitToHome()">
+                <div class="bg-white text-emerald-800 p-2 rounded-xl shadow-inner font-black text-xl flex items-center justify-center w-10 h-10 border-2 border-emerald-300">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg leading-tight uppercase tracking-wider text-white">ÔN THI TIẾNG ANH ONLINE</h1>
+                    <p class="text-xs text-emerald-200">Đối tượng: Chuyển loại TC KT Xăng Dầu</p>
+                </div>
+            </div>
+
+            <!-- HOME BUTTON WITH MODAL -->
+            <button onclick="confirmExitToHome()" class="bg-emerald-900/80 hover:bg-emerald-950 text-emerald-100 px-3 py-1.5 rounded-lg border border-emerald-500/40 text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5 shadow-sm">
+                <i class="fa-solid fa-house"></i>
+                <span class="hidden sm:inline">Trang Chủ</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-[73px] z-20">
+        <div class="max-w-7xl mx-auto px-2 flex space-x-1 sm:space-x-4 overflow-x-auto custom-scrollbar">
+            <button id="tab-practice" onclick="switchMode('practice')" class="py-3 px-4 text-xs sm:text-sm font-bold border-b-2 border-emerald-600 text-emerald-700 flex items-center space-x-2 whitespace-nowrap transition">
+                <i class="fa-solid fa-book-open text-base"></i>
+                <span>📚 LUYỆN TẬP (THEO PART)</span>
+            </button>
+            <button id="tab-exam" onclick="switchMode('exam')" class="py-3 px-4 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center space-x-2 whitespace-nowrap transition">
+                <i class="fa-solid fa-stopwatch text-base"></i>
+                <span>⏱️ THI THẬT (90 CÂU / 45 PHÚT)</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-2 sm:p-4 md:p-6">
+
+        <!-- ==================== MODE 1: LUYEN TAP ==================== -->
+        <section id="section-practice" class="space-y-6">
+            <!-- PART SELECTION BAR -->
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-slate-200">
+                <h2 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3">Chọn phần cần luyện tập:</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
+                    <button onclick="loadPracticePart('grammar')" id="btn-part-grammar" class="p-3 rounded-lg border-2 border-emerald-600 bg-emerald-50 text-emerald-800 font-bold text-xs sm:text-sm text-left transition hover:shadow-md flex flex-col justify-between">
+                        <span>Part I. Ngữ Pháp</span>
+                        <span class="text-[11px] font-normal text-emerald-600 mt-1">120 câu trắc nghiệm</span>
+                    </button>
+                    <button onclick="loadPracticePart('vocab')" id="btn-part-vocab" class="p-3 rounded-lg border-2 border-slate-200 bg-white text-slate-700 hover:border-emerald-300 font-bold text-xs sm:text-sm text-left transition hover:shadow-md flex flex-col justify-between">
+                        <span>Part II. Từ Vựng</span>
+                        <span class="text-[11px] font-normal text-slate-500 mt-1">140 câu & Từ khác loại</span>
+                    </button>
+                    <button onclick="loadPracticePart('reading')" id="btn-part-reading" class="p-3 rounded-lg border-2 border-slate-200 bg-white text-slate-700 hover:border-emerald-300 font-bold text-xs sm:text-sm text-left transition hover:shadow-md flex flex-col justify-between">
+                        <span>Part III. Đọc Hiểu</span>
+                        <span class="text-[11px] font-normal text-slate-500 mt-1">12 bài đọc (60 câu)</span>
+                    </button>
+                    <button onclick="loadPracticePart('writing')" id="btn-part-writing" class="p-3 rounded-lg border-2 border-slate-200 bg-white text-slate-700 hover:border-emerald-300 font-bold text-xs sm:text-sm text-left transition hover:shadow-md flex flex-col justify-between">
+                        <span>Part IV. Viết/Sắp Xếp</span>
+                        <span class="text-[11px] font-normal text-slate-500 mt-1">48 câu kéo-thả + 32 câu A–B–C–D</span>
+                    </button>
+                </div>
+
+                <!-- READING PASSAGE SELECTOR (IF READING PART IS ACTIVE) -->
+                <div id="reading-passage-selector" class="mt-4 pt-3 border-t border-slate-200 hidden">
+                    <label class="block text-xs font-bold text-slate-600 mb-2">Chọn Bài Đọc Luyện Tập:</label>
+                    <div id="reading-buttons-container" class="flex flex-wrap gap-1.5">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRACTICE QUESTION VIEW AREA -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- QUESTION CONTAINER (LEFT 3 COLS) -->
+                <div class="lg:col-span-3 space-y-4">
+                    <div id="practice-passage-box" class="bg-amber-50 border border-amber-200 p-4 rounded-xl shadow-sm text-slate-800 text-sm sm:text-base leading-relaxed hidden">
+                        <h3 id="passage-title" class="font-bold text-amber-900 uppercase text-base mb-2 flex items-center space-x-2">
+                            <i class="fa-solid fa-book-bookmark text-amber-600"></i>
+                            <span>Nội dung bài đọc</span>
+                        </h3>
+                        <div id="passage-content" class="text-slate-700 font-serif whitespace-pre-line"></div>
+                    </div>
+
+                    <div id="practice-question-card" class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-5">
+                        <!-- Filled by JS -->
+                    </div>
+
+                    <!-- PRACTICE PAGINATION BUTTONS -->
+                    <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                        <button onclick="prevPracticeQuestion()" id="btn-practice-prev" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-lg transition disabled:opacity-40">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Câu trước
+                        </button>
+                        <span id="practice-progress-text" class="text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                            Câu 1 / 100
+                        </span>
+                        <button onclick="nextPracticeQuestion()" id="btn-practice-next" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-lg transition shadow">
+                            Câu tiếp <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRACTICE QUESTION MATRIX (RIGHT 1 COL) -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 h-fit">
+                    <h3 class="font-bold text-slate-700 text-sm mb-3 flex justify-between items-center">
+                        <span>Danh sách câu hỏi</span>
+                        <span id="practice-stat-count" class="text-xs text-slate-500 font-normal">Đã làm: 0</span>
+                    </h3>
+                    <div id="practice-matrix" class="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 gap-1.5 max-h-[350px] overflow-y-auto custom-scrollbar p-1">
+                        <!-- Matrix items filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== MODE 2: THI THAT ==================== -->
+        <section id="section-exam" class="space-y-6 hidden">
+            <!-- EXAM SELECTION / START PANEL -->
+            <div id="exam-select-panel" class="bg-white rounded-xl shadow-sm p-5 border border-slate-200 space-y-4">
+                <div class="border-b border-slate-100 pb-3">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                        <i class="fa-solid fa-file-signature text-emerald-600"></i>
+                        <span>Tạo Đề Thi Thật Ngẫu Nhiên (90 Câu / 45 Phút)</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">Cấu trúc: 40 câu Ngữ pháp + 40 câu Từ vựng + 1 bài đọc (5 câu) + 5 câu Writing (kéo-thả hoặc A–B–C–D). Câu đã dùng sẽ không lặp cho đến khi hết ngân hàng.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <button onclick="startExam('random')" class="lg:col-span-1 p-5 rounded-xl border-2 border-amber-500/50 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 text-amber-900 font-bold text-center transition flex flex-col items-center justify-center space-y-2 group shadow-sm">
+                        <span class="text-xl text-amber-700 group-hover:scale-105 transition">🎲 TẠO ĐỀ THI NGẪU NHIÊN MỚI</span>
+                        <span class="text-xs text-amber-700 font-normal">90 câu • ưu tiên toàn bộ câu chưa từng thi</span>
+                    </button>
+                    <div class="lg:col-span-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="flex items-center justify-between gap-3 mb-3">
+                            <h3 class="font-bold text-slate-700 text-sm"><i class="fa-solid fa-clock-rotate-left text-emerald-600 mr-1"></i> Lịch sử thi trên thiết bị này</h3>
+                            <button onclick="resetExamHistory()" class="text-[11px] font-bold text-rose-600 hover:text-rose-700 border border-rose-200 bg-white rounded-lg px-2.5 py-1">Xóa lịch sử</button>
+                        </div>
+                        <div id="exam-pool-status" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3"></div>
+                        <div id="exam-history-list" class="space-y-2 max-h-52 overflow-y-auto custom-scrollbar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVE EXAM INTERFACE (HIDDEN UNTIL STARTED) -->
+            <div id="exam-active-panel" class="space-y-4 hidden">
+                <!-- EXAM STATUS HEADER BAR -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 sm:p-4 flex justify-between items-center sticky top-[130px] z-10">
+                    <div>
+                        <h3 id="exam-title-display" class="font-bold text-slate-800 text-sm sm:text-base">Đề Thi Chuẩn Quốc Gia</h3>
+                        <p id="exam-counter-display" class="text-xs text-slate-500">Đã làm: 0 / 90 câu</p>
+                    </div>
+                    
+                    <!-- COUNTDOWN TIMER -->
+                    <div class="flex items-center space-x-3">
+                        <div id="exam-timer-box" class="flex items-center space-x-2 bg-slate-900 text-amber-400 font-mono font-bold px-3 py-1.5 rounded-lg text-sm sm:text-base border border-slate-700 shadow-inner">
+                            <i class="fa-regular fa-clock text-amber-400 animate-pulse"></i>
+                            <span id="exam-timer-text">45:00</span>
+                        </div>
+                        <button onclick="confirmSubmitExam()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-lg shadow transition flex items-center space-x-1">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Nộp Bài</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <!-- EXAM QUESTION CONTENT (LEFT 3 COLS) -->
+                    <div class="lg:col-span-3 space-y-4">
+                        <div id="exam-passage-box" class="bg-amber-50 border border-amber-200 p-4 rounded-xl shadow-sm text-slate-800 text-sm sm:text-base leading-relaxed hidden">
+                            <h4 id="exam-passage-title" class="font-bold text-amber-900 uppercase text-sm mb-2">Đọc bài văn sau:</h4>
+                            <div id="exam-passage-content" class="text-slate-700 font-serif whitespace-pre-line"></div>
+                        </div>
+
+                        <div id="exam-question-card" class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-5">
+                            <!-- Filled by JS -->
+                        </div>
+
+                        <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                            <button onclick="prevExamQuestion()" id="btn-exam-prev" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-lg transition disabled:opacity-40">
+                                <i class="fa-solid fa-arrow-left mr-1"></i> Câu trước
+                            </button>
+                            <button onclick="toggleExamMark()" id="btn-exam-mark" class="px-3 py-1.5 border border-amber-400 bg-amber-50 text-amber-800 text-xs font-bold rounded-lg hover:bg-amber-100 transition flex items-center space-x-1">
+                                <i class="fa-regular fa-flag"></i>
+                                <span>Đánh dấu xem lại</span>
+                            </button>
+                            <button onclick="nextExamQuestion()" id="btn-exam-next" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-lg transition shadow">
+                                Câu tiếp <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- EXAM QUESTION MATRIX & FILTER (RIGHT 1 COL) -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 space-y-3 h-fit">
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                            <h4 class="font-bold text-slate-700 text-sm">Danh sách câu hỏi</h4>
+                            <span class="text-xs text-slate-400">90 câu</span>
+                        </div>
+
+                        <!-- FILTER BUTTONS -->
+                        <div class="grid grid-cols-4 gap-1 text-[11px] font-semibold text-center">
+                            <button onclick="filterExamMatrix('all')" id="filter-all" class="py-1 rounded bg-slate-200 text-slate-800">Tất cả</button>
+                            <button onclick="filterExamMatrix('done')" id="filter-done" class="py-1 rounded bg-slate-100 text-slate-600">Đã làm</button>
+                            <button onclick="filterExamMatrix('undone')" id="filter-undone" class="py-1 rounded bg-slate-100 text-slate-600">Chưa làm</button>
+                            <button onclick="filterExamMatrix('marked')" id="filter-marked" class="py-1 rounded bg-slate-100 text-slate-600">Đã dấu</button>
+                        </div>
+
+                        <div id="exam-matrix" class="grid grid-cols-5 gap-1.5 max-h-[380px] overflow-y-auto custom-scrollbar p-1">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULT SCREEN (HIDDEN UNTIL SUBMITTED) -->
+            <div id="exam-result-panel" class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6 hidden">
+                <div class="text-center space-y-2 border-b border-slate-100 pb-6">
+                    <div class="inline-block p-3 bg-emerald-100 text-emerald-700 rounded-full text-3xl mb-1">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-800 uppercase">KẾT QUẢ THI THẬT</h2>
+                    <p id="result-exam-title" class="text-xs text-slate-500 font-semibold">Bộ đề 90 câu / 45 phút</p>
+                    
+                    <div class="pt-4 flex justify-center items-center space-x-6">
+                        <div class="text-center">
+                            <p class="text-xs text-slate-400 uppercase font-bold">Số câu đúng</p>
+                            <p id="result-score-text" class="text-3xl font-black text-emerald-600">0 / 90</p>
+                        </div>
+                        <div class="h-10 w-[1px] bg-slate-200"></div>
+                        <div class="text-center">
+                            <p class="text-xs text-slate-400 uppercase font-bold">Tỷ lệ đạt</p>
+                            <p id="result-percent-text" class="text-3xl font-black text-amber-500">0%</p>
+                        </div>
+                        <div class="h-10 w-[1px] bg-slate-200"></div>
+                        <div class="text-center">
+                            <p class="text-xs text-slate-400 uppercase font-bold">Thời gian</p>
+                            <p id="result-time-text" class="text-3xl font-black text-slate-700">00:00</p>
+                        </div>
+                    </div>
+
+                    <div id="result-eval-badge" class="mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        ĐÁNH GIÁ: ĐẠT YÊU CẦU
+                    </div>
+                </div>
+
+                <!-- REVIEW SECTION -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                        <i class="fa-solid fa-list-check text-emerald-600"></i>
+                        <span>Chi Tiết Đáp Án & Giải Thích:</span>
+                    </h3>
+                    <div id="result-questions-list" class="space-y-4">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div class="flex justify-center space-x-4 pt-4 border-t border-slate-100">
+                    <button onclick="backToExamHome()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Làm Bài Thi Khác
+                    </button>
+                    <button onclick="switchMode('practice')" class="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition">
+                        <i class="fa-solid fa-book-open mr-1"></i> Chuyển Sang Luyện Tập
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-4 px-3 text-center border-t border-slate-800 mt-8">
+        <p class="font-semibold text-slate-300">Ứng dụng Ôn thi Tiếng Anh Online - Trường CĐ Hậu Cần 1</p>
+        <p class="text-[11px] mt-1 text-slate-500">Biên soạn & Thiết kế bởi: Huỳnh Văn Được - Đặc công 198 - Đắk Lắk 🗡️</p>
+    </footer>
+
+    <!-- MODAL XÁC NHẬN THOÁT TRANG CHỦ -->
+    <div id="exit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 border border-slate-100 transform transition-all scale-100">
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="font-bold text-slate-800 text-base">Xác Nhận Dừng Thi / Exit</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Đồng chí có muốn thoát, dừng thi không? Tiến trình làm bài thi hiện tại sẽ không được lưu lại.
+                </p>
+            </div>
+            <div class="flex space-x-3 pt-2">
+                <button onclick="closeExitModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+                    Không (Tiếp tục)
+                </button>
+                <button onclick="exitToHome()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition shadow">
+                    Có (Thoát)
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================== JAVASCRIPT LOGIC & QUESTION DATA ==================== -->
+    <script>
+function parseMcq(prefix, raw) {
+  return raw.trim().split('\n').filter(Boolean).map((line, index) => {
+    const parts = line.split('|');
+    const answer = parts.pop().trim().toUpperCase();
+    const q = parts.shift().trim();
+    return { id: `${prefix}${index + 1}`, number: index + 1, q, options: parts.map(x => x.trim()), correct: answer.charCodeAt(0) - 65 };
+  });
+}
+
+const GRAMMAR = parseMcq('g', String.raw`
+............... sisters are nurses.|Bill's both|Both Bill's|Bill his both|Bill both his|B
+............... sports do you play?|When|Where|Who|What|D
+Mike is very ............... of his new car.|proudly|feel|proud|happy|C
+When do you usually arrive ............... the office?|in|to|on|at|D
+Do you have any pets? – Yes, I have ............... kittens.|two small black|small two black|two black small|black small two|A
+Do you like tea? – ...............|OK|Yes, I do|Thanks|That's all right|B
+The bank is on ............... side of the street.|another|other|the other|the rest|C
+............... a blackboard in the classroom?|Is|Is it|Is there|Are there|C
+What's ............... the radio this morning?|about|at|on|with|C
+Some people ............... eat meat.|do never|ever|don't ever|never|D
+Which cinema ...............?|do you want to go to|do you want to go to it|you want to go to|do you want to go|A
+A: Have you got a lighter? – B: ...............|Yes, I have|Yes, I have got|That's all right|Yes, I has|A
+............... you fond of jazz?|is|am|have|are|D
+Kate and Jenny have a brother, ............... Bill.|Their name is|His name|Her name is|His name is|D
+There are three men ............... waiting outside.|who|they|which|Ø (none)|D
+My father ............... excuses when I feel like going to the cinema.|make always|make always|always makes|made|C
+His students ............... German in class.|don't speak|doesn't speak|not speak|doesn't speak|A
+She ............... six years old.|isn't|not is|are not|is no|A
+John ............... in a supermarket.|works|working|work|worked|A
+Danny ............... his father on Sundays.|phoner|phones|phone|phoned|B
+I ............... what you mean.|doesn't know|not know|don't know|don't knows|C
+My husband and his colleague ............... golf whenever they are not too busy.|play|plays|playes|played|A
+John always ............... on time for meetings.|arrives|are arriving|is arriving|arrive|A
+Fred was a really silly boy when we were in high-school. I still remember ............... very stupid questions.|his asking|him to ask|asking him|his being asked|A
+This sad story made him ............... about his own tragedy.|to think|think|thought|thinks|B
+Have you read his new book? – Yes, it's ............... interesting than his first four books.|the most|very much|much more|the more|C
+They went ............... ship from Liverpool to Dublin.|by|on|with|in|A
+I preferred that she ............... here.|stayed|has stayed|staying|stay|D
+Our people began this flight ............... 1973.|from|at|since|in|D
+The boat ............... in the river last night.|sinks|sank|drowns|drowned|B
+He ............... newspapers for ten years.|is selling|sells|has been selling|has been sold|C
+It's ............... Give it to them.|theirs|their's|there's|them's|A
+He was ............... of all his money.|stole|robbed|removed|taken|B
+The animals were afraid, but their keeper soon got them ............... control.|over|without|under|out of|C
+He will not be ............... to vote in this year's election.|old enough|as old enough|enough old|enough old as|A
+You can ............... my surprise when I heard the news.|suppose|think|see|imagine|D
+The reason ............... he's late is that he had an accident.|which|in which|that|why|D
+There are two Olympic medalists entered in the competition. How could Mike ever hope ...............?|winning|in winning|to win|that he win|C
+They ............... the bus yesterday.|don't catch|weren't catch|didn't catch|not catch|C
+My sister ............... home late last night.|comes|come|came|was come|C
+My father ............... tired when I ............... home.|was – got|is – get|was – getted|were – got|A
+What ............... you ............... two days ago?|do – do|did – did|do – did|did – do|D
+Where ............... your family ............... on the summer holiday last year?|do – go|does – go|did – go|did – went|C
+The flowers ............... watered by Bob.|are normally|normally are|normally is|is normally|A
+Barbara usually ............... dinner for her husband after work.|cooks|are cooking|is cooking|cook|A
+Mr. and Mrs. Parsons ............... to work together every day.|drive|drives|are driving|drove|A
+My parents normally ............... breakfast at 7:00 a.m.|eats|are eating|is eating|eat|D
+My best friend ............... to me every week.|write|wrote|writes|writing|C
+John ............... very hard in class, but I don't think he'll pass the course.|try|trys|tries|tried|C
+The bank ............... at four o'clock.|close|will close|is close|closes|D
+It ............... almost every day in Manchester.|rain|rains|raines|rained|B
+My life is so boring, I just ............... TV every night.|watched|watchies|watches|watch|D
+Jo is so smart that she ............... every exam without even trying.|pass|passed|is passes|passes|D
+My mother ............... eggs for breakfast every morning.|is frying|is fry|fries|flys|C
+My teacher ............... long hair.|have|has|have had|had|B
+They ............... to play the love games, but they ............... now.|isn't want – plays|doesn't want – plays|not want – are playing|don't want – are playing|D
+............... Marry an English person? – Yes, she ............... English at the meeting right now.|Are – speaks|Are – is speaking|Is – is speaking|Is – are speaking|C
+Look! The man ............... up the tree.|is climbing|climbs|are climbing|climb|A
+The new comers ............... the rules of the club.|doesn't know|don't know|isn't knowing|aren't knowing|B
+Martin ............... in a small flat. He and his wife always ............... up early to water flowers.|is living – get|lives – get|lives – gets|is living – gets|A
+What's the correct past form of “visit”?|Visited|Visit|Visiting|Visiteed|A
+Which is the correct sentence?|I am twentieth years old|I have twentieth years old|I am twenty years|I am twenty years old|D
+How ............... does it take to get to the railway station from your house?|long|much|often|far|A
+We travelled to Paris ............... train.|in|by|on|over|B
+My brother wants ............... an actor.|become|becoming|to become|to becoming|C
+............... is bad for your health.|To smoke|Smoke|Smoked|Smoking|D
+............... was the weather like when you were on holiday?|What|How|Where|When|A
+............... is your grandfather?|How old|Which age|How much|What time|A
+Would you like to go ............... with me this afternoon?|swim|a swim|to swim|swimming|D
+I don't have ............... money to buy a new computer.|many|very much|enough|little|C
+Where ............... you live when you were a child?|do|did|have|were|B
+I ............... with you.|am not agree|don't agree|doesn't agree|aren't agree|B
+We moved to this town two years ............... .|ago|behind|last|passed|A
+I ............... but my brother doesn't.|like very much tennis|very much tennis like|tennis like very much|like tennis very much|D
+My brother is going to be ............... engineer.|a|the|an|no article needed|C
+Maria gave ............... for his birthday.|a football her little brother|her little brother a football|to her little brother a football|a football for her little brother|B
+I play tennis twice ............... week.|a|the|in the|for a|A
+The men ............... very busy.|is|am|are|be|C
+My aunt ............... on the ice and broke her leg.|fallen|fell|felled|felt|B
+The bus stop is not far ............... our flat.|away|off|from|out|C
+Did you enjoy the ............... from London to Tokyo?|fly|flying|flew|flight|D
+My mother is a very good ............... .|cooker|cooking|cook|cookery|C
+There are 24 hours in a ............... .|day|week|year|night|A
+My favourite subject at school was ............... because I love learning about numbers.|art|mathematics|history|science|B
+How much do these tomatoes ...............?|price|charge|cost|pay|C
+Don't ............... to post my letters for me.|forget|mind|matter|remember|A
+Can I help you ............... your homework?|work|do|turn|make|B
+All the children at that school have to ............... a uniform.|use|carry|wear|put|C
+Joe ............... his bicycle to work every day.|rides|drives|goes|gets|A
+Mark ............... a lot of great photos on his holiday.|took|put|had|did|A
+We must ............... the football match on TV this evening.|look|see|listen|watch|D
+Jack's not well. I think we should call an ............... .|illness|accident|ambulance|engine|C
+My grandfather ............... me to swim.|learnt|taught|made|showed|B
+I'm very tired. I'm going to go to ............... .|bath|shower|bed|chair|C
+Be careful not to ............... your passport.|lose|loose|loss|lost|A
+The shortest month of the year is ............... .|December|July|January|February|D
+I stopped gardening when the rain started. I didn't want to get ............... .|warm|wet|dry|windy|B
+I bought some milk at the little shop on the ............... .|bus stop|traffic lights|corner of our street|end of the road|C
+Are you ready to ............... your meal now, sir?|order|ask for|demand|explain|A
+You need ............... to make an omelette.|fish|eggs|potatoes|apples|B
+He ............... books for poor children for years.|has collected|collects|is collecting|collected|A
+Go Green ............... people to recycle rubbish, such as glass, cans and paper.|to encourage|encourage|encouraged|has encouraged|D
+Lan ............... English for more than a year but she can speak it very well.|learns|learn|learned|has learned|D
+The Japanese eat a lot of fish and healthy food, ............... they live for a long time.|so|because|or|but|A
+He ate a lot of fried food so he ............... fat quickly.|get|got|gets|will get|B
+I think 10 years from now more people ............... going to work by bicycles.|to enjoy|enjoy|enjoying|will enjoy|D
+Linh often uses her headphones when she listens to music ............... her parents don't like loud noise.|so|but|because|and|C
+All flights to New York tomorrow will be ............... because of bad weather.|delayed|soon|late|early|A
+Anne and Joe ............... by sea tomorrow.|travel|will travel|travels|travelled|B
+We will travel from Spain to France by plane. The plane will ............... at 10 a.m. and will land at 11:00 a.m. in Paris.|take off|flight|depart|journey|A
+Linh: Have you decided what to do about your broken washing machine? Lan: Yes, ............... tomorrow.|I'm going to have it fixed|I'll have it fix|I have it fixed|I have it fix|A
+Would you like to join my tea party? I am sure you ............... have great fun.|will going to|are going to|going to|go to|B
+It's a great movie. I have ............... that movie many times.|saw|seen|see|saws|B
+Eve and Rob ............... Vietnam many times.|have been|been to|have been to|has been to|C
+Have you ............... really strange or interesting food?|ever eaten|never eaten|ate|ever ate|A
+I've cleaned the kitchen, but I ............... the living room yet.|haven't clean|haven't cleaned|have cleaned|have clean|B
+My family and I ............... to many different countries around the world.|have flown|has flown|flown|have flew|A
+............... you ............... your room yet?|Were / cleaning|Did / clean|Has / cleaned|Have / cleaned|D
+She hasn't met her family ............... a long time.|since|for|in|from|B
+He has played football ............... he was a child.|for|so|since|because|C
+`);
+
+const VOCAB = parseMcq('v', String.raw`
+People have got ten ............... on their feet.|fingers|toes|elbows|knees|B
+Emily's very ............... . She understands how other people feel.|relaxed|sensible|sensitive|reliable|B
+Chris is quite ............... . He doesn't talk about his personal life much.|gentle|reserved|polite|stubborn|B
+Lenny's rather ............... . Sometimes he behaves like a little child.|immature|impatient|sensible|shy|A
+Kitty's very ............... . She goes out with her friends almost every day.|outgoing|talkative|quiet|sociable|D
+I've bought a new ............... for this New Year. It's very easy to see dates on it.|celebration|calendar|decoration|special food|B
+We usually ............... our house several days before Tet comes.|celebrate|celebration|decorate|decoration|C
+People in the world ............... the New Year in different ways.|celebrate|celebration|special food|furniture|A
+Look! Those ............... are so beautiful this Tet.|peach blossoms|family gatherings|first footers|lucky money|A
+I wish you a new year full of fun, ............... and happiness.|furniture|fireworks|laughter|apricot blossoms|C
+January 1st is a day when people in Europe and America ............... New Year.|see|remember|celebrate|spend|C
+On New Year's Day, children ............... lucky money ............... red envelope.|get – in|ask – on|take – at|have – with|A
+In London people cheer and sing when the clock ............... midnight on New Year's Eve.|gets|strikes|see|goes|B
+People believe that ............... water over people will ............... a lot of rain in the New Year.|throw – bring|throwing – bring|to throw – bringing|throwing – bringing|B
+On New Year's Day, many people put on their best clothes and go to ............... or visit their ............... .|houses – friends|pagodas – relatives|pagoda – relative|the main room – friend|B
+The ............... is the first person to enter a house at the beginning of a lunar year.|host|celebrator|first-footer|calendar|C
+At Tet, many people present rice to wish ............... enough food throughout the year.|in|at|for|with|C
+I will ............... my lucky money in my piggy bank.|give|keep|spend|borrow|B
+When New Year comes, people in different countries always wear their ............... clothes.|tradition|normal|ordinary|traditional|D
+At Tet people wish each other a ............... and ............... life.|long / unhealthy|short / healthy|long / healthy|big / bad|C
+Before Tet, people often give ............... to show their love and respect.|firecrackers|plants|food|presents|D
+Children in Viet Nam always ............... lucky money from their parents or relatives on New Year's Day.|get|take|bring|give|A
+People like to watch beautiful ............... on New Year's Eve.|cathedral|calendar|fireworks|pagoda|C
+Children are often given ............... in red envelopes.|sticky rice|first footer|lucky money|festival|C
+Before Tet, people often clean and ............... their house.|decorated|decorate|decorating|decoration|B
+On Tet holiday, Vietnamese people often visit ............... .|relatives|rubbish|feather|first-footer|A
+Tet is a time for family ............... .|cooking|working|paying|gathering|D
+We always ............... our wedding anniversary by going out to dinner.|wish|celebrate|decorate|remote|B
+What do North people present on Tet?|Kumquat tree|Apricot blossom|Peach blossom|The new year tree|C
+When do you celebrate New Year in Europe?|2nd January|18th October|1st January|1st July|C
+The Chicago train leaves from ............... 4.|line|bank|quay|platform|D
+Before getting on the train, make sure you get a ticket from the ............... .|ticket office|box office|waiting room|check-in|D
+I had so much ............... on the train, but this nice man helped me when we arrived in Paris.|bags|luggage|box|packing|B
+After you leave Beaumont, there's a large ............... and you'll be able to get where you want really quickly.|street|lane|highway|path|D
+If the police stop you, you will probably have to show them your ............... .|patent|permission|photo|licence|D
+It is the driver's responsibility to ensure all passengers in the car are wearing their ............... .|harnesses|belts|seat belts|seat harnesses|C
+After you check-in, wait in the ............... until you hear your flight called.|waiting room|reception|check-in lounge|departure lounge|D
+Would you prefer a window seat or a(n) ............... seat, Mr. Robson?|corridor|line|aisle|non-window|C
+Please ensure you have fully filled out the green form for ............... before we land, stating anything on the list you are carrying into the country.|customs|police|immigration|aviation|D
+Having a unique ............... from different countries is so much more memorable than a typical gift to bring home.|present|offering|award|souvenir|D
+............... for overseas travel is often a struggle to distinguish what we want to bring from what we need to bring.|Preparing|Shopping|Packing|Gathering|D
+A woman passenger ............... her ticket in advance and picked it up yesterday morning, but the airline didn't tell her about the cancellation.|reserved|preserved|deserved|conserved|A
+............... is someone who mediates between speakers of different languages.|Tour guide|Operator|Interpreter|Entrepreneur|C
+We traveled through three states before reaching our final ............... .|region|zone|endpoint|destination|D
+We will save the environment if we ............... plastic.|reuses|reuse|reusing|reused|B
+We are trying to ............... the president to the party.|pollute|exchange|invite|cause|C
+Water is used to generate ............... .|pollution|electricity|money|deforestation|B
+If students recycle and use recycled materials, they will save ............... .|energy|food|water|soil|A
+They use ............... plastic bottles to keep water.|refillable|natural|polluting|charitable|A
+If you turn ............... the lights off when you don't use it, you will save electricity.|on|off|up|down|B
+Charities raise money for people who are ............... need.|in|on|at|for|A
+Do you know what ............... water pollution?|caused|causing|to cause|causes|D
+We ............... a survey to know more about recycling.|make|do|have|get|B
+You should put rubbish in the recycling ............... .|bin|sea|soil|air|A
+The second solution is to provide safe, ............... birth-control methods.|expensive|inexpensive|expensively|inexpensively|B
+Some scientists say that there are enough resources to ............... 8 billion people.|provide|distribute|raise|support|D
+............... the flood has receded, people can move back into their homes.|Now that|Due to|Although|So that|A
+If the level of VAT is ............... this year, small businesses will be affected.|raised|risen|arisen|raising|A
+The world's population is ............... to be over 7 billion by 2010.|claimed|blamed|expected|reached|C
+............... millions of women want to limit the size of their families, they know of no safe way to have fewer children.|Because|When|Despite|Although|D
+Most of the freshwater is ............... at the North and South Poles.|boiled|frozen|run|flowed|B
+China is one of the most ............... populated areas in the world.|wastefully|perfectly|densely|completely|C
+Nowadays people ............... hours sitting in front of computers.|spend|last|set|take|A
+I think you should take up swimming ............... it is suitable for your health condition.|so|because|although|but|B
+My brother doesn't like ice-skating because he thinks it is ............... .|danger|in danger|dangerous|endangered|C
+You need to be ............... to follow eggshell carving because it may take two weeks to complete one shell.|careful|interesting|fit|patient|D
+Be careful. Don't ............... yourself.|hurt|plant|hate|catch|A
+We will ............... our old friends next Sunday.|will meet|to meet|meeting|meet|D
+You should ............... gymnastics regularly to have good health.|do|go|watch|play|A
+I respect ............... people. I think it's important to tell the truth.|responsible|patient|honest|ambitious|C
+I like Chris. He's got a great ............... of humour.|feeling|understanding|sense|feel|C
+Tom never helps with the housework. He's so ............... .|lazy|hard-working|jealous|excited|A
+Anna is ............... of Rose. She is much prettier than Anna, and more intelligent, too.|afraid|moody|jealous|impolite|C
+Marry rarely gets angry with people. She's usually ............... and understanding.|generous|selfish|friendly|outgoing|A
+Lina is very ............... . I'm sure you'll like her when you meet her.|confident|hard-working|outgoing|honest|C
+The teacher felt very ............... when all her students passed the exam.|messy|proud|cheerful|fun|B
+My best friend is very ............... . She is good at learning things.|dishonest|clever|rude|friendly|B
+My sister is ............... . I'm the opposite. I'm very outgoing.|easy-going|cheerful|shy|kind|C
+My elder brother is very ............... . His bedroom is always tidy.|untidy|tidy|messy|clean|B
+I always ............... our grandparents good health and a long life.|hang|decorate|wish|bring|C
+There are many beautiful ............... in our garden at Tet. They are really colourful.|trees|flowers|plants|balloons|B
+This river is ............... . There is a lot of waste.|important|interesting|noisy|polluted|D
+The cat is sleeping ............... of the chair.|on|behind|in front|opposite|C
+I'd like ............... chocolate.|a tube of|a bottle of|a bar of|a can of|C
+Is there ............... beer in the fridge?|any|some|many|few|A
+How much ............... do you need?|bananas|oranges|eggs|sugar|D
+She never touches ............... food.|healthy|unhealthy|good|delicious|B
+What would you like to eat? – ...............|I'd like a pizza|I like pizza|Yes, thanks|Yes, please|A
+Her mother ............... the beef into strips.|made|divided|sliced|heated|C
+Children ............... eat too many sweet things.|need|needn't|should|shouldn't|D
+Add ............... salt to the soup, please.|few|a little|may|too much|B
+Stop, please. That is ............... coffee.|a little|a few|too much|too many|C
+I ate ............... ice cream so I felt sick.|too much|too a lot of|plenty|so many|A
+The person who controls a football match is the ............... .|player|umpire|referee|coach|C
+The person who controls a tennis match is the ............... .|player|umpire|referee|coach|B
+If you score more than the other team in a game, you ............... them.|win|beat|fight|hit|A
+You go ice-skating on a ............... .|ring|rink|court|stadium|B
+You hit the ball with a ............... in hockey.|club|stick|doll|cap|B
+The odd one out.|garden|canteen|classroom|school bus|A
+The odd one out.|notebook|literature|music|art|A
+The ............... is very hot today.|water|weather|food|book|B
+I need to buy a new pair of ............... for my hands.|trousers|socks|shoes|gloves|D
+She is wearing a beautiful ............... .|cake|dress|tree|chair|B
+Can you give me a ............... of paper?|piece|slice|cup|bag|A
+I need some ............... to fix my bike.|tools|clothes|books|fruit|A
+The ............... is shining brightly.|moon|sky|rain|snow|A
+They live in a big ............... near the city.|school|house|shop|park|B
+She is reading a very interesting ............... .|television|phone|book|table|C
+We are going to the ............... to watch a movie.|library|restaurant|cinema|hospital|C
+The ............... is full of books.|table|chair|shelf|bag|C
+She has ............... hair.|short|tall|high|heavy|A
+The ............... is barking loudly.|dog|cat|bird|fish|A
+They are going to the ............... to catch a train.|airport|station|park|port|B
+She is going to the ............... to buy some bread.|shop|school|hospital|post office|A
+Can you tell me the ............... to the station?|road|way|path|avenue|B
+They have two ............... at home.|childs|children|child|childrens|B
+I always ............... my teeth before bed.|brush|wash|brushes|washes|A
+You use this to write. It has ink inside. What is it?|pencil|pen|ruler|chalk|B
+This is a place where you can borrow books. What is it?|School|Shop|Library|Cinema|C
+You wear these on your feet. What are they?|Shoes|Gloves|Hats|Scraft|A
+This animal is very big, gray, and has a long trunk. What is it?|Lion|Elephant|Dog|Pig|B
+This is something you use to talk to someone far away. What is it?|Television|Computer|Radio|Phone|D
+Find odd one out.|Tet holiday|Easte|Thanksgiving|Monday|D
+Find odd one out.|tired|joyful|delightful|happy|A
+Find odd one out.|sausage|turkey|beef steak|Birthday cake|D
+Find odd one out.|sibling|cousin|friend|relative|C
+Find odd one out.|cough|weak|headache|sore throat|B
+Find odd one out.|sunburn|toothache|earache|unhealthy|D
+Find odd one out.|sick|temperature|tired|weak|B
+Find odd one out.|flu|stomachache|allergy|fat|D
+Find odd one out.|sleep|happy|live|smile|B
+Find odd one out.|orange|strawberry|tea|banana|C
+Find odd one out.|salad|egg|beef|chicken|A
+Find odd one out.|coffee|fruit juice|pork|beer|C
+Find odd one out.|cakes|sweets|chocolate|milk|D
+Find odd one out.|dinner|meal|breakfast|lunch|B
+Find odd one out.|lemonade|soda|orange juice|bread|D
+Find odd one out.|meat|milk|egg|fish|B
+Find odd one out.|bedroom|classmate|kitchen|toilet|B
+Find odd one out.|pencil|ruler|villa|rubber|C
+`);
+
+function parseReadingQuestions(prefix, raw) {
+  return parseMcq(prefix, raw);
+}
+
+const READING = [
+  {
+    id: 'r1', title: 'Nancy Lee Johnson', type: 'cloze',
+    passage: `Nancy Lee Johnson was a ...(1)... girl. She was smart, pretty and fitted in well with the life of her school. One Thursday afternoon, Miss O’Shay, the vice-principal, ...(2)... Nancy that the girl’s pictures had won the Artist Club ...(3)... . Nancy was very happy at the news. She might have danced all the way home through the rain. But the ...(4)... didn’t let Nancy get the scholarship ...(5)... because they found that she was a Negro student and they said that the presence of the coloured student in the local art school might create difficulties for all concerned.`,
+    questions: parseReadingQuestions('r1_', String.raw`
+Câu (1) điền từ gì?|coloured|colourful|colour|colouring|A
+Câu (2) điền từ gì?|asked|told|spoke|talk|B
+Câu (3) điền từ gì?|scholar|scholarship|punishment|rule|B
+Câu (4) điền từ gì?|jury|statesman|judge|committee|D
+Câu (5) điền từ gì?|just|right|before|yet|A
+`)
+  },
+  {
+    id: 'r2', title: 'Teachers and students in the USA', type: 'cloze',
+    passage: `The relationship between students and teachers is less formal in the USA than in many other countries. American students do not stand up ...(1)... their teachers enter the room. Students are encouraged to ask questions during class, to stop in the teacher’s office for extra help, and to phone if they are absent. Most teachers ...(2)... students to enter class late or leave early if necessary. ...(3)... the lack of formality, students are still expected to be polite to their teachers and fellow classmates. When students want to ask questions, they usually ...(4)... a hand and wait to be called on. When a test is being given, talking to a classmate is not only rude but also risky. Most American teachers consider that students who are talking to each other ...(5)... a test are cheating.`,
+    questions: parseReadingQuestions('r2_', String.raw`
+Câu (1) điền từ gì?|whether|when|that|which|B
+Câu (2) điền từ gì?|let|allow|make|do|A
+Câu (3) điền từ gì?|Because|In spite|Although|Despite|D
+Câu (4) điền từ gì?|raise|put|rise|arise|A
+Câu (5) điền từ gì?|for|during|since|at|B
+`)
+  },
+  {
+    id: 'r3', title: 'Weather – Drought', type: 'cloze',
+    passage: `Drought is a condition that becomes when average rainfall for a fertile area drops far below the normal ...(1)... for a long period of time. In areas ...(2)... are not irrigated, the lack of rain causes farm crops to wither and die. Higher than normal temperatures usually accompany periods of drought. They add to the crop damage. Forest fires ...(3)... easily during drought. The soil of a drought area becomes dry and crumbles. Often the rich topsoil is ...(4)... away by the hot, dry winds. Streams, ponds, and wells often dry up during a drought, and animals suffer and may even die ...(5)... the lack of water.`,
+    questions: parseReadingQuestions('r3_', String.raw`
+Câu (1) điền từ gì?|amount|average|number|rainfall|A
+Câu (2) điền từ gì?|who|what|which|where|C
+Câu (3) điền từ gì?|starts|start|started|starting|A
+Câu (4) điền từ gì?|blown|to blow|blew|blowing|A
+Câu (5) điền từ gì?|because|for|as|because of|D
+`)
+  },
+  {
+    id: 'r4', title: 'Prepare for interviewing', type: 'cloze',
+    passage: `It’s always worth preparing well for an interview. Don’t just hope for the best. Here are a ...(1)... tips. Practise how you say things, as well as what you ...(2)... to say. If you don’t own a video camera, perhaps a friend of yours does. Borrow it and make a video tape of yourself. Find somebody to watch it with you and give you some ...(3)... of advice on how you appear and behave. Before the interview, plan what to wear. Find out how the company expects its employees to dress. At the interview, believe in yourself and ...(4)... honest, open and friendly. Pay attention and keep your answers to the point. The interviewer doesn’t want to waste time and ...(5)... do you.`,
+    questions: parseReadingQuestions('r4_', String.raw`
+Câu (1) điền từ gì?|lot|several|little|few|D
+Câu (2) điền từ gì?|intend|consider|imagine|think|A
+Câu (3) điền từ gì?|numbers|pieces|slices|plenties|B
+Câu (4) điền từ gì?|being|are|be|is|C
+Câu (5) điền từ gì?|neither|either|plenties|so|A
+`)
+  },
+  {
+    id: 'r5', title: 'Easter Island', type: 'cloze',
+    passage: `Easter Island is a small triangle of rock situated in the Pacific Ocean. It’s about 2,000 miles ...(1)... the nearest city. Easter Island is ...(2)... for its statues. Hundreds of these huge, stone faces can be found all over the island. Who made them? How did they move these giant pieces of rock? What happened to the people ...(3)... lived there? Studies show that people first arrived on the island about 1600 years ago. They had a very advanced culture. They made many objects and they had their own written language. ...(4)..., the number of people on the island grew and grew until it reached about 10,000 people. Soon there were too many people and there wasn’t enough food to eat. A terrible war started and ...(5)... of the statues were broken. When western explorers discovered the island on Easter Day in 1722, the huge rock statues were the only sign that a great society had once lived there.`,
+    questions: parseReadingQuestions('r5_', String.raw`
+Câu (1) điền từ gì?|for|from|on|by|B
+Câu (2) điền từ gì?|famous|important|interesting|fascinating|A
+Câu (3) điền từ gì?|whom|which|whose|who|D
+Câu (4) điền từ gì?|However|Although|Moreover|Therefore|A
+Câu (5) điền từ gì?|few|lot|many|enough|C
+`)
+  },
+  {
+    id: 'r6', title: 'Mobile phone', type: 'cloze',
+    passage: `The next generation of telephone users will probably laugh when we explain how we used to stand next to a wall in the kitchen to ...(1)... a phone call. Mobile communications, already highly advanced compared with a decade ago, will completely change communications in the next few years. ...(2)... there are millions of people using mobile phones, most people know little about the mobile telecommunications industry and its technology.\n\nThere are three types of mobile phone. These are hand portables, pocket-sized hand portables and transportables. The smallest and most popular are the pocket-sized hand portables. These work on rechargeable batteries, which allow an average on separate batteries. Mobiles that are fitted permanently in a vehicle do not ...(3)... on separate batteries. They require an external aerial on the vehicle. This can mean a stronger signal with clearer speech. Transportables have a higher power capability and can be used ...(4)... anywhere. They come with powerful battery packs for longer, continuous use and may also be put ...(5)... a vehicle, using its electrics. They tend to be bulkier than hand portables.`,
+    questions: parseReadingQuestions('r6_', String.raw`
+Câu (1) điền từ gì?|make|give|take|do|A
+Câu (2) điền từ gì?|In addition|Because|As a result|Although|D
+Câu (3) điền từ gì?|carry|insist|rely|create|C
+Câu (4) điền từ gì?|mostly|almost|hardly|most|B
+Câu (5) điền từ gì?|into|on with|up with|in to|A
+`)
+  },
+  {
+    id: 'r7', title: 'The history of the London police', type: 'comprehension',
+    passage: `Today there are policemen everywhere, but in 1700 London had no police at all. A few old men used to protect the city streets at night and they were not paid very much. About 300 years ago, London was starting to get bigger. The city was very dirty and many people were poor. There were so many thieves who stole money in the streets that people stayed in their homes as much as possible.\n\nIn 1750, Henry Fielding started to pay a group of people to stop thieves. They were like policemen and were called “Bow Street Runners” because they worked near Bow Street.\n\nFifty years later, there were 120 Bow Street Runners, but London had become very big and needed more policemen. So, in 1929, the first Metropolitan (or London) Police Force was started with 3000 officers. Most of the men worked on foot, but a few rode horses. Until 1920 all the police in London were men.\n\nToday, London police are quite well paid and for the few police officers who still ride horses, the pay is even better than for the others.`,
+    questions: parseReadingQuestions('r7_', String.raw`
+In 1700, there were ............... .|policemen everywhere|policemen only London|no policemen in London|C
+In 1700, the men who protected the streets were paid ............... .|a lot|a little|nothing|B
+People did not leave their houses because ............... .|the city was not clean|they had no money|they were afraid|C
+The Bow Street Runners ............... .|stole money|stopped people stealing|paid people to steal|B
+In 1929, the first Metropolitan Police Office was started with ............... .|2500 officers|3000 officers|3500 officers|B
+`)
+  },
+  {
+    id: 'r8', title: 'Esther’s story', type: 'comprehension',
+    passage: `When Esther left school at the age of sixteen, her aunt Flory gave her £500 for her birthday. Most of Esther’s friends decided to go to college, but Esther used her aunt’s money to start her own business. She bought fruit, sugar and some glass jars and began making her own jam. She sold the jam for £1 a jar to her friends and she soon doubled her aunt’s £500. At first, her parents didn’t want Esther to spend her time making jam and they thought that she should study instead. They hoped that one day she would be a teacher or a doctor. But Esther didn’t listen to them. She just kept on making jam. After a few months, she started selling it to the local market. Then she started making orange juice. She sold this to a school where one of her friends worked. After two years, her business was very large and her parents were pleased with her. She made all kinds of food which she sold to shops and supermarkets. She was so busy that she had to get some people to work for her.`,
+    questions: parseReadingQuestions('r8_', String.raw`
+How old was Esther when she left school?|14|15|16|C
+Why did Aunt Flory give Esther some money?|Esther asked for it|Esther’s friends needed it|It was a present|C
+Why did Esther make jam?|She liked to eat it|She had a lot of fruit|She wanted to make money|C
+When Esther left school, her parents wanted her to ............... .|go to college|be a business woman|work in a market|A
+Esther’s parents were happy because Esther ............... .|cooked for them|was busy|had a good business|C
+`)
+  },
+  {
+    id: 'r9', title: 'Rebecca Stevens', type: 'comprehension',
+    passage: `Rebecca Stevens was the first woman to climb Mount Everest. Before she went up to the highest mountain in the world, she was a journalist and lived in a small flat in south London. In 1993, Rebecca left her job and her family and travelled to Asia with some other climbers. She found that life on Everest is hard. “You must carry everything on your back,” she explained, “so you can only take things that you will need. You can’t wash on the mountain, and in the end I didn’t even take a toothbrush. I am usually a clean person but there is no water, only snow. Water is very heavy so you only take enough to drink!” When Rebecca reached the top of Mount Everest on May 17 1993, it was the best moment of her life. Suddenly she became famous. Now she has written a book about the trip and people often ask her to talk about it. She has a new job too, on a science programme on television. Rebecca is well known today and she has more money, but she still lives in the little flat in south London among her pictures and books about mountains!`,
+    questions: parseReadingQuestions('r9_', String.raw`
+Everest is a ............... .|country|mountain|town|B
+Before Rebecca climbed Everest, she worked for ............... .|a bookshop|a newspaper|a travel agent|B
+Rebecca didn’t wash on Everest because ............... .|it was too cold|there was not enough water|she is a dirty person|B
+Rebecca carried water for ............... .|drinking|cooking|cleaning her teeth|A
+Rebecca became famous when she ............... .|got to the highest place in the world|wrote a book about her trip|was on a television programme|A
+`)
+  },
+  {
+    id: 'r10', title: 'Working for an airline', type: 'comprehension',
+    passage: `Nicola Peet left school at eighteen, went to college and then worked at a local airport. After nine months, she went to work for Saudi Arabian Airlines and then she joined British Airways as an air hostess. Four years later, she got her present job as a manager. This is what she told us about her job:\n\n“My office is at Heathrow Airport, but I spend 60% of my time in the air. I teach air hostesses and help them with any problems. I also go to lots of meetings. My hours are usually from 8 a.m. to 4 p.m. but sometimes I work from 1 p.m. to 9 p.m. At work, the first thing I do is check plane times on my computer and then I speak with some of the air hostesses. Sometimes I go on long flights to check how the air hostesses are doing. That’s my favourite part of the job, but I like office work, too. Travelling can be hard work. When I get back from a long journey, all I can do is eat something and then go to bed! I don’t earn much money, but I’m happy with British Airways and want to stay there and continue to travel.”`,
+    questions: parseReadingQuestions('r10_', String.raw`
+Nicola’s first job was ............... .|at a college|with Saudi Arabian Airlines|at a local airport|C
+When Nicola first started working for British Airways, she was ............... .|a manager|an air hostess|a pilot|B
+Most days, Nicola starts work at ............... .|8 a.m.|1 p.m.|4 p.m.|A
+What does Nicola like best?|flying|working in the office|helping people|A
+The first thing Nicola does after a long journey is ............... .|go to bed|have a meal|go to the office|B
+`)
+  },
+  {
+    id: 'r11', title: 'Visit the Edinburgh Festival!', type: 'comprehension',
+    passage: `Every year, thousands of people come to Edinburgh, the capital city of Scotland, to be part of the Edinburgh Festival. For three weeks every August and September the city is filled with actors and artists from all over the world. They come to Edinburgh for the biggest arts festival in Britain. During this time the streets of the city are alive with music and dance from early morning until late at night. You can see artists painting pictures on the streets. One of the best parts of the Festival is the “Fringe”, where students do comedy shows in small halls and cafes.\n\nTens of thousands of tourists come to the Festival to see new films and plays and hear music played by famous musicians. This year, you can see over five hundred performances with actors from more than forty countries.\n\nThe tickets for these performances are quite cheap and it is usually easier to see your favourite star in Edinburgh than it is in London. So come to Edinburgh next summer, but remember it can be difficult to find a room, so why not book your hotel now!`,
+    questions: parseReadingQuestions('r11_', String.raw`
+Edinburgh is the capital of Scotland.|Right|Wrong|Doesn’t say|A
+The Edinburgh Festival is in October.|Right|Wrong|Doesn’t say|B
+Actors come to the Edinburgh Festival from lots of different countries.|Right|Wrong|Doesn’t say|A
+It is expensive to go to the theatre in Edinburgh.|Right|Wrong|Doesn’t say|B
+It is usually more difficult to see famous actors in London than in Edinburgh.|Right|Wrong|Doesn’t say|A
+`)
+  },
+  {
+    id: 'r12', title: 'Burglars love the afternoon', type: 'comprehension',
+    passage: `Most house burglaries happen between 2 p.m. and 6 p.m., say the police. Inspector Ian Saunders told our newspaper that the number of house burglaries has gone up by more than 30% compared with last year. He also said that 67% of burglaries happen when people have gone out and forgotten to close a door or a window.\n\nHe went on to report that night-time burglaries are unusual because families are usually at home at that time. But he said that winter afternoons are the best time for burglars because it is dark and they can’t be seen easily. Also many houses are empty at that time, because people are often still at work.\n\nInspector Saunders said that it is a good idea to leave lights on in living rooms and bedrooms when you go on holiday. This will help to keep burglars away. He also asked neighbours to watch the other houses in the street when people are not at home. They should call the police if they see anything strange. “We will also tell you how to make your house safe,” Inspector Saunders said. “This kind of help costs nothing.”`,
+    questions: parseReadingQuestions('r12_', String.raw`
+Most burglaries happen in the morning.|Right|Wrong|Doesn’t say|B
+The number of house burglaries is the same as last year.|Right|Wrong|Doesn’t say|B
+Most burglars are men.|Right|Wrong|Doesn’t say|C
+People sometimes make things easy for burglars.|Right|Wrong|Doesn’t say|A
+The summer is more difficult for burglars.|Right|Wrong|Doesn’t say|A
+`)
+  }
+];
+
+function parseWriting(raw) {
+  return raw.trim().split('\n').filter(Boolean).map((line, index) => {
+    const splitAt = line.lastIndexOf('|');
+    return { id: `w${index + 1}`, number: index + 1, prompt: line.slice(0, splitAt).trim(), answer: line.slice(splitAt + 1).trim() };
+  });
+}
+
+const WRITING_MCQ_META = {
+  4: { distractors: ['I spend 3 hours reading books yesterday.', 'I spent 3 hours read books yesterday.', 'I spent 3 hours to read books yesterday.'], explanation: '“Yesterday” yêu cầu thì quá khứ nên “spend” đổi thành “spent”. Sau cấu trúc “spend + thời gian” dùng động từ thêm -ing: “reading”.' },
+  5: { distractors: ['I think they pump water in their field at the moment.', 'I think they are pump water on their field at the moment.', 'I thought they were pumping water in their field at the moment.'], explanation: '“At the moment” diễn tả hành động đang xảy ra nên dùng hiện tại tiếp diễn “are pumping”. Địa điểm dùng “in their field”.' },
+  7: { distractors: ['I chatted with friends yesterday.', 'I chatted to my friends tomorrow.', 'I chat with my friends yesterday.'], explanation: '“Yesterday” yêu cầu quá khứ “chatted”. Cần thêm tính từ sở hữu “my” trước “friends” và dùng cụm “chat with somebody”.' },
+  9: { distractors: ['It take him two hours commute to work every day.', 'It takes he two hours to commute work every day.', 'It took him two hours commuting to work every day.'], explanation: 'Cấu trúc đúng là “It takes + người + thời gian + to V”. Chủ ngữ “It” làm “take” thành “takes”, và “commute” đi với “to work”.' },
+  10: { distractors: ['My sister is a student last year, but now she works at a bank.', 'My sister was student last year, but now she working in a bank.', 'My sister were a student last year, but now she is work in a bank.'], explanation: '“Last year” dùng quá khứ “was”. “Now” diễn tả tình trạng hiện tại đang thay đổi nên đề dùng “is working”. Cần thêm “a” trước “student” và “in” trước “a bank”.' },
+  14: { distractors: ['What time do your father comes to his office in the morning?', 'What time does your father comes his office at the morning?', 'What time is your father come to his office in the morning?'], explanation: 'Câu hỏi hiện tại đơn với “your father” dùng trợ động từ “does”, sau đó động từ giữ nguyên “come”. Dùng “to his office” và “in the morning”.' },
+  15: { distractors: ['There are some water on the lake, but it is very dirty.', 'There is some water the lake, but it be very dirty.', 'There was some water in the lake, but it are very dirty.'], explanation: '“Water” không đếm được nên dùng “There is”. Vị trí dùng “in the lake”, và chủ ngữ “it” đi với “is”.' },
+  16: { distractors: ['She buy a comic at the bookshop last Wednesday.', 'She bought a comic in the bookshop next Wednesday.', 'Last Wednesday she bought book a comic at the bookshop.'], explanation: '“Last Wednesday” yêu cầu quá khứ “bought”. Cụm đúng là “a comic at the bookshop”; từ “book” thừa trong nhóm từ của đề.' },
+  19: { distractors: ['She buys a white shirt with red flower at the shop last week.', 'She bought a white shirt with red flower in the shop next week.', 'She buyed a white shirt with red flower at the shop last week.'], explanation: '“Last week” yêu cầu quá khứ của “buy” là “bought”, không phải “buyed”. Địa điểm trong đáp án của đề dùng “at the shop”.' },
+  20: { distractors: ['The children don’t learn in the room now, they playing game.', 'The children aren’t learn in the room now, they are play game.', 'The children didn’t learn in the room now, they were playing game.'], explanation: '“Now” yêu cầu hiện tại tiếp diễn. Dạng phủ định là “aren’t learning”; mệnh đề sau dùng “are playing”.' },
+  24: { distractors: ['How many water do we need to this dish?', 'How much water we need for this dish?', 'How much water does we need in this dish?'], explanation: '“Water” không đếm được nên dùng “How much”. Câu hỏi hiện tại đơn với “we” cần “do”, và mục đích dùng “for this dish”.' },
+  25: { distractors: ['There is two seasons in Viet Nam. It often rain much in summer.', 'There are two season in Viet Nam. It often rains much on summer.', 'There were two seasons in Viet Nam. It is often raining much in summer.'], explanation: '“Two seasons” là số nhiều nên dùng “There are”. Chủ ngữ “It” ở hiện tại đơn làm “rain” thành “rains”; mùa dùng giới từ “in”.' },
+  26: { distractors: ['I study my partner with twice a week.', 'I studies with a partner twice week.', 'I am study with a partner two times a week.'], explanation: 'Trật tự đúng là “study with a partner” và tần suất “twice a week”. Nhóm từ của đề có một chữ “a” thừa.' },
+  27: { distractors: ['Tuan learn English by read English magazines.', 'Tuan learns English by to read English magazines.', 'Tuan is learning English by reads English magazines.'], explanation: '“Tuan” là ngôi thứ ba số ít nên dùng “learns”. Sau giới từ “by” dùng động từ thêm -ing: “reading”. Nhóm từ của đề có từ “read” và một từ “English” thừa.' },
+  28: { distractors: ['My parents lives in a small village at the countryside.', 'My parents live a small village in countryside.', 'My parents are live in the small village on the countryside.'], explanation: 'Chủ ngữ số nhiều “My parents” dùng “live”. Cụm đúng là “in a small village” và “in the countryside”; nhóm từ của đề có một “in” thừa.' },
+  29: { distractors: ['Lan live near her school, so she often travel to school on foot.', 'Lan lives near her school, so she often travels school by foot.', 'Lan is living near her school, so she often travelled to school on foot.'], explanation: 'Ở hiện tại đơn, “Lan/she” là ngôi thứ ba số ít nên “live” và “travel” đổi thành “lives” và “travels”. Cụm đúng là “to school on foot”.' },
+  30: { distractors: ['Why doesn’t Linh go to school last Tuesday?', 'Why didn’t Linh went to school last Tuesday?', 'Why Linh did not go school last Tuesday?'], explanation: '“Last Tuesday” yêu cầu quá khứ. Câu hỏi phủ định dùng “didn’t + động từ nguyên mẫu”, vì vậy phải là “didn’t ... go”, và thêm “to” trong “go to school”.' },
+  51: { distractors: ['Do exercise regularly help you stay healthy.', 'Doing exercise regularly help you staying healthy.', 'To doing exercise regularly helps you stay health.'], explanation: 'Khi hành động làm chủ ngữ, dùng danh động từ “Doing”. Cả cụm là chủ ngữ số ít nên dùng “helps”, sau “help” dùng “stay”.' },
+  52: { distractors: ['We needs calories or energy do things every day.', 'We need calories and energy for doing things everyday.', 'We are need calories or energy to do things every day.'], explanation: 'Chủ ngữ “We” dùng “need”. Sau “energy” cần thêm “to” để tạo cấu trúc chỉ mục đích “to do things”.' },
+  53: { distractors: ['Drink lots water is good to our health.', 'Drinking a lot water be good for our health.', 'To drink lots of water are good with our health.'], explanation: 'Hành động làm chủ ngữ dùng “Drinking”. Cần “lots of water”, động từ “is”, và cụm “be good for our health”.' },
+  54: { distractors: ['I have toothache so I have to see dentist.', 'I had a toothache so I must seeing the dentist.', 'I have a toothache so I has to see a dentist.'], explanation: 'Cần mạo từ “a” trong “have a toothache” và “the” trước “dentist” theo đáp án của đề. Sau “have to” dùng động từ nguyên mẫu “see”.' },
+  55: { distractors: ['When I am ten, I begin playing football.', 'When I was ten, I begun to play football.', 'When I were ten, I began play football.'], explanation: 'Câu kể về quá khứ nên thêm “was” và đổi “begin” thành “began”. Sau “began” trong đáp án dùng “to play”.' },
+  56: { distractors: ['Calories is important to human health.', 'Calories important for the human health.', 'Calories are importance for human healthy.'], explanation: '“Calories” là số nhiều nên dùng “are”. Tính từ đúng là “important” và cụm đúng là “important for human health”.' },
+  57: { distractors: ['Can you list name all World’s Heritages?', 'Can you list all name of the World’s Heritages?', 'Can you listing the name of all World’s Heritages?'], explanation: 'Sau “Can you” dùng động từ nguyên mẫu “list”. Đáp án của đề cần thêm “the” và “of” trong cụm “the name of all the World’s Heritages”.' },
+  58: { distractors: ['I call the travel agents now.', 'I am call the travel agent now.', 'I’m calling travel agents at now.'], explanation: '“Now” yêu cầu hiện tại tiếp diễn: “I’m calling”. Theo đáp án của đề, “travel agents” được đổi thành số ít “the travel agent”.' },
+  59: { distractors: ['I have never be to a more beautiful waterfall before.', 'I never have been a more beautiful waterfall before.', 'I had never been to the most beautiful waterfall before.'], explanation: 'Hiện tại hoàn thành dùng “have + past participle”, nên “be” đổi thành “been”. Với địa điểm cần thêm “to”: “been to a waterfall”.' },
+  60: { distractors: ['Is Nile longest river in world?', 'Does the Nile is the longest river in the world?', 'Is the Nile longer river of the world?'], explanation: 'Tên sông dùng “the Nile”. So sánh nhất cần “the longest”, và cụm địa điểm đúng là “in the world”.' },
+  69: { distractors: ['He visit Ben Thanh Market in Ho Chi Minh city last week.', 'He visited Ben Thanh Market at Ho Chi Minh city next week.', 'He has visit Ben Thanh Market in Ho Chi Minh city last week.'], explanation: '“Last week” yêu cầu quá khứ nên “visit” đổi thành “visited”. Địa điểm dùng “in Ho Chi Minh city”.' },
+  77: { distractors: ['He have not finish his homework yet.', 'He did not finished his homework yet.', 'He has not finish his homework already.'], explanation: '“Yet” thường đi với hiện tại hoàn thành trong câu phủ định. “He” dùng “has”, và “finish” đổi thành quá khứ phân từ “finished”.' },
+  78: { distractors: ['He have never been to that country.', 'He has never be in that country.', 'Never he has been to that country.'], explanation: 'Chủ ngữ “He” dùng “has” trong hiện tại hoàn thành. Trạng từ “never” đứng giữa “has” và “been”.' },
+  79: { distractors: ['Who have see the movie recently in theater?', 'Who has saw the movie recently in the theater?', 'Who did seen the movie recently at the theater?'], explanation: '“Who” làm chủ ngữ số ít nên dùng “has”. Hiện tại hoàn thành cần quá khứ phân từ của “see” là “seen”; theo đáp án cần thêm “the” trước “theater”.' },
+  80: { distractors: ['She usually listen music in morning.', 'She usually is listening to music at the morning.', 'She usually listens music on the morning.'], explanation: 'Thói quen dùng hiện tại đơn. “She” làm “listen” thành “listens”; động từ đi với “to music” và dùng “in the morning”.' }
+};
+
+const WRITING = parseWriting(String.raw`
+in/ spring/ What/ like/ is/ the/ weather?|What is the weather like in spring?
+straight/ Go/ turn/ and/ ahead/ right|Go straight ahead and turn right.
+the/ swimming pool/ is/ Where?|Where is the swimming pool?
+I/ spend/ 3 hours/ read/ books yesterday|I spent 3 hours reading books yesterday.
+I/ think/ they/ pump/ water/ their field/ moment|I think they are pumping water in their field at the moment.
+was/ in/ Nam/ Hanoi/ last month|Nam was in Hanoi last month.
+friends/ chatted/ with/ yesterday/ I|I chatted with my friends yesterday.
+on TV/ watched/ cartoons/ Mai/ week/ last|Mai watched cartoons on TV last week.
+It/ him/ take/ two hours/ commute/ work/ every day|It takes him two hours to commute to work every day.
+My sister/ be/ student/ last year, but now/ she/ work/ a bank|My sister was a student last year, but now she is working in a bank.
+had/ We/ and/ drink/ nice food/ at/ last/ party/ Sunday/ Mai’s|We had nice food and drink at Mai’s party last Sunday.
+did/ What/ do/ in/ yesterday/ they/ the park?|What did they do in the park yesterday?
+went/ He/ cinema/ last night/ to/ parents/ with/ his|He went to cinema with his parents last night.
+What time/ your father/ come/ his office/ the morning?|What time does your father come to his office in the morning?
+There/ be/ some water/ the lake, but/ it/ be very dirty|There is some water in the lake, but it is very dirty.
+Wednesday/ she/ book/ bought/ a/ at/ comic/ the bookshop/ last|She bought a comic at the bookshop last Wednesday.
+last/ Sports Festival/ had/ school/ my/ Friday|My school had Sports Festival last Friday.
+to/ Happy birthday/ you!/ gift/ you/ for/ This/ is|Happy birthday to you! This gift is for you.
+She/ buy/ white shirt/ with/ red flower/ the shop/ last week|She bought a white shirt with red flower at the shop last week.
+The children/ not learn/ the room now, they/ playing game.|The children aren’t learning in the room now, they are playing game.
+lessons/ How/ you/ do/ today/ many/ have?|How many lessons do you have today?
+Do/ your/ you/ free/ read/ books/ in/ time?|Do you read books in your free time?
+You/ it/ have/ this/ book/ I/ when/ can/ finish|You can have this book when I finish it.
+How much/ water/ we need/ this dish?|How much water do we need for this dish?
+There/ two seasons/ Viet Nam. It/ often rain much/ summer|There are two seasons in Viet Nam. It often rains much in summer.
+study/ I/ a/ twice/ with/ week/ partner/ a|I study with my partner twice a week.
+English/ English magazines/ by/ reading/ learns/ read/ Tuan|Tuan learns English by reading English magazines.
+parents/ My/ in/ live/ small/ in/ a/ the/ village/ countryside/ in|My parents live in a small village in the countryside.
+Lan/ live/ near her school, so she/ often travel/ school on foot|Lan lives near her school, so she often travels to school on foot.
+Why/ Linh/ not go/ school/ last Tuesday?|Why didn’t Linh go to school last Tuesday?
+house/ a/ Minh/ lake/ a/ lives/ in/ near|Minh lives in a house near a lake.
+yard/ front/ school/ There/ big/ of/ is/ our/ in/ a|There is a big yard in front of our school.
+many/ right/ the/ museum/ Are/ flowers/ the/ there/ on/ of?|Are there many flowers on the right of the museum?
+next/ photocopy/ What/ store/ there/ the/ is/ to?|What is there next to the photocopy store?
+hospital/ My father/ in/ the/ city/ a/ works/ in|My father works in a hospital in the city.
+there/ family/ many/ in/ are/ How/ Linh’s/ people?|How many people are there in Linh’s family?
+his/ My friend/ in/ family/ Hanoi/ doesn’t/ with/ live|My friend doesn’t live with his family in Ha Noi.
+brushes/ six/ gets/ her/ o’clock/ Hoa/ at/ up/ teeth/ and|Hoa gets up at six o’clock and brushes her teeth.
+on/ floor/ classroom/ the/ is/ Our/ first|Our classroom is on the first floor.
+Minh’s/ six/ There/ in/ rooms/ house/ are.|There are six rooms in Minh’s house.
+house/ is/ the market/ far/ to/ from/ How/ it/ Trang’s?|How far is it from Trang’s house to the market?
+lives/ street/ grandparents/ He/ Hoang Quoc Viet/ his/ on/ with|He lives with his grandparents on Hoang Quoc Viet street.
+many/ old/ students/ My/ have/ doesn’t/ class|My class doesn’t have many old students.
+Mrs/ the boy/ to/ Who/ Quyen/ talking/ is?|Who is the boy talking to Mrs. Quyen?
+new/ Hoa’s/ small/ school/ is|Hoa’s new school is small.
+secondary/ first/ your/ at/ school/ is/ How/ week?|How is your first week at secondary school?
+lessons/ many/ have/ on/ How/ you/ do/ Friday?|How many lessons do you have on Friday?
+art/ creative/ are/ drawings/ Students/ the/ some/ doing/ in/ club|Students are doing some creative drawings in the art club.
+school/ at/ English/ We/ have/ classes/ don’t/ today|We don’t have English classes at school today.
+homework/ you/ doing/ maths/ Are/ your?|Are you doing your maths homework?
+Do/ exercise/ regularly/ help/ you/ stay/ healthy|Doing exercise regularly helps you stay healthy.
+We/ need/ calories/ or/ energy/ do/ things/ every day|We need calories or energy to do things everyday.
+Drink/ lots/ water/ be/ good/ our health|Drinking lots of water is good for our health.
+I/ have/ toothache/ so/ I/ have to/ see/ dentist|I have a toothache so I have to see the dentist.
+When/ I/ ten/ begin/ play football|When I was ten, I began to play football.
+Calories/ important/ human/ health|Calories are important for human health.
+Can/ you/ list/ name/ all/ World’s Heritages?|Can you list the name of all the World’s Heritages?
+I/ call/ the/ travel agents/ now|I’m calling the travel agent now.
+I/ have never/ be/ more beautiful/ a waterfall/ before|I have never been to a more beautiful waterfall before.
+Is/ Nile/ longest/ river/ world?|Is the Nile the longest river in the world?
+London/ city/ the/ historic/ is/ of/ buildings|London is the city of historic buildings.
+isn’t/ going/ to/ Hoi An/ Minh/ next/ week|Minh isn’t going to Hoi An next week.
+the/ classmates/ music/ take/ in/ event/ will/ My/ part|My classmates will take part in the music event.
+is/ your/ What/ fruit/ favorite|What is your favorite fruit?
+going/ We/ to/ are/ Do Son/ next weekend/ visit|We are going to visit Do Son next weekend.
+yesterday/ you/ at/ Did/ home/ stay?|Did you stay at home yesterday?
+going/ to/ tomorrow/ are/ What/ you/ do?|What are you going to do tomorrow?
+Phu Quoc/ I/ next/ will/ think/ go/ I/ to/ year/ island|I think I will go to Phu Quoc island next year.
+Ho Chi Minh/ He/ City/ week/ Ben Thanh Market/ visit/ in/ last|He visited Ben Thanh Market in Ho Chi Minh city last week.
+do/ friend/ to/ your/ often/ you/ How/ online/ talk|How often do you talk to your friend online?
+never/ I/ eaten/ have/ before/ crabs|I have never eaten crabs before.
+be/ big trees and flowers/ There/ my garden/ in/ will|There will be big trees and flowers in my garden.
+The/ will/ sunny/ next/ weather/ be/ week|The weather will be sunny next week.
+any/ bookshops/ Are/ there/ here/ near|Are there any bookshops near here?
+Why/ you/ do/ want/ English/ to/ learn/ well?|Why do you want to learn English well?
+something beautiful/ I/ will/ for myself/ buy|I will buy something beautiful for myself.
+He/ not/ have/ finish/ his homework/ yet|He has not finished his homework yet.
+never/ have/ He/ been/ to/ that/ country|He has never been to that country.
+have/ see/ movie/ Who/ the/ recently/ in theater?|Who has seen the movie recently in the theater?
+She/ usually/ listen/ music/ morning|She usually listens to music in the morning.
+`).map(q => {
+  const meta = WRITING_MCQ_META[q.number];
+  if (!meta) return { ...q, type: 'arrange' };
+  return {
+    ...q,
+    type: 'mcq',
+    q: `Chọn câu đúng được tạo từ các từ/cụm từ: ${q.prompt}`,
+    options: [q.answer, ...meta.distractors],
+    correct: 0,
+    explanation: meta.explanation
+  };
+});
+
+const QUESTION_BANK = { grammar: GRAMMAR, vocab: VOCAB, reading: READING, writing: WRITING };
+
+// ---------- Helpers ----------
+const EXAM_TOTAL = 90;
+const EXAM_SECONDS = 45 * 60;
+const HISTORY_KEY = 'haucan1_english_exam_history_v2';
+
+function shuffleArray(items) {
+  const arr = [...items];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function shuffleQuestion(q) {
+  if (!q.options) return { ...q };
+  const entries = q.options.map((text, index) => ({ text, isCorrect: index === q.correct }));
+  const shuffled = shuffleArray(entries);
+  return { ...q, options: shuffled.map(x => x.text), correct: shuffled.findIndex(x => x.isCorrect) };
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+}
+
+function normalizeSentence(value) {
+  return String(value || '')
+    .toLowerCase().replace(/[’‘]/g, "'")
+    .replace(/\bha\s+noi\b/g, 'hanoi')
+    .replace(/\beveryday\b/g, 'every day')
+    .replace(/\s+([?.!,;:])/g, '$1')
+    .replace(/\s+/g, ' ').trim();
+}
+
+const PRACTICE_BANK = {
+  grammar: QUESTION_BANK.grammar.map(shuffleQuestion),
+  vocab: QUESTION_BANK.vocab.map(shuffleQuestion),
+  reading: QUESTION_BANK.reading.map(r => ({ ...r, questions: r.questions.map(shuffleQuestion) })),
+  writing: QUESTION_BANK.writing.map(q => q.options ? shuffleQuestion(q) : ({ ...q }))
+};
+
+// ---------- State ----------
+let currentMode = 'practice';
+let practicePart = 'grammar';
+let practiceReadingIdx = 0;
+let practiceIndex = 0;
+let practiceAnswers = {};
+let practiceBookmarked = {};
+let practiceWritingStates = {};
+
+let currentExamId = null;
+let currentHistoryId = null;
+let examQuestions = [];
+let examIndex = 0;
+let examAnswers = {};
+let examMarked = {};
+let examWritingStates = {};
+let examFilter = 'all';
+let examTimerInterval = null;
+let examTimeLeft = EXAM_SECONDS;
+let examTimeSpent = 0;
+
+function defaultExamStore() {
+  return { used: { grammar: [], vocab: [], reading: [], writing: [] }, history: [], nextExam: 1 };
+}
+
+function loadExamStore() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(HISTORY_KEY));
+    const base = defaultExamStore();
+    if (!parsed || typeof parsed !== 'object') return base;
+    return {
+      used: { ...base.used, ...(parsed.used || {}) },
+      history: Array.isArray(parsed.history) ? parsed.history : [],
+      nextExam: Number(parsed.nextExam) || 1
+    };
+  } catch (_) {
+    return defaultExamStore();
+  }
+}
+
+function saveExamStore(store) {
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(store));
+}
+
+// ---------- Init / navigation ----------
+window.onload = function () {
+  loadPracticePart('grammar');
+  renderExamHistory();
+};
+
+function confirmExitToHome() {
+  document.getElementById('exit-modal').classList.remove('hidden');
+}
+
+function closeExitModal() {
+  document.getElementById('exit-modal').classList.add('hidden');
+}
+
+function exitToHome() {
+  clearInterval(examTimerInterval);
+  currentExamId = null;
+  closeExitModal();
+  switchMode('practice');
+  loadPracticePart('grammar');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToExamHome() {
+  clearInterval(examTimerInterval);
+  currentExamId = null;
+  currentHistoryId = null;
+  document.getElementById('exam-select-panel').classList.remove('hidden');
+  document.getElementById('exam-active-panel').classList.add('hidden');
+  document.getElementById('exam-result-panel').classList.add('hidden');
+  renderExamHistory();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchMode(mode) {
+  currentMode = mode;
+  const practiceSec = document.getElementById('section-practice');
+  const examSec = document.getElementById('section-exam');
+  const tabPractice = document.getElementById('tab-practice');
+  const tabExam = document.getElementById('tab-exam');
+  const active = 'py-3 px-4 text-xs sm:text-sm font-bold border-b-2 border-emerald-600 text-emerald-700 flex items-center space-x-2 whitespace-nowrap transition';
+  const inactive = 'py-3 px-4 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center space-x-2 whitespace-nowrap transition';
+
+  if (mode === 'practice') {
+    practiceSec.classList.remove('hidden');
+    examSec.classList.add('hidden');
+    tabPractice.className = active;
+    tabExam.className = inactive;
+  } else {
+    practiceSec.classList.add('hidden');
+    examSec.classList.remove('hidden');
+    tabExam.className = active;
+    tabPractice.className = inactive;
+    if (!currentExamId) {
+      document.getElementById('exam-select-panel').classList.remove('hidden');
+      document.getElementById('exam-active-panel').classList.add('hidden');
+      document.getElementById('exam-result-panel').classList.add('hidden');
+      renderExamHistory();
+    }
+  }
+}
+
+// ---------- Practice ----------
+function loadPracticePart(part) {
+  practicePart = part;
+  practiceIndex = 0;
+  ['grammar', 'vocab', 'reading', 'writing'].forEach(p => {
+    const btn = document.getElementById(`btn-part-${p}`);
+    btn.className = p === part
+      ? 'p-3 rounded-lg border-2 border-emerald-600 bg-emerald-50 text-emerald-800 font-bold text-xs sm:text-sm text-left transition hover:shadow-md flex flex-col justify-between'
+      : 'p-3 rounded-lg border-2 border-slate-200 bg-white text-slate-700 hover:border-emerald-300 font-bold text-xs sm:text-sm text-left transition hover:shadow-md flex flex-col justify-between';
+  });
+  const selector = document.getElementById('reading-passage-selector');
+  if (part === 'reading') {
+    selector.classList.remove('hidden');
+    renderReadingButtons();
+  } else selector.classList.add('hidden');
+  renderPracticeQuestion();
+  renderPracticeMatrix();
+}
+
+function renderReadingButtons() {
+  const container = document.getElementById('reading-buttons-container');
+  container.innerHTML = '';
+  PRACTICE_BANK.reading.forEach((r, idx) => {
+    const btn = document.createElement('button');
+    btn.className = idx === practiceReadingIdx
+      ? 'px-2.5 py-1 text-xs font-bold rounded bg-emerald-700 text-white shadow-sm'
+      : 'px-2.5 py-1 text-xs font-semibold rounded bg-slate-100 hover:bg-slate-200 text-slate-700';
+    btn.innerText = `Bài ${idx + 1}: ${r.title}`;
+    btn.onclick = () => {
+      practiceReadingIdx = idx;
+      practiceIndex = 0;
+      renderReadingButtons();
+      renderPracticeQuestion();
+      renderPracticeMatrix();
+    };
+    container.appendChild(btn);
+  });
+}
+
+function getPracticeQuestionsList() {
+  return practicePart === 'reading'
+    ? PRACTICE_BANK.reading[practiceReadingIdx].questions
+    : PRACTICE_BANK[practicePart];
+}
+
+function renderPracticeQuestion() {
+  const list = getPracticeQuestionsList();
+  const q = list[practiceIndex];
+  const qCard = document.getElementById('practice-question-card');
+  const passageBox = document.getElementById('practice-passage-box');
+  if (!q) return;
+
+  if (practicePart === 'reading') {
+    const reading = PRACTICE_BANK.reading[practiceReadingIdx];
+    passageBox.classList.remove('hidden');
+    document.getElementById('passage-title').innerHTML = `<i class="fa-solid fa-book-bookmark text-amber-600"></i><span>Bài Đọc ${practiceReadingIdx + 1}: ${escapeHtml(reading.title)}</span>`;
+    document.getElementById('passage-content').innerText = reading.passage;
+  } else passageBox.classList.add('hidden');
+
+  document.getElementById('practice-progress-text').innerText = `Câu ${practiceIndex + 1} / ${list.length}`;
+  document.getElementById('btn-practice-prev').disabled = practiceIndex === 0;
+  document.getElementById('btn-practice-next').disabled = practiceIndex === list.length - 1;
+
+  let html = `
+    <div class="flex justify-between items-start gap-3">
+      <div class="flex items-center space-x-2">
+        <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-black rounded-lg uppercase">Câu ${practiceIndex + 1}</span>
+        <span class="text-xs font-semibold text-slate-400">Mã ${escapeHtml(q.id)}</span>
+      </div>
+      <button onclick="togglePracticeBookmark('${q.id}')" class="text-xs px-2.5 py-1 rounded-lg font-semibold ${practiceBookmarked[q.id] ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}">
+        <i class="fa-${practiceBookmarked[q.id] ? 'solid' : 'regular'} fa-bookmark mr-1"></i>${practiceBookmarked[q.id] ? 'Đã lưu' : 'Lưu câu hỏi'}
+      </button>
+    </div>`;
+
+  if (practicePart === 'writing' && !q.options) {
+    html += renderWritingQuestion(q, 'practice', q.id, true);
+  } else {
+    const answered = Object.prototype.hasOwnProperty.call(practiceAnswers, q.id);
+    const userChoice = practiceAnswers[q.id];
+    html += `<div class="text-base sm:text-lg font-bold text-slate-800 leading-snug">${escapeHtml(q.q)}</div><div class="space-y-2.5">`;
+    q.options.forEach((opt, idx) => {
+      let cls = 'border-slate-200 bg-white hover:border-emerald-400 hover:bg-slate-50 text-slate-700';
+      let badge = `<span class="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-xs font-bold mr-3 text-slate-500">${String.fromCharCode(65 + idx)}</span>`;
+      if (answered) {
+        if (idx === q.correct) {
+          cls = 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold ring-2 ring-emerald-400/40';
+          badge = '<span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold mr-3"><i class="fa-solid fa-check"></i></span>';
+        } else if (idx === userChoice) {
+          cls = 'border-rose-500 bg-rose-50 text-rose-900 font-bold';
+          badge = '<span class="w-6 h-6 rounded-full bg-rose-600 text-white flex items-center justify-center text-xs font-bold mr-3"><i class="fa-solid fa-xmark"></i></span>';
+        } else cls = 'border-slate-200 bg-slate-50 opacity-50 text-slate-500';
+      }
+      html += `<button onclick="selectPracticeAnswer('${q.id}', ${idx})" ${answered ? 'disabled' : ''} class="w-full text-left p-3 sm:p-3.5 rounded-xl border-2 transition flex items-center ${cls}">${badge}<span class="text-sm sm:text-base">${escapeHtml(opt)}</span></button>`;
+    });
+    html += '</div>';
+    if (answered) html += `<div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-sm text-amber-900"><strong>Đáp án đúng:</strong> ${escapeHtml(q.options[q.correct])}${q.explanation ? `<div class="mt-2 pt-2 border-t border-amber-200"><strong>Giải thích:</strong> ${escapeHtml(q.explanation)}</div>` : ''}</div>`;
+  }
+  qCard.innerHTML = html;
+}
+
+function selectPracticeAnswer(qId, optionIdx) {
+  practiceAnswers[qId] = optionIdx;
+  renderPracticeQuestion();
+  renderPracticeMatrix();
+}
+
+function togglePracticeBookmark(qId) {
+  practiceBookmarked[qId] = !practiceBookmarked[qId];
+  renderPracticeQuestion();
+  renderPracticeMatrix();
+}
+
+function prevPracticeQuestion() {
+  if (practiceIndex > 0) {
+    practiceIndex--;
+    renderPracticeQuestion();
+    renderPracticeMatrix();
+  }
+}
+
+function nextPracticeQuestion() {
+  const list = getPracticeQuestionsList();
+  if (practiceIndex < list.length - 1) {
+    practiceIndex++;
+    renderPracticeQuestion();
+    renderPracticeMatrix();
+  }
+}
+
+function renderPracticeMatrix() {
+  const list = getPracticeQuestionsList();
+  const matrix = document.getElementById('practice-matrix');
+  matrix.innerHTML = '';
+  let answered = 0;
+  list.forEach((q, idx) => {
+    const done = Object.prototype.hasOwnProperty.call(practiceAnswers, q.id);
+    if (done) answered++;
+    const btn = document.createElement('button');
+    let cls = 'w-8 h-8 rounded-lg text-xs font-bold transition flex items-center justify-center border ';
+    if (idx === practiceIndex) cls += 'ring-2 ring-emerald-600 ring-offset-1 ';
+    if (practiceBookmarked[q.id]) cls += 'bg-amber-100 text-amber-800 border-amber-400';
+    else if (done) cls += 'bg-emerald-600 text-white border-emerald-600';
+    else cls += 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200';
+    btn.className = cls;
+    btn.innerText = idx + 1;
+    btn.onclick = () => { practiceIndex = idx; renderPracticeQuestion(); renderPracticeMatrix(); };
+    matrix.appendChild(btn);
+  });
+  document.getElementById('practice-stat-count').innerText = `Đã làm: ${answered}/${list.length}`;
+}
+
+// ---------- Writing drag/drop ----------
+function createWritingState(q) {
+  const tokens = q.prompt.split('/').map((text, index) => ({ uid: `${q.id}_t${index}`, text: text.trim() })).filter(x => x.text);
+  return { tokens, bank: shuffleArray(tokens.map(x => x.uid)), answer: [], correctOrder: buildWritingCorrectOrder(tokens, q.answer), checked: false, isCorrect: false };
+}
+
+function writingWords(value) {
+  return normalizeSentence(value).match(/[a-z]+(?:'[a-z]+)?|\d+/g) || [];
+}
+
+function writingTokenKey(value) {
+  return writingWords(value).join(' ');
+}
+
+function buildWritingCorrectOrder(tokens, answer) {
+  const answerWords = writingWords(answer);
+  const used = new Array(answerWords.length).fill(false);
+  const located = tokens.map((token, originalIndex) => {
+    const words = writingWords(token.text);
+    let start = -1;
+    for (let i = 0; i <= answerWords.length - words.length; i++) {
+      if (words.every((word, offset) => !used[i + offset] && answerWords[i + offset] === word)) {
+        start = i;
+        for (let offset = 0; offset < words.length; offset++) used[i + offset] = true;
+        break;
+      }
+    }
+    return { key: writingTokenKey(token.text), start, originalIndex };
+  });
+  if (located.some(x => x.start < 0)) return [];
+  return located.sort((a, b) => a.start - b.start || a.originalIndex - b.originalIndex).map(x => x.key);
+}
+
+function isWritingOrderCorrect(state, q) {
+  const chosen = state.answer.map(uid => writingTokenKey(tokenText(state, uid)));
+  if (state.correctOrder.length === state.tokens.length) {
+    return chosen.length === state.correctOrder.length && chosen.every((key, index) => key === state.correctOrder[index]);
+  }
+  return normalizeSentence(state.answer.map(uid => tokenText(state, uid)).join(' ')) === normalizeSentence(q.answer);
+}
+
+function getWritingState(context, key, q) {
+  const bucket = context === 'practice' ? practiceWritingStates : examWritingStates;
+  if (!bucket[key]) bucket[key] = createWritingState(q);
+  return bucket[key];
+}
+
+function tokenText(state, uid) {
+  return state.tokens.find(t => t.uid === uid)?.text || '';
+}
+
+function renderWritingQuestion(q, context, key, showCheck) {
+  const state = getWritingState(context, key, q);
+  const bankChips = state.bank.map(uid => `<button draggable="true" ondragstart="dragWritingToken(event,'${context}','${key}','${uid}')" onclick="moveWritingToken('${context}','${key}','${uid}','answer')" class="px-3 py-2 rounded-lg bg-white border-2 border-slate-300 hover:border-emerald-500 text-sm font-bold text-slate-700 shadow-sm cursor-grab active:cursor-grabbing">${escapeHtml(tokenText(state, uid))}</button>`).join('');
+  const answerChips = state.answer.map((uid, idx) => `
+    <div draggable="true" ondragstart="dragWritingToken(event,'${context}','${key}','${uid}')" ondragover="event.preventDefault()" ondrop="dropWritingToken(event,'${context}','${key}','answer',${idx})" class="inline-flex items-center gap-1 px-2 py-1.5 rounded-lg bg-emerald-100 border-2 border-emerald-400 text-sm font-bold text-emerald-900 cursor-grab">
+      <button onclick="moveWritingToken('${context}','${key}','${uid}','bank')" title="Đưa chữ lên lại" class="px-1">${escapeHtml(tokenText(state, uid))}</button>
+      <button onclick="shiftWritingToken('${context}','${key}','${uid}',-1)" class="text-[10px] text-emerald-700 px-1" title="Dịch sang trái">◀</button>
+      <button onclick="shiftWritingToken('${context}','${key}','${uid}',1)" class="text-[10px] text-emerald-700 px-1" title="Dịch sang phải">▶</button>
+    </div>`).join('');
+  const result = showCheck && state.checked
+    ? `<div class="p-3 rounded-xl ${state.isCorrect ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-300 text-rose-900'} border text-sm"><strong>${state.isCorrect ? '✅ Chính xác' : '❌ Chưa đúng'}</strong>${state.isCorrect ? '' : `<div class="mt-1"><strong>Đáp án:</strong> ${escapeHtml(q.answer)}</div>`}</div>`
+    : '';
+  return `
+    <div class="text-base sm:text-lg font-bold text-slate-800 leading-snug">Sắp xếp các cụm từ sau thành câu đúng:</div>
+    <div ondragover="event.preventDefault()" ondrop="dropWritingToken(event,'${context}','${key}','bank')" class="bg-slate-100 border-2 border-dashed border-slate-300 rounded-xl p-4 min-h-20">
+      <div class="text-[11px] uppercase font-bold text-slate-500 mb-2">Kho từ — kéo xuống hoặc chạm để thêm</div>
+      <div class="flex flex-wrap gap-2">${bankChips || '<span class="text-xs text-slate-400">Đã dùng hết các cụm từ</span>'}</div>
+    </div>
+    <div ondragover="event.preventDefault()" ondrop="dropWritingToken(event,'${context}','${key}','answer')" class="bg-emerald-50 border-2 border-dashed border-emerald-400 rounded-xl p-4 min-h-28">
+      <div class="text-[11px] uppercase font-bold text-emerald-700 mb-2">Đáp án — kéo để đổi vị trí, chạm vào chữ để đưa lên lại</div>
+      <div class="flex flex-wrap gap-2 items-center">${answerChips || '<span class="text-sm text-emerald-500">Kéo các cụm từ vào đây...</span>'}</div>
+    </div>
+    ${showCheck ? `<div class="flex gap-2"><button onclick="checkPracticeWriting('${q.id}')" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold">Kiểm tra đáp án</button><button onclick="resetWritingState('practice','${q.id}')" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold">Làm lại</button></div>` : ''}
+    ${result}`;
+}
+
+function dragWritingToken(event, context, key, uid) {
+  event.dataTransfer.setData('text/plain', JSON.stringify({ context, key, uid }));
+  event.dataTransfer.effectAllowed = 'move';
+}
+
+function dropWritingToken(event, context, key, target, beforeIndex) {
+  event.preventDefault();
+  try {
+    const data = JSON.parse(event.dataTransfer.getData('text/plain'));
+    if (data.context !== context || String(data.key) !== String(key)) return;
+    moveWritingToken(context, key, data.uid, target, beforeIndex);
+  } catch (_) {}
+}
+
+function moveWritingToken(context, key, uid, target, beforeIndex) {
+  const q = context === 'practice' ? PRACTICE_BANK.writing.find(x => x.id === key) : examQuestions[Number(key)];
+  const state = getWritingState(context, key, q);
+  state.bank = state.bank.filter(x => x !== uid);
+  state.answer = state.answer.filter(x => x !== uid);
+  if (target === 'answer') {
+    const idx = Number.isInteger(beforeIndex) ? Math.max(0, Math.min(beforeIndex, state.answer.length)) : state.answer.length;
+    state.answer.splice(idx, 0, uid);
+  } else state.bank.push(uid);
+  state.checked = false;
+  syncWritingAnswer(context, key, state);
+}
+
+function shiftWritingToken(context, key, uid, direction) {
+  const q = context === 'practice' ? PRACTICE_BANK.writing.find(x => x.id === key) : examQuestions[Number(key)];
+  const state = getWritingState(context, key, q);
+  const idx = state.answer.indexOf(uid);
+  const next = idx + direction;
+  if (idx >= 0 && next >= 0 && next < state.answer.length) [state.answer[idx], state.answer[next]] = [state.answer[next], state.answer[idx]];
+  state.checked = false;
+  syncWritingAnswer(context, key, state);
+}
+
+function syncWritingAnswer(context, key, state) {
+  const text = state.answer.map(uid => tokenText(state, uid)).join(' ');
+  if (context === 'exam') {
+    if (text.trim()) examAnswers[Number(key)] = text.trim();
+    else delete examAnswers[Number(key)];
+    renderExamQuestion();
+    renderExamMatrix();
+  } else {
+    renderPracticeQuestion();
+    renderPracticeMatrix();
+  }
+}
+
+function checkPracticeWriting(qId) {
+  const q = PRACTICE_BANK.writing.find(x => x.id === qId);
+  const state = getWritingState('practice', qId, q);
+  const text = state.answer.map(uid => tokenText(state, uid)).join(' ');
+  state.checked = true;
+  state.isCorrect = isWritingOrderCorrect(state, q);
+  practiceAnswers[qId] = state.isCorrect;
+  renderPracticeQuestion();
+  renderPracticeMatrix();
+}
+
+function resetWritingState(context, key) {
+  const bucket = context === 'practice' ? practiceWritingStates : examWritingStates;
+  delete bucket[key];
+  if (context === 'practice') delete practiceAnswers[key];
+  else delete examAnswers[Number(key)];
+  context === 'practice' ? (renderPracticeQuestion(), renderPracticeMatrix()) : (renderExamQuestion(), renderExamMatrix());
+}
+
+// ---------- Exam generation / history ----------
+function takeUnseen(store, section, items, count) {
+  const usedSet = new Set(store.used[section] || []);
+  let remaining = shuffleArray(items.filter(x => !usedSet.has(x.id)));
+  let selected = remaining.slice(0, count);
+  let recycled = false;
+  if (selected.length < count) {
+    recycled = true;
+    const alreadySelected = new Set(selected.map(x => x.id));
+    store.used[section] = [];
+    const refill = shuffleArray(items.filter(x => !alreadySelected.has(x.id))).slice(0, count - selected.length);
+    selected = selected.concat(refill);
+  }
+  const freshCycle = new Set(store.used[section] || []);
+  selected.forEach(x => freshCycle.add(x.id));
+  store.used[section] = [...freshCycle];
+  return { selected, recycled };
+}
+
+function generateExamQuestions() {
+  const store = loadExamStore();
+  const grammar = takeUnseen(store, 'grammar', QUESTION_BANK.grammar, 40);
+  const vocab = takeUnseen(store, 'vocab', QUESTION_BANK.vocab, 40);
+  const reading = takeUnseen(store, 'reading', QUESTION_BANK.reading, 1);
+  const writing = takeUnseen(store, 'writing', QUESTION_BANK.writing, 5);
+  const passage = reading.selected[0];
+  const readingQuestions = passage.questions.map(q => shuffleQuestion({ ...q, passageTitle: passage.title, passage: passage.passage, sourcePassageId: passage.id }));
+  const selected = [
+    ...grammar.selected.map(q => ({ ...shuffleQuestion(q), part: 'grammar' })),
+    ...vocab.selected.map(q => ({ ...shuffleQuestion(q), part: 'vocab' })),
+    ...readingQuestions.map(q => ({ ...q, part: 'reading' })),
+    ...writing.selected.map(q => q.options ? ({ ...shuffleQuestion(q), part: 'writing' }) : ({ ...q, part: 'writing' }))
+  ];
+  const examNumber = store.nextExam++;
+  currentHistoryId = `exam_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+  store.history.unshift({
+    id: currentHistoryId,
+    examNumber,
+    date: new Date().toISOString(),
+    score: null,
+    total: EXAM_TOTAL,
+    time: null,
+    questionIds: selected.map(q => q.id),
+    passageId: passage.id
+  });
+  store.history = store.history.slice(0, 100);
+  saveExamStore(store);
+  return { selected, examNumber, recycled: [grammar, vocab, reading, writing].some(x => x.recycled) };
+}
+
+function startExam() {
+  const generated = generateExamQuestions();
+  currentExamId = generated.examNumber;
+  examQuestions = generated.selected;
+  examIndex = 0;
+  examAnswers = {};
+  examMarked = {};
+  examWritingStates = {};
+  examFilter = 'all';
+  examTimeLeft = EXAM_SECONDS;
+  examTimeSpent = 0;
+  document.getElementById('exam-select-panel').classList.add('hidden');
+  document.getElementById('exam-active-panel').classList.remove('hidden');
+  document.getElementById('exam-result-panel').classList.add('hidden');
+  document.getElementById('exam-title-display').innerText = `🎲 Đề thi ngẫu nhiên số ${currentExamId} (90 câu)`;
+  document.getElementById('exam-timer-box').className = 'flex items-center space-x-2 bg-slate-900 text-amber-400 font-mono font-bold px-3 py-1.5 rounded-lg text-sm sm:text-base border border-slate-700 shadow-inner';
+  document.getElementById('exam-timer-text').innerText = '45:00';
+  if (generated.recycled) setTimeout(() => alert('Bạn đã dùng hết câu chưa thi ở ít nhất một phần. Hệ thống đã bắt đầu vòng mới và có thể lấy lại câu cũ.'), 200);
+  startExamTimer();
+  renderExamQuestion();
+  renderExamMatrix();
+}
+
+function startExamTimer() {
+  clearInterval(examTimerInterval);
+  examTimerInterval = setInterval(() => {
+    examTimeLeft--;
+    examTimeSpent++;
+    const mins = Math.floor(examTimeLeft / 60);
+    const secs = examTimeLeft % 60;
+    document.getElementById('exam-timer-text').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    if (examTimeLeft <= 300) document.getElementById('exam-timer-box').className = 'flex items-center space-x-2 bg-rose-900 text-rose-300 font-mono font-bold px-3 py-1.5 rounded-lg text-sm sm:text-base border border-rose-700 shadow-inner animate-pulse';
+    if (examTimeLeft <= 0) {
+      clearInterval(examTimerInterval);
+      alert('⏰ Đã hết thời gian 45 phút! Hệ thống tự động nộp bài.');
+      submitExam();
+    }
+  }, 1000);
+}
+
+function renderExamQuestion() {
+  const q = examQuestions[examIndex];
+  if (!q) return;
+  const qCard = document.getElementById('exam-question-card');
+  const passageBox = document.getElementById('exam-passage-box');
+  document.getElementById('exam-counter-display').innerText = `Đã làm: ${Object.keys(examAnswers).length} / ${EXAM_TOTAL} câu`;
+  if (q.passage) {
+    passageBox.classList.remove('hidden');
+    document.getElementById('exam-passage-title').innerText = `Bài đọc hiểu: ${q.passageTitle}`;
+    document.getElementById('exam-passage-content').innerText = q.passage;
+  } else passageBox.classList.add('hidden');
+  document.getElementById('btn-exam-prev').disabled = examIndex === 0;
+  document.getElementById('btn-exam-next').disabled = examIndex === examQuestions.length - 1;
+  const markBtn = document.getElementById('btn-exam-mark');
+  markBtn.className = examMarked[examIndex]
+    ? 'px-3 py-1.5 border border-amber-500 bg-amber-500 text-white text-xs font-bold rounded-lg shadow transition flex items-center space-x-1'
+    : 'px-3 py-1.5 border border-amber-400 bg-amber-50 text-amber-800 text-xs font-bold rounded-lg hover:bg-amber-100 transition flex items-center space-x-1';
+  let html = `<div class="flex justify-between items-center"><span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-black rounded-lg uppercase">Câu ${examIndex + 1} / ${EXAM_TOTAL}</span>${examMarked[examIndex] ? '<span class="text-xs text-amber-600 font-bold"><i class="fa-solid fa-flag"></i> Đã đánh dấu</span>' : ''}</div>`;
+  if (q.options) {
+    const answer = examAnswers[examIndex];
+    html += `<div class="text-base sm:text-lg font-bold text-slate-800 leading-snug">${escapeHtml(q.q)}</div><div class="space-y-2.5">`;
+    q.options.forEach((opt, idx) => {
+      const selected = answer === idx;
+      html += `<button onclick="selectExamAnswer(${idx})" class="w-full text-left p-3.5 rounded-xl border-2 transition flex items-center ${selected ? 'border-emerald-600 bg-emerald-50 text-emerald-900 font-bold ring-2 ring-emerald-500/30' : 'border-slate-200 bg-white hover:border-emerald-400 hover:bg-slate-50 text-slate-700'}"><span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mr-3 ${selected ? 'bg-emerald-600 text-white' : 'border border-slate-300 text-slate-500'}">${String.fromCharCode(65 + idx)}</span><span class="text-sm sm:text-base">${escapeHtml(opt)}</span></button>`;
+    });
+    html += '</div>';
+  } else html += renderWritingQuestion(q, 'exam', String(examIndex), false);
+  qCard.innerHTML = html;
+}
+
+function selectExamAnswer(optionIdx) {
+  examAnswers[examIndex] = optionIdx;
+  renderExamQuestion();
+  renderExamMatrix();
+}
+
+function saveExamWritingInput() {}
+
+function toggleExamMark() {
+  examMarked[examIndex] = !examMarked[examIndex];
+  renderExamQuestion();
+  renderExamMatrix();
+}
+
+function prevExamQuestion() { if (examIndex > 0) { examIndex--; renderExamQuestion(); renderExamMatrix(); } }
+function nextExamQuestion() { if (examIndex < examQuestions.length - 1) { examIndex++; renderExamQuestion(); renderExamMatrix(); } }
+
+function filterExamMatrix(type) {
+  examFilter = type;
+  ['all', 'done', 'undone', 'marked'].forEach(f => {
+    document.getElementById(`filter-${f}`).className = f === type
+      ? 'py-1 rounded bg-emerald-600 text-white font-bold'
+      : 'py-1 rounded bg-slate-100 text-slate-600 hover:bg-slate-200';
+  });
+  renderExamMatrix();
+}
+
+function renderExamMatrix() {
+  const matrix = document.getElementById('exam-matrix');
+  matrix.innerHTML = '';
+  examQuestions.forEach((q, idx) => {
+    const done = Object.prototype.hasOwnProperty.call(examAnswers, idx);
+    const marked = !!examMarked[idx];
+    if ((examFilter === 'done' && !done) || (examFilter === 'undone' && done) || (examFilter === 'marked' && !marked)) return;
+    const btn = document.createElement('button');
+    let cls = 'w-8 h-8 rounded-lg text-xs font-bold transition flex items-center justify-center border relative ';
+    if (idx === examIndex) cls += 'ring-2 ring-emerald-600 ring-offset-1 ';
+    if (marked) cls += 'bg-amber-100 text-amber-800 border-amber-400';
+    else if (done) cls += 'bg-emerald-600 text-white border-emerald-600';
+    else cls += 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200';
+    btn.className = cls;
+    btn.innerText = idx + 1;
+    if (marked) btn.innerHTML += '<span class="absolute -top-1 -right-1 text-[9px] text-amber-600"><i class="fa-solid fa-flag"></i></span>';
+    btn.onclick = () => { examIndex = idx; renderExamQuestion(); renderExamMatrix(); };
+    matrix.appendChild(btn);
+  });
+}
+
+function confirmSubmitExam() {
+  const done = Object.keys(examAnswers).length;
+  const undone = EXAM_TOTAL - done;
+  let msg = `Bạn có chắc chắn muốn NỘP BÀI THI không?\n- Đã làm: ${done}/${EXAM_TOTAL} câu.`;
+  if (undone > 0) msg += `\n- CẢNH BÁO: Còn ${undone} câu chưa trả lời!`;
+  if (confirm(msg)) submitExam();
+}
+
+function isQuestionCorrect(q, answer) {
+  if (q.options) return answer === q.correct;
+  return normalizeSentence(answer) === normalizeSentence(q.answer);
+}
+
+function submitExam() {
+  clearInterval(examTimerInterval);
+  let correct = 0;
+  examQuestions.forEach((q, idx) => { if (isQuestionCorrect(q, examAnswers[idx])) correct++; });
+  const percent = Math.round(correct / EXAM_TOTAL * 100);
+  const formattedTime = `${String(Math.floor(examTimeSpent / 60)).padStart(2, '0')}:${String(examTimeSpent % 60).padStart(2, '0')}`;
+  document.getElementById('exam-active-panel').classList.add('hidden');
+  document.getElementById('exam-result-panel').classList.remove('hidden');
+  document.getElementById('result-exam-title').innerText = `Đề thi ngẫu nhiên số ${currentExamId}`;
+  document.getElementById('result-score-text').innerText = `${correct} / ${EXAM_TOTAL}`;
+  document.getElementById('result-percent-text').innerText = `${percent}%`;
+  document.getElementById('result-time-text').innerText = formattedTime;
+  const badge = document.getElementById('result-eval-badge');
+  if (percent >= 80) { badge.className = 'mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300'; badge.innerText = '🏆 XUẤT SẮC - ĐẠT YÊU CẦU CAO'; }
+  else if (percent >= 50) { badge.className = 'mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300'; badge.innerText = '✅ ĐẠT - HOÀN THÀNH BÀI THI'; }
+  else { badge.className = 'mt-3 inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300'; badge.innerText = '⚠️ CHƯA ĐẠT - CẦN ÔN TẬP THÊM'; }
+
+  const store = loadExamStore();
+  const record = store.history.find(x => x.id === currentHistoryId);
+  if (record) { record.score = correct; record.percent = percent; record.time = formattedTime; record.finishedAt = new Date().toISOString(); }
+  saveExamStore(store);
+
+  const review = document.getElementById('result-questions-list');
+  review.innerHTML = '';
+  examQuestions.forEach((q, idx) => {
+    const user = examAnswers[idx];
+    const right = isQuestionCorrect(q, user);
+    const item = document.createElement('div');
+    item.className = `p-4 rounded-xl border ${right ? 'bg-emerald-50/40 border-emerald-200' : 'bg-rose-50/40 border-rose-200'} space-y-2 text-xs sm:text-sm`;
+    let body = `<div class="font-bold ${right ? 'text-emerald-700' : 'text-rose-700'}">Câu ${idx + 1}: ${right ? '✅ Đúng' : '❌ Sai'}</div><div class="font-bold text-slate-800">${escapeHtml(q.q || q.prompt)}</div>`;
+    if (q.options) {
+      body += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div class="p-2 rounded bg-slate-100"><strong>Bạn chọn:</strong> ${user === undefined ? 'Chưa chọn' : escapeHtml(q.options[user])}</div><div class="p-2 rounded bg-emerald-100 text-emerald-900"><strong>Đáp án:</strong> ${escapeHtml(q.options[q.correct])}</div></div>`;
+    } else body += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div class="p-2 rounded bg-slate-100"><strong>Bạn xếp:</strong> ${escapeHtml(user || 'Chưa làm')}</div><div class="p-2 rounded bg-emerald-100 text-emerald-900"><strong>Đáp án:</strong> ${escapeHtml(q.answer)}</div></div>`;
+    if (q.explanation) body += `<div class="p-2.5 rounded bg-amber-50 border border-amber-200 text-amber-900"><strong>Giải thích:</strong> ${escapeHtml(q.explanation)}</div>`;
+    item.innerHTML = body;
+    review.appendChild(item);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderExamHistory() {
+  const store = loadExamStore();
+  const status = document.getElementById('exam-pool-status');
+  const list = document.getElementById('exam-history-list');
+  if (!status || !list) return;
+  const totals = { grammar: 120, vocab: 140, reading: 12, writing: 80 };
+  const names = { grammar: 'Phần I', vocab: 'Phần II', reading: 'Bài đọc', writing: 'Phần IV' };
+  status.innerHTML = Object.keys(totals).map(k => `<div class="rounded-lg bg-white border border-slate-200 p-2 text-center"><div class="text-[10px] uppercase font-bold text-slate-500">${names[k]}</div><div class="text-sm font-black text-emerald-700">${(store.used[k] || []).length}/${totals[k]}</div><div class="text-[10px] text-slate-400">đã dùng trong vòng hiện tại</div></div>`).join('');
+  if (!store.history.length) {
+    list.innerHTML = '<div class="text-xs text-slate-400 text-center py-4">Chưa có lượt thi nào.</div>';
+    return;
+  }
+  list.innerHTML = store.history.map(h => {
+    const date = new Date(h.date).toLocaleString('vi-VN');
+    const result = h.score === null ? '<span class="text-amber-700">Chưa nộp</span>' : `<span class="text-emerald-700">${h.score}/${h.total} • ${h.percent}%</span>`;
+    return `<div class="flex items-center justify-between gap-3 rounded-lg bg-white border border-slate-200 p-2.5 text-xs"><div><strong>Đề số ${h.examNumber}</strong><div class="text-slate-400 mt-0.5">${date}</div></div><div class="text-right font-bold">${result}<div class="text-slate-400 font-normal mt-0.5">${h.time || ''}</div></div></div>`;
+  }).join('');
+}
+
+function resetExamHistory() {
+  if (!confirm('Xóa toàn bộ lịch sử thi và cho phép hệ thống lấy lại tất cả câu từ đầu?')) return;
+  localStorage.removeItem(HISTORY_KEY);
+  currentExamId = null;
+  currentHistoryId = null;
+  renderExamHistory();
+}
+    </script>
+</body>
+</html>
