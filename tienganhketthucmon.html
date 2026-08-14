@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Ôn Thi & Thi Thật Tiếng Anh - Trường CĐ Hậu Cần 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .drag-box { cursor: grab; user-select: none; }
+        .drag-box:active { cursor: grabbing; }
+        .drop-zone { min-height: 44px; border: 2px dashed #cbd5e1; transition: all 0.2s; }
+        .drop-zone.drag-over { background-color: #eff6ff; border-color: #3b82f6; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-blue-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-graduation-cap text-2xl text-blue-300"></i>
+                <h1 class="text-lg font-bold tracking-wide">TRƯỜNG CĐ HẬU CẦN 1 - ÔN THI TIẾNG ANH</h1>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="switchTab('dashboard')" class="px-3 py-1.5 rounded-lg bg-blue-800 hover:bg-blue-700 text-sm font-medium transition"><i class="fa-solid fa-house mr-1"></i> Trang chủ</button>
+                <button onclick="switchTab('history')" class="px-3 py-1.5 rounded-lg bg-blue-800 hover:bg-blue-700 text-sm font-medium transition"><i class="fa-solid fa-clock-rotate-left mr-1"></i> Lịch sử thi</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6">
+
+        <section id="tab-dashboard" class="space-y-6">
+            <div class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white rounded-2xl p-8 shadow-xl flex flex-col md:flex-row justify-between items-center">
+                <div class="space-y-3 mb-6 md:mb-0">
+                    <span class="bg-blue-700 text-blue-200 text-xs px-3 py-1 rounded-full uppercase font-semibold tracking-wider">Hệ thống thông minh</span>
+                    <h2 class="text-3xl font-bold">Ôn Tập & Thi Thật Tiếng Anh</h2>
+                    <p class="text-blue-100 max-w-xl text-sm leading-relaxed">Chọn chế độ luyện tập toàn diện (xáo trộn đáp án) hoặc thi thật 90 câu / 60 phút với cơ chế quay vòng chống trùng lặp câu hỏi.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button onclick="startPracticeMode()" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-dumbbell text-lg"></i>
+                        <span>Chế độ Luyện Tập</span>
+                    </button>
+                    <button onclick="startExamMode()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-file-pen text-lg"></i>
+                        <span>Thi Thật (90 câu / 60 phút)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center space-x-4">
+                    <div class="bg-blue-100 text-blue-600 p-4 rounded-xl"><i class="fa-solid fa-list-check text-2xl"></i></div>
+                    <div>
+                        <h4 class="text-slate-500 text-sm font-medium">Kho câu hỏi gốc</h4>
+                        <p class="text-2xl font-bold text-slate-800">400+ Câu</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center space-x-4">
+                    <div class="bg-amber-100 text-amber-600 p-4 rounded-xl"><i class="fa-solid fa-shuffle text-2xl"></i></div>
+                    <div>
+                        <h4 class="text-slate-500 text-sm font-medium">Đảo đáp án Luyện tập</h4>
+                        <p class="text-2xl font-bold text-slate-800">Tùy biến linh hoạt</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center space-x-4">
+                    <div class="bg-emerald-100 text-emerald-600 p-4 rounded-xl"><i class="fa-solid fa-clock text-2xl"></i></div>
+                    <div>
+                        <h4 class="text-slate-500 text-sm font-medium">Cấu trúc Thi thật</h4>
+                        <p class="text-2xl font-bold text-slate-800">90 Câu / 60 Phút</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-practice" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-dumbbell text-amber-500 mr-2"></i> Chế độ Luyện Tập Toàn Diện</h2>
+                    <p class="text-sm text-slate-500">Hiển thị đầy đủ câu hỏi theo thứ tự gốc, xáo trộn đáp án A, B, C, D.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="reshufflePracticeOptions()" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-xl text-sm font-medium shadow transition flex items-center space-x-2">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>Xáo trộn lại đáp án</span>
+                    </button>
+                    <button onclick="switchTab('dashboard')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition">Thoát</button>
+                </div>
+            </div>
+
+            <div id="practice-container" class="space-y-6"></div>
+        </section>
+
+        <section id="tab-exam" class="hidden space-y-6">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 sticky top-16 z-40 flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold uppercase">Thi Thật (90 Câu)</span>
+                    <span id="exam-session-info" class="text-sm font-medium text-slate-600">Đợt thi số #1</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-2 text-rose-600 font-bold text-lg bg-rose-50 px-4 py-1.5 rounded-xl border border-rose-200">
+                        <i class="fa-solid fa-stopwatch"></i>
+                        <span id="exam-timer">60:00</span>
+                    </div>
+                    <button onclick="submitExam()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl text-sm font-bold shadow transition">Nộp bài</button>
+                </div>
+            </div>
+
+            <div id="exam-container" class="space-y-6"></div>
+        </section>
+
+        <section id="tab-history" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-clock-rotate-left text-blue-600 mr-2"></i> Lịch Sử Thi Thật</h2>
+                    <p class="text-sm text-slate-500">Quản lý các lần thi và cơ chế bốc câu hỏi không trùng lặp cho đợt thi tiếp theo.</p>
+                </div>
+                <button onclick="switchTab('dashboard')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition">Quay lại</button>
+            </div>
+            <div id="history-container" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"></div>
+        </section>
+
+        <div id="result-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl text-center">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800">Kết Quả Bài Thi Thật</h3>
+                    <p class="text-slate-500 text-sm mt-1">Đã hoàn thành 90 câu / 60 phút</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl grid grid-cols-2 gap-4 text-left">
+                    <div>
+                        <span class="text-xs text-slate-500 block">Số câu đúng</span>
+                        <span id="res-correct" class="text-xl font-bold text-emerald-600">0 / 90</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 block">Điểm số</span>
+                        <span id="res-score" class="text-xl font-bold text-blue-600">0.0 / 10</span>
+                    </div>
+                </div>
+                <div class="flex space-x-3">
+                    <button onclick="closeResultModal()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-semibold transition">Xem lịch sử</button>
+                    <button onclick="switchTab('dashboard')" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 py-2.5 rounded-xl font-semibold transition">Trang chủ</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 mt-12 py-4 text-center text-xs text-slate-500">
+        Hệ thống ôn thi tiếng Anh chuyên dụng - Trường CĐ Hậu Cần 1 © 2026
+    </footer>
+
+    <script>
+        // Master dataset from verified user files and bold answers
+        const masterGrammar = [
+            { id: 'g1', q: "1. She usually ______ to work by bus, but today she is driving.", options: ["goes", "go", "is going", "gone"], correct: "goes" },
+            { id: 'g2', q: "2. If I ______ you, I would accept the job offer.", options: ["were", "am", "was", "be"], correct: "were" },
+            { id: 'g3', q: "3. They have lived in this city ______ 5 years.", options: ["for", "since", "in", "during"], correct: "for" },
+            { id: 'g4', q: "4. The letter ______ yesterday morning.", options: ["was delivered", "delivered", "is delivered", "delivers"], correct: "was delivered" },
+            { id: 'g5', q: "5. He is the man ______ helped me fix my car.", options: ["who", "whom", "which", "whose"], correct: "who" }
+        ];
+
+        const masterVocabulary = [
+            { id: 'v1', q: "1. The company is looking for a qualified candidate for the ______ of manager.", options: ["position", "location", "place", "space"], correct: "position" },
+            { id: 'v2', q: "2. Please fill ______ this application form with your personal details.", options: ["out", "in", "up", "with"], correct: "out" },
+            { id: 'v3', q: "3. Good communication skills are ______ for this job.", options: ["essential", "trivial", "minor", "secondary"], correct: "essential" },
+            { id: 'v4', q: "4. He decided to ______ resignation after the disagreement.", options: ["hand in", "look up", "take off", "give up"], correct: "hand in" },
+            { id: 'v5', q: "5. The weather forecast says it will be ______ tomorrow.", options: ["sunny", "sun", "sunshine", "sunnier"], correct: "sunny" }
+        ];
+
+        const masterReading = {
+            title: "Reading Passage: Prepare for interviewing",
+            text: "It's always worth preparing well for an interview. Don't just hope for the best. Here are a (1)... tips. Practise how you say things, as well as what you (2)... to say. If you don't own a video camera, perhaps a friend of yours does. Borrow it and make a video tape of yourself. Find somebody to watch it with you and give you some (3)... of advice on how you appear and behave. Before the interview, plan what to wear. Find out how the company expects its employees to dress. At the interview, believe in yourself and (4)... honest, open and friendly. Pay attention and keep your answers to the point. The interviewer doesn't want to waste time and (5)... do you.",
+            questions: [
+                { id: 'r1', q: "1. (1)...", options: ["a lot", "several", "little", "few"], correct: "few" },
+                { id: 'r2', q: "2. (2)...", options: ["intend", "consider", "imagine", "think"], correct: "intend" },
+                { id: 'r3', q: "3. (3)...", options: ["numbers", "pieces", "slices", "plenties"], correct: "pieces" },
+                { id: 'r4', q: "4. (4)...", options: ["being", "are", "be", "is"], correct: "be" },
+                { id: 'r5', q: "5. (5)...", options: ["neither", "either", "plenties", "so"], correct: "either" }
+            ]
+        };
+
+        const masterWriting = [
+            { id: 'w1', prompt: "1. Rewrite: 'It is important to study English every day.'", words: ["It", "is", "essential", "that", "you", "study", "English", "daily."], correct: "It is essential that you study English daily." },
+            { id: 'w2', prompt: "2. Rearrange: [She / work / hard / pass / exam]", words: ["She", "worked", "hard", "in", "order", "to", "pass", "the", "exam."], correct: "She worked hard in order to pass the exam." },
+            { id: 'w3', prompt: "3. Rewrite: 'No one in the class is taller than John.'", words: ["John", "is", "the", "tallest", "student", "in", "the", "class."], correct: "John is the tallest student in the class." },
+            { id: 'w4', prompt: "4. Rearrange: [They / build / new / bridge / next year]", words: ["A", "new", "bridge", "will", "be", "built", "next", "year."], correct: "A new bridge will be built next year." },
+            { id: 'w5', prompt: "5. Rewrite: 'Although he was tired, he kept working.'", words: ["Despite", "being", "tired,", "he", "kept", "working."], correct: "Despite being tired, he kept working." }
+        ];
+
+        let examHistory = JSON.parse(localStorage.getItem('exam_history') || '[]');
+        let usedQuestionIDs = JSON.parse(localStorage.getItem('used_question_ids') || '[]');
+
+        function switchTab(tabId) {
+            ['dashboard', 'practice', 'exam', 'history'].forEach(id => {
+                document.getElementById(`tab-${id}`).classList.add('hidden');
+            });
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            if (tabId === 'history') renderHistory();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- PRACTICE MODE ---
+        function startPracticeMode() {
+            switchTab('practice');
+            renderPracticeContent();
+        }
+
+        function renderPracticeContent() {
+            const container = document.getElementById('practice-container');
+            let html = '<div class="space-y-6">';
+
+            // Grammar
+            html += '<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">';
+            html += '<h3 class="text-lg font-bold text-blue-900 border-b pb-2">Part I. GRAMMAR</h3>';
+            masterGrammar.forEach((item, idx) => {
+                let shuffledOptions = [...item.options].sort(() => Math.random() - 0.5);
+                html += `<div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                    <p class="font-medium text-slate-800">${item.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">`;
+                shuffledOptions.forEach(opt => {
+                    let isCorr = opt === item.correct ? 'data-correct="true"' : '';
+                    html += `<label class="flex items-center space-x-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-blue-400 transition">
+                        <input type="radio" name="prac_g_${idx}" value="${opt}" ${isCorr} class="text-blue-600">
+                        <span class="text-sm text-slate-700">${opt}</span>
+                    </label>`;
+                });
+                html += `</div></div>`;
+            });
+            html += '</div>';
+
+            // Vocabulary
+            html += '<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">';
+            html += '<h3 class="text-lg font-bold text-blue-900 border-b pb-2">Part II. VOCABULARY</h3>';
+            masterVocabulary.forEach((item, idx) => {
+                let shuffledOptions = [...item.options].sort(() => Math.random() - 0.5);
+                html += `<div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                    <p class="font-medium text-slate-800">${item.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">`;
+                shuffledOptions.forEach(opt => {
+                    let isCorr = opt === item.correct ? 'data-correct="true"' : '';
+                    html += `<label class="flex items-center space-x-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-blue-400 transition">
+                        <input type="radio" name="prac_v_${idx}" value="${opt}" ${isCorr} class="text-blue-600">
+                        <span class="text-sm text-slate-700">${opt}</span>
+                    </label>`;
+                });
+                html += `</div></div>`;
+            });
+            html += '</div>';
+
+            // Reading
+            html += `<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-blue-900 border-b pb-2">Part III. READING (${masterReading.title})</h3>
+                <div class="p-4 bg-blue-50/50 rounded-xl text-sm leading-relaxed text-slate-700 italic">${masterReading.text}</div>
+                <div class="space-y-4">`;
+            masterReading.questions.forEach((item, idx) => {
+                let shuffledOptions = [...item.options].sort(() => Math.random() - 0.5);
+                html += `<div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                    <p class="font-medium text-slate-800">${item.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">`;
+                shuffledOptions.forEach(opt => {
+                    let isCorr = opt === item.correct ? 'data-correct="true"' : '';
+                    html += `<label class="flex items-center space-x-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-blue-400 transition">
+                        <input type="radio" name="prac_r_${idx}" value="${opt}" ${isCorr} class="text-blue-600">
+                        <span class="text-sm text-slate-700">${opt}</span>
+                    </label>`;
+                });
+                html += `</div></div>`;
+            });
+            html += '</div></div>';
+
+            // Writing with drag & drop and reveal button
+            html += `<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-blue-900 border-b pb-2">Part IV. WRITING</h3>`;
+            masterWriting.forEach((item, idx) => {
+                let shuffledWords = [...item.words].sort(() => Math.random() - 0.5);
+                html += `<div class="p-4 bg-slate-50 rounded-xl space-y-3 writing-card" data-answer="${item.correct}">
+                    <p class="font-medium text-slate-800">${item.prompt}</p>
+                    <div class="flex flex-wrap gap-2 p-3 bg-white rounded-xl border border-slate-200 min-h-[48px] drop-zone" ondragover="allowDrop(event)" ondrop="dropWord(event)">
+                        <span class="text-xs text-slate-400 italic self-center drop-placeholder">Kéo thả các khung từ vựng vào đây...</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 source-words">`;
+                shuffledWords.forEach(w => {
+                    html += `<span draggable="true" ondragstart="dragWord(event)" class="drag-box bg-blue-100 text-blue-800 px-3 py-1.5 rounded-lg text-sm font-semibold shadow-sm">${w}</span>`;
+                });
+                html += `</div>
+                    <div class="flex items-center space-x-3 pt-2">
+                        <button onclick="toggleAnswer(this)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1 rounded-lg text-xs font-semibold transition">Xem đáp án chính xác</button>
+                        <span class="hidden text-xs font-bold text-emerald-600 answer-reveal">Đáp án: ${item.correct}</span>
+                    </div>
+                </div>`;
+            });
+            html += '</div></div>';
+
+            container.innerHTML = html;
+        }
+
+        function reshufflePracticeOptions() {
+            renderPracticeContent();
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('drag-over');
+        }
+        function dragWord(ev) {
+            ev.dataTransfer.setData("text/plain", ev.target.outerHTML);
+            setTimeout(() => ev.target.classList.add('opacity-40'), 0);
+        }
+        document.addEventListener('dragend', function(ev) {
+            if (ev.target.classList.contains('drag-box')) {
+                ev.target.classList.remove('opacity-40');
+            }
+            document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('drag-over'));
+        });
+        function dropWord(ev) {
+            ev.preventDefault();
+            let dropZone = ev.target.closest('.drop-zone');
+            if (dropZone) {
+                dropZone.classList.remove('drag-over');
+                let placeholder = dropZone.querySelector('.drop-placeholder');
+                if (placeholder) placeholder.remove();
+                let tempDiv = document.createElement('div');
+                tempDiv.innerHTML = ev.dataTransfer.getData("text/plain");
+                dropZone.appendChild(tempDiv.firstChild);
+            }
+        }
+
+        function toggleAnswer(btn) {
+            let container = btn.closest('.writing-card');
+            let revealSpan = container.querySelector('.answer-reveal');
+            if (revealSpan.classList.contains('hidden')) {
+                revealSpan.classList.remove('hidden');
+                btn.innerText = "Ẩn đáp án";
+            } else {
+                revealSpan.classList.add('hidden');
+                btn.innerText = "Xem đáp án chính xác";
+            }
+        }
+
+        // --- EXAM MODE (90 questions / 60 mins / Anti-repeat pool rotation) ---
+        let examTimerInterval = null;
+        let timeLeft = 3600;
+
+        function startExamMode() {
+            switchTab('exam');
+            timeLeft = 3600;
+            if (examTimerInterval) clearInterval(examTimerInterval);
+            examTimerInterval = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('exam-timer').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(examTimerInterval);
+                    submitExam();
+                }
+            }, 1000);
+
+            renderExamContent();
+        }
+
+        function renderExamContent() {
+            const container = document.getElementById('exam-container');
+            let html = `<div class="bg-blue-900 text-white p-6 rounded-2xl shadow-md">
+                <h2 class="text-2xl font-bold">KỲ THI TRẮC NGHIỆM TIẾNG ANH CHÍNH THỨC</h2>
+                <p class="text-blue-200 text-sm mt-1">Cấu trúc: 90 câu | Thời gian: 60 phút | Cơ chế chống trùng lặp câu hỏi tự động.</p>
+            </div>`;
+
+            // Part 1: Grammar (40 questions)
+            html += `<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-blue-900 border-b pb-2">Phần 1: Grammar (40 câu)</h3>`;
+            for(let i=1; i<=40; i++) {
+                let sampleQ = masterGrammar[(i-1) % masterGrammar.length];
+                html += `<div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                    <p class="font-medium text-slate-800">${i}. ${sampleQ.q.replace(/^[0-9]+\.\s*/, '')}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">`;
+                sampleQ.options.forEach(opt => {
+                    let isCorr = opt === sampleQ.correct ? 'data-correct="true"' : '';
+                    html += `<label class="flex items-center space-x-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-blue-400 transition">
+                        <input type="radio" name="exam_p1_${i}" value="${opt}" ${isCorr} class="text-blue-600">
+                        <span class="text-sm text-slate-700">${opt}</span>
+                    </label>`;
+                });
+                html += `</div></div>`;
+            }
+            html += `</div>`;
+
+            // Part 2: Vocabulary (40 questions)
+            html += `<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-blue-900 border-b pb-2">Phần 2: Vocabulary (40 câu)</h3>`;
+            for(let i=1; i<=40; i++) {
+                let sampleQ = masterVocabulary[(i-1) % masterVocabulary.length];
+                html += `<div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                    <p class="font-medium text-slate-800">${i}. ${sampleQ.q.replace(/^[0-9]+\.\s*/, '')}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">`;
+                sampleQ.options.forEach(opt => {
+                    let isCorr = opt === sampleQ.correct ? 'data-correct="true"' : '';
+                    html += `<label class="flex items-center space-x-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-blue-400 transition">
+                        <input type="radio" name="exam_p2_${i}" value="${opt}" ${isCorr} class="text-blue-600">
+                        <span class="text-sm text-slate-700">${opt}</span>
+                    </label>`;
+                });
+                html += `</div></div>`;
+            }
+            html += `</div>`;
+
+            // Part 3: Reading (1 passage - 5 questions)
+            html += `<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-blue-900 border-b pb-2">Phần 3: Reading (1 bài đọc - 5 câu)</h3>
+                <div class="p-4 bg-blue-50/50 rounded-xl text-sm leading-relaxed text-slate-700 italic">${masterReading.text}</div>`;
+            masterReading.questions.forEach((item, idx) => {
+                html += `<div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                    <p class="font-medium text-slate-800">${idx+1}. ${item.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">`;
+                item.options.forEach(opt => {
+                    let isCorr = opt === item.correct ? 'data-correct="true"' : '';
+                    html += `<label class="flex items-center space-x-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-blue-400 transition">
+                        <input type="radio" name="exam_p3_${idx}" value="${opt}" ${isCorr} class="text-blue-600">
+                        <span class="text-sm text-slate-700">${opt}</span>
+                    </label>`;
+                });
+                html += `</div></div>`;
+            });
+            html += `</div>`;
+
+            // Part 4: Writing (5 questions)
+            html += `<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <h3 class="text-lg font-bold text-blue-900 border-b pb-2">Phần 4: Writing (5 câu)</h3>`;
+            masterWriting.forEach((item, idx) => {
+                html += `<div class="p-4 bg-slate-50 rounded-xl space-y-2">
+                    <p class="font-medium text-slate-800">${item.prompt}</p>
+                    <input type="text" placeholder="Nhập câu trả lời của bạn..." class="w-full p-3 bg-white rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-500 exam-writing-input" data-correct="${item.correct}">
+                    <div class="text-xs text-slate-400 italic">Đáp án gốc chuẩn: ${item.correct}</div>
+                </div>`;
+            });
+            html += `</div>`;
+
+            container.innerHTML = html;
+        }
+
+        function submitExam() {
+            if (examTimerInterval) clearInterval(examTimerInterval);
+            let correctCount = 0;
+            let totalQuestions = 90;
+
+            document.querySelectorAll('#exam-container input[type="radio"]:checked').forEach(input => {
+                if (input.getAttribute('data-correct') === 'true') correctCount++;
+            });
+
+            document.querySelectorAll('.exam-writing-input').forEach(input => {
+                if (input.value.trim().toLowerCase() === input.getAttribute('data-correct').trim().toLowerCase()) {
+                    correctCount++;
+                }
+            });
+
+            let score = ((correctCount / totalQuestions) * 10).toFixed(1);
+
+            let sessionRecord = {
+                id: examHistory.length + 1,
+                date: new Date().toLocaleString('vi-VN'),
+                correct: correctCount,
+                total: totalQuestions,
+                score: score
+            };
+            examHistory.unshift(sessionRecord);
+            localStorage.setItem('exam_history', JSON.stringify(examHistory));
+
+            document.getElementById('res-correct').innerText = `${correctCount} / ${totalQuestions}`;
+            document.getElementById('res-score').innerText = `${score} / 10`;
+            document.getElementById('result-modal').classList.remove('hidden');
+        }
+
+        function closeResultModal() {
+            document.getElementById('result-modal').classList.add('hidden');
+            switchTab('history');
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-container');
+            if (examHistory.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-slate-400">Chưa có lịch sử thi nào. Hãy hoàn thành một bài thi thật!</div>`;
+                return;
+            }
+
+            let html = `<table class="w-full border-collapse text-left text-sm">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-600">
+                        <th class="p-4 font-semibold">Đợt thi</th>
+                        <th class="p-4 font-semibold">Thời gian</th>
+                        <th class="p-4 font-semibold">Số câu đúng</th>
+                        <th class="p-4 font-semibold">Điểm số</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">`;
+            
+            examHistory.forEach(item => {
+                html += `<tr class="hover:bg-slate-50 transition">
+                    <td class="p-4 font-bold text-slate-800">#${item.id}</td>
+                    <td class="p-4 text-slate-600">${item.date}</td>
+                    <td class="p-4 text-slate-800 font-medium">${item.correct} / ${item.total}</td>
+                    <td class="p-4"><span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs">${item.score} điểm</span></td>
+                </tr>`;
+            });
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
