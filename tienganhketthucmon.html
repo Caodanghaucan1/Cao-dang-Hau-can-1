@@ -75,7 +75,7 @@
             </button>
             <button id="tab-exam" onclick="switchMode('exam')" class="py-3 px-4 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center space-x-2 whitespace-nowrap transition">
                 <i class="fa-solid fa-stopwatch text-base"></i>
-                <span>⏱️ THI THẬT (90 CÂU / 45 PHÚT)</span>
+                <span>⏱️ THI THẬT (90 CÂU / 60 PHÚT)</span>
             </button>
         </div>
     </nav>
@@ -167,7 +167,7 @@
                 <div class="border-b border-slate-100 pb-3">
                     <h2 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
                         <i class="fa-solid fa-file-signature text-emerald-600"></i>
-                        <span>Tạo Đề Thi Thật Ngẫu Nhiên (90 Câu / 45 Phút)</span>
+                        <span>Tạo Đề Thi Thật Ngẫu Nhiên (90 Câu / 60 Phút)</span>
                     </h2>
                     <p class="text-xs text-slate-500 mt-1">Cấu trúc: 40 câu Ngữ pháp + 40 câu Từ vựng + 1 bài đọc (5 câu) + 5 câu kéo-thả. Câu đã dùng sẽ không lặp cho đến khi hết ngân hàng.</p>
                 </div>
@@ -265,7 +265,7 @@
                         <i class="fa-solid fa-trophy"></i>
                     </div>
                     <h2 class="text-2xl font-black text-slate-800 uppercase">KẾT QUẢ THI THẬT</h2>
-                    <p id="result-exam-title" class="text-xs text-slate-500 font-semibold">Bộ đề 90 câu / 45 phút</p>
+                    <p id="result-exam-title" class="text-xs text-slate-500 font-semibold">Bộ đề 90 câu / 60 phút</p>
                     
                     <div class="pt-4 flex justify-center items-center space-x-6">
                         <div class="text-center">
@@ -853,7 +853,7 @@ const QUESTION_BANK = { grammar: GRAMMAR, vocab: VOCAB, reading: READING, writin
 
 // ---------- Helpers ----------
 const EXAM_TOTAL = 90;
-const EXAM_SECONDS = 45 * 60;
+const EXAM_SECONDS = 90 * 60;
 const HISTORY_KEY = 'haucan1_english_exam_history_v2';
 
 function shuffleArray(items) {
@@ -1342,7 +1342,7 @@ function startExamTimer() {
     if (examTimeLeft <= 300) document.getElementById('exam-timer-box').className = 'flex items-center space-x-2 bg-rose-900 text-rose-300 font-mono font-bold px-3 py-1.5 rounded-lg text-sm sm:text-base border border-rose-700 shadow-inner animate-pulse';
     if (examTimeLeft <= 0) {
       clearInterval(examTimerInterval);
-      alert('⏰ Đã hết thời gian 45 phút! Hệ thống tự động nộp bài.');
+      alert('⏰ Đã hết thời gian 60 phút! Hệ thống tự động nộp bài.');
       submitExam();
     }
   }, 1000);
