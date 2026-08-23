@@ -75,7 +75,7 @@
             </button>
             <button id="tab-exam" onclick="switchMode('exam')" class="py-3 px-4 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center space-x-2 whitespace-nowrap transition">
                 <i class="fa-solid fa-stopwatch text-base"></i>
-                <span>⏱️ THI THẬT (90 CÂU / 60 PHÚT)</span>
+                <span>⏱️ THI THẬT (57 CÂU / 60 PHÚT)</span>
             </button>
         </div>
     </nav>
@@ -103,7 +103,7 @@
                     </button>
                     <button onclick="loadPracticePart('writing')" id="btn-part-writing" class="p-3 rounded-lg border-2 border-slate-200 bg-white text-slate-700 hover:border-emerald-300 font-bold text-xs sm:text-sm text-left transition hover:shadow-md flex flex-col justify-between">
                         <span>Part IV. Viết/Sắp Xếp</span>
-                        <span class="text-[11px] font-normal text-slate-500 mt-1">80 câu kéo-thả sắp xếp từ</span>
+                        <span class="text-[11px] font-normal text-slate-500 mt-1">80 câu viết lại câu hoàn chỉnh</span>
                     </button>
                 </div>
 
@@ -167,15 +167,15 @@
                 <div class="border-b border-slate-100 pb-3">
                     <h2 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
                         <i class="fa-solid fa-file-signature text-emerald-600"></i>
-                        <span>Tạo Đề Thi Thật Ngẫu Nhiên (90 Câu / 60 Phút)</span>
+                        <span>Tạo Đề Thi Thật Ngẫu Nhiên (57 Câu / 60 Phút)</span>
                     </h2>
-                    <p class="text-xs text-slate-500 mt-1">Cấu trúc: 40 câu Ngữ pháp + 40 câu Từ vựng + 1 bài đọc (5 câu) + 5 câu kéo-thả. Câu đã dùng sẽ không lặp cho đến khi hết ngân hàng.</p>
+                    <p class="text-xs text-slate-500 mt-1">Cấu trúc: 20 câu Phần I + 20 câu Phần II + 2 bài đọc Phần III (10 câu) + 7 câu viết. Câu và bài đọc đã dùng sẽ không lặp cho đến khi hết ngân hàng.</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <button onclick="startExam('random')" class="lg:col-span-1 p-5 rounded-xl border-2 border-amber-500/50 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 text-amber-900 font-bold text-center transition flex flex-col items-center justify-center space-y-2 group shadow-sm">
                         <span class="text-xl text-amber-700 group-hover:scale-105 transition">🎲 TẠO ĐỀ THI NGẪU NHIÊN MỚI</span>
-                        <span class="text-xs text-amber-700 font-normal">90 câu • ưu tiên toàn bộ câu chưa từng thi</span>
+                        <span class="text-xs text-amber-700 font-normal">57 câu • ưu tiên toàn bộ câu chưa từng thi</span>
                     </button>
                     <div class="lg:col-span-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
                         <div class="flex items-center justify-between gap-3 mb-3">
@@ -194,14 +194,14 @@
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 sm:p-4 flex justify-between items-center sticky top-[130px] z-10">
                     <div>
                         <h3 id="exam-title-display" class="font-bold text-slate-800 text-sm sm:text-base">Đề Thi Chuẩn Quốc Gia</h3>
-                        <p id="exam-counter-display" class="text-xs text-slate-500">Đã làm: 0 / 90 câu</p>
+                        <p id="exam-counter-display" class="text-xs text-slate-500">Đã làm: 0 / 57 câu</p>
                     </div>
                     
                     <!-- COUNTDOWN TIMER -->
                     <div class="flex items-center space-x-3">
                         <div id="exam-timer-box" class="flex items-center space-x-2 bg-slate-900 text-amber-400 font-mono font-bold px-3 py-1.5 rounded-lg text-sm sm:text-base border border-slate-700 shadow-inner">
                             <i class="fa-regular fa-clock text-amber-400 animate-pulse"></i>
-                            <span id="exam-timer-text">45:00</span>
+                            <span id="exam-timer-text">60:00</span>
                         </div>
                         <button onclick="confirmSubmitExam()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-lg shadow transition flex items-center space-x-1">
                             <i class="fa-solid fa-paper-plane"></i>
@@ -240,7 +240,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 space-y-3 h-fit">
                         <div class="flex justify-between items-center border-b border-slate-100 pb-2">
                             <h4 class="font-bold text-slate-700 text-sm">Danh sách câu hỏi</h4>
-                            <span class="text-xs text-slate-400">90 câu</span>
+                            <span class="text-xs text-slate-400">57 câu</span>
                         </div>
 
                         <!-- FILTER BUTTONS -->
@@ -265,12 +265,12 @@
                         <i class="fa-solid fa-trophy"></i>
                     </div>
                     <h2 class="text-2xl font-black text-slate-800 uppercase">KẾT QUẢ THI THẬT</h2>
-                    <p id="result-exam-title" class="text-xs text-slate-500 font-semibold">Bộ đề 90 câu / 60 phút</p>
+                    <p id="result-exam-title" class="text-xs text-slate-500 font-semibold">Bộ đề 57 câu / 60 phút</p>
                     
                     <div class="pt-4 flex justify-center items-center space-x-6">
                         <div class="text-center">
                             <p class="text-xs text-slate-400 uppercase font-bold">Số câu đúng</p>
-                            <p id="result-score-text" class="text-3xl font-black text-emerald-600">0 / 90</p>
+                            <p id="result-score-text" class="text-3xl font-black text-emerald-600">0 / 57</p>
                         </div>
                         <div class="h-10 w-[1px] bg-slate-200"></div>
                         <div class="text-center">
@@ -767,92 +767,93 @@ function parseWriting(raw) {
 }
 
 const WRITING = parseWriting(String.raw`
-in/ spring/ What/ like/ is/ the/ weather?|What is the weather like in spring?
+in/ spring/ What/ like/ is/ the/ weather|What is the weather like in spring?
 straight/ Go/ turn/ and/ ahead/ right|Go straight ahead and turn right.
-the/ swimming pool/ is/ Where?|Where is the swimming pool?
+the/ swimming pool/ is/ Where|Where is the swimming pool?
 I/ spend/ 3 hours/ read/ books yesterday|I spent 3 hours reading books yesterday.
-I/ think/ they/ pump/ water/ their field/ moment|I think they are pumping water in their field at the moment.
-was/ in/ Nam/ Hanoi/ last month|Nam was in Hanoi last month.
+I/ think/ they/ pump/ water/ their field/ moment|I think they are pumping water into their field at the moment.
+was/ in/ Nam/ Hanoi/ last month|Nam was in Ha Noi last month.
 friends/ chatted/ with/ yesterday/ I|I chatted with my friends yesterday.
 on TV/ watched/ cartoons/ Mai/ week/ last|Mai watched cartoons on TV last week.
 It/ him/ take/ two hours/ commute/ work/ every day|It takes him two hours to commute to work every day.
-My sister/ be/ student/ last year, but now/ she/ work/ a bank|My sister was a student last year, but now she is working in a bank.
-had/ We/ and/ drink/ nice food/ at/ last/ party/ Sunday/ Mai’s|We had nice food and drink at Mai’s party last Sunday.
-did/ What/ do/ in/ yesterday/ they/ the park?|What did they do in the park yesterday?
-went/ He/ cinema/ last night/ to/ parents/ with/ his|He went to cinema with his parents last night.
-What time/ your father/ come/ his office/ the morning?|What time does your father come to his office in the morning?
+My sister/ be/ student/ last year, but now/ she/ work/ a bank|My sister was a student last year, but now she works at a bank.
+had/ We/ and/ drink/ nice food/ at/ last/ party/ Sunday/ Mai’s|We had nice food and drinks at Mai’s party last Sunday.
+did/ What/ do/ in/ yesterday/ they/ the park|What did they do in the park yesterday?
+went/ He/ cinema/ last night/ to/ parents/ with/ his|He went to the cinema with his parents last night.
+What time/ your father/ come/ his office/ the morning|What time does your father come to his office in the morning?
 There/ be/ some water/ the lake, but/ it/ be very dirty|There is some water in the lake, but it is very dirty.
-Wednesday/ she/ book/ bought/ a/ at/ comic/ the bookshop/ last|She bought a comic at the bookshop last Wednesday.
-last/ Sports Festival/ had/ school/ my/ Friday|My school had Sports Festival last Friday.
-to/ Happy birthday/ you!/ gift/ you/ for/ This/ is|Happy birthday to you! This gift is for you.
-She/ buy/ white shirt/ with/ red flower/ the shop/ last week|She bought a white shirt with red flower at the shop last week.
-The children/ not learn/ the room now, they/ playing game.|The children aren’t learning in the room now, they are playing game.
-lessons/ How/ you/ do/ today/ many/ have?|How many lessons do you have today?
-Do/ your/ you/ free/ read/ books/ in/ time?|Do you read books in your free time?
+Wednesday/ she/ book/ bought/ a/ at/ comic/ the bookshop/ last|She bought a comic book at the bookshop last Wednesday.
+last/ Sports Festival/ had/ school/ my/ Friday|My school had a Sports Festival last Friday.
+to/ Happy birthday/ you/ gift/ you/ for/ This/ is|Happy birthday to you! This gift is for you.
+She/ buy/ white shirt/ with/ red flower/ the shop/ last week|She bought a white shirt with a red flower at the shop last week.
+The children/ not learn/ the room now, they/ playing game|The children aren’t learning in the room now; they are playing games.
+lessons/ How/ you/ do/ today/ many/ have|How many lessons do you have today?
+Do/ your/ you/ free/ read/ books/ in/ time|Do you read books in your free time?
 You/ it/ have/ this/ book/ I/ when/ can/ finish|You can have this book when I finish it.
-How much/ water/ we need/ this dish?|How much water do we need for this dish?
-There/ two seasons/ Viet Nam. It/ often rain much/ summer|There are two seasons in Viet Nam. It often rains much in summer.
-study/ I/ a/ twice/ with/ week/ partner/ a|I study with my partner twice a week.
+How much/ water/ we need/ this dish|How much water do we need for this dish?
+There/ two seasons/ Viet Nam. It/ often rain much/ summer|There are two seasons in Viet Nam. It often rains a lot in summer.
+study/ I/ a/ twice/ with/ week/ partner/ a|I study with a partner twice a week.
 English/ English magazines/ by/ reading/ learns/ read/ Tuan|Tuan learns English by reading English magazines.
 parents/ My/ in/ live/ small/ in/ a/ the/ village/ countryside/ in|My parents live in a small village in the countryside.
 Lan/ live/ near her school, so she/ often travel/ school on foot|Lan lives near her school, so she often travels to school on foot.
-Why/ Linh/ not go/ school/ last Tuesday?|Why didn’t Linh go to school last Tuesday?
+Why/ Linh/ not go/ school/ last Tuesday|Why didn’t Linh go to school last Tuesday?
 house/ a/ Minh/ lake/ a/ lives/ in/ near|Minh lives in a house near a lake.
 yard/ front/ school/ There/ big/ of/ is/ our/ in/ a|There is a big yard in front of our school.
-many/ right/ the/ museum/ Are/ flowers/ the/ there/ on/ of?|Are there many flowers on the right of the museum?
-next/ photocopy/ What/ store/ there/ the/ is/ to?|What is there next to the photocopy store?
+many/ right/ the/ museum/ Are/ flowers/ the/ there/ on/ of|Are there many flowers on the right of the museum?
+next/ photocopy/ What/ store/ there/ the/ is/ to|What is there next to the photocopy store?
 hospital/ My father/ in/ the/ city/ a/ works/ in|My father works in a hospital in the city.
-there/ family/ many/ in/ are/ How/ Linh’s/ people?|How many people are there in Linh’s family?
+there/ family/ many/ in/ are/ How/ Linh’s/ people|How many people are there in Linh’s family?
 his/ My friend/ in/ family/ Hanoi/ doesn’t/ with/ live|My friend doesn’t live with his family in Ha Noi.
 brushes/ six/ gets/ her/ o’clock/ Hoa/ at/ up/ teeth/ and|Hoa gets up at six o’clock and brushes her teeth.
 on/ floor/ classroom/ the/ is/ Our/ first|Our classroom is on the first floor.
-Minh’s/ six/ There/ in/ rooms/ house/ are.|There are six rooms in Minh’s house.
-house/ is/ the market/ far/ to/ from/ How/ it/ Trang’s?|How far is it from Trang’s house to the market?
-lives/ street/ grandparents/ He/ Hoang Quoc Viet/ his/ on/ with|He lives with his grandparents on Hoang Quoc Viet street.
+Minh’s/ six/ There/ in/ rooms/ house/ are|There are six rooms in Minh’s house.
+house/ is/ the market/ far/ to/ from/ How/ it/ Trang’s|How far is it from Trang’s house to the market?
+lives/ street/ grandparents/ He/ Hoang Quoc Viet/ his/ on/ with|He lives with his grandparents on Hoang Quoc Viet Street.
 many/ old/ students/ My/ have/ doesn’t/ class|My class doesn’t have many old students.
-Mrs/ the boy/ to/ Who/ Quyen/ talking/ is?|Who is the boy talking to Mrs. Quyen?
+Mrs/ the boy/ to/ Who/ Quyen/ talking/ is|Who is the boy talking to? Mrs. Quyen.
 new/ Hoa’s/ small/ school/ is|Hoa’s new school is small.
-secondary/ first/ your/ at/ school/ is/ How/ week?|How is your first week at secondary school?
-lessons/ many/ have/ on/ How/ you/ do/ Friday?|How many lessons do you have on Friday?
+secondary/ first/ your/ at/ school/ is/ How/ week|How is your first week at secondary school?
+lessons/ many/ have/ on/ How/ you/ do/ Friday|How many lessons do you have on Friday?
 art/ creative/ are/ drawings/ Students/ the/ some/ doing/ in/ club|Students are doing some creative drawings in the art club.
 school/ at/ English/ We/ have/ classes/ don’t/ today|We don’t have English classes at school today.
-homework/ you/ doing/ maths/ Are/ your?|Are you doing your maths homework?
+homework/ you/ doing/ maths/ Are/ your|Are you doing your maths homework?
 Do/ exercise/ regularly/ help/ you/ stay/ healthy|Doing exercise regularly helps you stay healthy.
-We/ need/ calories/ or/ energy/ do/ things/ every day|We need calories or energy to do things everyday.
+We/ need/ calories/ or/ energy/ do/ things/ every day|We need calories or energy to do things every day.
 Drink/ lots/ water/ be/ good/ our health|Drinking lots of water is good for our health.
-I/ have/ toothache/ so/ I/ have to/ see/ dentist|I have a toothache so I have to see the dentist.
+I/ have/ toothache/ so/ I/ have to/ see/ dentist|I have a toothache, so I have to see the dentist.
 When/ I/ ten/ begin/ play football|When I was ten, I began to play football.
 Calories/ important/ human/ health|Calories are important for human health.
-Can/ you/ list/ name/ all/ World’s Heritages?|Can you list the name of all the World’s Heritages?
+Can/ you/ list/ name/ all/ World’s Heritages|Can you list the names of all the World Heritage Sites?
 I/ call/ the/ travel agents/ now|I’m calling the travel agent now.
 I/ have never/ be/ more beautiful/ a waterfall/ before|I have never been to a more beautiful waterfall before.
-Is/ Nile/ longest/ river/ world?|Is the Nile the longest river in the world?
-London/ city/ the/ historic/ is/ of/ buildings|London is the city of historic buildings.
+Is/ Nile/ longest/ river/ world|Is the Nile the longest river in the world?
+London/ city/ the/ historic/ is/ of/ buildings|London is a city of historic buildings.
 isn’t/ going/ to/ Hoi An/ Minh/ next/ week|Minh isn’t going to Hoi An next week.
 the/ classmates/ music/ take/ in/ event/ will/ My/ part|My classmates will take part in the music event.
 is/ your/ What/ fruit/ favorite|What is your favorite fruit?
 going/ We/ to/ are/ Do Son/ next weekend/ visit|We are going to visit Do Son next weekend.
-yesterday/ you/ at/ Did/ home/ stay?|Did you stay at home yesterday?
-going/ to/ tomorrow/ are/ What/ you/ do?|What are you going to do tomorrow?
-Phu Quoc/ I/ next/ will/ think/ go/ I/ to/ year/ island|I think I will go to Phu Quoc island next year.
-Ho Chi Minh/ He/ City/ week/ Ben Thanh Market/ visit/ in/ last|He visited Ben Thanh Market in Ho Chi Minh city last week.
+yesterday/ you/ at/ Did/ home/ stay|Did you stay at home yesterday?
+going/ to/ tomorrow/ are/ What/ you/ do|What are you going to do tomorrow?
+Phu Quoc/ I/ next/ will/ think/ go/ I/ to/ year/ island|I think I will go to Phu Quoc Island next year.
+Ho Chi Minh/ He/ City/ week/ Ben Thanh Market/ visit/ in/ last|He visited Ben Thanh Market in Ho Chi Minh City last week.
 do/ friend/ to/ your/ often/ you/ How/ online/ talk|How often do you talk to your friend online?
 never/ I/ eaten/ have/ before/ crabs|I have never eaten crabs before.
 be/ big trees and flowers/ There/ my garden/ in/ will|There will be big trees and flowers in my garden.
 The/ will/ sunny/ next/ weather/ be/ week|The weather will be sunny next week.
 any/ bookshops/ Are/ there/ here/ near|Are there any bookshops near here?
-Why/ you/ do/ want/ English/ to/ learn/ well?|Why do you want to learn English well?
+Why/ you/ do/ want/ English/ to/ learn/ well|Why do you want to learn English well?
 something beautiful/ I/ will/ for myself/ buy|I will buy something beautiful for myself.
 He/ not/ have/ finish/ his homework/ yet|He has not finished his homework yet.
 never/ have/ He/ been/ to/ that/ country|He has never been to that country.
-have/ see/ movie/ Who/ the/ recently/ in theater?|Who has seen the movie recently in the theater?
+have/ see/ movie/ Who/ the/ recently/ in theater|Who has seen the movie in the theater recently?
 She/ usually/ listen/ music/ morning|She usually listens to music in the morning.
 `);
 
 const QUESTION_BANK = { grammar: GRAMMAR, vocab: VOCAB, reading: READING, writing: WRITING };
 
 // ---------- Helpers ----------
-const EXAM_TOTAL = 90;
+const EXAM_COUNTS = { grammar: 20, vocab: 20, readingPassages: 2, writing: 7 };
+const EXAM_TOTAL = EXAM_COUNTS.grammar + EXAM_COUNTS.vocab + (EXAM_COUNTS.readingPassages * 5) + EXAM_COUNTS.writing;
 const EXAM_SECONDS = 90 * 60;
 const HISTORY_KEY = 'haucan1_english_exam_history_v2';
 
@@ -1147,10 +1148,9 @@ function renderPracticeMatrix() {
   document.getElementById('practice-stat-count').innerText = `Đã làm: ${answered}/${list.length}`;
 }
 
-// ---------- Writing drag/drop ----------
+// ---------- Writing: rewrite the complete sentence ----------
 function createWritingState(q) {
-  const tokens = q.prompt.split('/').map((text, index) => ({ uid: `${q.id}_t${index}`, text: text.trim() })).filter(x => x.text);
-  return { tokens, bank: shuffleArray(tokens.map(x => x.uid)), answer: [], checked: false, isCorrect: false };
+  return { text: '', checked: false, isCorrect: false };
 }
 
 function getWritingState(context, key, q) {
@@ -1159,82 +1159,36 @@ function getWritingState(context, key, q) {
   return bucket[key];
 }
 
-function tokenText(state, uid) {
-  return state.tokens.find(t => t.uid === uid)?.text || '';
-}
-
 function renderWritingQuestion(q, context, key, showCheck) {
   const state = getWritingState(context, key, q);
-  const bankChips = state.bank.map(uid => `<button draggable="true" ondragstart="dragWritingToken(event,'${context}','${key}','${uid}')" onclick="moveWritingToken('${context}','${key}','${uid}','answer')" class="px-3 py-2 rounded-lg bg-white border-2 border-slate-300 hover:border-emerald-500 text-sm font-bold text-slate-700 shadow-sm cursor-grab active:cursor-grabbing">${escapeHtml(tokenText(state, uid))}</button>`).join('');
-  const answerChips = state.answer.map((uid, idx) => `
-    <div draggable="true" ondragstart="dragWritingToken(event,'${context}','${key}','${uid}')" ondragover="event.preventDefault()" ondrop="dropWritingToken(event,'${context}','${key}','answer',${idx})" class="inline-flex items-center gap-1 px-2 py-1.5 rounded-lg bg-emerald-100 border-2 border-emerald-400 text-sm font-bold text-emerald-900 cursor-grab">
-      <button onclick="moveWritingToken('${context}','${key}','${uid}','bank')" title="Đưa chữ lên lại" class="px-1">${escapeHtml(tokenText(state, uid))}</button>
-      <button onclick="shiftWritingToken('${context}','${key}','${uid}',-1)" class="text-[10px] text-emerald-700 px-1" title="Dịch sang trái">◀</button>
-      <button onclick="shiftWritingToken('${context}','${key}','${uid}',1)" class="text-[10px] text-emerald-700 px-1" title="Dịch sang phải">▶</button>
-    </div>`).join('');
   const result = showCheck && state.checked
     ? `<div class="p-3 rounded-xl ${state.isCorrect ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-300 text-rose-900'} border text-sm"><strong>${state.isCorrect ? '✅ Chính xác' : '❌ Chưa đúng'}</strong>${state.isCorrect ? '' : `<div class="mt-1"><strong>Đáp án:</strong> ${escapeHtml(q.answer)}</div>`}</div>`
     : '';
   return `
-    <div class="text-base sm:text-lg font-bold text-slate-800 leading-snug">Sắp xếp các cụm từ sau thành câu đúng:</div>
-    <div ondragover="event.preventDefault()" ondrop="dropWritingToken(event,'${context}','${key}','bank')" class="bg-slate-100 border-2 border-dashed border-slate-300 rounded-xl p-4 min-h-20">
-      <div class="text-[11px] uppercase font-bold text-slate-500 mb-2">Kho từ — kéo xuống hoặc chạm để thêm</div>
-      <div class="flex flex-wrap gap-2">${bankChips || '<span class="text-xs text-slate-400">Đã dùng hết các cụm từ</span>'}</div>
+    <div class="text-base sm:text-lg font-bold text-slate-800 leading-snug">Viết lại thành câu hoàn chỉnh và đúng ngữ pháp:</div>
+    <div class="bg-slate-100 border-2 border-dashed border-slate-300 rounded-xl p-4">
+      <div class="text-[11px] uppercase font-bold text-slate-500 mb-2">Từ/cụm từ gợi ý</div>
+      <div class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">${escapeHtml(q.prompt)}</div>
+      <div class="mt-2 text-xs text-slate-500">Có thể cần thêm từ, chia động từ đúng thì và tự thêm dấu câu (. ? , ...).</div>
     </div>
-    <div ondragover="event.preventDefault()" ondrop="dropWritingToken(event,'${context}','${key}','answer')" class="bg-emerald-50 border-2 border-dashed border-emerald-400 rounded-xl p-4 min-h-28">
-      <div class="text-[11px] uppercase font-bold text-emerald-700 mb-2">Đáp án — kéo để đổi vị trí, chạm vào chữ để đưa lên lại</div>
-      <div class="flex flex-wrap gap-2 items-center">${answerChips || '<span class="text-sm text-emerald-500">Kéo các cụm từ vào đây...</span>'}</div>
+    <div class="bg-emerald-50 border-2 border-emerald-300 rounded-xl p-4">
+      <label class="block text-[11px] uppercase font-bold text-emerald-700 mb-2" for="writing-${context}-${key}">Câu trả lời hoàn chỉnh</label>
+      <textarea id="writing-${context}-${key}" oninput="updateWritingInput('${context}','${key}',this.value)" rows="3" spellcheck="false" placeholder="Nhập câu hoàn chỉnh tại đây..." class="w-full rounded-lg border-2 border-emerald-300 bg-white p-3 text-sm sm:text-base text-slate-800 outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20">${escapeHtml(state.text)}</textarea>
     </div>
     ${showCheck ? `<div class="flex gap-2"><button onclick="checkPracticeWriting('${q.id}')" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold">Kiểm tra đáp án</button><button onclick="resetWritingState('practice','${q.id}')" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold">Làm lại</button></div>` : ''}
     ${result}`;
 }
 
-function dragWritingToken(event, context, key, uid) {
-  event.dataTransfer.setData('text/plain', JSON.stringify({ context, key, uid }));
-  event.dataTransfer.effectAllowed = 'move';
-}
-
-function dropWritingToken(event, context, key, target, beforeIndex) {
-  event.preventDefault();
-  try {
-    const data = JSON.parse(event.dataTransfer.getData('text/plain'));
-    if (data.context !== context || String(data.key) !== String(key)) return;
-    moveWritingToken(context, key, data.uid, target, beforeIndex);
-  } catch (_) {}
-}
-
-function moveWritingToken(context, key, uid, target, beforeIndex) {
+function updateWritingInput(context, key, value) {
   const q = context === 'practice' ? PRACTICE_BANK.writing.find(x => x.id === key) : examQuestions[Number(key)];
   const state = getWritingState(context, key, q);
-  state.bank = state.bank.filter(x => x !== uid);
-  state.answer = state.answer.filter(x => x !== uid);
-  if (target === 'answer') {
-    const idx = Number.isInteger(beforeIndex) ? Math.max(0, Math.min(beforeIndex, state.answer.length)) : state.answer.length;
-    state.answer.splice(idx, 0, uid);
-  } else state.bank.push(uid);
+  state.text = value;
   state.checked = false;
-  syncWritingAnswer(context, key, state);
-}
-
-function shiftWritingToken(context, key, uid, direction) {
-  const q = context === 'practice' ? PRACTICE_BANK.writing.find(x => x.id === key) : examQuestions[Number(key)];
-  const state = getWritingState(context, key, q);
-  const idx = state.answer.indexOf(uid);
-  const next = idx + direction;
-  if (idx >= 0 && next >= 0 && next < state.answer.length) [state.answer[idx], state.answer[next]] = [state.answer[next], state.answer[idx]];
-  state.checked = false;
-  syncWritingAnswer(context, key, state);
-}
-
-function syncWritingAnswer(context, key, state) {
-  const text = state.answer.map(uid => tokenText(state, uid)).join(' ');
   if (context === 'exam') {
-    if (text.trim()) examAnswers[Number(key)] = text.trim();
+    if (value.trim()) examAnswers[Number(key)] = value.trim();
     else delete examAnswers[Number(key)];
-    renderExamQuestion();
     renderExamMatrix();
   } else {
-    renderPracticeQuestion();
     renderPracticeMatrix();
   }
 }
@@ -1242,9 +1196,8 @@ function syncWritingAnswer(context, key, state) {
 function checkPracticeWriting(qId) {
   const q = PRACTICE_BANK.writing.find(x => x.id === qId);
   const state = getWritingState('practice', qId, q);
-  const text = state.answer.map(uid => tokenText(state, uid)).join(' ');
   state.checked = true;
-  state.isCorrect = normalizeSentence(text) === normalizeSentence(q.answer);
+  state.isCorrect = normalizeSentence(state.text) === normalizeSentence(q.answer);
   practiceAnswers[qId] = state.isCorrect;
   renderPracticeQuestion();
   renderPracticeMatrix();
@@ -1259,7 +1212,7 @@ function resetWritingState(context, key) {
 }
 
 // ---------- Exam generation / history ----------
-function takeUnseen(store, section, items, count) {
+function takeUnseen(store, section, items, count, avoidIds = []) {
   const usedSet = new Set(store.used[section] || []);
   let remaining = shuffleArray(items.filter(x => !usedSet.has(x.id)));
   let selected = remaining.slice(0, count);
@@ -1268,7 +1221,10 @@ function takeUnseen(store, section, items, count) {
     recycled = true;
     const alreadySelected = new Set(selected.map(x => x.id));
     store.used[section] = [];
-    const refill = shuffleArray(items.filter(x => !alreadySelected.has(x.id))).slice(0, count - selected.length);
+    const avoidSet = new Set(avoidIds);
+    let refillPool = items.filter(x => !alreadySelected.has(x.id) && !avoidSet.has(x.id));
+    if (refillPool.length < count - selected.length) refillPool = items.filter(x => !alreadySelected.has(x.id));
+    const refill = shuffleArray(refillPool).slice(0, count - selected.length);
     selected = selected.concat(refill);
   }
   const freshCycle = new Set(store.used[section] || []);
@@ -1279,12 +1235,14 @@ function takeUnseen(store, section, items, count) {
 
 function generateExamQuestions() {
   const store = loadExamStore();
-  const grammar = takeUnseen(store, 'grammar', QUESTION_BANK.grammar, 40);
-  const vocab = takeUnseen(store, 'vocab', QUESTION_BANK.vocab, 40);
-  const reading = takeUnseen(store, 'reading', QUESTION_BANK.reading, 1);
-  const writing = takeUnseen(store, 'writing', QUESTION_BANK.writing, 5);
-  const passage = reading.selected[0];
-  const readingQuestions = passage.questions.map(q => shuffleQuestion({ ...q, passageTitle: passage.title, passage: passage.passage, sourcePassageId: passage.id }));
+  const lastExam = store.history[0] || {};
+  const lastQuestionIds = lastExam.questionIds || [];
+  const lastPassageIds = lastExam.passageIds || (lastExam.passageId ? [lastExam.passageId] : []);
+  const grammar = takeUnseen(store, 'grammar', QUESTION_BANK.grammar, EXAM_COUNTS.grammar, lastQuestionIds);
+  const vocab = takeUnseen(store, 'vocab', QUESTION_BANK.vocab, EXAM_COUNTS.vocab, lastQuestionIds);
+  const reading = takeUnseen(store, 'reading', QUESTION_BANK.reading, EXAM_COUNTS.readingPassages, lastPassageIds);
+  const writing = takeUnseen(store, 'writing', QUESTION_BANK.writing, EXAM_COUNTS.writing, lastQuestionIds);
+  const readingQuestions = reading.selected.flatMap(passage => passage.questions.map(q => shuffleQuestion({ ...q, passageTitle: passage.title, passage: passage.passage, sourcePassageId: passage.id })));
   const selected = [
     ...grammar.selected.map(q => ({ ...shuffleQuestion(q), part: 'grammar' })),
     ...vocab.selected.map(q => ({ ...shuffleQuestion(q), part: 'vocab' })),
@@ -1301,7 +1259,7 @@ function generateExamQuestions() {
     total: EXAM_TOTAL,
     time: null,
     questionIds: selected.map(q => q.id),
-    passageId: passage.id
+    passageIds: reading.selected.map(x => x.id)
   });
   store.history = store.history.slice(0, 100);
   saveExamStore(store);
@@ -1322,9 +1280,9 @@ function startExam() {
   document.getElementById('exam-select-panel').classList.add('hidden');
   document.getElementById('exam-active-panel').classList.remove('hidden');
   document.getElementById('exam-result-panel').classList.add('hidden');
-  document.getElementById('exam-title-display').innerText = `🎲 Đề thi ngẫu nhiên số ${currentExamId} (90 câu)`;
+  document.getElementById('exam-title-display').innerText = `🎲 Đề thi ngẫu nhiên số ${currentExamId} (${EXAM_TOTAL} câu)`;
   document.getElementById('exam-timer-box').className = 'flex items-center space-x-2 bg-slate-900 text-amber-400 font-mono font-bold px-3 py-1.5 rounded-lg text-sm sm:text-base border border-slate-700 shadow-inner';
-  document.getElementById('exam-timer-text').innerText = '45:00';
+  document.getElementById('exam-timer-text').innerText = '60:00';
   if (generated.recycled) setTimeout(() => alert('Bạn đã dùng hết câu chưa thi ở ít nhất một phần. Hệ thống đã bắt đầu vòng mới và có thể lấy lại câu cũ.'), 200);
   startExamTimer();
   renderExamQuestion();
@@ -1471,7 +1429,7 @@ function submitExam() {
     let body = `<div class="font-bold ${right ? 'text-emerald-700' : 'text-rose-700'}">Câu ${idx + 1}: ${right ? '✅ Đúng' : '❌ Sai'}</div><div class="font-bold text-slate-800">${escapeHtml(q.q || q.prompt)}</div>`;
     if (q.options) {
       body += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div class="p-2 rounded bg-slate-100"><strong>Bạn chọn:</strong> ${user === undefined ? 'Chưa chọn' : escapeHtml(q.options[user])}</div><div class="p-2 rounded bg-emerald-100 text-emerald-900"><strong>Đáp án:</strong> ${escapeHtml(q.options[q.correct])}</div></div>`;
-    } else body += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div class="p-2 rounded bg-slate-100"><strong>Bạn xếp:</strong> ${escapeHtml(user || 'Chưa làm')}</div><div class="p-2 rounded bg-emerald-100 text-emerald-900"><strong>Đáp án:</strong> ${escapeHtml(q.answer)}</div></div>`;
+    } else body += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div class="p-2 rounded bg-slate-100"><strong>Bạn viết:</strong> ${escapeHtml(user || 'Chưa làm')}</div><div class="p-2 rounded bg-emerald-100 text-emerald-900"><strong>Đáp án:</strong> ${escapeHtml(q.answer)}</div></div>`;
     item.innerHTML = body;
     review.appendChild(item);
   });
@@ -1483,7 +1441,7 @@ function renderExamHistory() {
   const status = document.getElementById('exam-pool-status');
   const list = document.getElementById('exam-history-list');
   if (!status || !list) return;
-  const totals = { grammar: 120, vocab: 140, reading: 12, writing: 80 };
+  const totals = { grammar: QUESTION_BANK.grammar.length, vocab: QUESTION_BANK.vocab.length, reading: QUESTION_BANK.reading.length, writing: QUESTION_BANK.writing.length };
   const names = { grammar: 'Phần I', vocab: 'Phần II', reading: 'Bài đọc', writing: 'Phần IV' };
   status.innerHTML = Object.keys(totals).map(k => `<div class="rounded-lg bg-white border border-slate-200 p-2 text-center"><div class="text-[10px] uppercase font-bold text-slate-500">${names[k]}</div><div class="text-sm font-black text-emerald-700">${(store.used[k] || []).length}/${totals[k]}</div><div class="text-[10px] text-slate-400">đã dùng trong vòng hiện tại</div></div>`).join('');
   if (!store.history.length) {
