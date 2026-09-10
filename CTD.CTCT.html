@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ôn Thi Chính Trị - 9 Bài</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Roboto',sans-serif;background:#f1f5f9}
+.custom-scrollbar::-webkit-scrollbar{width:6px;height:6px}
+.custom-scrollbar::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px}
+.opt{transition:.15s}
+.tabbtn{white-space:nowrap}
+</style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800">
+
+<header class="bg-gradient-to-r from-red-900 via-red-800 to-amber-900 text-white shadow-md sticky top-0 z-30">
+  <div class="max-w-7xl mx-auto px-3 py-2 flex flex-wrap justify-between border-b border-red-700/40 text-xs sm:text-sm">
+    <div class="font-bold tracking-wide text-amber-300"><i class="fa-solid fa-star-and-crescent mr-2"></i>TÀI LIỆU ÔN TẬP CHÍNH TRỊ</div>
+    <div class="text-red-100 font-medium">Hệ Thống Trắc Nghiệm 9 Bài</div>
+  </div>
+  <div class="max-w-7xl mx-auto px-3 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="bg-white text-red-800 p-2 rounded-xl w-10 h-10 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-award"></i></div>
+      <div>
+        <h1 class="font-black uppercase tracking-wider text-sm sm:text-lg">ÔN THI CHÍNH TRỊ TRỰC TUYẾN</h1>
+        <p class="text-[11px] text-amber-200">Đầy đủ 9 bài • Không có câu 61 • 60 câu / 90 phút</p>
+      </div>
+    </div>
+    <button onclick="location.reload()" class="bg-red-950/70 hover:bg-red-950 px-3 py-2 rounded-lg text-xs font-bold text-white"><i class="fa-solid fa-rotate-right mr-1"></i>Làm mới</button>
+  </div>
+</header>
+
+<nav class="bg-white border-b sticky top-[80px] z-20 overflow-x-auto custom-scrollbar">
+  <div class="max-w-7xl mx-auto px-2 flex gap-2 min-w-max">
+    <button id="tabPractice" onclick="switchMode('practice')" class="tabbtn py-3 px-4 font-bold text-sm border-b-2 border-red-700 text-red-700">📚 LUYỆN TẬP THEO BÀI</button>
+    <button id="tabShuffle" onclick="switchMode('shuffle')" class="tabbtn py-3 px-4 font-bold text-sm border-b-2 border-transparent text-slate-500">🎲 LUYỆN TẬP XÁO TRỘN</button>
+    <button id="tabExam" onclick="switchMode('exam')" class="tabbtn py-3 px-4 font-bold text-sm border-b-2 border-transparent text-slate-500">⏱️ THI THẬT (60 CÂU / 90 PHÚT)</button>
+  </div>
+</nav>
+
+<main class="flex-grow max-w-7xl w-full mx-auto p-2 sm:p-4 md:p-6">
+
+<!-- TAB 1: LUYỆN TẬP GỐC THEO BÀI -->
+<section id="practiceSec">
+  <div class="mb-4 bg-white p-3 sm:p-4 rounded-xl border shadow-sm flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center gap-2">
+      <span class="text-xs sm:text-sm font-bold text-slate-700"><i class="fa-solid fa-filter mr-1 text-red-600"></i>Chọn bài:</span>
+      <select id="practiceLessonSelect" onchange="changeLessonFilter(this.value)" class="text-xs sm:text-sm border rounded-lg px-3 py-2 font-medium bg-slate-50 border-slate-300">
+        <option value="all">Tất cả 9 Bài</option>
+        <option value="1">Bài 1 (Câu 1 - 30)</option>
+        <option value="2">Bài 2 (Câu 31 - 60)</option>
+        <option value="3">Bài 3 (Câu 62 - 80)</option>
+        <option value="4">Bài 4 (Câu 81 - 108)</option>
+        <option value="5">Bài 5 (Câu 109 - 160)</option>
+        <option value="6">Bài 6 (Câu 161 - 210)</option>
+        <option value="7">Bài 7 (Câu 211 - 240)</option>
+        <option value="8">Bài 8 (Câu 241 - 270)</option>
+        <option value="9">Bài 9 (Câu 271 - 300)</option>
+      </select>
+    </div>
+    <div class="flex gap-2 text-xs">
+      <button onclick="clearPracticeHistory()" class="text-rose-600 hover:underline font-semibold"><i class="fa-solid fa-trash-can mr-1"></i>Xóa đáp án đã chọn</button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div class="lg:col-span-3 space-y-4">
+      <div id="practiceCard" class="bg-white rounded-xl border shadow-sm p-4 sm:p-6"></div>
+      <div class="flex justify-between bg-white rounded-xl border shadow-sm p-3">
+        <button id="pPrev" onclick="movePractice(-1)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-sm font-bold disabled:opacity-40">← Câu trước</button>
+        <span id="pProgress" class="px-3 py-1 rounded-full bg-red-50 text-red-800 text-sm font-bold flex items-center"></span>
+        <button id="pNext" onclick="movePractice(1)" class="px-4 py-2 bg-red-700 hover:bg-red-800 text-white rounded-lg text-sm font-bold disabled:opacity-40">Câu tiếp →</button>
+      </div>
+    </div>
+    <aside class="bg-white rounded-xl border shadow-sm p-4 h-fit">
+      <div class="flex justify-between items-center mb-3">
+        <b class="text-sm">Mục lục câu hỏi</b>
+        <span id="pStat" class="text-xs text-slate-500 font-medium"></span>
+      </div>
+      <div id="pMatrix" class="grid grid-cols-5 gap-1.5 max-h-[520px] overflow-y-auto custom-scrollbar"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- TAB 2: LUYỆN TẬP XÁO TRỘN -->
+<section id="shuffleSec" class="hidden space-y-5">
+  <div id="shuffleHome" class="bg-white rounded-xl border shadow-sm p-5">
+    <h2 class="font-black text-lg mb-1 text-slate-800"><i class="fa-solid fa-shuffle mr-2 text-indigo-600"></i>Luyện tập đề xáo trộn toàn diện</h2>
+    <p class="text-xs text-slate-500 mb-4">Gộp toàn bộ câu hỏi của cả 9 bài, xáo trộn thứ tự câu hỏi và tự động đảo vị trí các đáp án A - B - C - D. Lịch sử điểm số sẽ được ghi lại trên máy.</p>
+    <div class="grid lg:grid-cols-3 gap-4">
+      <button onclick="startShuffleQuiz()" class="p-6 rounded-xl border-2 border-indigo-400 bg-indigo-50 hover:bg-indigo-100 text-indigo-950 font-black text-lg text-left shadow-sm">
+        <div class="text-2xl mb-1">🎲</div>TẠO BỘ ĐỀ XÁO TRỘN MỚI
+      </button>
+      <div class="lg:col-span-2 bg-slate-50 rounded-xl border p-4">
+        <div class="flex justify-between mb-2 items-center">
+          <b class="text-sm"><i class="fa-solid fa-clock-rotate-left mr-1.5 text-indigo-600"></i>Lịch sử ôn xáo trộn</b>
+          <button onclick="clearHistory('shuffle')" class="text-xs text-rose-600 font-bold hover:underline">Xóa lịch sử</button>
+        </div>
+        <div id="shuffleHistory" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="shuffleActive" class="hidden space-y-4"></div>
+  <div id="shuffleResult" class="hidden"></div>
+</section>
+
+<!-- TAB 3: THI THẬT (60 CÂU / 90 PHÚT) -->
+<section id="examSec" class="hidden space-y-5">
+  <div id="examHome" class="bg-white rounded-xl border shadow-sm p-5">
+    <h2 class="font-black text-lg mb-1 text-slate-800"><i class="fa-solid fa-stopwatch mr-2 text-amber-600"></i>Thi thử chuẩn hình thức (60 câu / 90 phút)</h2>
+    <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+      Đề thi bốc ngẫu nhiên <b>60 câu</b> theo tỷ lệ chính xác từ <b>tất cả 9 bài</b>, không bỏ sót bài nào. Cả câu hỏi và các phương án đều được đảo ngẫu nhiên. Sau mỗi lần thi, thuật toán sẽ kiểm tra đảm bảo đề tạo mới không trùng bộ câu hỏi trước đó.
+    </p>
+    <div class="grid lg:grid-cols-3 gap-4">
+      <button onclick="startRealExam()" class="p-6 rounded-xl border-2 border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-950 font-black text-lg text-left shadow-sm">
+        <div class="text-2xl mb-1">⏱️</div>BẮT ĐẦU THI THẬT (90 PHÚT)
+      </button>
+      <div class="lg:col-span-2 bg-slate-50 rounded-xl border p-4">
+        <div class="flex justify-between mb-2 items-center">
+          <b class="text-sm"><i class="fa-solid fa-medal mr-1.5 text-amber-600"></i>Lịch sử kết quả thi thật</b>
+          <button onclick="clearHistory('exam')" class="text-xs text-rose-600 font-bold hover:underline">Xóa lịch sử</button>
+        </div>
+        <div id="examHistory" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="examActive" class="hidden space-y-4">
+    <div class="sticky top-[135px] z-10 bg-white rounded-xl border shadow-sm p-3 flex justify-between items-center">
+      <div>
+        <b id="examTitle" class="text-sm sm:text-base text-slate-800">Đề thi thật</b>
+        <div id="examDone" class="text-xs text-slate-500">Đã làm: 0 / 60</div>
+      </div>
+      <div class="flex gap-2 items-center">
+        <div class="bg-slate-900 text-amber-400 font-mono font-black px-3 py-2 rounded-lg text-sm sm:text-base tracking-wider shadow">
+          ⏱ <span id="timer">90:00</span>
+        </div>
+        <button onclick="submitRealExam(false)" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg font-bold text-sm shadow">Nộp bài</button>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div class="lg:col-span-3 space-y-4">
+        <div id="examCard" class="bg-white rounded-xl border shadow-sm p-4 sm:p-6"></div>
+        <div class="flex justify-between bg-white p-3 rounded-xl border shadow-sm">
+          <button onclick="moveRealExam(-1)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-bold text-sm">← Câu trước</button>
+          <button onclick="markRealExam()" id="markBtn" class="px-3 py-2 bg-amber-50 text-amber-800 rounded-lg font-bold text-xs border border-amber-200">🚩 Đánh dấu</button>
+          <button onclick="moveRealExam(1)" class="px-4 py-2 bg-red-700 hover:bg-red-800 text-white rounded-lg font-bold text-sm">Câu tiếp →</button>
+        </div>
+      </div>
+      <aside class="bg-white rounded-xl border shadow-sm p-4 h-fit">
+        <div class="grid grid-cols-4 gap-1 text-[11px] mb-2 font-medium">
+          <button onclick="setExamFilter('all')" class="py-1 bg-slate-100 hover:bg-slate-200 rounded">Tất cả</button>
+          <button onclick="setExamFilter('done')" class="py-1 bg-slate-100 hover:bg-slate-200 rounded">Đã làm</button>
+          <button onclick="setExamFilter('undone')" class="py-1 bg-slate-100 hover:bg-slate-200 rounded">Chưa làm</button>
+          <button onclick="setExamFilter('marked')" class="py-1 bg-slate-100 hover:bg-slate-200 rounded">Đã dấu</button>
+        </div>
+        <div id="examMatrix" class="grid grid-cols-5 gap-1.5 max-h-[450px] overflow-y-auto custom-scrollbar"></div>
+      </aside>
+    </div>
+  </div>
+
+  <div id="examResult" class="hidden bg-white rounded-xl border shadow-sm p-6">
+    <div class="text-center border-b pb-5">
+      <div class="text-4xl mb-2">🏆</div>
+      <h2 class="font-black text-2xl text-slate-800">KẾT QUẢ THI THẬT</h2>
+      <div class="flex justify-center gap-6 sm:gap-10 mt-4">
+        <div><div class="text-xs text-slate-400 font-semibold">ĐIỂM SỐ</div><div id="examScore" class="text-3xl font-black text-emerald-600"></div></div>
+        <div><div class="text-xs text-slate-400 font-semibold">TỶ LỆ ĐÚNG</div><div id="examPercent" class="text-3xl font-black text-amber-500"></div></div>
+        <div><div class="text-xs text-slate-400 font-semibold">THỜI GIAN LÀM</div><div id="examSpent" class="text-3xl font-black text-indigo-600"></div></div>
+      </div>
+    </div>
+    <div id="examReview" class="space-y-4 mt-6"></div>
+    <div class="text-center mt-6">
+      <button onclick="backToExamHome()" class="px-6 py-3 bg-red-700 hover:bg-red-800 text-white rounded-xl font-bold shadow">Làm đề thi mới</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="bg-slate-900 text-slate-400 text-xs py-4 text-center mt-8">
+  Ngân hàng trắc nghiệm chính trị 9 Bài • Bản quyền thuộc đơn vị học tập
+</footer>
+
+<script>
+/* DỮ LIỆU ĐẦY ĐỦ TẤT CẢ CÁC BÀI THEO TÀI LIỆU (LOẠI BỎ CÂU 61) */
+const RAW_BANK = [
+  // BÀI 1: CÂU 1 -> 30
+  {"id":"q1","lesson":1,"label":"1","q":"Yếu tố giữ vai trò quyết định trong việc bảo đảm bản chất giai cấp công nhân của quân đội là:","options":["Sự lãnh đạo tuyệt đối trực tiếp về mọi mặt của Đảng đối với quân đội","Hệ thống tổ chức quân sự chặt chẽ cùng với kỷ luật nghiêm minh","Trình độ trang bị kỹ thuật hiện đại và khả năng tác chiến cao","Mối quan hệ hợp tác quốc tế và liên minh quân sự rộng mở"],"answer":"A"},
+  {"id":"q2","lesson":1,"label":"2","q":"Theo quan điểm của chủ nghĩa Mác - Lênin, quân đội luôn mang bản chất của:","options":["Nhân dân lao động trong toàn bộ tiến trình lịch sử phát triển","Nhà nước pháp quyền trong từng giai đoạn phát triển cụ thể","Giai cấp thống trị đã tổ chức, nuôi dưỡng và sử dụng quân đội","Các lực lượng xã hội tham gia vào hoạt động chính trị chung"],"answer":"C"},
+  {"id":"q3","lesson":1,"label":"3","q":"Nguyên tắc lãnh đạo quân đội của Đảng được xác định là:","options":["Lãnh đạo về chính trị là chủ yếu, các mặt khác do Nhà nước đảm nhiệm","Lãnh đạo gián tiếp thông qua hệ thống chính quyền và pháp luật","Lãnh đạo tuyệt đối, trực tiếp về mọi mặt và không phân chia quyền lực","Lãnh đạo theo từng lĩnh vực phù hợp với chức năng từng tổ chức"],"answer":"C"},
+  {"id":"q4","lesson":1,"label":"4","q":"Điểm khác biệt cốt lõi giữa quân đội kiểu mới của giai cấp vô sản và quân đội tư sản là:","options":["Trình độ tổ chức chiến đấu và khả năng hiệp đồng tác chiến hiện đại","Bản chất giai cấp và sự lãnh đạo của đảng cộng sản đối với quân đội","Quy mô lực lượng và phạm vi hoạt động quân sự trong thực tiễn","Khả năng tham gia sản xuất và đóng góp phát triển kinh tế quốc gia"],"answer":"B"},
+  {"id":"q5","lesson":1,"label":"5","q":"Nguyên nhân trực tiếp làm quân đội mất phương hướng khi “phi chính trị hóa” là:","options":["Suy giảm năng lực huấn luyện và tổ chức lực lượng chiến đấu","Mất vai trò lãnh đạo của Đảng đối với toàn bộ hoạt động quân đội","Thiếu nguồn lực tài chính và trang bị kỹ thuật hiện đại","Giảm hiệu quả phối hợp giữa các lực lượng trong tác chiến"],"answer":"B"},
+  {"id":"q6","lesson":1,"label":"6","q":"Trong cơ chế lãnh đạo, mối quan hệ giữa cấp ủy và người chỉ huy được xác định là:","options":["Cấp ủy quyết định toàn bộ, người chỉ huy không có quyền chủ động","Người chỉ huy quyết định chính, cấp ủy chỉ thực hiện chức năng giám sát","Cấp ủy lãnh đạo toàn diện, người chỉ huy tổ chức thực hiện nhiệm vụ","Hai bên hoạt động độc lập theo chức năng riêng biệt được phân công"],"answer":"C"},
+  {"id":"q7","lesson":1,"label":"7","q":"Vai trò cơ bản của cơ chế lãnh đạo đối với công tác đảng, công tác chính trị là:","options":["Quy định nội dung huấn luyện quân sự và xây dựng kế hoạch chiến đấu","Tạo điều kiện để phát huy hiệu lực và vai trò của công tác chính trị","Thiết lập hệ thống pháp luật điều chỉnh hoạt động quân sự cụ thể","Đảm bảo phân bố nguồn lực vật chất cho các đơn vị trong toàn quân"],"answer":"B"},
+  {"id":"q8","lesson":1,"label":"8","q":"Chức năng chủ yếu của Quân ủy Trung ương là:","options":["Quản lý hành chính và điều hành các hoạt động thường xuyên của quân đội","Lãnh đạo mọi mặt công tác quân đội và tham mưu chiến lược cho Trung ương","Trực tiếp chỉ huy các lực lượng chiến đấu trong toàn quân","Kiểm tra công tác tài chính và hậu cần ở các đơn vị quân đội"],"answer":"B"},
+  {"id":"q9","lesson":1,"label":"9","q":"Đặc điểm nổi bật của hoạt động quân sự đòi hỏi sự lãnh đạo tập trung thống nhất là:","options":["Tính linh hoạt cao trong tổ chức sản xuất và phát triển kinh tế quốc phòng","Tính khẩn trương, quyết liệt, kỷ luật nghiêm và hiệp đồng chặt chẽ","Tính độc lập tương đối của từng đơn vị trong thực hiện nhiệm vụ","Tính tự chủ trong hoạch định chiến lược phát triển dài hạn"],"answer":"B"},
+  {"id":"q10","lesson":1,"label":"10","q":"Mục đích chủ yếu của nguyên tắc tập trung dân chủ trong quân đội là:","options":["Bảo đảm quyền tự do cá nhân trong sinh hoạt tổ chức đảng","Phân chia quyền lực hợp lý giữa các cấp lãnh đạo trong quân đội","Tạo điều kiện cho các đơn vị phát huy tính độc lập trong hoạt động","Thống nhất ý chí và hành động trong toàn bộ hệ thống tổ chức"],"answer":"D"},
+  {"id":"q11","lesson":1,"label":"11","q":"Vai trò trung tâm của chính ủy (chính trị viên) trong đơn vị là:","options":["Trực tiếp chỉ huy toàn bộ hoạt động chiến đấu và huấn luyện quân sự","Chủ trì về chính trị, định hướng mọi hoạt động theo đường lối của Đảng","Quản lý toàn bộ hậu cần, tài chính và trang bị kỹ thuật của đơn vị","Tổ chức các hoạt động đối ngoại và hợp tác quân sự quốc tế"],"answer":"B"},
+  {"id":"q12","lesson":1,"label":"12","q":"Trong tình huống khẩn cấp không thể họp cấp ủy, nguyên tắc xử lý là:","options":["Tạm dừng hoạt động để chờ chỉ thị từ cấp trên trực tiếp","Chính ủy quyết định để bảo đảm định hướng chính trị trong đơn vị","Người chỉ huy quyết định sau khi bàn bạc nhưng không cần chịu trách nhiệm","Người chỉ huy và chính ủy thống nhất, nếu không thì người chỉ huy quyết định"],"answer":"D"},
+  {"id":"q13","lesson":1,"label":"13","q":"Biểu hiện sai lệch trong thực hiện nguyên tắc tập trung dân chủ là:","options":["Thực hiện nguyên tắc thiểu số phục tùng đa số trong tổ chức đảng","Kết hợp giữa lãnh đạo tập thể và phân công cá nhân phụ trách","Tuyệt đối hóa vai trò cá nhân hoặc tập thể trong lãnh đạo","Tăng cường trách nhiệm của cấp ủy viên trong thực hiện nghị quyết"],"answer":"C"},
+  {"id":"q14","lesson":1,"label":"14","q":"Cơ chế lãnh đạo của Đảng giữ vai trò quyết định vì:","options":["Là hệ thống pháp luật điều chỉnh các quan hệ trong quân đội","Là phương thức tổ chức huấn luyện và xây dựng lực lượng chiến đấu","Là nhân tố cơ bản bảo đảm giữ vững bản chất giai cấp của quân đội","Là công cụ quản lý hành chính các hoạt động quân sự thường xuyên"],"answer":"C"},
+  {"id":"q15","lesson":1,"label":"15","q":"Sự lãnh đạo của Đảng về tư tưởng trong quân đội thể hiện ở:","options":["Ban hành các văn bản pháp luật điều chỉnh hoạt động quốc phòng","Xây dựng hệ thống tổ chức chỉ huy quân sự từ trung ương đến cơ sở","Phát triển khoa học quân sự và nghệ thuật quân sự hiện đại","Đưa hệ tư tưởng Mác - Lênin và tư tưởng Hồ Chí Minh vào quân đội"],"answer":"D"},
+  {"id":"q16","lesson":1,"label":"16","q":"Chức năng cơ bản của quân đội được xác định là:","options":["Quản lý hành chính và tổ chức phát triển kinh tế quốc phòng","Tham gia đối ngoại và xây dựng quan hệ hợp tác quốc tế","Chiến đấu, công tác và lao động sản xuất trong mọi điều kiện","Nghiên cứu khoa học và phát triển công nghệ quân sự hiện đại"],"answer":"C"},
+  {"id":"q17","lesson":1,"label":"17","q":"Hệ thống tổ chức đảng trong quân đội được thiết lập nhằm:","options":["Thay thế hoàn toàn vai trò của hệ thống chỉ huy quân sự","Bảo đảm Đảng nắm chắc quân đội trong mọi tình huống hoạt động","Tăng tính độc lập của các đơn vị trong quá trình thực hiện nhiệm vụ","Giảm bớt sự phụ thuộc vào các cơ quan lãnh đạo cấp trên"],"answer":"B"},
+  {"id":"q18","lesson":1,"label":"18","q":"Mối quan hệ giữa Đảng và Nhà nước trong lãnh đạo quân đội được xác định là:","options":["Nhà nước giữ vai trò lãnh đạo, Đảng chỉ định hướng chính trị chung","Hai hệ thống hoạt động độc lập không phụ thuộc lẫn nhau","Đảng lãnh đạo toàn diện, Nhà nước quản lý thống nhất bằng pháp luật","Nhà nước quyết định mọi vấn đề quân sự và tổ chức thực hiện"],"answer":"C"},
+  {"id":"q19","lesson":1,"label":"19","q":"Nguyên tắc “ở đâu có quân đội, ở đó có sự lãnh đạo của Đảng” thể hiện:","options":["Tính linh hoạt trong tổ chức chỉ huy và điều hành lực lượng","Tính toàn diện, liên tục và không có khoảng trống trong lãnh đạo","Tính độc lập tương đối của các đơn vị trong hệ thống quân đội","Tính tự chủ của các tổ chức quân sự trong mọi điều kiện"],"answer":"B"},
+  {"id":"q20","lesson":1,"label":"20","q":"Xây dựng quân đội vững mạnh về chính trị được coi là:","options":["Nội dung hỗ trợ cho quá trình hiện đại hóa trang bị kỹ thuật","Nhiệm vụ mang tính hình thức trong công tác xây dựng lực lượng","Yếu tố thay thế cho các hoạt động huấn luyện quân sự chuyên môn","Cơ sở nền tảng để nâng cao chất lượng tổng hợp và sức mạnh chiến đấu"],"answer":"D"},
+  {"id":"q21","lesson":1,"label":"21","q":"Quân đội là công cụ bạo lực vũ trang nhằm thực hiện ... của giai cấp cầm quyền.","options":["chiến lược phát triển kinh tế và hội nhập quốc tế lâu dài","đường lối chính trị bằng biện pháp bạo lực vũ trang","chính sách văn hóa và xã hội trong từng giai đoạn","nhiệm vụ xây dựng nhà nước pháp quyền hiện đại"],"answer":"B"},
+  {"id":"q22","lesson":1,"label":"22","q":"Sự lãnh đạo của Đảng đối với quân đội là ... mang tính quy luật khách quan.","options":["Một nguyên tắc cơ bản trong xây dựng quân đội","Một yêu cầu quan trọng trong xây dựng quân đội","Một nội dung cốt lõi trong xây dựng quân đội","Một nhân tố quyết định trong xây dựng quân đội"],"answer":"A"},
+  {"id":"q23","lesson":1,"label":"23","q":"Cơ chế lãnh đạo của Đảng được xác định trên cơ sở...","options":["hệ thống pháp luật quốc phòng và các quy định hành chính","yêu cầu phát triển kinh tế và hội nhập quốc tế sâu rộng","quan hệ hợp tác quốc tế và liên minh quân sự khu vực","cương lĩnh chính trị, Điều lệ Đảng và các quy định của Đảng"],"answer":"D"},
+  {"id":"q24","lesson":1,"label":"24","q":"Một cơ chế lãnh đạo không phù hợp sẽ ...","options":["làm tăng hiệu lực công tác chính trị trong toàn quân","nâng cao chất lượng tổ chức và huấn luyện quân sự","làm suy giảm vai trò lãnh đạo của các tổ chức đảng","tạo điều kiện thuận lợi cho phát triển lực lượng"],"answer":"C"},
+  {"id":"q25","lesson":1,"label":"25","q":"Đảng không... quyền lãnh đạo quân đội cho bất kỳ tổ chức nào khác.","options":["mở rộng và phát triển linh hoạt theo từng giai đoạn","chia sẻ hoặc phân chia cho các lực lượng chính trị khác","điều chỉnh và thay đổi tùy theo yêu cầu thực tiễn","tăng cường và củng cố trong mọi điều kiện"],"answer":"B"},
+  {"id":"q26","lesson":1,"label":"26","q":"Công tác đảng, công tác chính trị nhằm xây dựng quân đội về ...","options":["hậu cần và tài chính trong điều kiện chiến đấu","kỹ thuật và công nghệ quân sự hiện đại hóa","chính trị, tư tưởng và tổ chức vững mạnh toàn diện","chiến lược và nghệ thuật quân sự tiên tiến"],"answer":"C"},
+  {"id":"q27","lesson":1,"label":"27","q":"Quân ủy Trung ương đặt dưới sự lãnh đạo của:","options":["Chính phủ và Bộ Quốc phòng trong quản lý nhà nước","Quốc hội và Hội đồng quốc phòng và an ninh","Ban Chấp hành Trung ương, Bộ Chính trị, Ban Bí thư","Tổng cục Chính trị và Bộ Tổng tham mưu"],"answer":"C"},
+  {"id":"q28","lesson":1,"label":"28","q":"Nguyên tắc tập trung dân chủ yêu cầu cấp dưới ... cấp trên.","options":["kiểm tra và giám sát trong mọi hoạt động lãnh đạo","phục tùng và chấp hành nghiêm nghị quyết của cấp trên","thay thế và quyết định trong trường hợp cần thiết","độc lập và tự chủ trong mọi tình huống"],"answer":"B"},
+  {"id":"q29","lesson":1,"label":"29","q":"Chính ủy (chính trị viên) chịu trách nhiệm chủ yếu về ...","options":["tổ chức huấn luyện và chỉ huy tác chiến trực tiếp","quản lý hậu cần và bảo đảm tài chính quân đội","các vấn đề chính trị và công tác đảng trong đơn vị","phát triển quan hệ đối ngoại quốc phòng"],"answer":"C"},
+  {"id":"q30","lesson":1,"label":"30","q":"Cơ chế lãnh đạo đúng đắn góp phần bảo đảm quân đội ...","options":["phát triển kinh tế quốc phòng theo hướng hiện đại hóa","mở rộng hợp tác quốc tế và liên minh quân sự","nâng cao năng lực sản xuất và nghiên cứu khoa học","tuyệt đối trung thành với Đảng, Tổ quốc và nhân dân"],"answer":"D"},
+
+  // BÀI 2: CÂU 31 -> 60
+  {"id":"q31","lesson":2,"label":"31","q":"Vị trí của công tác đảng, công tác chính trị trong Quân đội nhân dân Việt Nam được xác định là:","options":["một lĩnh vực công tác mang tính hỗ trợ hoạt động quân sự, chủ yếu nhằm nâng cao đời sống tinh thần và củng cố đoàn kết nội bộ đơn vị","một bộ phận rất quan trọng trong hoạt động lãnh đạo của Đảng đối với quân đội, đồng thời là công tác xây dựng Đảng và xây dựng quân đội về chính trị","một nội dung quản lý hành chính trong quân đội, nhằm bảo đảm thực hiện các chế độ, quy định và kỷ luật quân đội","một hoạt động mang tính phong trào quần chúng, nhằm phát huy dân chủ và vai trò của các tổ chức trong quân đội"],"answer":"B"},
+  {"id":"q32","lesson":2,"label":"32","q":"Theo quan điểm của V.I. Lênin, yếu tố quyết định thắng lợi cuối cùng trong chiến tranh là:","options":["trình độ tổ chức, chỉ huy chiến dịch và khả năng phối hợp giữa các lực lượng vũ trang trên chiến trường","tiềm lực kinh tế và khả năng bảo đảm hậu cần kỹ thuật của quốc gia trong điều kiện chiến tranh kéo dài","tinh thần của quần chúng đang chiến đấu, lòng tin vào chính nghĩa và sự giác ngộ hy sinh vì lợi ích chung","ưu thế tuyệt đối về vũ khí trang bị hiện đại và khả năng cơ động chiến lược của quân đội"],"answer":"C"},
+  {"id":"q33","lesson":2,"label":"33","q":"Công tác đảng, công tác chính trị là một nguyên tắc trong xây dựng lực lượng vũ trang cách mạng vì:","options":["bảo đảm cho quân đội có trình độ kỹ thuật cao, làm chủ vũ khí trang bị hiện đại trong mọi điều kiện chiến đấu","xuất phát từ nguyên tắc quân đội phải do chính đảng cách mạng của giai cấp công nhân tổ chức, lãnh đạo và tuyệt đối phục tùng","nhằm nâng cao hiệu quả quản lý hành chính và điều hành các hoạt động quân sự trong đơn vị","tạo điều kiện thuận lợi để phát triển kinh tế quốc phòng và nâng cao đời sống vật chất cho bộ đội"],"answer":"B"},
+  {"id":"q34","lesson":2,"label":"34","q":"Vai trò quan trọng hàng đầu của công tác đảng, công tác chính trị trong quân đội là:","options":["trực tiếp nâng cao khả năng cơ động chiến lược và sức mạnh hỏa lực của các lực lượng vũ trang","bảo đảm công tác hậu cần kỹ thuật và điều kiện vật chất cho các hoạt động huấn luyện, chiến đấu","góp phần xây dựng quân đội vững mạnh về chính trị, làm cơ sở nâng cao chất lượng tổng hợp và sức chiến đấu","tổ chức các hoạt động văn hóa, tinh thần nhằm nâng cao đời sống cho cán bộ, chiến sĩ"],"answer":"C"},
+  {"id":"q35","lesson":2,"label":"35","q":"Một trong những nội dung cơ bản của công tác đảng, công tác chính trị là:","options":["xây dựng hệ thống chỉ huy quân sự hiện đại, đáp ứng yêu cầu tác chiến trong điều kiện chiến tranh công nghệ cao","giáo dục chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh, đường lối của Đảng cho mọi quân nhân và lực lượng liên quan","phát triển tiềm lực công nghiệp quốc phòng nhằm bảo đảm trang bị vũ khí hiện đại cho quân đội","nâng cao năng lực nghiên cứu khoa học kỹ thuật quân sự trong điều kiện hội nhập quốc tế"],"answer":"B"},
+  {"id":"q36","lesson":2,"label":"36","q":"Nguyên tắc “tính đảng, tính giai cấp, tính chiến đấu cao” yêu cầu:","options":["mọi hoạt động công tác đảng, công tác chính trị phải dựa trên cơ sở lý luận của chủ nghĩa Mác - Lênin và tư tưởng Hồ Chí Minh","ưu tiên phát triển kinh tế quân đội nhằm tạo nguồn lực vật chất cho nhiệm vụ quốc phòng lâu dài","tập trung nâng cao trình độ kỹ thuật quân sự để thích ứng với chiến tranh hiện đại","giảm bớt vai trò của công tác tư tưởng trong điều kiện quân đội chính quy, hiện đại"],"answer":"A"},
+  {"id":"q37","lesson":2,"label":"37","q":"Nguyên tắc “xuất phát từ đường lối, nhiệm vụ” đòi hỏi công tác đảng, công tác chính trị phải:","options":["triển khai đồng đều các nội dung mà không cần phân hóa theo đặc điểm từng đơn vị","tách rời với nhiệm vụ quân sự để bảo đảm tính độc lập của công tác chính trị","bám sát nhiệm vụ chính trị, quân sự, đi sâu vào từng lĩnh vực hoạt động và từng đối tượng cụ thể","chỉ thực hiện theo kế hoạch cấp trên mà không cần điều chỉnh phù hợp với thực tiễn"],"answer":"C"},
+  {"id":"q38","lesson":2,"label":"38","q":"Nguyên tắc kết hợp công tác tư tưởng, tổ chức và chính sách nhằm:","options":["phân tách rõ ràng từng loại công tác để tránh chồng chéo trong quá trình tổ chức thực hiện","phát huy sức mạnh tổng hợp của các mặt công tác, bảo đảm hỗ trợ lẫn nhau trong thực hiện nhiệm vụ","ưu tiên công tác tổ chức, giảm vai trò của công tác tư tưởng trong quân đội hiện đại","tập trung vào chính sách vật chất để tạo động lực cho cán bộ, chiến sĩ"],"answer":"B"},
+  {"id":"q39","lesson":2,"label":"39","q":"Nguyên tắc có tính quần chúng rộng rãi yêu cầu:","options":["chỉ do cán bộ chính trị đảm nhiệm, hạn chế sự tham gia của các lực lượng khác","huy động sức mạnh của mọi tổ chức, mọi lực lượng trong và ngoài quân đội tham gia","tập trung vào nội bộ đơn vị, không cần phối hợp với địa phương","chủ yếu dựa vào hệ thống chỉ huy quân sự để triển khai"],"answer":"B"},
+  {"id":"q40","lesson":2,"label":"40","q":"Nguyên tắc “có kế hoạch, chủ động, sáng tạo” đòi hỏi:","options":["tiến hành công tác theo khuôn mẫu thống nhất, hạn chế sự thay đổi để bảo đảm ổn định","chỉ tập trung vào nhiệm vụ trước mắt, không cần quan tâm đến yêu cầu lâu dài","hoạt động phải có kế hoạch cụ thể, đồng thời linh hoạt, sáng tạo, sát từng đối tượng và nhiệm vụ","phụ thuộc hoàn toàn vào chỉ đạo cấp trên, không cần chủ động trong thực hiện"],"answer":"C"},
+  {"id":"q41","lesson":2,"label":"41","q":"Một trong những nhiệm vụ cơ bản của công tác đảng, công tác chính trị là:","options":["xây dựng quân đội vững mạnh về chính trị, tư tưởng, tổ chức và đạo đức","phát triển công nghiệp quốc phòng hiện đại ngang tầm khu vực","nâng cao khả năng tác chiến công nghệ cao trong mọi điều kiện","mở rộng hợp tác quốc tế về quốc phòng"],"answer":"A"},
+  {"id":"q42","lesson":2,"label":"42","q":"Công tác đảng, công tác chính trị góp phần trực tiếp vào:","options":["việc hiện đại hóa vũ khí trang bị và nâng cao năng lực tác chiến kỹ thuật","việc bảo đảm hậu cần, kỹ thuật cho các hoạt động chiến đấu","việc quán triệt và tổ chức thực hiện thắng lợi đường lối, chính sách của Đảng","việc mở rộng quan hệ hợp tác quốc phòng với các nước"],"answer":"C"},
+  {"id":"q43","lesson":2,"label":"43","q":"Yếu tố chính trị, tinh thần trong quân đội có ý nghĩa:","options":["quyết định trực tiếp đến khả năng trang bị kỹ thuật của quân đội","là yếu tố cơ bản nâng cao chất lượng tổng hợp và sức chiến đấu","chỉ có vai trò hỗ trợ cho hoạt động quân sự thuần túy","không có ảnh hưởng trong chiến tranh hiện đại"],"answer":"B"},
+  {"id":"q44","lesson":2,"label":"44","q":"Công tác đảng, công tác chính trị góp phần xây dựng:","options":["Bản lĩnh chính trị và ý chí chiến đấu của quân đội","Tổ chức biên chế và lực lượng chiến đấu của quân đội","Đảng bộ Quân đội trong sạch, vững mạnh","Tiềm lực quốc phòng và khả năng sẵn sàng chiến đấu"],"answer":"C"},
+  {"id":"q45","lesson":2,"label":"45","q":"Một biểu hiện coi nhẹ công tác đảng, công tác chính trị sẽ dẫn đến:","options":["tăng cường hiệu quả hoạt động quân sự trong ngắn hạn","làm suy yếu sự lãnh đạo của Đảng đối với quân đội","nâng cao tính tự chủ của đơn vị trong hoạt động","tạo điều kiện phát triển kinh tế quân đội"],"answer":"B"},
+  {"id":"q46","lesson":2,"label":"46","q":"Công tác đảng, công tác chính trị có vai trò trong việc:","options":["xây dựng mối quan hệ đoàn kết giữa quân đội với nhân dân","phát triển công nghệ quân sự hiện đại","tăng cường sản xuất kinh tế trong quân đội","mở rộng hợp tác quốc phòng quốc tế"],"answer":"A"},
+  {"id":"q47","lesson":2,"label":"47","q":"Một nội dung quan trọng của công tác đảng, công tác chính trị là:","options":["xây dựng môi trường văn hóa trong quân đội","hiện đại hóa vũ khí trang bị quân sự","phát triển kinh tế quốc phòng","nâng cao năng lực công nghiệp"],"answer":"A"},
+  {"id":"q48","lesson":2,"label":"48","q":"Công tác đảng, công tác chính trị nhằm mục tiêu:","options":["nâng cao khả năng chiến đấu bằng công nghệ hiện đại","giữ vững bản chất giai cấp công nhân của quân đội","phát triển kinh tế trong quân đội","mở rộng quan hệ quốc tế"],"answer":"B"},
+  {"id":"q49","lesson":2,"label":"49","q":"Một trong những yêu cầu của công tác đảng, công tác chính trị là:","options":["tách rời với công tác quân sự để đảm bảo tính độc lập","gắn chặt với nhiệm vụ quân sự và các hoạt động khác","chỉ tập trung vào giáo dục chính trị tư tưởng","hạn chế đổi mới phương pháp"],"answer":"B"},
+  {"id":"q50","lesson":2,"label":"50","q":"Trong điều kiện hiện nay, tăng cường công tác đảng, công tác chính trị nhằm:","options":["Mở rộng quy mô quân đội","Nâng cao chất lượng chính trị","Phát triển kinh tế quân đội","Giảm vai trò công tác chính trị"],"answer":"B"},
+  {"id":"q51","lesson":2,"label":"51","q":"Công tác đảng, công tác chính trị nhằm giữ vững và tăng cường sự lãnh đạo ... của Đảng đối với Quân đội nhân dân Việt Nam.","options":["toàn diện, thống nhất, thường xuyên đối với mọi hoạt động quân sự và xây dựng lực lượng vũ trang","tuyệt đối, trực tiếp về mọi mặt trong toàn bộ quá trình xây dựng, chiến đấu và trưởng thành của quân đội","gián tiếp, thông qua hệ thống chính trị và các tổ chức xã hội trong từng giai đoạn phát triển của đất nước","linh hoạt, tùy theo tình hình nhiệm vụ và yêu cầu thực tiễn đặt ra trong từng thời kỳ cách mạng"],"answer":"B"},
+  {"id":"q52","lesson":2,"label":"52","q":"Theo quan điểm của Lênin, thắng lợi trong chiến tranh cuối cùng phụ thuộc vào ... của quần chúng trên chiến trường.","options":["trình độ tổ chức lực lượng, khả năng cơ động và sử dụng vũ khí trang bị hiện đại của các đơn vị chiến đấu","tinh thần chiến đấu, niềm tin vào chính nghĩa và ý thức sẵn sàng hy sinh vì lợi ích chung của toàn xã hội","sự chỉ đạo thống nhất của bộ chỉ huy và khả năng phối hợp giữa các lực lượng trong toàn bộ chiến dịch","điều kiện bảo đảm hậu cần, kỹ thuật và khả năng duy trì sức chiến đấu lâu dài của lực lượng vũ trang"],"answer":"B"},
+  {"id":"q53","lesson":2,"label":"53","q":"Công tác đảng, công tác chính trị là một ... trong xây dựng lực lượng vũ trang cách mạng của Đảng.","options":["nội dung bổ trợ quan trọng nhằm nâng cao hiệu quả tổ chức và quản lý trong các đơn vị quân đội hiện đại","nguyên tắc cơ bản có tính bắt buộc trong toàn bộ quá trình xây dựng và phát triển quân đội kiểu mới","biện pháp tình thế nhằm giải quyết các vấn đề tư tưởng nảy sinh trong quá trình thực hiện nhiệm vụ","hình thức hoạt động chính trị nhằm tăng cường sự hiểu biết giữa cán bộ và chiến sĩ trong đơn vị"],"answer":"B"},
+  {"id":"q54","lesson":2,"label":"54","q":"Một trong những nhiệm vụ cơ bản của công tác đảng, công tác chính trị là xây dựng quân đội vững mạnh về....","options":["chính trị, tư tưởng, tổ chức và đạo đức nhằm bảo đảm hoàn thành mọi nhiệm vụ được giao trong mọi tình huống","kỹ thuật, chiến thuật, hậu cần và tài chính để đáp ứng yêu cầu hiện đại hóa quân đội trong thời kỳ mới","quy mô lực lượng, trang bị vũ khí và khả năng cơ động trong chiến tranh công nghệ cao","hệ thống quản lý hành chính và cơ chế vận hành tổ chức trong các đơn vị cơ sở"],"answer":"A"},
+  {"id":"q55","lesson":2,"label":"55","q":"Nguyên tắc quan trọng nhất chi phối toàn bộ hoạt động công tác đảng, công tác chính trị là bảo đảm:","options":["tính khoa học, tính hệ thống và tính kế hoạch trong toàn bộ quá trình tổ chức thực hiện nhiệm vụ","tính đảng, tính giai cấp và tính chiến đấu cao trong mọi nội dung, hình thức và phương pháp tiến hành","sự phối hợp đồng bộ giữa các cơ quan chức năng trong hệ thống tổ chức của quân đội","việc thực hiện nghiêm túc các quy định hành chính và chế độ công tác trong từng đơn vị"],"answer":"B"},
+  {"id":"q56","lesson":2,"label":"56","q":"Công tác đảng, công tác chính trị phải xuất phát từ ... để bảo đảm tính đúng đắn và hiệu quả.","options":["yêu cầu xây dựng đời sống vật chất, tinh thần của bộ đội trong điều kiện kinh tế - xã hội phát triển","đường lối, nhiệm vụ cách mạng của Đảng và thực tiễn xây dựng, bảo vệ Tổ quốc trong từng thời kỳ","khả năng trang bị kỹ thuật và điều kiện hậu cần của quân đội trong quá trình thực hiện nhiệm vụ","kinh nghiệm thực tiễn của các đơn vị đi trước trong tổ chức và triển khai nhiệm vụ quân sự"],"answer":"B"},
+  {"id":"q57","lesson":2,"label":"57","q":"Việc kết hợp công tác tư tưởng với công tác tổ chức và công tác chính sách nhằm ...","options":["bảo đảm thực hiện đầy đủ các chế độ, tiêu chuẩn đối với quân nhân trong từng giai đoạn phát triển","phát huy sức mạnh tổng hợp, nâng cao hiệu lực và hiệu quả của công tác đảng, công tác chính trị","tăng cường quản lý hành chính và duy trì nền nếp chính quy trong toàn quân","hoàn thiện cơ chế tổ chức và hệ thống chính sách đối với lực lượng vũ trang"],"answer":"B"},
+  {"id":"q58","lesson":2,"label":"58","q":"Nguyên tắc có tính quần chúng rộng rãi yêu cầu công tác đảng, công tác chính trị phải ...","options":["tập trung vào đội ngũ cán bộ chủ trì để bảo đảm sự thống nhất trong lãnh đạo và chỉ huy","huy động sự tham gia của mọi tổ chức, mọi cá nhân trong và ngoài quân đội vào quá trình thực hiện nhiệm vụ","giao toàn bộ trách nhiệm cho cơ quan chính trị nhằm bảo đảm tính chuyên môn hóa cao","chỉ triển khai trong phạm vi nội bộ đơn vị để giữ bí mật và an toàn thông tin"],"answer":"B"},
+  {"id":"q59","lesson":2,"label":"59","q":"Công tác đảng, công tác chính trị phải bảo đảm tính kế hoạch, đồng thời ... trong tổ chức thực hiện.","options":["linh hoạt, chủ động, sáng tạo, bám sát thực tiễn và yêu cầu nhiệm vụ cụ thể của từng đơn vị","tuân thủ tuyệt đối các quy định đã đề ra mà không cần điều chỉnh theo tình hình thực tế","thực hiện theo kinh nghiệm cá nhân của cán bộ lãnh đạo trong từng hoàn cảnh cụ thể","tập trung vào các nhiệm vụ trước mắt mà không cần tính đến mục tiêu lâu dài"],"answer":"A"},
+  {"id":"q60","lesson":2,"label":"60","q":"Hiệu lực công tác đảng, công tác chính trị phụ thuộc trực tiếp vào việc...","options":["nâng cao trình độ kỹ thuật, chiến thuật của các lực lượng trong toàn quân","phát huy sức mạnh tổng hợp của các tổ chức và mọi lực lượng tham gia trong và ngoài quân đội","tăng cường đầu tư trang bị vũ khí hiện đại cho các đơn vị chiến đấu","hoàn thiện hệ thống quản lý hành chính trong các cơ quan quân đội"],"answer":"B"},
+
+  // BÀI 3: CÂU 62 -> 80 (FILE KHÔNG CÓ CÂU 61)
+  {"id":"q62","lesson":3,"label":"62","q":"Mục tiêu cốt lõi của công tác tư tưởng ở đại đội là:","options":["Tăng cường quản lý hành chính và duy trì kỷ luật quân đội một cách tuyệt đối","Làm cho hệ tư tưởng của Đảng giữ vai trò chủ đạo trong đời sống chính trị, tinh thần của cán bộ, chiến sĩ","Đảm bảo đời sống vật chất cho quân nhân đạt mức cao nhất","Phát triển các hoạt động văn hóa giải trí nhằm nâng cao đời sống tinh thần"],"answer":"B"},
+  {"id":"q63","lesson":3,"label":"63","q":"Công tác tư tưởng ở đại đội đặt dưới sự lãnh đạo trực tiếp của:","options":["Bộ Quốc phòng và các cơ quan chức năng cấp chiến lược","Chi bộ, sự chỉ đạo của cơ quan chính trị và chính trị viên các cấp","Chính quyền địa phương và các tổ chức quần chúng","Chỉ huy trưởng đơn vị cấp trên trực tiếp"],"answer":"B"},
+  {"id":"q64","lesson":3,"label":"64","q":"Trong công tác tư tưởng vai trò quyết định sức mạnh chiến đấu của đại đội được xác định là yếu tố:","options":["Trang bị kỹ thuật hiện đại và công nghệ tiên tiến","Hậu cần và tài chính dồi dào","Chính trị, tinh thần của cán bộ, chiến sĩ","Số lượng quân số đông đảo"],"answer":"C"},
+  {"id":"q65","lesson":3,"label":"65","q":"Theo quan điểm của chủ nghĩa Mác - Lênin, vai trò của tư tưởng tiên tiến thể hiện ở:","options":["Chỉ có ý nghĩa lý luận, không tác động đến thực tiễn","Có thể trở thành lực lượng vật chất khi thâm nhập vào quần chúng","Chỉ có giá trị trong lĩnh vực giáo dục và đào tạo","Không ảnh hưởng đến sự phát triển của xã hội"],"answer":"B"},
+  {"id":"q66","lesson":3,"label":"66","q":"Một trong những nhiệm vụ quan trọng của công tác tư tưởng là:","options":["Quản lý tài chính nội bộ đơn vị","Giáo dục chủ nghĩa Mác - Lênin và tư tưởng Hồ Chí Minh cho cán bộ, chiến sĩ","Tổ chức sản xuất kinh tế trong quân đội","Xây dựng hệ thống hậu cần kỹ thuật"],"answer":"B"},
+  {"id":"q67","lesson":3,"label":"67","q":"Công tác tư tưởng góp phần xây dựng quân đội vững mạnh chủ yếu về:","options":["Hậu cần, tài chính và bảo đảm đời sống bộ đội.","Kỹ thuật, công nghệ và năng lực khai thác trang bị.","Chính trị, tư tưởng, tổ chức và phẩm chất đạo đức.","Đối ngoại, hợp tác quốc tế và quan hệ quân sự."],"answer":"C"},
+  {"id":"q68","lesson":3,"label":"68","q":"Đối tượng chủ yếu của công tác tư tưởng ở đại đội là:","options":["Cán bộ cấp cao trong quân đội","Nhân dân địa phương","Cán bộ, chiến sĩ chủ yếu ở độ tuổi thanh niên","Các tổ chức chính trị - xã hội ngoài quân đội"],"answer":"C"},
+  {"id":"q69","lesson":3,"label":"69","q":"Đặc điểm nổi bật của công tác tư tưởng ở đại đội là:","options":["Tiến hành theo định kỳ, không cần thường xuyên","Mang tính đơn lẻ, không liên hệ với các hoạt động khác","Đa dạng, toàn diện, thường xuyên, liên tục và trực tiếp","Chỉ tập trung vào giáo dục lý luận chính trị"],"answer":"C"},
+  {"id":"q70","lesson":3,"label":"70","q":"Một trong những hình thức cơ bản của công tác tư tưởng là:","options":["Công tác hậu cần kỹ thuật","Công tác giáo dục chính trị","Công tác tài chính quân đội","Công tác đối ngoại quốc phòng"],"answer":"B"},
+  {"id":"q71","lesson":3,"label":"71","q":"Công tác tư tưởng ở đại đội nhằm làm cho ... giữ vai trò chủ đạo trong đời sống chính trị, tinh thần của cán bộ, chiến sĩ.","options":["Hệ thống quản lý và phương thức điều hành trong đơn vị.","Hệ tư tưởng của Đảng cùng các giá trị cách mạng cốt lõi.","Hoạt động văn hóa và phong trào quần chúng trong đơn vị.","Các quan hệ xã hội và nhu cầu tinh thần của quân nhân."],"answer":"B"},
+  {"id":"q72","lesson":3,"label":"72","q":"Công tác tư tưởng góp phần hình thành ... của người quân nhân cách mạng.","options":["năng lực sản xuất kinh tế và quản lý tài chính cá nhân","nhân cách, phẩm chất chính trị và tinh thần chiến đấu","kỹ năng giao tiếp xã hội và hội nhập quốc tế","năng lực cạnh tranh trong môi trường kinh tế"],"answer":"B"},
+  {"id":"q73","lesson":3,"label":"73","q":"Một trong những nhiệm vụ trọng tâm của công tác tư tưởng là giáo dục... cho cán bộ, chiến sĩ.","options":["kỹ năng kinh doanh và hội nhập quốc tế","chủ nghĩa Mác - Lênin và tư tưởng Hồ Chí Minh","công nghệ thông tin hiện đại, cách mạng, khoa học","quản trị doanh nghiệp"],"answer":"B"},
+  {"id":"q74","lesson":3,"label":"74","q":"Công tác tư tưởng phải gắn với ... trong thực tiễn.","options":["hoạt động sản xuất kinh tế","quản lý tài chính","hoạt động đối ngoại","giáo dục và rèn luyện cán bộ, chiến sĩ"],"answer":"D"},
+  {"id":"q75","lesson":3,"label":"75","q":"Công tác tư tưởng cần ... nhằm nâng cao hiệu quả giáo dục.","options":["giảm nội dung lý luận","đổi mới nội dung, hình thức, phương pháp","tăng tính hành chính","hạn chế tuyên truyền"],"answer":"B"},
+  {"id":"q76","lesson":3,"label":"76","q":"Công tác tư tưởng phải hướng vào xây dựng... vững vàng.","options":["năng lực kinh tế","bản lĩnh chính trị","kỹ năng thương mại","năng lực quản trị"],"answer":"B"},
+  {"id":"q77","lesson":3,"label":"77","q":"Một yêu cầu quan trọng của công tác tư tưởng là đấu tranh chống ... trong nội bộ.","options":["cạnh tranh kinh tế","“tự diễn biến”, “tự chuyển hóa”","hoạt động thương mại","hội nhập quốc tế"],"answer":"B"},
+  {"id":"q78","lesson":3,"label":"78","q":"Công tác tư tưởng phải bảo đảm... trong đơn vị.","options":["Sự ổn định về tổ chức và nền nếp hoạt động của đơn vị.","Sự thống nhất về nhận thức và hành động của cán bộ, chiến sĩ.","Sự đồng bộ về tổ chức và phương pháp tiến hành công tác.","Sự thống nhất về lãnh đạo và phân công nhiệm vụ trong đơn vị."],"answer":"B"},
+  {"id":"q79","lesson":3,"label":"79","q":"Công tác tư tưởng góp phần xây dựng ... trong đại đội.","options":["Hệ thống tổ chức và cơ chế quản lý hoạt động của đơn vị","Nền nếp chính quy và môi trường văn hóa trong đơn vị","Tổ chức vững mạnh toàn diện và có sức chiến đấu cao.","Đội ngũ cán bộ và lực lượng nòng cốt của đơn vị."],"answer":"C"},
+  {"id":"q80","lesson":3,"label":"80","q":"Công tác tư tưởng phải thường xuyên... tình hình tư tưởng.","options":["Theo dõi, đánh giá và xử lý những biểu hiện bất thường","Nắm vững, phân tích và dự báo những diễn biến tư tưởng.","Kiểm tra, tổng hợp và báo cáo những vấn đề phát sinh.","Phát hiện, phân loại và giải quyết những biểu hiện tiêu cực."],"answer":"B"},
+
+  // BÀI 4: CÂU 81 -> 108
+  {"id":"q81","lesson":4,"label":"81","q":"Chi bộ được xác định là gì trong hệ thống tổ chức của Đảng?","options":["Tổ chức lãnh đạo cấp cao của Đảng","Tổ chức quần chúng của Đảng","Tổ chức tế bào cơ bản của Đảng","Cơ quan kiểm tra của Đảng"],"answer":"C"},
+  {"id":"q82","lesson":4,"label":"82","q":"Vai trò quan trọng nhất của chi bộ trong quân đội là gì?","options":["Tổ chức và điều hành các hoạt động chuyên môn của đơn vị","Quản lý và bảo đảm các nguồn lực phục vụ nhiệm vụ chung.","Hạt nhân chính trị lãnh đạo toàn diện các hoạt động của đơn vị.","Phối hợp và hướng dẫn các lực lượng thực hiện nhiệm vụ được giao."],"answer":"C"},
+  {"id":"q83","lesson":4,"label":"83","q":"Theo tư tưởng Hồ Chí Minh, yếu tố quyết định sự vững mạnh của Đảng là gì?","options":["Bộ Chính trị mạnh","Đảng viên đông","Chi bộ tốt","Quần chúng ủng hộ"],"answer":"C"},
+  {"id":"q84","lesson":4,"label":"84","q":"Điều kiện tối thiểu để thành lập chi bộ là gì?","options":["Có 5 đảng viên chính thức","Có 2 đảng viên chính thức","Có 4 đảng viên dự bị","Có 3 đảng viên chính thức"],"answer":"D"},
+  {"id":"q85","lesson":4,"label":"85","q":"Chi bộ có từ 9 đảng viên chính thức trở lên thì phải:","options":["Bầu chi ủy","Chỉ cần bí thư","Thành lập đảng bộ","Không cần tổ chức lãnh đạo"],"answer":"A"},
+  {"id":"q86","lesson":4,"label":"86","q":"Cơ quan lãnh đạo cao nhất của chi bộ là:","options":["Chi ủy","Đại hội chi bộ","Bí thư chi bộ","Đảng ủy cấp trên"],"answer":"B"},
+  {"id":"q87","lesson":4,"label":"87","q":"Chức năng cơ bản của chi bộ là:","options":["Lãnh đạo quản lý tài sản, vũ khí trang bị","Lãnh đạo toàn diện đơn vị","Lãnh đạo tổ chức sản xuất","Lãnh đạo, điều hành hành chính"],"answer":"B"},
+  {"id":"q88","lesson":4,"label":"88","q":"Nhiệm vụ nào không thuộc nhiệm vụ của chi bộ?","options":["Giáo dục, quản lý đảng viên","Phát triển đảng viên","Ban hành pháp luật","Kiểm tra, giám sát"],"answer":"C"},
+  {"id":"q89","lesson":4,"label":"89","q":"Bước đầu tiên trong quy trình lãnh đạo của chi bộ là gì?","options":["Kiểm tra kết quả","Tổ chức thực hiện","Xây dựng nghị quyết","Tổng kết đánh giá"],"answer":"C"},
+  {"id":"q90","lesson":4,"label":"90","q":"Yêu cầu quan trọng nhất khi xây dựng nghị quyết là gì?","options":["Dài và đầy đủ","Mang tính lý luận","Phù hợp thực tiễn, khả thi","Do cấp trên quyết định"],"answer":"C"},
+  {"id":"q91","lesson":4,"label":"91","q":"Trong tổ chức thực hiện nghị quyết, ai giữ vai trò trung tâm?","options":["Đảng viên mới","Bí thư chi bộ","Quần chúng","Cấp trên trực tiếp"],"answer":"B"},
+  {"id":"q92","lesson":4,"label":"92","q":"Ý nghĩa của việc đánh giá kết quả thực hiện nghị quyết là gì?","options":["Xác định mức độ hoàn thành và làm cơ sở báo cáo cấp trên.","Rút kinh nghiệm thực tiễn và đề ra những biện pháp lãnh đạo mới.","Tổng hợp kết quả thực hiện và hoàn thiện hồ sơ theo quy định.","Đánh giá trách nhiệm cá nhân và xác định nhiệm vụ tiếp theo."],"answer":"B"},
+  {"id":"q93","lesson":4,"label":"93","q":"Trong xây dựng đội ngũ đảng viên, yếu tố nào là quan trọng nhất?","options":["Số lượng","Cơ cấu","Chất lượng","Độ tuổi"],"answer":"C"},
+  {"id":"q94","lesson":4,"label":"94","q":"Chi ủy có vai trò gì trong chi bộ?","options":["Cơ quan tham mưu, giúp việc cho cấp ủy trong quá trình lãnh đạo.","Cơ quan lãnh đạo chi bộ giữa hai kỳ đại hội theo quy định.","Cơ quan kiểm tra, giám sát việc thực hiện nghị quyết của chi bộ.","Cơ quan tổ chức, điều hành các hoạt động thường xuyên của chi bộ."],"answer":"B"},
+  {"id":"q95","lesson":4,"label":"95","q":"Nguyên tắc tổ chức cơ bản của Đảng là:","options":["Tập trung quan liêu","Dân chủ tự do","Tập trung dân chủ","Phân quyền"],"answer":"C"},
+  {"id":"q96","lesson":4,"label":"96","q":"Sinh hoạt chi bộ có mấy hình thức cơ bản?","options":["2","3","4","5"],"answer":"B"},
+  {"id":"q97","lesson":4,"label":"97","q":"Một nội dung quan trọng của sinh hoạt chi bộ là:","options":["Giải trí","Tự phê bình và phê bình","Thi đua khen thưởng","Giao lưu văn hóa"],"answer":"B"},
+  {"id":"q98","lesson":4,"label":"98","q":"Công tác kiểm tra, giám sát nhằm mục đích gì?","options":["Theo dõi kết quả và đánh giá mức độ hoàn thành nhiệm vụ được giao.","Phát hiện hạn chế và xác định trách nhiệm trong quá trình thực hiện.","Bảo đảm nghị quyết được chấp hành nghiêm và thực hiện đúng yêu cầu.","Tổng hợp tình hình và làm cơ sở đánh giá chất lượng tổ chức đảng."],"answer":"C"},
+  {"id":"q99","lesson":4,"label":"99","q":"Mối quan hệ đúng giữa chi bộ và đơn vị là:","options":["không thể tách rời","Đối lập","Gắn bó chặt chẽ","Không liên quan"],"answer":"C"},
+  {"id":"q100","lesson":4,"label":"100","q":"Yếu tố quyết định trực tiếp chất lượng chi bộ là:","options":["Trang bị kỹ thuật","Đội ngũ đảng viên","Điều kiện kinh tế","Địa bàn hoạt động"],"answer":"B"},
+  {"id":"q101","lesson":4,"label":"101","q":"Chi bộ là tổ chức ... lập thành nền tảng của Đảng.","options":["chính trị","tế bào cơ bản","lãnh đạo","tổ chức"],"answer":"B"},
+  {"id":"q102","lesson":4,"label":"102","q":"Chi bộ là ... chính trị ở cơ sở.","options":["lực lượng","trung tâm","hạt nhân","tổ chức"],"answer":"C"},
+  {"id":"q103","lesson":4,"label":"103","q":"Chi bộ lãnh đạo thực hiện ... của đơn vị.","options":["kế hoạch sản xuất","nhiệm vụ chính trị","hoạt động kinh tế","nhiệm vụ hành chính"],"answer":"B"},
+  {"id":"q104","lesson":4,"label":"104","q":"Chi bộ có từ ... đảng viên chính thức trở lên thì bầu chi ủy.","options":["7","8","9","10"],"answer":"C"},
+  {"id":"q105","lesson":4,"label":"105","q":"Giữa hai kỳ đại hội, cơ quan lãnh đạo của chi bộ là ...","options":["bí thư","chi ủy","cấp trên","tổ đảng"],"answer":"B"},
+  {"id":"q106","lesson":4,"label":"106","q":"Nguyên tắc tổ chức cơ bản của Đảng là ...","options":["Bảo đảm sự lãnh đạo thống nhất và phát huy trách nhiệm tập thể.","Thực hiện chế độ tập thể lãnh đạo, cá nhân phụ trách trong tổ chức.","Thực hiện nguyên tắc tập trung dân chủ trong tổ chức và hoạt động.","Kết hợp sự lãnh đạo thống nhất với quyền chủ động của cơ sở."],"answer":"C"},
+  {"id":"q107","lesson":4,"label":"107","q":"Sinh hoạt chi bộ gồm: lãnh đạo, học tập và ...","options":["kiểm tra","tổng kết","tự phê bình và phê bình","đánh giá"],"answer":"C"},
+  {"id":"q108","lesson":4,"label":"108","q":"Chi bộ phải kiểm tra, giám sát và thi hành ... đối với đảng viên.","options":["khen thưởng","pháp luật","kỷ luật","nội quy"],"answer":"C"},
+
+  // BÀI 5: CÂU 109 -> 160
+  {"id":"q109","lesson":5,"label":"109","q":"Công đoàn trong Quân đội nhân dân Việt Nam thuộc loại hình nào?","options":["Công đoàn địa phương","Công đoàn ngành trung ương","Công đoàn cơ sở độc lập","Công đoàn doanh nghiệp"],"answer":"B"},
+  {"id":"q110","lesson":5,"label":"110","q":"Công đoàn trong quân đội thực hiện bao nhiêu chức năng cơ bản?","options":["2","3","4","5"],"answer":"B"},
+  {"id":"q111","lesson":5,"label":"111","q":"Nội dung nào không phải chức năng của công đoàn trong quân đội?","options":["Đại diện bảo vệ quyền lợi người lao động","Tham gia quản lý","Lãnh đạo trực tiếp đơn vị","Tuyên truyền, giáo dục"],"answer":"C"},
+  {"id":"q112","lesson":5,"label":"112","q":"Công đoàn trong quân đội được tổ chức ở cấp nào?","options":["Tất cả các cấp","Cấp trung ương","Chỉ cấp trên cơ sở","Chỉ cấp cơ sở"],"answer":"A"},
+  {"id":"q113","lesson":5,"label":"113","q":"Công đoàn cơ sở đặt dưới sự lãnh đạo trực tiếp của:","options":["Chính phủ","Quốc hội","Cấp ủy đảng cơ sở","Bộ Nội vụ"],"answer":"C"},
+  {"id":"q114","lesson":5,"label":"114","q":"Ai quyết định thành lập công đoàn cơ sở trong quân đội?","options":["Bộ Quốc phòng","Tổng cục Chính trị","Đảng ủy cơ sở","Ban Công đoàn Việt Nam"],"answer":"B"},
+  {"id":"q115","lesson":5,"label":"115","q":"Công đoàn cơ sở có thể tổ chức theo bao nhiêu loại hình?","options":["2","3","4","5"],"answer":"B"},
+  {"id":"q116","lesson":5,"label":"116","q":"Nhiệm vụ nào là trọng tâm của công đoàn trong quân đội?","options":["Huấn luyện quân sự","Bảo vệ quyền lợi người lao động","Chiến đấu trực tiếp","Quản lý vũ khí"],"answer":"B"},
+  {"id":"q117","lesson":5,"label":"117","q":"Công đoàn phối hợp với ai để quản lý đơn vị, xí nghiệp?","options":["Người chỉ huy","Bộ trưởng","Quốc hội","Chủ tịch nước"],"answer":"A"},
+  {"id":"q118","lesson":5,"label":"118","q":"Hội phụ nữ trong quân đội được thành lập khi có tối thiểu bao nhiêu hội viên?","options":["2","3","5","10"],"answer":"B"},
+  {"id":"q119","lesson":5,"label":"119","q":"Hội phụ nữ trong quân đội được tổ chức ở cấp nào?","options":["Trung ương","Quân khu","Quân đoàn","Đơn vị cơ sở"],"answer":"D"},
+  {"id":"q120","lesson":5,"label":"120","q":"Hội phụ nữ có thể tổ chức tối đa bao nhiêu cấp?","options":["2","3","4","5"],"answer":"A"},
+  {"id":"q121","lesson":5,"label":"121","q":"Chức năng chính của hội phụ nữ là gì?","options":["Huấn luyện chiến đấu","Đại diện, bảo vệ quyền lợi phụ nữ","Quản lý tài chính","Điều hành quân sự"],"answer":"B"},
+  {"id":"q122","lesson":5,"label":"122","q":"Hội phụ nữ sinh hoạt định kỳ ít nhất:","options":["1 tháng/lần","2 tháng/lần","3 tháng/lần","6 tháng/lần"],"answer":"C"},
+  {"id":"q123","lesson":5,"label":"123","q":"Hội phụ nữ có quan hệ với cấp ủy cùng cấp là:","options":["Phối hợp","Lãnh đạo - phục tùng","Bình đẳng","Độc lập"],"answer":"B"},
+  {"id":"q124","lesson":5,"label":"124","q":"Một trong những phẩm chất của phụ nữ Việt Nam là:","options":["Năng động, sáng tạo, chủ động trong công việc.","Anh hùng, bất khuất, trung hậu, đảm đang.","Kỷ luật, chính xác, trách nhiệm trong công tác.","Tận tụy, cần cù, chủ động trong lao động."],"answer":"B"},
+  {"id":"q125","lesson":5,"label":"125","q":"Công tác phụ nữ trong quân đội thuộc:","options":["Công tác quân sự trong xây dựng đơn vị.","Công tác kinh tế trong hoạt động quân đội","Công tác vận động quần chúng trong quân đội.","Công tác tổ chức trong xây dựng lực lượng"],"answer":"C"},
+  {"id":"q126","lesson":5,"label":"126","q":"Hội phụ nữ trong quân đội được thành lập khi có từ ... hội viên trở lên.","options":["2","5","4","3"],"answer":"D"},
+  {"id":"q127","lesson":5,"label":"127","q":"Hội phụ nữ trong quân đội có thể tổ chức tối đa ... cấp.","options":["3","2","4","1"],"answer":"B"},
+  {"id":"q128","lesson":5,"label":"128","q":"Hội phụ nữ sinh hoạt định kỳ ít nhất ... tháng một lần.","options":["1","3","2","6"],"answer":"B"},
+  {"id":"q129","lesson":5,"label":"129","q":"Phụ nữ Việt Nam có phẩm chất truyền thống: “Anh hùng, bất khuất, ..... đảm đang”.","options":["trung hậu","sáng tạo","kiên cường","nhân ái"],"answer":"A"},
+  {"id":"q130","lesson":5,"label":"130","q":"Hội phụ nữ có quan hệ với các tổ chức khác trong đơn vị là quan hệ ..... công tác.","options":["lãnh đạo","phục tùng","chỉ đạo","phối hợp"],"answer":"D"},
+  {"id":"q131","lesson":5,"label":"131","q":"Chi đoàn được xác định là tổ chức nào trong hệ thống Đoàn TNCS Hồ Chí Minh?","options":["Tổ chức lãnh đạo cấp trên trực tiếp","Tổ chức tế bào của Đoàn","Tổ chức hành chính cơ sở","Tổ chức quần chúng mở rộng"],"answer":"B"},
+  {"id":"q132","lesson":5,"label":"132","q":"Vai trò trực tiếp của chi đoàn đối với đoàn viên, thanh niên là:","options":["Quản lý hành chính cá nhân","Tổ chức huấn luyện quân sự","Tạo môi trường rèn luyện, phấn đấu","Kiểm tra kỷ luật định kỳ"],"answer":"C"},
+  {"id":"q133","lesson":5,"label":"133","q":"Chi đoàn trong quân đội chủ yếu được tổ chức ở cấp nào?","options":["Trung đoàn và tương đương","Tiểu đoàn và tương đương","Đại đội và tương đương","Sư đoàn và tương đương"],"answer":"C"},
+  {"id":"q134","lesson":5,"label":"134","q":"Điều kiện thành lập chi đoàn trong quân đội là:","options":["Có từ 2 đoàn viên trở lên","Có từ 5 đoàn viên trở lên","Có từ 10 đoàn viên trở lên","Có từ 3 đoàn viên trở lên"],"answer":"D"},
+  {"id":"q135","lesson":5,"label":"135","q":"Cơ quan lãnh đạo cao nhất của chi đoàn là:","options":["Ban chấp hành đoàn cấp trên","Đại hội chi đoàn","Chi bộ đơn vị","Hội nghị đoàn viên"],"answer":"B"},
+  {"id":"q136","lesson":5,"label":"136","q":"Ban chấp hành chi đoàn họp định kỳ:","options":["3 tháng một lần","6 tháng một lần","Ít nhất mỗi tháng một lần","Theo yêu cầu cấp trên"],"answer":"C"},
+  {"id":"q137","lesson":5,"label":"137","q":"Nội dung giáo dục đoàn viên cần tập trung trước hết vào:","options":["Kỹ năng giao tiếp xã hội","Chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh","Văn hóa truyền thống địa phương","Hoạt động giải trí tập thể"],"answer":"B"},
+  {"id":"q138","lesson":5,"label":"138","q":"Yêu cầu cơ bản của công tác giáo dục đoàn viên là:","options":["Hình thức phong phú, nội dung đơn giản","Toàn diện, thiết thực, cụ thể","Tập trung vào lý thuyết","Chủ yếu mang tính tự phát"],"answer":"B"},
+  {"id":"q139","lesson":5,"label":"139","q":"Phong trào hành động cách mạng của thanh niên phải:","options":["Tách rời nhiệm vụ đơn vị","Phụ thuộc hoàn toàn cấp trên","Bám sát nhiệm vụ chính trị trung tâm","Chỉ tập trung hoạt động xã hội"],"answer":"C"},
+  {"id":"q140","lesson":5,"label":"140","q":"Nội dung xung kích của thanh niên thể hiện rõ nhất ở:","options":["Tham gia văn nghệ","Thực hiện việc dễ","Tránh nhiệm vụ khó","Xung kích vào việc khó, việc mới"],"answer":"D"},
+  {"id":"q141","lesson":5,"label":"141","q":"Trong quy trình tổ chức phong trào đoàn, bước đầu tiên là:","options":["Tổng kết","Phát động phong trào","Làm công tác chuẩn bị","Đánh giá kết quả"],"answer":"C"},
+  {"id":"q142","lesson":5,"label":"142","q":"Một yêu cầu quan trọng khi tổ chức lễ ra quân của đoàn thanh niên là:","options":["Kéo dài thời gian","Nghi thức phức tạp","Ngắn gọn, tạo khí thế","Tổ chức riêng lẻ"],"answer":"C"},
+  {"id":"q143","lesson":5,"label":"143","q":"Đội ngũ đoàn viên giữ vai trò gì trong tổ chức đoàn?","options":["Lực lượng nòng cốt tham gia các hoạt động phong trào.","Nhân tố quyết định sức mạnh và chất lượng tổ chức đoàn.","Thành phần chủ yếu thực hiện các nhiệm vụ được phân công","Lực lượng tích cực tham gia xây dựng tổ chức đoàn."],"answer":"B"},
+  {"id":"q144","lesson":5,"label":"144","q":"Nguyên tắc phát triển đoàn viên là:","options":["Tăng nhanh số lượng","Mở rộng tối đa","Lấy số lượng làm chính","Coi trọng chất lượng"],"answer":"D"},
+  {"id":"q145","lesson":5,"label":"145","q":"Ban chấp hành chi đoàn có vai trò:","options":["Tổ chức điều hành các hoạt động đoàn trong nhiệm kỳ.","Cơ quan lãnh đạo chi đoàn giữa hai kỳ đại hội.","Cơ quan kiểm tra việc thực hiện nghị quyết chi đoàn.","Bộ phận phụ trách công tác đoàn viên trong đơn vị."],"answer":"B"},
+  {"id":"q146","lesson":5,"label":"146","q":"Sinh hoạt chi đoàn có mấy hình thức cơ bản?","options":["2","3","4","5"],"answer":"B"},
+  {"id":"q147","lesson":5,"label":"147","q":"Một yêu cầu quan trọng của sinh hoạt chi đoàn là:","options":["Bảo đảm nội dung thiết thực, hình thức phù hợp với đoàn viên.","Phát huy dân chủ, trách nhiệm và tinh thần tham gia của đoàn viên.","Bảo đảm chương trình thống nhất, nội dung phù hợp với nhiệm vụ.","Phát huy vai trò tập thể, tăng cường tính chủ động của đoàn viên."],"answer":"A"},
+  {"id":"q148","lesson":5,"label":"148","q":"Vai trò của chi đoàn trong xây dựng Đảng thể hiện ở:","options":["Tích cực tham gia các hoạt động giáo dục chính trị trong đơn vị.","Chủ động tổ chức các phong trào hành động cách mạng của đoàn.","Giới thiệu đoàn viên ưu tú để tổ chức đảng xem xét, bồi dưỡng.","Tham gia xây dựng đội ngũ cán bộ và lực lượng nòng cốt của đơn vị."],"answer":"C"},
+  {"id":"q149","lesson":5,"label":"149","q":"Quan hệ của chi đoàn với địa phương nhằm:","options":["Giảm nhiệm vụ đơn vị","Tăng giao lưu hình thức","Củng cố đoàn kết quân dân","Thay thế chính quyền địa phương"],"answer":"C"},
+  {"id":"q150","lesson":5,"label":"150","q":"Xây dựng chi đoàn vững mạnh có ý nghĩa:","options":["Tạo nền tảng nâng cao chất lượng hoạt động của tổ chức đoàn.","Góp phần xây dựng tổ chức đoàn và đội ngũ đoàn viên vững mạnh.","Góp phần xây dựng đơn vị vững mạnh toàn diện, hoàn thành nhiệm vụ.","Tạo điều kiện phát huy vai trò thanh niên trong các hoạt động của đơn vị."],"answer":"C"},
+  {"id":"q151","lesson":5,"label":"151","q":"Chi đoàn là tổ chức ... của Đoàn Thanh niên Cộng sản Hồ Chí Minh.","options":["lãnh đạo trực tiếp","hành chính cơ sở","tế bào","chuyên trách"],"answer":"C"},
+  {"id":"q152","lesson":5,"label":"152","q":"Chi đoàn là cầu nối giữa Đoàn với ...","options":["cấp ủy","thanh niên","chính quyền","nhân dân"],"answer":"B"},
+  {"id":"q153","lesson":5,"label":"153","q":"Chi đoàn đại hội ... một lần.","options":["6 tháng","2 năm","1 năm","5 năm"],"answer":"C"},
+  {"id":"q154","lesson":5,"label":"154","q":"Chi đoàn có dưới 9 đoàn viên thì chỉ bầu ...","options":["ban chấp hành chi đoàn","chủ nhiệm đoàn","tổ trưởng đoàn","bí thư và phó bí thư"],"answer":"D"},
+  {"id":"q155","lesson":5,"label":"155","q":"Giáo dục đoàn viên phải bảo đảm tính ...","options":["hình thức","toàn diện","tự phát","đơn giản"],"answer":"B"},
+  {"id":"q156","lesson":5,"label":"156","q":"Phong trào thanh niên phải bám sát ... của đơn vị.","options":["Nhu cầu, nguyện vọng và điều kiện thực tế của đoàn viên.","Kế hoạch, chương trình và nội dung hoạt động của tổ chức đoàn.","Nhiệm vụ chính trị trung tâm và yêu cầu thực tiễn của đơn vị.","Điều kiện, khả năng và yêu cầu hoạt động của lực lượng thanh niên."],"answer":"C"},
+  {"id":"q157","lesson":5,"label":"157","q":"Ban chấp hành chi đoàn là cơ quan lãnh đạo giữa hai kỳ ....","options":["hội nghị","sinh hoạt","kiểm tra","đại hội"],"answer":"D"},
+  {"id":"q158","lesson":5,"label":"158","q":"Sinh hoạt chi đoàn là biện pháp ... đoàn viên.","options":["Quản lý, tập hợp và phát huy vai trò của đoàn viên.","Kiểm tra, đánh giá và phân loại chất lượng đoàn viên.","Giáo dục, rèn luyện và nâng cao ý thức của đoàn viên.","Tổ chức, động viên và phát huy tinh thần của đoàn viên."],"answer":"C"},
+  {"id":"q159","lesson":5,"label":"159","q":"Chi đoàn có trách nhiệm giới thiệu đoàn viên ... cho Đảng.","options":["trẻ","tích cực","ưu tú","năng động"],"answer":"C"},
+  {"id":"q160","lesson":5,"label":"160","q":"Chi đoàn quan hệ với địa phương nhằm tăng cường ... quân dân.","options":["hợp tác","liên kết","đoàn kết","quản lý"],"answer":"C"},
+
+  // BÀI 6: CÂU 161 -> 210
+  {"id":"q161","lesson":6,"label":"161","q":"Bản chất sâu xa của việc thành lập hội đồng quân nhân trong đơn vị là nhằm:","options":["bảo đảm và phát huy quyền làm chủ của quân nhân","tăng cường quyền chỉ huy của cán bộ cấp trên","hoàn thiện cơ chế quản lý hành chính nội bộ","nâng cao hiệu quả huấn luyện chiến đấu"],"answer":"A"},
+  {"id":"q162","lesson":6,"label":"162","q":"Trong hoạt động của hội đồng quân nhân, yếu tố nào giữ vai trò quyết định hiệu quả phát huy dân chủ?","options":["số lượng ủy viên tham gia","chất lượng tổ chức và điều hành","quy mô quân số đơn vị","điều kiện cơ sở vật chất"],"answer":"B"},
+  {"id":"q163","lesson":6,"label":"163","q":"Việc không cơ cấu chủ tịch hội đồng quân nhân là cấp trưởng nhằm mục đích chủ yếu nào?","options":["giảm áp lực cho người chỉ huy","tăng số lượng cán bộ tham gia","bảo đảm tính khách quan, dân chủ","phân tán quyền lực lãnh đạo"],"answer":"C"},
+  {"id":"q164","lesson":6,"label":"164","q":"Trong trường hợp đơn vị mới thành lập trên 12 tháng, việc thành lập hội đồng quân nhân phải thực hiện như thế nào?","options":["chờ cấp trên chỉ đạo cụ thể","duy trì tổ chức lâm thời lâu dài","không cần tổ chức đại hội","tổ chức đại hội trong 3 tháng"],"answer":"D"},
+  {"id":"q165","lesson":6,"label":"165","q":"Hoạt động giám sát của hội đồng quân nhân khác với kiểm tra của cấp ủy ở điểm cơ bản nào?","options":["Thực hiện theo chức năng, nhiệm vụ và quyền hạn được quy định.","Mang tính nhân dân, không thực hiện quyền lực hành chính trực tiếp.","Được tiến hành thường xuyên, gắn với hoạt động của tập thể quân nhân.","Tập trung phản ánh ý kiến và nguyện vọng chính đáng của quân nhân."],"answer":"B"},
+  {"id":"q166","lesson":6,"label":"166","q":"Trong cơ chế hoạt động, hội đồng quân nhân chịu sự chi phối trực tiếp nhất của chủ thể nào?","options":["cơ quan hậu cần kỹ thuật","cấp ủy và chỉ huy đơn vị","tổ chức đoàn thanh niên","hội đồng quân nhân cấp trên"],"answer":"B"},
+  {"id":"q167","lesson":6,"label":"167","q":"Việc công khai tài chính trong đơn vị thuộc nội dung dân chủ nào?","options":["Dân chủ quân sự gắn với hoạt động quản lý đơn vị.","Dân chủ chính trị gắn với quyền tham gia của quân nhân.","Dân chủ kinh tế - đời sống gắn với quyền lợi của quân nhân.","Dân chủ tổ chức gắn với trách nhiệm của tập thể đơn vị."],"answer":"C"},
+  {"id":"q168","lesson":6,"label":"168","q":"Trong bầu cử hội đồng quân nhân, trường hợp nhiều người bằng phiếu ở vị trí cuối thì xử lý thế nào?","options":["giữ nguyên tất cả","loại tất cả","do chỉ huy quyết định","bầu lại số người đó"],"answer":"D"},
+  {"id":"q169","lesson":6,"label":"169","q":"Việc hội đồng quân nhân tham gia góp ý xây dựng cán bộ, đảng viên thể hiện rõ nhất chức năng nào?","options":["đại diện và phản ánh ý kiến","quản lý và điều hành","tổ chức và chỉ huy","huấn luyện và giáo dục"],"answer":"A"},
+  {"id":"q170","lesson":6,"label":"170","q":"Nội dung nào sau đây không thuộc dân chủ về chính trị?","options":["góp ý xây dựng tổ chức đảng","tham gia kế hoạch huấn luyện","giám sát cán bộ, đảng viên","phản biện văn bản liên quan"],"answer":"B"},
+  {"id":"q171","lesson":6,"label":"171","q":"Hội đồng quân nhân thực hiện phản biện xã hội chủ yếu thông qua hình thức nào?","options":["ban hành nghị quyết riêng","tổ chức hội nghị lấy ý kiến","ra quyết định hành chính","chỉ đạo trực tiếp đơn vị"],"answer":"B"},
+  {"id":"q172","lesson":6,"label":"172","q":"Điểm khác biệt cơ bản giữa hội đồng quân nhân và tổ chức quần chúng là:","options":["hoạt động độc lập hoàn toàn","không chịu sự lãnh đạo của Đảng","đại diện quyền làm chủ toàn diện","không tham gia giám sát"],"answer":"C"},
+  {"id":"q173","lesson":6,"label":"173","q":"Trong hoạt động phối hợp, hội đồng quân nhân giữ vai trò chủ yếu là:","options":["lãnh đạo các tổ chức khác","thay thế chức năng chỉ huy","phối hợp thực hiện dân chủ","kiểm tra toàn bộ đơn vị"],"answer":"C"},
+  {"id":"q174","lesson":6,"label":"174","q":"Khi có ý kiến không thống nhất giữa hội đồng quân nhân và cơ quan có thẩm quyền, biện pháp xử lý phù hợp là:","options":["bỏ qua ý kiến đó","báo cáo cấp trên ngay","tổ chức kiểm điểm cá nhân","tiến hành đối thoại làm rõ"],"answer":"D"},
+  {"id":"q175","lesson":6,"label":"175","q":"Mục tiêu sâu xa của việc tổ chức đối thoại trong đơn vị là:","options":["tăng cường quản lý hành chính","giải quyết mâu thuẫn nội bộ","phát huy dân chủ và đồng thuận","kiểm tra kỷ luật quân đội"],"answer":"C"},
+  {"id":"q176","lesson":6,"label":"176","q":"Hoạt động của hội đồng quân nhân chịu sự chi phối bởi nguyên tắc nào là cơ bản nhất?","options":["tập trung dân chủ","tự quản hoàn toàn","mệnh lệnh hành chính","độc lập tổ chức"],"answer":"A"},
+  {"id":"q177","lesson":6,"label":"177","q":"Yếu tố nào quyết định chất lượng hoạt động phản biện xã hội của hội đồng quân nhân?","options":["số lượng văn bản được phản biện","trình độ nhận thức và trách nhiệm","thời gian tổ chức hội nghị","số lượng quân nhân tham gia"],"answer":"B"},
+  {"id":"q178","lesson":6,"label":"178","q":"Hội đồng quân nhân không có quyền nào sau đây?","options":["tham gia giám sát cán bộ","góp ý xây dựng tổ chức đảng","quyết định nhiệm vụ chiến đấu","phản ánh kiến nghị quân nhân"],"answer":"C"},
+  {"id":"q179","lesson":6,"label":"179","q":"Vai trò của hội đồng quân nhân trong xây dựng đơn vị thể hiện rõ nhất ở:","options":["tổ chức thực hiện mệnh lệnh","phát huy dân chủ và trí tuệ tập thể","chỉ đạo huấn luyện trực tiếp","quản lý tài chính nội bộ"],"answer":"B"},
+  {"id":"q180","lesson":6,"label":"180","q":"Việc duy trì hòm thư góp ý trong đơn vị nhằm mục đích chủ yếu nào?","options":["thu thập thông tin dân chủ","kiểm soát hoạt động tài chính","quản lý quân số chặt chẽ","tổ chức thi đua khen thưởng"],"answer":"A"},
+  {"id":"q181","lesson":6,"label":"181","q":"Hội đồng quân nhân là tổ chức đại diện nhằm thực hiện và phát huy quyền làm chủ của quân nhân trên các mặt ...","options":["chính trị, quân sự, kinh tế","quân sự, hậu cần, kỹ thuật","chính trị, hậu cần, kỹ thuật","quân sự, chính trị, pháp luật"],"answer":"A"},
+  {"id":"q182","lesson":6,"label":"182","q":"Hội đồng quân nhân được thành lập do ... bầu ra.","options":["chi bộ đơn vị trực tiếp","đại hội quân nhân đơn vị","cơ quan chính trị cấp trên","người chỉ huy đơn vị"],"answer":"B"},
+  {"id":"q183","lesson":6,"label":"183","q":"Hội đồng quân nhân góp phần phát huy ... của quân nhân trong đơn vị.","options":["năng lực tổ chức chỉ huy","quyền kiểm tra giám sát","trí tuệ, kinh nghiệm, sáng kiến","quyền lãnh đạo chính trị"],"answer":"C"},
+  {"id":"q184","lesson":6,"label":"184","q":"Hội đồng quân nhân có vai trò góp phần xây dựng ... trong sạch, vững mạnh.","options":["tổ chức đoàn thanh niên","hội đồng quân nhân cấp trên","tổ chức quần chúng cơ sở","tổ chức đảng ở đơn vị"],"answer":"D"},
+  {"id":"q185","lesson":6,"label":"185","q":"Cơ quan, đơn vị có quân số thường xuyên dưới ... thì không thành lập hội đồng quân nhân.","options":["10 người theo quy định","15 người theo quy định","20 người theo quy định","25 người theo quy định"],"answer":"A"},
+  {"id":"q186","lesson":6,"label":"186","q":"Cơ quan, đơn vị có quân số trên 60 người bầu không quá ... ủy viên hội đồng quân nhân.","options":["5 ủy viên theo quy định","9 ủy viên theo quy định","7 ủy viên theo quy định","11 ủy viên theo quy định"],"answer":"B"},
+  {"id":"q187","lesson":6,"label":"187","q":"Ủy viên hội đồng quân nhân phải có phẩm chất chính trị vững vàng, đạo đức tốt và ...","options":["trình độ chuyên môn cao","năng lực quản lý tài chính","tinh thần trách nhiệm cao","kinh nghiệm công tác lâu năm"],"answer":"C"},
+  {"id":"q188","lesson":6,"label":"188","q":"Chủ tịch hội đồng quân nhân không cơ cấu là ...","options":["cán bộ cấp phó đơn vị","đảng viên chính thức","quân nhân chuyên nghiệp","cấp trưởng hoặc bí thư cấp ủy"],"answer":"D"},
+  {"id":"q189","lesson":6,"label":"189","q":"Một trong những nhiệm vụ của hội đồng quân nhân là tuyên truyền, vận động thực hiện:","options":["đường lối, chủ trương của Đảng","quy chế hoạt động nội bộ","chương trình huấn luyện riêng","kế hoạch tài chính đơn vị"],"answer":"A"},
+  {"id":"q190","lesson":6,"label":"190","q":"Hội đồng quân nhân đại diện bảo vệ ... của quân nhân trong đơn vị.","options":["quyền quản lý tài sản","quyền, lợi ích hợp pháp","quyền lãnh đạo chính trị","quyền chỉ huy quân sự"],"answer":"B"},
+  {"id":"q191","lesson":6,"label":"191","q":"Hội đồng quân nhân tham gia ... đối với tổ chức và cá nhân theo quy định.","options":["chỉ huy và điều hành","ban hành nghị quyết","giám sát và phản biện xã hội","tổ chức huấn luyện chiến đấu"],"answer":"C"},
+  {"id":"q192","lesson":6,"label":"192","q":"Hội đồng quân nhân được tham gia ... trong cơ quan, đơn vị.","options":["phân công cán bộ lãnh đạo","xây dựng kế hoạch tác chiến","điều động lực lượng chiến đấu","bình xét khen thưởng, kỷ luật"],"answer":"D"},
+  {"id":"q193","lesson":6,"label":"193","q":"Đại hội quân nhân được tổ chức định kỳ....","options":["5 năm hai lần","3 năm một lần","2 năm một lần","1 năm một lần"],"answer":"A"},
+  {"id":"q194","lesson":6,"label":"194","q":"Đại hội quân nhân hợp lệ khi có ít nhất... quân số tham gia.","options":["một nửa tổng quân số","hai phần ba quân số","ba phần tư quân số","toàn bộ quân số"],"answer":"B"},
+  {"id":"q195","lesson":6,"label":"195","q":"Người trúng cử hội đồng quân nhân phải đạt số phiếu....","options":["trên 40% tổng số phiếu","đúng 50% tổng số phiếu","trên 50% tổng số phiếu","trên 60% tổng số phiếu"],"answer":"C"},
+  {"id":"q196","lesson":6,"label":"196","q":"Hội đồng quân nhân sinh hoạt định kỳ mỗi tháng ...","options":["hai lần theo quy định","ba lần theo quy định","một lần theo quy định","bốn lần theo quy định"],"answer":"C"},
+  {"id":"q197","lesson":6,"label":"197","q":"Sinh hoạt đối thoại ở cấp cơ sở được tổ chức ...","options":["mỗi tháng một lần","mỗi quý một lần","mỗi năm hai lần","mỗi năm một lần"],"answer":"A"},
+  {"id":"q198","lesson":6,"label":"198","q":"Hội đồng quân nhân chịu sự lãnh đạo trực tiếp của ...","options":["cơ quan chính trị cấp trên","cấp ủy, chi bộ đơn vị","ban chấp hành đoàn cơ sở","hội đồng quân nhân cấp trên"],"answer":"B"},
+  {"id":"q199","lesson":6,"label":"199","q":"Quan hệ với cơ quan chính trị là quan hệ ...","options":["chỉ huy trực tiếp","lãnh đạo toàn diện","hướng dẫn và kiểm tra","phối hợp ngang cấp"],"answer":"C"},
+  {"id":"q200","lesson":6,"label":"200","q":"Hội đồng quân nhân hoạt động theo nguyên tắc ...","options":["tập trung thống nhất","dân chủ trực tiếp","lãnh đạo cá nhân","tập trung dân chủ"],"answer":"D"},
+  {"id":"q201","lesson":6,"label":"201","q":"Dân chủ về quân sự - chuyên môn không bao gồm nội dung:","options":["quán triệt nhiệm vụ chính trị","tham gia kế hoạch huấn luyện","công khai bí mật nhà nước","góp ý thực hiện nhiệm vụ"],"answer":"C"},
+  {"id":"q202","lesson":6,"label":"202","q":"Dân chủ về chính trị bao gồm việc ...","options":["quản lý tài chính đơn vị","góp ý xây dựng tổ chức đảng","tổ chức sản xuất kinh tế","điều hành huấn luyện chiến đấu"],"answer":"B"},
+  {"id":"q203","lesson":6,"label":"203","q":"Dân chủ về kinh tế - đời sống yêu cầu ...","options":["bí mật toàn bộ tài chính","hạn chế công khai tiêu chuẩn","công khai tài chính, chế độ","không cần báo cáo chi tiêu"],"answer":"C"},
+  {"id":"q204","lesson":6,"label":"204","q":"Hòm thư góp ý do... quản lý.","options":["cơ quan hậu cần","người chỉ huy đơn vị","ban tài chính đơn vị","hội đồng quân nhân"],"answer":"D"},
+  {"id":"q205","lesson":6,"label":"205","q":"Ý kiến, kiến nghị của quân nhân phải được trả lời trong thời hạn ...","options":["7 ngày làm việc","10 ngày làm việc","15 ngày làm việc","20 ngày làm việc"],"answer":"C"},
+  {"id":"q206","lesson":6,"label":"206","q":"Hoạt động giám sát của hội đồng quân nhân mang tính....","options":["hành chính nội bộ","nhân dân","pháp lý cưỡng chế","chỉ huy trực tiếp"],"answer":"B"},
+  {"id":"q207","lesson":6,"label":"207","q":"Đối tượng giám sát của hội đồng quân nhân là ...","options":["chỉ quân nhân nghĩa vụ","chỉ cán bộ cấp cao","tổ chức đảng và cán bộ","chỉ lực lượng hậu cần"],"answer":"C"},
+  {"id":"q208","lesson":6,"label":"208","q":"Hoạt động phản biện xã hội nhằm ...","options":["thay thế quyết định chỉ huy","ban hành văn bản pháp luật","kiểm soát tài chính đơn vị","bảo vệ quyền lợi hợp pháp"],"answer":"D"},
+  {"id":"q209","lesson":6,"label":"209","q":"Hội đồng quân nhân phối hợp với tổ chức quần chúng để:","options":["phát huy dân chủ cơ sở","thay thế cơ quan chỉ huy","quyết định nhiệm vụ chiến đấu","ban hành nghị quyết mới"],"answer":"A"},
+  {"id":"q210","lesson":6,"label":"210","q":"Phát huy dân chủ là ... của Quân đội nhân dân Việt Nam.","options":["nhiệm vụ tạm thời","yêu cầu ngắn hạn","truyền thống tốt đẹp","biện pháp tình thế"],"answer":"C"},
+
+  // BÀI 7: CÂU 211 -> 240
+  {"id":"q211","lesson":7,"label":"211","q":"Yếu tố nào thể hiện rõ nhất công tác dân vận trong quân đội là “bản chất, truyền thống”?","options":["Là nhiệm vụ chính trị lâu dài và cấp bách của đơn vị","Là hoạt động mang tính phong trào trong từng giai đoạn","Là nội dung huấn luyện chính trị bắt buộc theo kế hoạch","Là biện pháp hỗ trợ thực hiện nhiệm vụ quân sự"],"answer":"A"},
+  {"id":"q212","lesson":7,"label":"212","q":"Công tác dân vận của quân đội chịu sự lãnh đạo trực tiếp, thường xuyên của cơ quan nào?","options":["Bộ Quốc phòng","Tổng cục Chính trị","Quân ủy Trung ương","Chính quyền địa phương"],"answer":"C"},
+  {"id":"q213","lesson":7,"label":"213","q":"Mối quan hệ giữa công tác dân vận quân đội với địa phương được xác định như thế nào?","options":["Phụ thuộc hoàn toàn vào nhiệm vụ của đơn vị","Đặt dưới sự lãnh đạo của cấp ủy địa phương","Chỉ mang tính phối hợp khi có yêu cầu","Độc lập theo nhiệm vụ quân sự quốc phòng"],"answer":"B"},
+  {"id":"q214","lesson":7,"label":"214","q":"Vai trò cốt lõi của công tác dân vận đối với cách mạng được xác định là gì?","options":["Tăng cường quản lý xã hội ở cơ sở","Phát huy sức mạnh quần chúng nhân dân","Bảo đảm ổn định kinh tế địa phương","Nâng cao hiệu quả huấn luyện quân sự"],"answer":"B"},
+  {"id":"q215","lesson":7,"label":"215","q":"Trong nội dung dân vận, nhiệm vụ “xây dựng thế trận lòng dân” gắn với yếu tố nào?","options":["Quốc phòng toàn dân và an ninh nhân dân","Phát triển kinh tế thị trường định hướng","Xây dựng hệ thống quản lý hành chính","Nâng cao năng lực lãnh đạo của cán bộ"],"answer":"A"},
+  {"id":"q216","lesson":7,"label":"216","q":"Nội dung nào sau đây không thuộc công tác dân vận của quân đội?","options":["Tuyên truyền đường lối, chính sách","Tham gia xây dựng hệ thống chính trị","Điều hành trực tiếp chính quyền địa phương","Tham gia phòng chống thiên tai"],"answer":"C"},
+  {"id":"q217","lesson":7,"label":"217","q":"Hình thức “tăng cường cán bộ cho cơ sở” thể hiện đặc điểm nào nổi bật?","options":["Tạm thời hỗ trợ lực lượng quân sự","Tham gia trực tiếp vào hệ thống chính trị","Thực hiện nhiệm vụ huấn luyện dã ngoại","Tổ chức hoạt động quần chúng ngắn hạn"],"answer":"B"},
+  {"id":"q218","lesson":7,"label":"218","q":"Hành quân dã ngoại làm công tác dân vận có đặc trưng cơ bản là gì?","options":["Kết hợp huấn luyện và vận động nhân dân","Tổ chức tuyên truyền tại doanh trại","Tăng cường cán bộ cho địa phương lâu dài","Phối hợp thực hiện nhiệm vụ hành chính"],"answer":"A"},
+  {"id":"q219","lesson":7,"label":"219","q":"Phương châm dân vận “làm dân tin” phản ánh nội dung nào chủ yếu?","options":["Tuyên truyền đúng chủ trương","Hành động thiết thực, hiệu quả","Hiểu rõ phong tục địa phương","Giữ gìn kỷ luật quân đội"],"answer":"B"},
+  {"id":"q220","lesson":7,"label":"220","q":"Yếu tố nào là điều kiện quan trọng để “nghe dân nói” hiệu quả?","options":["Nắm vững nhiệm vụ quân sự","Hiểu rõ tâm tư, nguyện vọng nhân dân","Thực hiện đúng quy trình hành chính","Tăng cường công tác kiểm tra nội bộ"],"answer":"B"},
+  {"id":"q221","lesson":7,"label":"221","q":"Trong tư tưởng chỉ đạo, yêu cầu “đa dạng hóa hình thức dân vận” nhằm mục đích gì?","options":["Tăng tính linh hoạt theo địa bàn","Đảm bảo thống nhất trong chỉ huy","Giảm tải nhiệm vụ cho cán bộ","Tăng cường kiểm soát hoạt động"],"answer":"A"},
+  {"id":"q222","lesson":7,"label":"222","q":"Việc “bám sát nhiệm vụ địa phương” trong dân vận có ý nghĩa gì?","options":["Nâng cao hiệu quả phối hợp","Tăng cường quản lý hành chính","Đảm bảo tính độc lập đơn vị","Giảm sự phụ thuộc vào cấp trên"],"answer":"A"},
+  {"id":"q223","lesson":7,"label":"223","q":"Nội dung giáo dục năng lực dân vận tập trung vào yếu tố nào?","options":["Kiến thức chính trị và phương pháp tổ chức hoạt động quần chúng.","Kiến thức và kỹ năng vận động, tuyên truyền quần chúng.","Kỹ năng giao tiếp và khả năng xử lý các tình huống thực tiễn.","Kiến thức xã hội và phương pháp phối hợp với các lực lượng."],"answer":"B"},
+  {"id":"q224","lesson":7,"label":"224","q":"Yếu tố nào không thuộc tiêu chuẩn chiến sĩ dân vận?","options":["Có khả năng giao tiếp tốt","Am hiểu phong tục địa phương","Có trình độ chỉ huy quân sự cao","Được quần chúng tín nhiệm"],"answer":"C"},
+  {"id":"q225","lesson":7,"label":"225","q":"Vai trò của tổ chức đoàn thanh niên trong dân vận thể hiện rõ nhất ở điểm nào?","options":["Tổ chức quản lý hành chính","Thực hiện nhiệm vụ huấn luyện","Xung kích, đi đầu trong hoạt động","Kiểm tra giám sát nội bộ"],"answer":"C"},
+  {"id":"q226","lesson":7,"label":"226","q":"Trong công tác phối hợp dân vận, cơ quan quân sự địa phương giữ vai trò gì?","options":["Trung tâm phối hợp, hiệp đồng","Cơ quan kiểm tra, giám sát","Đơn vị thực hiện chính sách","Bộ phận quản lý hành chính"],"answer":"A"},
+  {"id":"q227","lesson":7,"label":"227","q":"Khi xây dựng kế hoạch dân vận, yếu tố nào cần xác định rõ nhất?","options":["Số lượng cán bộ tham gia","Nội dung, biện pháp và thời gian","Cơ cấu tổ chức chỉ huy","Hình thức kiểm tra giám sát"],"answer":"B"},
+  {"id":"q228","lesson":7,"label":"228","q":"Mục đích chính của sơ kết, tổng kết công tác dân vận là gì?","options":["Đánh giá và rút kinh nghiệm","Kiểm tra kỷ luật đơn vị","Báo cáo thành tích lên cấp trên","Hoàn thiện hồ sơ hành chính"],"answer":"A"},
+  {"id":"q229","lesson":7,"label":"229","q":"Trong hội nghị tổng kết, yêu cầu quan trọng nhất là gì?","options":["Báo cáo đầy đủ số liệu","Giữ bí mật nội dung","Phát huy tự phê bình và phê bình","Tuân thủ quy trình hành chính"],"answer":"C"},
+  {"id":"q230","lesson":7,"label":"230","q":"Sau hội nghị dân vận, việc cần làm ngay là gì?","options":["Tổng hợp nội dung và hoàn thiện hồ sơ của hội nghị dân vận.","Thông báo kết quả và triển khai các biện pháp mới theo yêu cầu.","Kiểm tra tiến độ và điều chỉnh những nội dung chưa phù hợp.","Đánh giá lực lượng và xác định nhiệm vụ cho thời gian tiếp theo."],"answer":"B"},
+  {"id":"q231","lesson":7,"label":"231","q":"Điểm cốt lõi trong việc xác định công tác dân vận là “nhiệm vụ chính trị thường xuyên” thể hiện ở đâu?","options":["Mọi lực lượng đều phải tham gia thực hiện","Chỉ cấp ủy chịu trách nhiệm tổ chức","Được triển khai theo từng chiến dịch","Phụ thuộc vào yêu cầu địa phương"],"answer":"A"},
+  {"id":"q232","lesson":7,"label":"232","q":"Trong hệ thống lãnh đạo công tác dân vận, yếu tố “trực tiếp và thường xuyên” nhấn mạnh vai trò của:","options":["Cơ quan quân sự địa phương","Tổng cục Chính trị","Bộ Quốc phòng","Chính quyền cơ sở"],"answer":"B"},
+  {"id":"q233","lesson":7,"label":"233","q":"Việc đặt công tác dân vận dưới sự lãnh đạo của địa phương nhằm mục tiêu chủ yếu nào?","options":["Đảm bảo tính độc lập của đơn vị","Tăng cường tính thống nhất lãnh đạo","Giảm tải nhiệm vụ cho quân đội","Phát huy quyền tự chủ địa phương"],"answer":"B"},
+  {"id":"q234","lesson":7,"label":"234","q":"Yếu tố quyết định trong việc phát huy sức mạnh quần chúng là gì?","options":["Hệ thống chính sách phù hợp và cơ chế tổ chức thực hiện đồng bộ.","Sự lãnh đạo của Đảng và khối đại đoàn kết toàn dân tộc.","Năng lực tổ chức, quản lý và khả năng tập hợp các lực lượng","Điều kiện kinh tế, xã hội và sự đồng thuận của các tầng lớp nhân dân."],"answer":"B"},
+  {"id":"q235","lesson":7,"label":"235","q":"Trong nội dung dân vận, nhiệm vụ “đấu tranh chống diễn biến hòa bình” thuộc nhóm nào?","options":["Kinh tế - xã hội","Chính trị - tư tưởng","Quốc phòng - kỹ thuật","Hành chính - quản lý"],"answer":"B"},
+  {"id":"q236","lesson":7,"label":"236","q":"Hình thức dân vận nào thể hiện sự gắn bó lâu dài, bền vững giữa quân và dân?","options":["Hành quân dã ngoại","Tổ đội công tác","Kết nghĩa","Tăng cường cán bộ"],"answer":"C"},
+  {"id":"q237","lesson":7,"label":"237","q":"Đặc điểm nổi bật của “tổ, đội công tác dân vận” là gì?","options":["Hoạt động độc lập theo nhiệm vụ","Là lực lượng huấn luyện cơ bản","Chỉ thực hiện nhiệm vụ nội bộ","Hoạt động dài hạn tại địa phương"],"answer":"A"},
+  {"id":"q238","lesson":7,"label":"238","q":"Nội dung “thực hiện quy chế dân chủ ở cơ sở” gắn trực tiếp với yêu cầu nào?","options":["Phát huy trách nhiệm của các tổ chức và cá nhân tại cơ sở.","Tăng cường quyền làm chủ và sự tham gia của nhân dân.","Nâng cao hiệu quả quản lý và điều hành hoạt động ở cơ sở.","Hoàn thiện cơ chế phối hợp giữa các tổ chức trong hệ thống."],"answer":"B"},
+  {"id":"q239","lesson":7,"label":"239","q":"Trong phương châm dân vận, yếu tố “nói dân hiểu” yêu cầu điều gì?","options":["Trình bày đúng quy định","Diễn đạt phù hợp đối tượng","Tuân thủ quy trình báo cáo","Sử dụng thuật ngữ chuyên môn"],"answer":"B"},
+  {"id":"q240","lesson":7,"label":"240","q":"Để “làm dân tin”, yếu tố quyết định nhất là:","options":["Thực hiện lời nói đi đôi với việc làm","Tăng cường tuyên truyền chính sách","Nâng cao trình độ lý luận","Mở rộng quan hệ xã hội"],"answer":"A"},
+
+  // BÀI 8: CÂU 241 -> 270
+  {"id":"q241","lesson":8,"label":"241","q":"Trong quân đội, dân chủ được hiểu đầy đủ nhất là:","options":["Quyền tham gia của quân nhân vào các hoạt động chung theo quy định.","Quyền làm chủ của quân nhân trên các lĩnh vực, bảo đảm bằng pháp luật và điều lệnh.","Quyền tham gia thảo luận và đóng góp ý kiến, tham mưu, đề xuất trong phạm vi đơn vị.","Quyền thực hiện trách nhiệm tập thể gắn với chức trách, nhiệm vụ của quân nhân."],"answer":"B"},
+  {"id":"q242","lesson":8,"label":"242","q":"Điểm khác biệt cốt lõi của dân chủ trong quân đội so với dân chủ xã hội nói chung là:","options":["Được thực hiện trong khuôn khổ tổ chức và chế độ quản lý quân đội.","Gắn với quyền và trách nhiệm của quân nhân trong thực hiện nhiệm vụ","Phản ánh dân chủ xã hội chủ nghĩa trong một tổ chức quân sự đặc thù.","Được thực hiện thống nhất theo điều lệnh và các quy định của quân đội."],"answer":"A"},
+  {"id":"q243","lesson":8,"label":"243","q":"Bản chất kỷ luật quân đội thể hiện rõ nhất ở yếu tố nào sau đây?","options":["Sự cưỡng chế tuyệt đối","Tính hình thức trong chấp hành","Tính tự giác và nghiêm minh","Tính linh hoạt theo hoàn cảnh"],"answer":"C"},
+  {"id":"q244","lesson":8,"label":"244","q":"Vai trò quan trọng nhất của kỷ luật đối với sức mạnh chiến đấu là:","options":["Tạo nền nếp thống nhất và nâng cao ý thức trách nhiệm của quân nhân.","Bảo đảm sự tập trung thống nhất cao về ý chí và hành động trong đơn vị.","Nâng cao khả năng tổ chức và duy trì hoạt động thường xuyên của đơn vị","Tạo cơ sở để thực hiện nghiêm nhiệm vụ và duy trì nền nếp chính quy."],"answer":"B"},
+  {"id":"q245","lesson":8,"label":"245","q":"Mối quan hệ đúng giữa dân chủ và kỷ luật trong quân đội là:","options":["Dân chủ tạo điều kiện phát huy trách nhiệm, kỷ luật bảo đảm thống nhất.","Dân chủ và kỷ luật cùng được thực hiện trong khuôn khổ tổ chức quân đội.","Kỷ luật bảo đảm nền nếp, dân chủ phát huy quyền làm chủ của quân nhân.","Dân chủ và kỷ luật tác động qua lại, bổ sung và hỗ trợ lẫn nhau."],"answer":"D"},
+  {"id":"q246","lesson":8,"label":"246","q":"Theo tư tưởng Hồ Chí Minh, mối quan hệ giữa dân chủ và kỷ luật là:","options":["Dân chủ được phát huy, kỷ luật được duy trì trong mọi hoạt động.","Kỷ luật trong dân chủ, dân chủ phải gắn liền với kỷ luật.","Dân chủ được mở rộng, kỷ luật được thực hiện theo nguyên tắc thống nhất.","Kỷ luật được tăng cường, dân chủ được thực hiện phù hợp với nhiệm vụ."],"answer":"B"},
+  {"id":"q247","lesson":8,"label":"247","q":"Yếu tố quyết định tính tự giác trong chấp hành kỷ luật là:","options":["Hình thức xử phạt","Áp lực tập thể","Giác ngộ chính trị","Kiểm tra thường xuyên"],"answer":"C"},
+  {"id":"q248","lesson":8,"label":"248","q":"Nội dung giáo dục dân chủ, kỷ luật phải dựa trên nền tảng nào?","options":["Những quy định của Đảng, Nhà nước và thực tiễn hoạt động quân đội.","Chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh và quan điểm của Đảng.","Hệ thống pháp luật, điều lệnh và những quy định của đơn vị.","Kinh nghiệm thực tiễn, truyền thống quân đội và yêu cầu nhiệm vụ"],"answer":"B"},
+  {"id":"q249","lesson":8,"label":"249","q":"Vai trò trung tâm trong lãnh đạo phát huy dân chủ, tăng cường kỷ luật thuộc về:","options":["Tổ chức quần chúng","Hội đồng quân nhân","Cấp ủy, tổ chức đảng","Cán bộ trung đội"],"answer":"C"},
+  {"id":"q250","lesson":8,"label":"250","q":"Nguyên tắc lãnh đạo cần tuân thủ trong phát huy dân chủ là:","options":["Cá nhân quyết định","Tập trung dân chủ","Dân chủ tuyệt đối","Tự quản hoàn toàn"],"answer":"B"},
+  {"id":"q251","lesson":8,"label":"251","q":"Vai trò nổi bật của cán bộ trong thực hiện dân chủ, kỷ luật là:","options":["Quan sát","Giám sát thụ động","Gương mẫu, tổ chức, quản lý","Chỉ đạo gián tiếp"],"answer":"C"},
+  {"id":"q252","lesson":8,"label":"252","q":"Đoàn Thanh niên trong đơn vị giữ vai trò gì?","options":["Kiểm tra tài chính","Xung kích thực hiện nhiệm vụ","Quản lý hành chính","Chỉ đạo chuyên môn"],"answer":"B"},
+  {"id":"q253","lesson":8,"label":"253","q":"Hội đồng quân nhân có chức năng chính là:","options":["Điều hành quân sự","Đại diện quyền làm chủ của quân nhân","Ban hành mệnh lệnh","Giám sát cấp trên"],"answer":"B"},
+  {"id":"q254","lesson":8,"label":"254","q":"Điều kiện đảm bảo thực hiện dân chủ thực chất là:","options":["Tăng quyền cá nhân","Giảm kiểm soát","Kỷ luật nghiêm minh","Tự do tuyệt đối"],"answer":"C"},
+  {"id":"q255","lesson":8,"label":"255","q":"Dân chủ hình thức sẽ dẫn đến hệ quả nào?","options":["Tăng hiệu quả","Kỷ luật vững chắc","Mất đoàn kết","Nâng cao ý thức"],"answer":"C"},
+  {"id":"q256","lesson":8,"label":"256","q":"Một biểu hiện sai lệch cần đấu tranh là:","options":["Kỷ luật nghiêm","Dân chủ cực đoan","Tự giác cao","Đoàn kết nội bộ"],"answer":"B"},
+  {"id":"q257","lesson":8,"label":"257","q":"Chế độ kinh tế công khai nhằm mục đích chính là:","options":["Bảo đảm việc quản lý, sử dụng nguồn kinh phí đúng quy định.","Tăng cường công khai, minh bạch và bảo đảm quyền lợi quân nhân.","Nâng cao hiệu quả quản lý tài chính và sử dụng ngân sách đơn vị.","Bảo đảm sự thống nhất trong quản lý, phân bổ và sử dụng kinh phí."],"answer":"B"},
+  {"id":"q258","lesson":8,"label":"258","q":"Yếu tố quyết định hiệu quả duy trì kỷ luật là:","options":["Sự quan tâm lãnh đạo và khả năng quản lý của đội ngũ cán bộ.","Tổ chức thực hiện nghiêm các chế độ, quy định và nền nếp của đơn vị","Việc thường xuyên kiểm tra và đánh giá ý thức chấp hành của quân nhân.","Sự kết hợp giữa giáo dục, quản lý và xử lý các trường hợp vi phạm."],"answer":"B"},
+  {"id":"q259","lesson":8,"label":"259","q":"Trong giáo dục kỷ luật, biện pháp chủ yếu là:","options":["Tăng cường kiểm tra, nhắc nhở và duy trì nền nếp thường xuyên.","Kết hợp giáo dục chính trị với quản lý chặt chẽ hoạt động của quân nhân.","Thuyết phục, giáo dục và nâng cao ý thức tự giác chấp hành kỷ luật.","Kết hợp động viên với xử lý phù hợp những trường hợp vi phạm."],"answer":"C"},
+  {"id":"q260","lesson":8,"label":"260","q":"Biện pháp cưỡng bức chỉ sử dụng khi:","options":["Luôn cần thiết","Có yêu cầu cấp trên","Biện pháp khác không hiệu quả","Có vi phạm nhỏ"],"answer":"C"},
+  {"id":"q261","lesson":8,"label":"261","q":"Nguyên tắc xử phạt kỷ luật là:","options":["Linh hoạt","Công minh, chính xác","Tùy tình huống","Theo tập thể"],"answer":"B"},
+  {"id":"q262","lesson":8,"label":"262","q":"Không được sử dụng hình thức xử phạt nào?","options":["Khiển trách để giáo dục và nâng cao ý thức chấp hành kỷ luật","Cảnh cáo khi quân nhân có hành vi vi phạm theo quy định.","Xúc phạm nhân cách hoặc làm tổn hại danh dự của quân nhân.","Giáng cấp theo thẩm quyền đối với những trường hợp vi phạm."],"answer":"C"},
+  {"id":"q263","lesson":8,"label":"263","q":"Vai trò của khen thưởng là:","options":["Thay thế kỷ luật","Ghi nhận thành tích","Tăng cạnh tranh","Giảm trách nhiệm"],"answer":"B"},
+  {"id":"q264","lesson":8,"label":"264","q":"Kết hợp giáo dục với hình thức nào để đạt hiệu quả cao?","options":["Hành chính, cưỡng bức","Thuyết phục đơn lẻ","Tuyên truyền đơn thuần","Tự quản"],"answer":"A"},
+  {"id":"q265","lesson":8,"label":"265","q":"Yếu tố ảnh hưởng lớn đến kỷ luật là:","options":["Điều kiện sinh hoạt và môi trường hoạt động thường xuyên của quân nhân","Quan hệ giữa quân nhân với gia đình và sự phối hợp giáo dục từ gia đình.","Điều kiện công tác và mức độ đáp ứng yêu cầu nhiệm vụ của đơn vị","Đặc điểm địa bàn và những tác động của môi trường xã hội bên ngoài."],"answer":"A"},
+  {"id":"q266","lesson":8,"label":"266","q":"Giữ mối liên hệ với gia đình nhằm mục đích:","options":["Tăng cường phối hợp, động viên và hỗ trợ quân nhân trong quá trình công tác.","Phối hợp giáo dục, quản lý quân nhân và góp phần giữ vững kỷ luật đơn vị","Nắm bắt hoàn cảnh, tâm tư và những vấn đề liên quan đến quân nhân.","Tạo điều kiện phối hợp giữa đơn vị với gia đình trong chăm lo đời sống."],"answer":"B"},
+  {"id":"q267","lesson":8,"label":"267","q":"Phối hợp với địa phương nhằm:","options":["Tăng cường quan hệ đoàn kết và hỗ trợ đơn vị hoàn thành nhiệm vụ.","Phối hợp nắm tình hình và giải quyết những vấn đề phát sinh trên địa bàn.","Quản lý, giáo dục kỷ luật quân nhân và phát huy vai trò của địa phương.","Huy động các nguồn lực xã hội phục vụ hoạt động của đơn vị."],"answer":"C"},
+  {"id":"q268","lesson":8,"label":"268","q":"Chăm lo đời sống bộ đội có tác dụng:","options":["Tạo điều kiện ổn định tư tưởng và nâng cao tinh thần trách nhiệm quân nhân.","Bảo đảm điều kiện sinh hoạt và nâng cao chất lượng hoạt động của đơn vị","Nâng cao sức mạnh tinh thần và góp phần tăng cường sức mạnh chiến đấu.","Cải thiện điều kiện vật chất và tạo động lực hoàn thành nhiệm vụ."],"answer":"C"},
+  {"id":"q269","lesson":8,"label":"269","q":"Điều kiện cơ bản để bộ đội gắn bó đơn vị:","options":["Có môi trường công tác tốt và các hoạt động được duy trì nền nếp","Đời sống được bảo đảm, môi trường đơn vị lành mạnh và đoàn kết","Nhiệm vụ phù hợp, điều kiện làm việc tốt và quan hệ tập thể đoàn kết","Trang bị kỹ thuật đầy đủ và công tác quản lý được thực hiện chặt chẽ."],"answer":"B"},
+  {"id":"q270","lesson":8,"label":"270","q":"Một biểu hiện tiêu cực cần tránh là:","options":["Quan tâm bộ đội","Bớt xén tiêu chuẩn","Tăng gia sản xuất","Tổ chức văn hóa"],"answer":"B"},
+
+  // BÀI 9: CÂU 271 -> 300
+  {"id":"q271","lesson":9,"label":"271","q":"Vì sao quản lý, sử dụng, bảo quản tốt vũ khí, trang bị kỹ thuật được xác định là nhiệm vụ thường xuyên, quan trọng của đơn vị?","options":["Vì trực tiếp góp phần tạo nên sức mạnh chiến đấu và khả năng sẵn sàng chiến đấu.","Vì chủ yếu nhằm nâng cao trình độ chuyên môn và ý thức kỷ luật của quân nhân.","Vì tập trung bảo đảm đầy đủ cơ sở vật chất và phương tiện cho hoạt động huấn luyện.","Vì góp phần duy trì nền nếp công tác và nâng cao chất lượng sinh hoạt của đơn vị."],"answer":"A"},
+  {"id":"q272","lesson":9,"label":"272","q":"Theo bài giảng, muốn xây dựng quân đội hiện đại thì yêu cầu quan trọng nào sau đây được nhấn mạnh?","options":["Phải có phương pháp quản lý hiện đại và đội ngũ cán bộ có trình độ cao.","Phải có vũ khí, trang bị hiện đại phù hợp với yêu cầu xây dựng quân đội.","Phải có nền nếp huấn luyện chặt chẽ và hệ thống kiểm tra thường xuyên.","Phải có cơ sở vật chất đồng bộ và chế độ bảo quản được thực hiện nghiêm."],"answer":"B"},
+  {"id":"q273","lesson":9,"label":"273","q":"Yếu tố nào sau đây giải thích trực tiếp yêu cầu phải coi trọng thường xuyên, liên tục công tác quản lý, sử dụng, bảo quản vũ khí, trang bị kỹ thuật?","options":["Nhằm bảo đảm đơn vị luôn hoàn thành tốt nhiệm vụ sẵn sàng chiến đấu và chiến đấu thắng lợi.","Nhằm bảo đảm quân nhân thường xuyên được học tập, nâng cao kiến thức khoa học kỹ thuật quân sự.","Nhằm bảo đảm các tổ chức quần chúng phát huy tốt vai trò trong xây dựng đơn vị vững mạnh.","Nhằm bảo đảm cán bộ, nhân viên kỹ thuật được tạo điều kiện nâng cao trình độ chuyên môn."],"answer":"A"},
+  {"id":"q274","lesson":9,"label":"274","q":"Theo bài giảng, yếu tố nào vừa tạo thành sức mạnh tổng hợp của quân đội, vừa đòi hỏi phải được quản lý chặt chẽ?","options":["Hệ thống tổ chức và đội ngũ cán bộ trong các cơ quan, đơn vị quân đội.","Vũ khí, trang bị kỹ thuật cùng với các phương tiện phục vụ nhiệm vụ quân sự.","Hoạt động giáo dục chính trị và phong trào thi đua trong các cơ quan, đơn vị","Hệ thống chế độ công tác và nền nếp sinh hoạt của cán bộ, chiến sĩ trong đơn vị"],"answer":"B"},
+  {"id":"q275","lesson":9,"label":"275","q":"Trong yêu cầu công tác đảng, công tác chính trị, nội dung nào trực tiếp hướng tới việc hình thành thái độ đúng đắn của bộ đội đối với vũ khí, trang bị kỹ thuật?","options":["Lãnh đạo, chỉ đạo thực hiện tốt các chế độ quản lý, sử dụng và bảo quản.","Phát huy vai trò của cán bộ, nhân viên kỹ thuật và các tổ chức trong đơn vị.","Thường xuyên giáo dục, xây dựng tinh thần trách nhiệm và lòng yêu quý vũ khí.","Động viên quân nhân tích cực học tập, làm chủ quá trình quản lý và sử dụng."],"answer":"C"},
+  {"id":"q276","lesson":9,"label":"276","q":"Vị trí của công tác đảng, công tác chính trị trong nhiệm vụ quản lý, bảo quản và sử dụng vũ khí, trang bị kỹ thuật được xác định như thế nào?","options":["Là hoạt động hỗ trợ nhằm nâng cao hiệu quả quản lý, bảo quản và sử dụng.","Là lực lượng trực tiếp thực hiện toàn bộ các chế độ kỹ thuật của đơn vị.","Là nội dung chuyên môn thay thế trách nhiệm của cán bộ và nhân viên kỹ thuật","Là yếu tố định hướng, lãnh đạo, tổ chức và động viên các lực lượng chấp hành."],"answer":"D"},
+  {"id":"q277","lesson":9,"label":"277","q":"Vì sao việc ra nghị quyết lãnh đạo và xây dựng kế hoạch công tác đảng, công tác chính trị có ý nghĩa quan trọng?","options":["Tạo cơ sở để lãnh đạo thống nhất và phát huy sức mạnh tổng hợp của các lực lượng.","Tạo điều kiện để thay thế các chế độ đăng ký, kiểm tra và bảo quản kỹ thuật thường xuyên.","Tạo cơ sở để tập trung quyền quản lý vũ khí, trang bị kỹ thuật vào một lực lượng chuyên trách.","Tạo điều kiện để giảm yêu cầu kiểm tra, sơ kết và rút kinh nghiệm trong quá trình thực hiện."],"answer":"A"},
+  {"id":"q278","lesson":9,"label":"278","q":"Để nghị quyết lãnh đạo về quản lý, sử dụng, bảo quản vũ khí, trang bị kỹ thuật sát với thực tiễn, cấp ủy cần thực hiện nội dung nào trước hết?","options":["Xác định ngay mục tiêu, chỉ tiêu và biện pháp lãnh đạo cho nhiệm kỳ tiếp theo.","Nắm chắc tình hình quản lý, bảo quản và sử dụng vũ khí, trang bị kỹ thuật của đơn vị.","Phân công nhiệm vụ cụ thể cho từng cấp ủy viên và đảng viên theo chức trách.","Tổ chức kiểm tra, sơ kết và rút kinh nghiệm trước khi nghị quyết được ban hành."],"answer":"B"},
+  {"id":"q279","lesson":9,"label":"279","q":"Sau khi kế hoạch công tác đảng, công tác chính trị được hoàn thành, yêu cầu nào sau đây là phù hợp với bài giảng?","options":["Báo cáo cấp trên phê chuẩn, tổ chức quán triệt và triển khai thực hiện nghiêm túc.","Tổ chức thực hiện ngay, sau đó báo cáo cấp trên và tiến hành quán triệt thống nhất định kỳ.","Chuyển kế hoạch cho lực lượng kỹ thuật, sau đó tổ chức kiểm tra và sơ kết phê chuẩn.","Tổ chức quán triệt trước, tiếp tục điều chỉnh nội dung rồi mới báo cáo cấp trên."],"answer":"A"},
+  {"id":"q280","lesson":9,"label":"280","q":"Khi nhiệm vụ có tính chất quan trọng hoặc phát sinh yêu cầu đặc biệt, cấp ủy có thể thực hiện biện pháp nào?","options":["Chuyển toàn bộ nhiệm vụ quản lý kỹ thuật cho lực lượng chuyên môn trực tiếp thực hiện.","Ban hành nghị quyết chuyên đề về quản lý, sử dụng vũ khí, trang bị kỹ thuật quân sự.","Tạm thời điều chỉnh các chế độ quản lý để tập trung giải quyết yêu cầu phát sinh","Chỉ tổ chức kiểm tra đột xuất mà không cần xây dựng nội dung lãnh đạo chuyên đề."],"answer":"B"},
+  {"id":"q281","lesson":9,"label":"281","q":"Sau khi nghị quyết lãnh đạo được ban hành, nội dung nào sau đây phản ánh đúng yêu cầu tổ chức thực hiện?","options":["Phân công nhiệm vụ, triển khai thống nhất, thường xuyên kiểm tra và chủ động xử lý khó khăn.","Phân cấp nhiệm vụ, tập trung kiểm tra cuối kỳ và tổng kết sau khi hoàn thành toàn bộ nhiệm vụ.","Tổ chức quán triệt, giao nhiệm vụ cho lực lượng kỹ thuật và hạn chế điều chỉnh trong quá trình thực hiện.","Triển khai thống nhất, giao toàn bộ nhiệm vụ kiểm tra cho cán bộ chuyên môn và chờ tổng kết định kỳ."],"answer":"A"},
+  {"id":"q282","lesson":9,"label":"282","q":"Kế hoạch công tác đảng, công tác chính trị trong nhiệm vụ quản lý, sử dụng vũ khí, trang bị kỹ thuật được xây dựng vào thời điểm nào?","options":["Trước khi cấp ủy tiến hành đánh giá tình hình thực tế của đơn vị.","Sau khi nghị quyết lãnh đạo được ban hành để tổ chức thực hiện.","Đồng thời với việc kiểm tra định kỳ công tác quản lý của đơn vị.","Sau khi hoàn thành nhiệm vụ để làm căn cứ sơ kết và tổng kết."],"answer":"B"},
+  {"id":"q283","lesson":9,"label":"283","q":"Việc xây dựng kế hoạch công tác đảng, công tác chính trị phải căn cứ vào nhóm yếu tố nào sau đây?","options":["Chỉ thị cấp trên, nghị quyết cấp mình và đặc điểm nhiệm vụ, tình hình thực tế đơn vị.","Kết quả kiểm tra, thành tích thi đua và đề nghị của cán bộ, nhân viên kỹ thuật đơn vị.","Nhu cầu huấn luyện, tình hình cơ sở vật chất và kết quả thực hiện nhiệm vụ năm trước.","Nghị quyết cấp trên, ý kiến địa phương và kế hoạch chuyên môn của nhân viên kỹ thuật."],"answer":"A"},
+  {"id":"q284","lesson":9,"label":"284","q":"Biện pháp nào thể hiện đúng vai trò của tổ chức đoàn trong nhiệm vụ quản lý, sử dụng, bảo quản vũ khí, trang bị kỹ thuật?","options":["Tổ chức hoạt động xung kích, hội thao kỹ thuật và thi đua giữ tốt, dùng bền, an toàn, tiết kiệm.","Trực tiếp phân cấp quản lý, kiểm tra định kỳ và xử lý cán bộ vi phạm quy chế kỹ thuật của đơn vị","Tổ chức nghiên cứu chuyên môn, hướng dẫn bộ đội và chịu trách nhiệm chính về bảo đảm kỹ thuật","Chủ trì phối hợp địa phương, nắm tình hình an ninh và ngăn chặn các hành vi lấy cắp tài sản quân đội."],"answer":"A"},
+  {"id":"q285","lesson":9,"label":"285","q":"Theo bài giảng, giáo dục nâng cao nhận thức, trách nhiệm của cán bộ, chiến sĩ có vị trí như thế nào?","options":["Là biện pháp nền tảng trong nâng cao chất lượng quản lý, sử dụng vũ khí, trang bị kỹ thuật.","Là biện pháp chủ yếu nhằm thay thế các chế độ đăng ký, bảo quản và kiểm tra kỹ thuật.","Là biện pháp chuyên môn nhằm trực tiếp khắc phục những hư hỏng của vũ khí, trang bị kỹ thuật.","Là biện pháp hỗ trợ nhằm nâng cao thành tích thi đua và chất lượng sinh hoạt của tổ chức đoàn."],"answer":"A"},
+  {"id":"q286","lesson":9,"label":"286","q":"Yêu cầu nào phản ánh đầy đủ nhất phương châm tiến hành giáo dục về quản lý, sử dụng vũ khí, trang bị kỹ thuật?","options":["Thường xuyên, liên tục, toàn diện, có trọng tâm, trọng điểm và kết hợp “xây” với “chống”.","Tập trung, chuyên sâu, định kỳ, có trọng tâm, trọng điểm và kết hợp huấn luyện với kiểm tra.","Thường xuyên, đồng bộ, chuyên môn, có kế hoạch, có kiểm tra và kết hợp lý luận với thực hành.","Liên tục, chuyên sâu, toàn diện, có kiểm tra, đánh giá và kết hợp giáo dục với thi đua."],"answer":"A"},
+  {"id":"q287","lesson":9,"label":"287","q":"Nội dung nào thể hiện đúng yêu cầu duy trì chấp hành nghiêm các chế độ quy định về quản lý, sử dụng vũ khí, trang bị kỹ thuật?","options":["Duy trì đăng ký, quản lý, lau chùi, bảo quản và kiểm tra định kỳ theo quy định.","Tập trung kiểm tra khi có nhiệm vụ quan trọng và tăng cường giáo dục sau mỗi đợt kiểm tra.","Ưu tiên huấn luyện kỹ thuật, sau đó mới tổ chức đăng ký và kiểm tra trang bị của đơn vị.","Giao lực lượng kỹ thuật kiểm tra định kỳ, còn các lực lượng khác chỉ thực hiện khi được yêu cầu."],"answer":"A"},
+  {"id":"q288","lesson":9,"label":"288","q":"Điểm khác biệt nổi bật trong yêu cầu phát huy vai trò của đội ngũ đảng viên, đoàn viên thanh niên và nhân viên chuyên môn kỹ thuật là gì?","options":["Đảng viên chú trọng lãnh đạo, đoàn viên phát huy xung kích, nhân viên kỹ thuật phát huy chuyên môn.","Đảng viên chú trọng chuyên môn, đoàn viên thực hiện kiểm tra, nhân viên kỹ thuật phụ trách giáo dục.","Đảng viên phụ trách thi đua, đoàn viên lãnh đạo, nhân viên kỹ thuật thực hiện công tác tư tưởng","Đảng viên quản lý trực tiếp, đoàn viên kiểm tra định kỳ, nhân viên kỹ thuật tổ chức hoạt động đoàn"],"answer":"A"},
+  {"id":"q289","lesson":9,"label":"289","q":"Nội dung nào phù hợp nhất với vai trò của nhân viên chuyên môn kỹ thuật được nêu trong bài giảng?","options":["Nâng cao chuyên môn, hướng dẫn bộ đội và góp phần bảo đảm năng lực quản lý, sử dụng, bảo quản.","Tổ chức lãnh đạo toàn diện đơn vị, phân công cán bộ và quyết định các chủ trương công tác.","Phát huy vai trò xung kích trong hội thao, diễn đàn và các phong trào thi đua của tổ chức đoàn.","Chủ động phối hợp với cấp ủy địa phương để nắm tình hình an ninh, trật tự nơi đóng quân."],"answer":"A"},
+  {"id":"q290","lesson":9,"label":"290","q":"Ý nghĩa cơ bản của việc thường xuyên kiểm tra, sơ kết, tổng kết, rút kinh nghiệm nhiệm vụ quản lý, sử dụng, bảo quản vũ khí, trang bị kỹ thuật là gì?","options":["Kịp thời biểu dương, sửa chữa sai sót và nâng cao chất lượng thực hiện nhiệm vụ.","Chủ yếu nhằm đánh giá thành tích thi đua và lựa chọn cán bộ có thành tích nổi bật.","Nhằm thay thế hoạt động giáo dục, quán triệt và tổ chức thực hiện các chế độ quy định.","Nhằm tập trung phát hiện vi phạm và xử lý trách nhiệm sau khi nhiệm vụ đã hoàn thành."],"answer":"A"},
+  {"id":"q291","lesson":9,"label":"291","q":"Theo bài giảng, yêu cầu đối với người quân nhân trước sự phát triển của các loại vũ khí, trang bị kỹ thuật hiện đại là gì?","options":["Có kiến thức khoa học kỹ thuật quân sự và tinh thần trách nhiệm cao để quản lý, sử dụng, bảo quản tốt.","Có kiến thức khoa học kỹ thuật quân sự và tinh thần trách nhiệm cao để khai thác, sửa chữa, bảo dưỡng tốt.","Có kiến thức khoa học kỹ thuật quân sự và tinh thần trách nhiệm cao để kiểm tra, đánh giá, sử dụng tốt.","Có kiến thức khoa học kỹ thuật quân sự và tinh thần trách nhiệm cao để huấn luyện, vận hành, khai thác tốt."],"answer":"A"},
+  {"id":"q292","lesson":9,"label":"292","q":"Theo bài giảng, vì sao vũ khí, trang bị kỹ thuật luôn là một trong những mục tiêu quan trọng bị các thế lực thù địch tập trung phá hoại?","options":["Vì phá hoại vũ khí, trang bị kỹ thuật có thể làm giảm sức mạnh chiến đấu của Quân đội.","Vì phá hoại vũ khí, trang bị kỹ thuật có thể làm giảm khả năng huấn luyện của Quân đội.","Vì phá hoại vũ khí, trang bị kỹ thuật có thể làm giảm chất lượng quản lý của Quân đội.","Vì phá hoại vũ khí, trang bị kỹ thuật có thể làm giảm trình độ kỹ thuật của Quân đội."],"answer":"A"},
+  {"id":"q293","lesson":9,"label":"293","q":"Đặc điểm địa lý, khí hậu, thời tiết của Việt Nam đặt ra yêu cầu gì đối với công tác quản lý, sử dụng và bảo quản vũ khí, trang bị kỹ thuật?","options":["Phải chú trọng kiểm tra vì khí hậu, thời tiết có thể làm vũ khí, trang bị nhanh mất đồng bộ.","Phải chú trọng bảo quản vì khí hậu, thời tiết có thể làm vũ khí, trang bị nhanh xuống cấp.","Phải chú trọng sử dụng vì khí hậu, thời tiết có thể làm vũ khí, trang bị nhanh giảm hiệu suất.","Phải chú trọng sửa chữa vì khí hậu, thời tiết có thể làm vũ khí, trang bị nhanh mất khả năng chiến đấu."],"answer":"B"},
+  {"id":"q294","lesson":9,"label":"294","q":"Nếu công tác bảo quản vũ khí, trang bị kỹ thuật không được thực hiện tốt, hậu quả nào được bài giảng nhấn mạnh?","options":["Vũ khí, trang bị kỹ thuật có thể nhanh chóng mất tính đồng bộ và khó khai thác.","Vũ khí, trang bị kỹ thuật có thể nhanh chóng giảm chất lượng và khó sửa chữa.","Vũ khí, trang bị kỹ thuật có thể nhanh chóng mất tính năng và khó kiểm tra.","Vũ khí, trang bị kỹ thuật có thể nhanh chóng xuống cấp và không sử dụng được."],"answer":"D"},
+  {"id":"q295","lesson":9,"label":"295","q":"Nội dung nào sau đây thuộc yêu cầu công tác đảng, công tác chính trị đối với nhiệm vụ quản lý, sử dụng, bảo quản vũ khí, trang bị kỹ thuật?","options":["Động viên quân nhân tích cực học tập, làm chủ quá trình kiểm tra, sửa chữa vũ khí, trang bị hiện có.","Động viên quân nhân tích cực học tập, làm chủ quá trình khai thác, cải tiến vũ khí, trang bị hiện có.","Động viên quân nhân tích cực học tập, làm chủ quá trình quản lý, sử dụng vũ khí, trang bị hiện có.","Động viên quân nhân tích cực học tập, làm chủ quá trình bảo dưỡng, đồng bộ vũ khí, trang bị hiện có."],"answer":"C"},
+  {"id":"q296","lesson":9,"label":"296","q":"Vai trò của cán bộ, nhân viên kỹ thuật và các tổ chức trong công tác quản lý, sử dụng, bảo quản vũ khí, trang bị kỹ thuật được xác định theo hướng nào?","options":["Quán triệt thực hiện chế độ, nền nếp, quy định và không ngừng nâng cao chất lượng kỹ thuật","Quán triệt thực hiện chế độ, tiêu chuẩn, quy trình và không ngừng nâng cao chất lượng huấn luyện","Quán triệt thực hiện chế độ, phương pháp, quy trình và không ngừng nâng cao chất lượng sử dụng.","Quán triệt thực hiện chế độ, nguyên tắc, tiêu chuẩn và không ngừng nâng cao chất lượng quản lý."],"answer":"A"},
+  {"id":"q297","lesson":9,"label":"297","q":"Trong việc lãnh đạo nhiệm vụ quản lý, sử dụng, bảo quản vũ khí, trang bị kỹ thuật, cấp ủy, tổ chức đảng các cấp có trách nhiệm như thế nào?","options":["Lãnh đạo toàn diện các mặt công tác và xác định kiểm tra, sửa chữa, sử dụng là nội dung quan trọng.","Lãnh đạo toàn diện các mặt công tác và xác định quản lý, bảo quản, sử dụng là nội dung quan trọng.","Lãnh đạo toàn diện các mặt công tác và xác định khai thác, bảo dưỡng, sử dụng là nội dung quan trọng.","Lãnh đạo toàn diện các mặt công tác và xác định huấn luyện, kiểm tra, bảo quản là nội dung quan trọng."],"answer":"B"},
+  {"id":"q298","lesson":9,"label":"298","q":"Một trong những yêu cầu quan trọng khi xây dựng nghị quyết lãnh đạo về quản lý, sử dụng vũ khí, trang bị kỹ thuật là gì?","options":["Đánh giá đúng ưu điểm, hạn chế và nguyên nhân trước khi xác định chủ trương, mục tiêu, chỉ tiêu.","Đánh giá đúng ưu điểm, kết quả và nguyên nhân trước khi xác định chủ trương, mục tiêu, chỉ tiêu.","Đánh giá đúng ưu điểm, hạn chế và kết quả trước khi xác định chủ trương, nhiệm vụ, chỉ tiêu.","Đánh giá đúng kết quả, hạn chế và nguyên nhân trước khi xác định chủ trương, nhiệm vụ, biện pháp."],"answer":"A"},
+  {"id":"q299","lesson":9,"label":"299","q":"Sau khi nghị quyết lãnh đạo được ban hành, trách nhiệm nào sau đây được bài giảng xác định đối với bí thư, cấp ủy?","options":["Phân công nhiệm vụ cụ thể cho từng cán bộ và nhân viên kỹ thuật theo chức trách được giao.","Phân công nhiệm vụ cụ thể cho từng tổ chức và lực lượng theo chức năng được giao.","Phân công nhiệm vụ cụ thể cho từng cơ quan và đơn vị theo nhiệm vụ được giao.","Phân công nhiệm vụ cụ thể cho từng cấp ủy viên và đảng viên theo chức trách được giao."],"answer":"D"},
+  {"id":"q300","lesson":9,"label":"300","q":"Trong quá trình thực hiện nghị quyết về quản lý, sử dụng, bảo quản vũ khí, trang bị kỹ thuật, cấp ủy cần làm gì để bảo đảm nghị quyết được thực hiện hiệu quả?","options":["Thường xuyên kiểm tra, hướng dẫn, tổng kết, rút kinh nghiệm và chủ động xử lý tình huống phát sinh.","Thường xuyên kiểm tra, đánh giá, sơ kết, tổng kết và chủ động giải quyết những hạn chế trong thực hiện.","Thường xuyên kiểm tra, đôn đốc, sơ kết, rút kinh nghiệm và chủ động xử lý tình huống khó khăn.","Thường xuyên kiểm tra, đôn đốc, tổng kết, đánh giá và chủ động giải quyết những vi phạm trong thực hiện."],"answer":"C"}
+];
+
+const TOTAL_QUESTIONS = RAW_BANK.length; // 299 câu (do không có câu 61)
+const LETTERS = 'ABCD';
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function shuffleArray(a) {
+  a = [...a];
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Hàm xáo trộn phương án A B C D cho từng câu hỏi
+function shuffleItemOptions(item) {
+  const originalCorrectIndex = LETTERS.indexOf(item.answer);
+  const packed = item.options.map((text, idx) => ({ text, correct: idx === originalCorrectIndex }));
+  const shuffled = shuffleArray(packed);
+  const newAnswerLetter = LETTERS[shuffled.findIndex(x => x.correct)];
+  return {
+    ...item,
+    options: shuffled.map(x => x.text),
+    answer: newAnswerLetter
+  };
+}
+
+/* ==========================================================
+   TAB 1: LUYỆN TẬP GỐC THEO BÀI (CÓ LỌC 9 BÀI)
+========================================================== */
+let practiceFilter = 'all';
+let practicePool = RAW_BANK;
+let pIndex = 0;
+let pAnswers = JSON.parse(localStorage.getItem('ct_practice_answers') || '{}');
+
+function changeLessonFilter(val) {
+  practiceFilter = val;
+  if (val === 'all') {
+    practicePool = RAW_BANK;
+  } else {
+    practicePool = RAW_BANK.filter(q => q.lesson === parseInt(val));
+  }
+  pIndex = 0;
+  renderPractice();
+}
+
+function renderPractice() {
+  if (!practicePool.length) return;
+  const q = practicePool[pIndex];
+  const chosen = pAnswers[q.id];
+  $('practiceCard').innerHTML = renderQuestionHTML(q, chosen, 'answerPractice', true);
+  $('pProgress').textContent = `Câu ${pIndex + 1} / ${practicePool.length}`;
+  $('pPrev').disabled = (pIndex === 0);
+  $('pNext').disabled = (pIndex === practicePool.length - 1);
+  const answeredCount = practicePool.filter(x => pAnswers[x.id]).length;
+  $('pStat').textContent = `Đã làm: ${answeredCount}/${practicePool.length}`;
+  $('pMatrix').innerHTML = practicePool.map((x, i) => `
+    <button onclick="pIndex=${i};renderPractice()" class="h-9 rounded-lg text-xs font-bold border transition ${i === pIndex ? 'ring-2 ring-red-600 ' : ''}${pAnswers[x.id] ? 'bg-red-700 text-white border-red-700' : 'bg-slate-100 border-slate-200'}">
+      ${esc(x.label)}
+    </button>
+  `).join('');
+}
+
+function answerPractice(letter) {
+  pAnswers[practicePool[pIndex].id] = letter;
+  localStorage.setItem('ct_practice_answers', JSON.stringify(pAnswers));
+  renderPractice();
+}
+
+function movePractice(dir) {
+  pIndex = Math.max(0, Math.min(practicePool.length - 1, pIndex + dir));
+  renderPractice();
+}
+
+function clearPracticeHistory() {
+  if (confirm('Bạn có chắc muốn xóa toàn bộ câu trả lời đã lưu trong phần Luyện tập?')) {
+    pAnswers = {};
+    localStorage.removeItem('ct_practice_answers');
+    renderPractice();
+  }
+}
+
+/* ==========================================================
+   TAB 2: LUYỆN TẬP XÁO TRỘN (TOÀN BỘ 9 BÀI)
+========================================================== */
+let shuffleQuiz = {
+  questions: [],
+  index: 0,
+  answers: {},
+  marked: {}
+};
+
+function startShuffleQuiz() {
+  // Lấy toàn bộ 299 câu, xáo trộn câu và xáo trộn phương án
+  const prevSignature = localStorage.getItem('ct_shuffle_last_signature') || '';
+  let picked = [];
+  for (let t = 0; t < 15; t++) {
+    picked = shuffleArray(RAW_BANK);
+    const sig = picked.slice(0, 15).map(x => x.id).join('|');
+    if (sig !== prevSignature) {
+      localStorage.setItem('ct_shuffle_last_signature', sig);
+      break;
+    }
+  }
+  const mixedQuestions = picked.map(shuffleItemOptions);
+  shuffleQuiz = {
+    questions: mixedQuestions,
+    index: 0,
+    answers: {},
+    marked: {}
+  };
+
+  $('shuffleHome').classList.add('hidden');
+  $('shuffleResult').classList.add('hidden');
+  $('shuffleActive').classList.remove('hidden');
+  renderShuffleQuiz();
+}
+
+function renderShuffleQuiz() {
+  const s = shuffleQuiz;
+  const q = s.questions[s.index];
+  const total = s.questions.length;
+  $('shuffleActive').innerHTML = `
+    <div class="space-y-4">
+      <div class="sticky top-[135px] z-10 bg-white rounded-xl border shadow-sm p-3 flex justify-between items-center">
+        <div>
+          <b class="text-sm sm:text-base text-slate-800">Đề Luyện Tập Xáo Trộn</b>
+          <div class="text-xs text-slate-500">Đã trả lời: ${Object.keys(s.answers).length} / ${total} câu</div>
+        </div>
+        <button onclick="submitShuffleQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-bold text-sm shadow">Nộp bài</button>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div class="lg:col-span-3 space-y-4">
+          <div class="bg-white rounded-xl border shadow-sm p-4 sm:p-6">
+            ${renderQuestionHTML(q, s.answers[s.index], 'answerShuffleQuiz', false)}
+          </div>
+          <div class="flex justify-between bg-white p-3 rounded-xl border shadow-sm">
+            <button onclick="moveShuffleQuiz(-1)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-bold text-sm">← Câu trước</button>
+            <button onclick="markShuffleQuiz()" class="px-3 py-2 rounded-lg font-bold text-xs border ${s.marked[s.index] ? 'bg-amber-500 text-white border-amber-600' : 'bg-amber-50 text-amber-800 border-amber-200'}">🚩 Đánh dấu</button>
+            <button onclick="moveShuffleQuiz(1)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-sm">Câu tiếp →</button>
+          </div>
+        </div>
+        <aside class="bg-white rounded-xl border shadow-sm p-4 h-fit">
+          <div class="font-bold text-sm mb-2 text-slate-700">Mục lục câu hỏi</div>
+          <div class="grid grid-cols-5 gap-1.5 max-h-[450px] overflow-y-auto custom-scrollbar">
+            ${s.questions.map((x, i) => `
+              <button onclick="shuffleQuiz.index=${i};renderShuffleQuiz()" class="h-9 rounded-lg text-xs font-bold border transition ${i === s.index ? 'ring-2 ring-indigo-600 ' : ''}${s.marked[i] ? 'bg-amber-100 border-amber-400' : s.answers[i] ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-100'}">
+                ${i + 1}
+              </button>
+            `).join('')}
+          </div>
+        </aside>
+      </div>
+    </div>
+  `;
+}
+
+function answerShuffleQuiz(letter) {
+  shuffleQuiz.answers[shuffleQuiz.index] = letter;
+  renderShuffleQuiz();
+}
+
+function moveShuffleQuiz(dir) {
+  shuffleQuiz.index = Math.max(0, Math.min(shuffleQuiz.questions.length - 1, shuffleQuiz.index + dir));
+  renderShuffleQuiz();
+}
+
+function markShuffleQuiz() {
+  shuffleQuiz.marked[shuffleQuiz.index] = !shuffleQuiz.marked[shuffleQuiz.index];
+  renderShuffleQuiz();
+}
+
+function submitShuffleQuiz() {
+  const s = shuffleQuiz;
+  const total = s.questions.length;
+  if (!confirm(`Bạn có chắc muốn nộp bài? Đã làm ${Object.keys(s.answers).length} trên tổng số ${total} câu.`)) return;
+  const correct = s.questions.filter((q, i) => s.answers[i] === q.answer).length;
+  const percent = Math.round((correct / total) * 100);
+
+  $('shuffleActive').classList.add('hidden');
+  const res = $('shuffleResult');
+  res.classList.remove('hidden');
+  res.className = 'bg-white rounded-xl border shadow-sm p-6';
+  res.innerHTML = `
+    <div class="text-center border-b pb-5">
+      <div class="text-4xl mb-2">🎉</div>
+      <h2 class="font-black text-2xl text-slate-800">KẾT QUẢ ĐỀ XÁO TRỘN</h2>
+      <div class="mt-4 flex justify-center gap-8">
+        <div><div class="text-xs text-slate-400 font-semibold">SỐ CÂU ĐÚNG</div><div class="text-3xl font-black text-indigo-600">${correct} / ${total}</div></div>
+        <div><div class="text-xs text-slate-400 font-semibold">TỶ LỆ</div><div class="text-3xl font-black text-amber-500">${percent}%</div></div>
+      </div>
+    </div>
+    <div class="space-y-4 mt-6">${buildReviewHTML(s.questions, s.answers)}</div>
+    <div class="text-center mt-6">
+      <button onclick="startShuffleQuiz()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow">🎲 Tạo đề xáo trộn khác</button>
+    </div>
+  `;
+
+  // Lưu lịch sử Tab Xáo trộn
+  saveHistory('shuffle', {
+    date: new Date().toLocaleString('vi-VN'),
+    score: correct,
+    total: total,
+    percent: percent,
+    time: 'Tự do'
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ==========================================================
+   TAB 3: THI THẬT (60 CÂU / 90 PHÚT)
+   THUẬT TOÁN BỐC TỶ LỆ CHUẨN TẤT CẢ 9 BÀI
+========================================================== */
+const EXAM_TOTAL_Q = 60;
+const EXAM_TIME_SEC = 90 * 60; // 90 phút
+
+// Tỷ lệ phân bố chính xác cho 60 câu từ 9 bài (Tổng = 60 câu)
+// Bài 1: 6 câu, Bài 2: 6 câu, Bài 3: 4 câu, Bài 4: 6 câu, Bài 5: 10 câu,
+// Bài 6: 10 câu, Bài 7: 6 câu, Bài 8: 6 câu, Bài 9: 6 câu.
+const LESSON_QUOTAS = {
+  1: 6, 2: 6, 3: 4, 4: 6, 5: 10,
+  6: 10, 7: 6, 8: 6, 9: 6
+};
+
+let examState = {
+  questions: [],
+  index: 0,
+  answers: {},
+  marked: {},
+  filter: 'all',
+  timerInterval: null,
+  timeLeft: EXAM_TIME_SEC,
+  timeSpent: 0
+};
+
+function generateRealExamQuestions() {
+  const lastExamSig = localStorage.getItem('ct_last_exam_sig') || '';
+  let finalSelected = [];
+
+  for (let attempt = 0; attempt < 25; attempt++) {
+    let poolPick = [];
+    for (let l = 1; l <= 9; l++) {
+      const lessonItems = RAW_BANK.filter(item => item.lesson === l);
+      const quota = LESSON_QUOTAS[l];
+      const picked = shuffleArray(lessonItems).slice(0, quota);
+      poolPick.push(...picked);
+    }
+    // Xáo trộn thứ tự các câu hỏi đã chọn
+    poolPick = shuffleArray(poolPick);
+    const sig = poolPick.map(q => q.id).join('|');
+    if (sig !== lastExamSig || attempt === 24) {
+      localStorage.setItem('ct_last_exam_sig', sig);
+      finalSelected = poolPick;
+      break;
+    }
+  }
+
+  // Đảo cả đáp án A B C D của từng câu hỏi
+  return finalSelected.map(shuffleItemOptions);
+}
+
+function startRealExam() {
+  const questions = generateRealExamQuestions();
+  examState = {
+    questions: questions,
+    index: 0,
+    answers: {},
+    marked: {},
+    filter: 'all',
+    timerInterval: null,
+    timeLeft: EXAM_TIME_SEC,
+    timeSpent: 0
+  };
+
+  $('examHome').classList.add('hidden');
+  $('examResult').classList.add('hidden');
+  $('examActive').classList.remove('hidden');
+  $('examTitle').textContent = `Đề thi thật • 60 câu • Bao quát 9 bài`;
+  $('timer').textContent = '90:00';
+
+  renderRealExamQuestion();
+  clearInterval(examState.timerInterval);
+  examState.timerInterval = setInterval(() => {
+    examState.timeLeft--;
+    examState.timeSpent++;
+    const m = Math.floor(examState.timeLeft / 60);
+    const s = examState.timeLeft % 60;
+    $('timer').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    if (examState.timeLeft <= 0) {
+      submitRealExam(true);
+    }
+  }, 1000);
+}
+
+function renderRealExamQuestion() {
+  const s = examState;
+  const q = s.questions[s.index];
+  $('examCard').innerHTML = renderQuestionHTML(q, s.answers[s.index], 'answerRealExam', false);
+  $('examDone').textContent = `Đã làm: ${Object.keys(s.answers).length} / ${EXAM_TOTAL_Q}`;
+  $('markBtn').className = 'px-3 py-2 rounded-lg font-bold text-xs border ' + (s.marked[s.index] ? 'bg-amber-500 text-white border-amber-600' : 'bg-amber-50 text-amber-800 border-amber-200');
+  renderRealExamMatrix();
+}
+
+function answerRealExam(letter) {
+  examState.answers[examState.index] = letter;
+  renderRealExamQuestion();
+}
+
+function moveRealExam(dir) {
+  examState.index = Math.max(0, Math.min(EXAM_TOTAL_Q - 1, examState.index + dir));
+  renderRealExamQuestion();
+}
+
+function markRealExam() {
+  examState.marked[examState.index] = !examState.marked[examState.index];
+  renderRealExamQuestion();
+}
+
+function setExamFilter(f) {
+  examState.filter = f;
+  renderRealExamMatrix();
+}
+
+function renderRealExamMatrix() {
+  const s = examState;
+  const filtered = s.questions.map((q, i) => ({ q, i })).filter(item => {
+    if (s.filter === 'all') return true;
+    if (s.filter === 'done') return !!s.answers[item.i];
+    if (s.filter === 'undone') return !s.answers[item.i];
+    if (s.filter === 'marked') return !!s.marked[item.i];
+    return true;
+  });
+
+  $('examMatrix').innerHTML = filtered.map(item => `
+    <button onclick="examState.index=${item.i};renderRealExamQuestion()" class="h-9 rounded-lg text-xs font-bold border transition ${item.i === s.index ? 'ring-2 ring-red-600 ' : ''}${s.marked[item.i] ? 'bg-amber-100 border-amber-400' : s.answers[item.i] ? 'bg-red-700 text-white border-red-700' : 'bg-slate-100 border-slate-200'}">
+      ${item.i + 1}
+    </button>
+  `).join('');
+}
+
+function submitRealExam(auto = false) {
+  if (!auto && !confirm(`Bạn có chắc muốn nộp bài thi? Đã hoàn thành ${Object.keys(examState.answers).length}/${EXAM_TOTAL_Q} câu.`)) return;
+  clearInterval(examState.timerInterval);
+
+  const s = examState;
+  const correct = s.questions.filter((q, i) => s.answers[i] === q.answer).length;
+  const percent = Math.round((correct / EXAM_TOTAL_Q) * 100);
+  const mSpent = Math.floor(s.timeSpent / 60);
+  const sSpent = s.timeSpent % 60;
+  const timeFormatted = `${String(mSpent).padStart(2, '0')}:${String(sSpent).padStart(2, '0')}`;
+
+  $('examActive').classList.add('hidden');
+  $('examResult').classList.remove('hidden');
+  $('examScore').textContent = `${correct} / ${EXAM_TOTAL_Q}`;
+  $('examPercent').textContent = `${percent}%`;
+  $('examSpent').textContent = timeFormatted;
+  $('examReview').innerHTML = buildReviewHTML(s.questions, s.answers);
+
+  // Lưu lịch sử Tab Thi Thật
+  saveHistory('exam', {
+    date: new Date().toLocaleString('vi-VN'),
+    score: correct,
+    total: EXAM_TOTAL_Q,
+    percent: percent,
+    time: timeFormatted
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToExamHome() {
+  $('examResult').classList.add('hidden');
+  $('examHome').classList.remove('hidden');
+  renderHistoryDisplay('exam');
+}
+
+/* ==========================================================
+   GIAO DIỆN CHUNG & LỊCH SỬ THI
+========================================================== */
+function renderQuestionHTML(q, chosen, onAnswerHandler, showFeedback = false) {
+  let html = `
+    <div class="flex justify-between items-center mb-3">
+      <span class="px-2.5 py-1 rounded-lg bg-red-100 text-red-800 font-black text-xs">
+        Bài ${q.lesson} • Nguồn: Câu ${esc(q.label)}
+      </span>
+    </div>
+    <div class="text-base sm:text-lg font-bold leading-relaxed text-slate-800 mb-4">
+      ${esc(q.q)}
+    </div>
+    <div class="space-y-2.5">
+  `;
+
+  q.options.forEach((optText, idx) => {
+    const letter = LETTERS[idx];
+    const isSelected = (chosen === letter);
+    let cls = isSelected ? 'border-red-600 bg-red-50 text-red-950 ring-2 ring-red-500/20' : 'border-slate-200 bg-white hover:border-red-300';
+    if (showFeedback && chosen) {
+      if (letter === q.answer) {
+        cls = 'border-emerald-500 bg-emerald-50 text-emerald-950 font-bold';
+      } else if (isSelected) {
+        cls = 'border-rose-500 bg-rose-50 text-rose-950 font-bold';
+      }
+    }
+    html += `
+      <button ${showFeedback && chosen ? 'disabled' : ''} onclick="${onAnswerHandler}('${letter}')" class="opt w-full text-left p-3.5 rounded-xl border-2 flex gap-3 ${cls}">
+        <span class="w-7 h-7 shrink-0 rounded-full border flex items-center justify-center font-bold text-xs bg-slate-50">${letter}</span>
+        <span class="text-sm sm:text-base pt-0.5 leading-relaxed">${esc(optText)}</span>
+      </button>
+    `;
+  });
+  html += '</div>';
+
+  if (showFeedback && chosen) {
+    const isCorrect = (chosen === q.answer);
+    html += `
+      <div class="mt-4 p-3 rounded-lg ${isCorrect ? 'bg-emerald-50 text-emerald-900 border border-emerald-200' : 'bg-rose-50 text-rose-900 border border-rose-200'} font-bold text-sm">
+        ${isCorrect ? '✅ Bạn đã trả lời đúng!' : '❌ Câu trả lời chưa đúng.'} • Đáp án chính xác: <span class="text-emerald-700 underline font-black">${q.answer}</span>
+      </div>
+    `;
+  }
+  return html;
+}
+
+function buildReviewHTML(questions, answers) {
+  return questions.map((q, i) => {
+    const isCorrect = (answers[i] === q.answer);
+    return `
+      <div class="p-4 rounded-xl border ${isCorrect ? 'bg-emerald-50/70 border-emerald-200' : 'bg-rose-50/70 border-rose-200'}">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-xs font-bold text-slate-500">Câu ${i + 1} • Bài ${q.lesson} (Gốc: Câu ${esc(q.label)})</span>
+          <span class="text-xs font-bold px-2 py-0.5 rounded ${isCorrect ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'}">
+            ${isCorrect ? 'ĐÚNG' : 'SAI'}
+          </span>
+        </div>
+        <div class="font-bold text-slate-800 mb-3">${esc(q.q)}</div>
+        <div class="space-y-1.5 text-sm">
+          ${q.options.map((opt, j) => {
+            const letter = LETTERS[j];
+            const isAns = (letter === q.answer);
+            return `<div class="p-2 rounded ${isAns ? 'bg-emerald-100 text-emerald-950 font-bold border border-emerald-300' : 'text-slate-700'}">${letter}. ${esc(opt)}</div>`;
+          }).join('')}
+        </div>
+        <div class="mt-3 text-xs sm:text-sm text-slate-600 border-t pt-2">
+          <b>Bạn chọn:</b> <span class="${isCorrect ? 'text-emerald-700 font-bold' : 'text-rose-600 font-bold'}">${answers[i] || 'Chưa chọn'}</span> &nbsp;|&nbsp; <b>Đáp án chuẩn:</b> <span class="text-emerald-700 font-bold">${q.answer}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function saveHistory(type, record) {
+  const key = `ct_history_${type}`;
+  let history = JSON.parse(localStorage.getItem(key) || '[]');
+  history.unshift(record);
+  localStorage.setItem(key, JSON.stringify(history.slice(0, 50)));
+  renderHistoryDisplay(type);
+}
+
+function renderHistoryDisplay(type) {
+  const key = `ct_history_${type}`;
+  const container = $(`${type}History`);
+  if (!container) return;
+  const history = JSON.parse(localStorage.getItem(key) || '[]');
+  if (!history.length) {
+    container.innerHTML = `<div class="text-xs text-slate-400 italic">Chưa có lượt làm bài nào được ghi lại.</div>`;
+    return;
+  }
+  container.innerHTML = history.map(item => `
+    <div class="bg-white border rounded-lg p-2.5 text-xs flex justify-between items-center shadow-xs">
+      <span class="text-slate-500">${item.date}</span>
+      <div class="text-right font-bold">
+        <span class="text-red-700">${item.score}/${item.total} câu (${item.percent}%)</span>
+        <span class="text-slate-400 text-[10px] ml-1">⏱ ${item.time}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function clearHistory(type) {
+  if (confirm('Bạn có muốn xóa toàn bộ lịch sử điểm phần này?')) {
+    localStorage.removeItem(`ct_history_${type}`);
+    renderHistoryDisplay(type);
+  }
+}
+
+function switchMode(mode) {
+  ['practice', 'shuffle', 'exam'].forEach(sec => {
+    $(`${sec}Sec`).classList.toggle('hidden', sec !== mode);
+  });
+  const tabMap = { practice: 'tabPractice', shuffle: 'tabShuffle', exam: 'tabExam' };
+  Object.entries(tabMap).forEach(([k, id]) => {
+    $(id).className = 'tabbtn py-3 px-4 font-bold text-sm border-b-2 ' + (k === mode ? 'border-red-700 text-red-700' : 'border-transparent text-slate-500 hover:text-slate-700');
+  });
+  if (mode === 'shuffle') renderHistoryDisplay('shuffle');
+  if (mode === 'exam') renderHistoryDisplay('exam');
+}
+
+window.onload = () => {
+  renderPractice();
+  renderHistoryDisplay('shuffle');
+  renderHistoryDisplay('exam');
+};
+</script>
+</body>
+</html>
