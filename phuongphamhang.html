@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ôn Thi Thương Phẩm LTTP</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*:before,*:after{box-sizing:border-box}
+:root{--header-height:104px;--quiz-top:160px}
+body{margin:0;font-family:'Roboto',system-ui,sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh;display:flex;flex-direction:column;line-height:1.5}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+button:disabled{cursor:default;opacity:.45}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.hidden{display:none!important}
+.wrap{max-width:80rem;margin:0 auto;padding:0 12px}
+header{background:linear-gradient(to right,#7f1d1d,#991b1b,#78350f);color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 4px 6px -1px rgba(0,0,0,.15)}
+.htop{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px;padding:8px 12px;border-bottom:1px solid rgba(185,28,28,.4);font-size:13px}
+.htop b{color:#fcd34d;letter-spacing:.03em}.htop span{color:#fee2e2;font-weight:500}
+.hmain{display:flex;justify-content:space-between;align-items:center;padding:12px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .ic{background:#fff;color:#991b1b;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:inset 0 2px 4px rgba(0,0,0,.08)}
+.logo h1{margin:0;font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+.logo p{margin:0;font-size:11px;color:#fde68a}
+.btn-refresh{background:rgba(69,10,10,.7);color:#fff;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700}
+.btn-refresh:hover{background:#450a0a}
+nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:var(--header-height);z-index:20;overflow-x:auto}
+nav .wrap{display:flex;gap:8px;min-width:max-content}
+.tab{padding:12px 16px;font-weight:700;font-size:14px;border-bottom:2px solid transparent;color:#64748b;white-space:nowrap}
+.tab:hover{color:#334155}.tab.on{border-color:#b91c1c;color:#b91c1c}
+main{flex:1;width:100%;max-width:80rem;margin:0 auto;padding:16px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.p4{padding:16px}.p6{padding:24px}.mb4{margin-bottom:16px}.mt4{margin-top:16px}
+.small{font-size:12px;color:#64748b}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.layout{display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:1024px){.layout{grid-template-columns:3fr 1fr}.home-grid{grid-template-columns:1fr 2fr!important}}
+.stack>*+*{margin-top:16px}
+.navbar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px}
+.b{padding:8px 16px;border-radius:8px;font-size:14px;font-weight:700}
+.b-gray{background:#f1f5f9}.b-gray:hover{background:#e2e8f0}
+.b-red{background:#b91c1c;color:#fff}.b-red:hover{background:#991b1b}
+.b-indigo{background:#4f46e5;color:#fff}.b-indigo:hover{background:#4338ca}
+.b-mark{background:#fffbeb;color:#92400e;border:1px solid #fde68a;font-size:12px;padding:8px 12px}
+.b-mark.on{background:#f59e0b;color:#fff;border-color:#d97706}
+.pill{padding:4px 12px;border-radius:999px;background:#fef2f2;color:#991b1b;font-size:14px;font-weight:700}
+.link-red{color:#e11d48;font-weight:700;font-size:12px}.link-red:hover{text-decoration:underline}
+aside h3{margin:0;font-size:14px}
+.matrix{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-height:480px;overflow-y:auto;padding:3px}
+.cell{height:36px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid #e2e8f0;background:#f1f5f9}
+.cell.ans{background:#b91c1c;color:#fff;border-color:#b91c1c}
+.cell.ans.ind{background:#4f46e5;border-color:#4f46e5}
+.cell.ok{background:#d1fae5;border-color:#34d399;color:#065f46}
+.cell.bad{background:#ffe4e6;border-color:#fb7185;color:#9f1239}
+.cell.mk{background:#fef3c7;border-color:#fbbf24;color:#78350f}
+.cell.cur{box-shadow:0 0 0 2px #dc2626}.cell.cur.ind2{box-shadow:0 0 0 2px #4f46e5}
+.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:11px;margin-bottom:8px}
+.filters button{padding:4px 0;background:#f1f5f9;border-radius:4px;font-weight:500}
+.filters button.on{box-shadow:0 0 0 2px #dc2626}
+select.lesson{width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;margin-bottom:10px;background:#fff}
+/* question */
+.qhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.badge{padding:4px 10px;border-radius:8px;background:#fee2e2;color:#991b1b;font-weight:900;font-size:12px}
+.tag{padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;background:#f1f5f9;color:#475569}
+.tag.multi{background:#fef3c7;color:#92400e}.tag.match{background:#e0e7ff;color:#3730a3}.tag.text{background:#dcfce7;color:#166534}
+.lessontag{font-size:11px;color:#94a3b8}
+.qtext{font-size:17px;font-weight:700;line-height:1.6;margin-bottom:16px;white-space:pre-line;overflow-wrap:anywhere}
+.opts>*+*{margin-top:10px}
+.opt{width:100%;text-align:left;padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#fff;display:flex;gap:12px;transition:.15s}
+.opt:hover:not(:disabled){border-color:#fca5a5}
+.opt .L{width:28px;height:28px;flex-shrink:0;border-radius:50%;border:1px solid #cbd5e1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;background:#f8fafc}
+.opt.sq .L{border-radius:6px}
+.opt .t{padding-top:2px;font-size:15px}
+.opt.sel{border-color:#dc2626;background:#fef2f2;color:#450a0a;box-shadow:0 0 0 3px rgba(239,68,68,.15)}
+.opt.sel .L{background:#b91c1c;color:#fff;border-color:#b91c1c}
+.opt.good{border-color:#10b981;background:#ecfdf5;color:#022c22;font-weight:700}
+.opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#4c0519;font-weight:700}
+.opt:disabled{opacity:1}
+.mtable{width:100%;border-collapse:separate;border-spacing:0 8px}
+.mrow{display:grid;grid-template-columns:1fr;gap:6px;padding:12px;border:2px solid #e2e8f0;border-radius:12px;background:#fff}
+.mrow+.mrow{margin-top:10px}
+@media(min-width:640px){.mrow{grid-template-columns:2fr 3fr;align-items:center}}
+.mrow .lft{font-weight:700;font-size:15px}
+.mrow select{width:100%;padding:10px 12px;border-radius:10px;border:2px solid #cbd5e1;background:#fff;font-size:14px;cursor:pointer;appearance:auto}
+.mrow select.filled{border-color:#dc2626;background:#fef2f2}
+.mrow.good{border-color:#10b981;background:#ecfdf5}.mrow.wrong{border-color:#f43f5e;background:#fff1f2}
+.mrow .fix{grid-column:1/-1;font-size:13px;color:#047857;font-weight:700}
+.tinput{width:100%;margin-top:8px;padding:12px;border-radius:12px;border:2px solid #e2e8f0;font-size:16px}
+.tinput.good{border-color:#10b981;background:#ecfdf5}.tinput.wrong{border-color:#f43f5e;background:#fff1f2}
+.fb{margin-top:16px;padding:12px;border-radius:8px;font-weight:700;font-size:14px}
+.fb.ok{background:#ecfdf5;color:#064e3b;border:1px solid #a7f3d0}.fb.no{background:#fff1f2;color:#881337;border:1px solid #fecdd3}
+.fb u{color:#047857;font-weight:900}
+.quizbar{position:sticky;top:var(--quiz-top);z-index:10;padding:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center}
+.timer{background:#0f172a;color:#fbbf24;font-family:ui-monospace,Consolas,monospace;font-weight:900;padding:8px 12px;border-radius:8px;letter-spacing:.05em}
+.home-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.bigbtn{padding:24px;border-radius:12px;border:2px solid;font-weight:900;font-size:18px;text-align:left}
+.bigbtn .e{font-size:26px;display:block;margin-bottom:4px}
+.big-ind{border-color:#818cf8;background:#eef2ff;color:#1e1b4b}.big-ind:hover{background:#e0e7ff}
+.big-amb{border-color:#fbbf24;background:#fffbeb;color:#451a03}.big-amb:hover{background:#fef3c7}
+.hist{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px}
+.histlist{max-height:192px;overflow-y:auto}.histlist>*+*{margin-top:8px}
+.hitem{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;font-size:12px;display:flex;flex-wrap:wrap;gap:4px;justify-content:space-between}
+.hitem b{color:#b91c1c}
+.result-head{text-align:center;border-bottom:1px solid #e2e8f0;padding-bottom:20px}
+.result-head h2{margin:4px 0;font-size:24px;font-weight:900}
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:32px;margin-top:16px}
+.stats .k{font-size:12px;color:#94a3b8;font-weight:600}.stats .v{font-size:30px;font-weight:900}
+.rv{padding:16px;border-radius:12px;border:1px solid;overflow-wrap:anywhere}
+.rv+.rv{margin-top:14px}
+.rv.ok{background:rgba(236,253,245,.7);border-color:#a7f3d0}.rv.no{background:rgba(255,241,242,.7);border-color:#fecdd3}
+.rv .top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;font-size:12px;font-weight:700;color:#64748b}
+.st{padding:2px 8px;border-radius:4px}.st.ok{background:#a7f3d0;color:#065f46}.st.no{background:#fecdd3;color:#9f1239}
+.rv .q{font-weight:700;margin-bottom:10px;white-space:pre-line}
+.rv .o{font-size:14px;padding:8px;border-radius:8px;border:1px solid #e2e8f0;background:#fff}
+.rv .o+.o{margin-top:6px}
+.rv .o.good{border-color:#6ee7b7;background:#d1fae5;font-weight:700}.rv .o.wrong{border-color:#fda4af;background:#ffe4e6}
+.notice{padding:12px;background:#fffbeb;border:1px solid #fde68a;color:#78350f;border-radius:8px;font-weight:700;margin-bottom:14px}
+footer{background:#0f172a;color:#94a3b8;font-size:12px;padding:16px;text-align:center;margin-top:32px}
+.scroll::-webkit-scrollbar{width:6px}.scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px}
+@media(max-width:640px){main{padding:8px}.logo h1{font-size:14px}.qtext{font-size:16px}.p6{padding:16px}.b{padding:8px 10px;font-size:13px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="htop wrap"><b>★ ĐỀ CƯƠNG ÔN TẬP – THƯƠNG PHẨM HÀNG LƯƠNG THỰC, THỰC PHẨM</b><span>8 bài • <span class="nTotal"></span> câu</span></div>
+  <div class="hmain wrap">
+    <div class="logo"><div class="ic">🏅</div><div><h1>Ôn thi Thương phẩm LTTP</h1><p>Trọn bộ <span class="nTotal"></span> câu • Thi thật <span class="nExam"></span> câu / <span class="nMin"></span> phút</p></div></div>
+    <button class="btn-refresh" onclick="refreshPage()">Làm mới</button>
+  </div>
+</header>
+<nav><div class="wrap">
+  <button id="tab-practice" class="tab on" onclick="switchMode('practice')">📖 ÔN TẬP TOÀN BỘ (<span class="nTotal"></span> CÂU)</button>
+  <button id="tab-shuffle" class="tab" onclick="switchMode('shuffle')">🎲 LUYỆN TẬP XÁO TRỘN</button>
+  <button id="tab-exam" class="tab" onclick="switchMode('exam')">⏱ THI THẬT (<span class="nExam"></span> CÂU / <span class="nMin"></span> PHÚT)</button>
+</div></nav>
+
+<main>
+<!-- ÔN TẬP -->
+<section id="sec-practice">
+  <div class="card p4 mb4 row">
+    <div><b style="font-size:14px">Trọn bộ <span class="nTotal"></span> câu • <span id="typeStat"></span></b>
+      <div class="small">Phương án đã được đảo vị trí. Chọn, gõ hoặc chọn trong ô thả xuống rồi bấm “Kiểm tra đáp án”. Bấm lại phương án để bỏ chọn.</div></div>
+    <button class="link-red" onclick="clearPractice()">🗑 Xóa đáp án đã chọn</button>
+  </div>
+  <div class="layout">
+    <div class="stack">
+      <div id="pCard" class="card p6"></div>
+      <div class="card navbar">
+        <button id="pPrev" class="b b-gray" onclick="movePractice(-1)">← Câu trước</button>
+        <span id="pProgress" class="pill"></span>
+        <button id="pNext" class="b b-red" onclick="movePractice(1)">Câu tiếp →</button>
+      </div>
+    </div>
+    <aside class="card p4" style="height:fit-content">
+      <select id="lessonSel" class="lesson" onchange="setLesson(this.value)"></select>
+      <div class="row" style="margin-bottom:10px"><h3>Mục lục câu hỏi</h3><span id="pStat" class="small"></span></div>
+      <div id="pMatrix" class="matrix scroll"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- XÁO TRỘN -->
+<section id="sec-shuffle" class="hidden">
+  <div id="sHome" class="card p6">
+    <h2 style="margin:0 0 4px;font-size:18px;font-weight:900">🔀 Luyện tập đề xáo trộn toàn diện</h2>
+    <p class="small" style="margin:0 0 16px">Xáo trộn toàn bộ <span class="nTotal"></span> câu, đảo phương án và thứ tự ô thả xuống. Chỉ hiện điểm và đáp án sau khi nộp bài. Lịch sử điểm được lưu trên trình duyệt.</p>
+    <div class="home-grid">
+      <button class="bigbtn big-ind" onclick="startShuffle()"><span class="e">🎲</span>TẠO BỘ ĐỀ XÁO TRỘN MỚI</button>
+      <div class="hist"><div class="row" style="margin-bottom:8px"><b style="font-size:14px">🕘 Lịch sử ôn xáo trộn</b><button class="link-red" onclick="clearHistory('shuffle')">Xóa lịch sử</button></div><div id="hist-shuffle" class="histlist scroll"></div></div>
+    </div>
+  </div>
+  <div id="sActive" class="hidden stack">
+    <div class="card quizbar"><div><b>Đề luyện tập xáo trộn</b><div id="sDone" class="small"></div></div><button class="b b-indigo" onclick="submitShuffle()">Nộp bài</button></div>
+    <div class="layout">
+      <div class="stack">
+        <div id="sCard" class="card p6"></div>
+        <div class="card navbar">
+          <button id="sPrev" class="b b-gray" onclick="moveQuiz('s',-1)">← Câu trước</button>
+          <button id="sMark" class="b b-mark" onclick="markQuiz('s')">🚩 Đánh dấu</button>
+          <button id="sNext" class="b b-indigo" onclick="moveQuiz('s',1)">Câu tiếp →</button>
+        </div>
+      </div>
+      <aside class="card p4" style="height:fit-content"><h3 style="margin-bottom:8px">Mục lục câu hỏi</h3><div id="sMatrix" class="matrix scroll"></div></aside>
+    </div>
+  </div>
+  <div id="sResult" class="hidden card p6"></div>
+</section>
+
+<!-- THI THẬT -->
+<section id="sec-exam" class="hidden">
+  <div id="eHome" class="card p6">
+    <h2 style="margin:0 0 4px;font-size:18px;font-weight:900">⏱ Thi thử chuẩn hình thức (<span class="nExam"></span> câu / <span class="nMin"></span> phút)</h2>
+    <p class="small" style="margin:0 0 16px">Đề thi bốc ngẫu nhiên <b><span class="nExam"></span> câu</b> từ toàn bộ ngân hàng, thời gian <b><span class="nMin"></span> phút</b>. Câu hỏi và phương án đều được xáo trộn. Hết giờ tự động nộp bài; điểm và đáp án chỉ hiện khi đã nộp.</p>
+    <div class="home-grid">
+      <button class="bigbtn big-amb" onclick="startExam()"><span class="e">⏱</span>BẮT ĐẦU THI THẬT (<span class="nMin"></span> PHÚT)</button>
+      <div class="hist"><div class="row" style="margin-bottom:8px"><b style="font-size:14px">🏅 Lịch sử kết quả thi thật</b><button class="link-red" onclick="clearHistory('exam')">Xóa lịch sử</button></div><div id="hist-exam" class="histlist scroll"></div></div>
+    </div>
+  </div>
+  <div id="eActive" class="hidden stack">
+    <div class="card quizbar"><div><b>Đề thi thật • <span class="nExam"></span> câu • <span class="nMin"></span> phút</b><div id="eDone" class="small"></div></div>
+      <div style="display:flex;gap:8px;align-items:center"><div class="timer">⏱ <span id="timer"></span></div><button class="b b-red" onclick="submitExam(false)">Nộp bài</button></div></div>
+    <div class="layout">
+      <div class="stack">
+        <div id="eCard" class="card p6"></div>
+        <div class="card navbar">
+          <button id="ePrev" class="b b-gray" onclick="moveQuiz('e',-1)">← Câu trước</button>
+          <button id="eMark" class="b b-mark" onclick="markQuiz('e')">🚩 Đánh dấu</button>
+          <button id="eNext" class="b b-red" onclick="moveQuiz('e',1)">Câu tiếp →</button>
+        </div>
+      </div>
+      <aside class="card p4" style="height:fit-content">
+        <div class="filters"><button data-f="all" onclick="setFilter('all')">Tất cả</button><button data-f="done" onclick="setFilter('done')">Đã làm</button><button data-f="undone" onclick="setFilter('undone')">Chưa làm</button><button data-f="marked" onclick="setFilter('marked')">Đánh dấu</button></div>
+        <div id="eMatrix" class="matrix scroll"></div>
+      </aside>
+    </div>
+  </div>
+  <div id="eResult" class="hidden card p6"></div>
+</section>
+</main>
+<footer>Ngân hàng trắc nghiệm Thương phẩm hàng lương thực, thực phẩm • <span class="nTotal"></span> câu</footer>
+
+<script type="text/plain" id="bank">
+@ Bài 1. Những kiến thức chung về hàng lương thực, thực phẩm
+#1 Các loại thực phẩm chứa nhiều Protein:
++ Thịt bò, cá, trứng, lạc, đậu tương.
+- Rau muống, táo, nho, khoai tây.
+- Ngô, khoai, sắn, đu đủ, chuối xanh.
+- Chè, cà phê, dầu lạc, dầu vừng.
+#2 Monosaccarid thường gặp trong lương thực, thực phẩm là:
++ Glucose, fructose
+- Saccarose, galactose
+- Glucose, cellulose
+- Saccarose, glucose
+#3 Chất nào dưới đây là Polisaccarid:
++ Cellulose
+- Glucose
+- Saccarose
+- Fructose
+#4 Chất nào dưới đây là Disaccarid:
++ Saccarose
+- Glucose
+- Tinh bột
+- Fructose
+#5 Tính chất sinh lý, sinh hóa của lương thực, thực phẩm gồm:
++ Sự tự phân giải, sự hô hấp, sự chín sau thu hoạch, sự nảy mầm.
+- Sự quang hợp, sự hô hấp, sự chín sau thu hoạch, sự nảy mầm.
+- Sự thối rữa, sự hô hấp, sự chín sau thu hoạch, sự nảy mầm.
+- Sự tự phân giải, sự hô hấp, sự chín sau thu hoạch, sự bay hơi.
+#6 Sự hô hấp của lương thực, thực phẩm là quá trình:
++ Phân giải các chất hữu cơ trong LTTP có kèm theo giải phóng năng lượng.
+- Phân giải các chất hữu cơ trong LTTP không kèm theo giải phóng năng lượng.
+- Tổng hợp các chất hữu cơ trong LTTP có kèm theo giải phóng năng lượng.
+- Tổng hợp các chất hữu cơ trong LTTP không kèm theo giải phóng năng lượng.
+#7 Các yếu tố ảnh hưởng đến quá trình hô hấp của lương thực, thực phẩm:
++ Độ ẩm, nhiệt độ, ánh sáng, chất lượng hàng LTTP.
+- Không khí, độ ẩm, chuột và bọ trong hàng LTTP.
+- Độ ẩm, nhiệt độ, ánh sáng, côn trùng trong LTTP.
+- Độ ẩm, nhiệt độ, ánh sáng, môi trường chứa LTTP.
+#8 Trong lương thực, thực phẩm, nước tồn tại dưới dạng:
++ Nước tự do và nước liên kết.
+- Nước tự do và nước thể keo.
+- Nước liên kết và nước kết tinh.
+- Nước liên kết và nước thể keo.
+#9 Các vị cơ bản của lương thực, thực phẩm gồm mấy vị:
++ 4
+- 3
+- 5
+- 6
+#10 Vùng nhạy cảm với vị ngọt của lưỡi (người) nằm ở đâu:
++ Vùng đầu của lưỡi
+- Vùng 2 bên của lưỡi
+- Vùng giữa của lưỡi
+- Vùng gốc của lưỡi
+#11 Giá trị cảm quan của lương thực, thực phẩm được xác định thông qua các chỉ tiêu:
++ Hình dạng, độ cứng, màu sắc, mùi và vị.
+- Độ đàn hồi, độ cứng, độ chắc, mùi và vị.
+- Độ lành lặn, độ đàn hồi, độ chắc, mùi và vị.
+- Tỷ lệ sâu bệnh, tạp chất, màu sắc, mùi và vị.
+#12 Đặc trưng chất lượng của lương thực, thực phẩm được biểu hiện qua:
++ Giá trị dinh dưỡng, giá trị cảm quan, chỉ tiêu an toàn vệ sinh, giá trị thẩm mỹ, giá trị kinh tế.
+- Giá trị dinh dưỡng, chỉ tiêu lý hóa, chỉ tiêu an toàn vệ sinh, giá trị thẩm mỹ và giá trị kinh tế.
+- Giá trị dinh dưỡng, tỷ lệ tạp chất, chỉ tiêu lý hóa, độ đồng nhất, giá trị thẩm mỹ, chỉ tiêu màu sắc.
+- Giá trị dinh dưỡng, giá trị cảm quan, chỉ tiêu an toàn vệ sinh, giá trị thẩm mỹ, và chỉ tiêu màu sắc.
+#13 Có mấy hình thức kiểm tra chất lượng hàng lương thực, thực phẩm:
++ 2 hình thức
+- 3 hình thức
+- 4 hình thức
+- 5 hình thức
+#14 Có mấy phương pháp kiểm tra chất lượng hàng lương thực, thực phẩm:
++ 2 phương pháp
+- 3 phương pháp
+- 4 phương pháp
+- 5 phương pháp
+#15 Kiểm tra chất lượng lương thực, thực phẩm bằng hình thức kiểm tra toàn bộ được áp dụng:
++ Cho hàng lương thực, thực phẩm quý hiếm, số lượng ít.
+- Với kiểm tra hàng lương thực, thực phẩm số lượng lớn.
+- Khi có nhiều người tham gia kiểm tra và đủ phương tiện.
+- Khi có nhiều phương tiện dụng cụ kiểm tra, số lượng lớn.
+#16 Kiểm tra chất lượng hàng lương thực, thực phẩm bằng hình thức kiểm tra đại diện là:
++ Kiểm tra một phần LTTP trong tổng số LTTP cần phải kiểm tra chất lượng.
+- Cử người đại diện đi kiểm tra các mặt hàng LTTP trước khi xuất, nhập kho.
+- Kiểm tra đại diện một sản phẩm trong tổng số LTTP cần kiểm tra chất lượng.
+- Kiểm tra một sản phẩm trong tổng số các LTTP cần phải kiểm tra chất lượng.
+#17 Hiện tượng xảy ra khi tỷ trọng lương thực, thực phẩm đối với nước lớn hơn 1:
++ Chìm trong nước.
+- Nổi trên mặt nước.
+- Hòa tan trong nước.
+- Lơ lửng trong nước.
+#18 Khi kiểm tra mùi của lương thực, thực phẩm cần chú ý:
++ Nên kiểm tra mùi nhẹ trước, mùi nặng sau.
+- Nên kiểm tra mùi nặng trước, mùi nhẹ sau.
+- Nên kiểm tra mùi phức tạp trước, nhẹ sau.
+- Nên kiểm tra mùi phức tạp trước, nặng sau.
+#19 Bốn vị cơ bản khi kiểm tra vị của lương thực, thực phẩm là:
++ Chua, mặn, đắng, ngọt.
+- Chua, cay, mặn, ngọt.
+- Mặn, ngọt, cay, đắng.
+- Cay, ngọt, chua, đắng.
+#20 Yếu tố dùng để phân hạng lương thực, thực phẩm:
++ Chất lượng
+- Chủng loại
+- Giá trị
+- Năng lượng
+#21 Những chất chứa Nitơ không phải Protein được tạo thành khi thực phẩm bị hư hỏng là những sản phẩm ........ của Protein.
+= phân giải
+#22 Căn cứ vào cấu tạo, Lipid được phân thành Lipid ........ và Lipid phức tạp.
+= đơn giản
+#23 Enzyme có bản chất là .........., xúc tác các phản ứng sinh hóa trong cơ thể.
+= Protein
+#24 Độ nhớt của thực phẩm phụ thuộc vào ......... của thực phẩm.
+= bản chất
+#25 Tính chất sinh lý, sinh hoá là những tính chất có liên quan đến sự tồn tại và hoạt động của các .........., thường xảy ra trong các LTTP tươi sống.
+= Enzyme
+#26 Độ đồng hóa là tỷ số giữa phần sản phẩm cơ thể hấp thụ được với tổng số sản phẩm đưa vào .......... được biểu thị bằng phần trăm.
+= cơ thể
+#27 Tiêu chuẩn Nhà nước (TCVN) là cấp tiêu chuẩn ............ ở trong nước.
+= cao nhất
+#28 Nhiệt độ thấp (≤ 20°C) thường ................ cho bảo quản do các quá trình sinh lí, sinh hóa của LTTP và sự hoạt động của sinh vật có hại bị ức chế.
+= thuận lợi
+#29 Một số vai trò của Lipid đối với cơ thể người:
++ Cung cấp năng lượng
++ Hòa tan Vitamin A, D, K, E
++ Tạo cảm giác ngon miệng
+- Cung cấp Nitơ, chất kích thích
+- Cung cấp các loại đường
+#30 Những nhận định đúng về các nhóm chất dinh dưỡng trong lương thực, thực phẩm:
++ Vitamin được chia thành nhóm tan trong nước và tan trong chất béo.
++ Nước trong lương thực, thực phẩm tồn tại ở dạng tự do và liên kết.
+- Vitamin tan trong chất béo gồm các vitamin B, PP và vitamin C.
+- Nước tự do liên kết chặt với các thành phần nên khó bay hơi.
+#31 Những nhận định đúng về tính chất lý học của hàng lương thực, thực phẩm:
++ Khối lượng riêng được xác định bằng tỷ số giữa khối lượng và thể tích.
++ Tính hấp thụ thể hiện khả năng hút khí và hơi nước từ môi trường.
+- Tính dẫn nhiệt của lương thực, thực phẩm thường rất cao.
+- Biến dạng dẻo là biến dạng có khả năng trở lại trạng thái ban đầu.
+#32 Những nhận định đúng về tính chất sinh lý, sinh hóa của hàng lương thực, thực phẩm:
++ Hô hấp là quá trình phân giải chất hữu cơ và giải phóng năng lượng.
++ Sự tự phân diễn ra nhờ tác dụng của enzyme có sẵn trong sản phẩm.
+- Độ ẩm của sản phẩm càng cao thì cường độ hô hấp càng giảm.
+- Sự nảy mầm trong bảo quản luôn làm tăng giá trị dinh dưỡng sản phẩm.
+#33 Những đặc trưng chủ yếu dùng để đánh giá chất lượng lương thực, thực phẩm:
++ Giá trị dinh dưỡng phụ thuộc vào thành phần hóa học và độ đồng hóa.
++ Giá trị cảm quan được xác định qua hình dạng, độ cứng, mùi và vị.
+- Giá trị thẩm mỹ chỉ phụ thuộc vào thành phần hóa học của sản phẩm.
+- Giá trị kinh tế không liên quan đến giá cả và quy luật cung cầu.
+#34 Những nhận định đúng về công tác kiểm tra chất lượng lương thực, thực phẩm:
++ Kiểm tra toàn bộ là kiểm tra tất cả các bao kiện, đơn vị sản phẩm.
++ Kiểm tra đại diện là chỉ kiểm tra một phần trong tổng số sản phẩm.
+- Kiểm tra đại diện luôn cho kết quả chính xác hơn kiểm tra toàn bộ.
+- Hàng mẫu lưu giữ không được sử dụng làm căn cứ đối chiếu chất lượng.
+#35 Những nhận định đúng về các phương pháp kiểm tra chất lượng:
++ Phương pháp cảm quan sử dụng các giác quan con người để kiểm tra.
++ Phân tích trong phòng thí nghiệm thường có độ chính xác cao hơn.
+- Phương pháp cảm quan đòi hỏi phải có đầy đủ hóa chất và thiết bị.
+- Phương pháp phòng thí nghiệm luôn đơn giản và ít tốn thời gian.
+#36 Những nhận định đúng về các yếu tố và phương pháp bảo quản hàng lương thực, thực phẩm:
++ Độ ẩm và nhiệt độ môi trường ảnh hưởng đến chất lượng sản phẩm.
++ Bảo quản lạnh đông thường sử dụng nhiệt độ từ -18 đến -25 độ C.
+- Ánh sáng luôn có tác dụng ngăn cản quá trình oxi hóa chất béo.
+- Bảo quản khô được thực hiện bằng cách duy trì độ ẩm sản phẩm cao.
+#37 Những loại đường tương ứng:
+> Monosaccarid | Fructose
+> Disaccarid | Saccarose
+> Polysaccarid | Tinh bột
+~ Glucid
+~ Lipid
+~ Protein
+#38 Những loại đường có nhiều trong các thực phẩm tương ứng:
+> Mía đường | Saccarose
+> Mạch nha | Mantose
+> Sữa | Lactose
+~ Tinh bột
+~ Glycogen
+#39 Các Polysaccarid có nhiều trong các thực phẩm tương ứng:
+> Hạt nông sản | Tinh bột
+> Động vật | Glycogen
+> Rau quả | Cellulose
+~ Saccarose
+~ Galactose
+#40 Tính chất của các loại Vitamin:
+> Vitamin E | Dễ bị ôxy hóa.
+> Vitamin B₁ | Dễ bị thủy phân ở nhiệt độ cao.
+> Vitamin K | Dễ bị kiềm hóa.
+~ Dễ bị Acid phá hủy.
+~ Dễ bị bay hơi.
+#41 Chọn các nguyên tố đa lượng, vi lượng, siêu vi lượng tương ứng:
+> Nguyên tố đa lượng | Na, Cl, K, Ca, P, Fe.
+> Nguyên tố vi lượng | I, Co, Mo, Cu, Zn.
+> Nguyên tố siêu vi lượng | Hg, Au, Ag.
+~ Na, Co, Cu, Ag.
+~ Hg, Mo, Zn, K.
+#42 Lựa chọn thành phần hóa học đặc trưng có trong các thực phẩm:
+> Thịt, cá, trứng, sữa | Chứa nhiều Protein.
+> Dầu mỡ ăn, lạc, vừng | Chứa nhiều Lipid.
+> Gạo, khoai, bột mỳ | Chứa nhiều Glucid.
+> Rau quả | Chứa nhiều chất xơ.
+~ Nước liên kết
+~ Chất tạo màu
+~ Chất tạo mùi
+#43 Sản phẩm đặc trưng của sự thủy phân các chất trong lương thực, thực phẩm:
+> Protein + H₂O | Acid amin.
+> Lipid + H₂O | Glycerin + acid béo.
+> Tinh bột + H₂O | Glucose.
+~ Acid amin + acid béo.
+~ Glucose + acid béo.
+#44 Ảnh hưởng của các yếu tố vật lý đến sự hô hấp của lương thực, thực phẩm:
+> Độ ẩm càng thấp | Sự hô hấp càng bị ức chế.
+> Nhiệt độ thích hợp cho sự hô hấp | 30÷40°C.
+> Ánh sáng càng mạnh | Sự hô hấp càng tăng.
+~ 20÷30°C.
+~ 20÷45°C.
+#45 Năng lượng giải phóng khi ôxy hóa hoàn toàn một gam các chất sau:
+> Protein | 4,1 kcal
+> Glucid | 4,1 kcal
+> Lipid | 9,3 kcal
+~ 4,3 kcal
+~ 8,3 kcal
+~ 8,5 kcal
+@ Bài 2. Hạt nông sản, khoai, sắn và sản phẩm chế biến
+#46 Căn cứ vào thành phần hóa học, hạt nông sản được chia ra thành số nhóm là:
++ 3 nhóm
+- 2 nhóm
+- 4 nhóm
+- 5 nhóm
+#47 Cấu tạo của hạt lương thực một lá mầm có số bộ phận chính là:
++ 3 bộ phận chính
+- 2 bộ phận chính
+- 4 bộ phận chính
+- 5 bộ phận chính
+#48 Tinh bột của hạt nông sản tập trung ở bộ phận:
++ Nội nhũ và lá mầm
+- Nội nhũ và lớp vỏ
+- Lớp aloron, nội nhũ
+- Vỏ, lá mầm, aloron
+#49 Trong hạt nông sản, vitamin tập trung chủ yếu ở bộ phận:
++ Phôi và lớp aloron
+- Phôi và vỏ, nội nhũ
+- Lớp aloron và vỏ
+- Vỏ, lá mầm, nội nhũ
+#50 Độ ẩm an toàn của hạt vừng là:
++ ≤ 8%
+- ≤ 9%
+- ≤ 13%
+- ≤ 14%
+#51 Độ ẩm hạt là một trong những chỉ tiêu thuộc chỉ tiêu nào của khối hạt:
++ Chỉ tiêu lí hóa
+- Chỉ tiêu cảm quan
+- Chỉ tiêu sinh học
+- Chỉ tiêu hóa học
+#52 Tính dẫn nhiệt của khối hạt:
++ Dẫn nhiệt kém, tương đương với gỗ
+- Dẫn nhiệt kém, tương đương với sắt
+- Dẫn nhiệt tốt, tương đương với sắt
+- Dẫn nhiệt tốt, tương đương với gỗ
+#53 Trong bảo quản hạt nông sản có thể xảy ra các quá trình hô hấp:
++ Hiếu khí và yếm khí
+- Yếm khí và kị khí
+- Hiếu khí và yếu khí
+- Kị khí và yếu khí
+#54 Khi hạt nảy mầm:
++ Các chất phức tạp sẽ bị phân giải thành các chất đơn giản
+- Các chất đơn giản được tổng hợp thành các chất phức tạp
+- Các chất đơn giản được tổng hợp thành đường và tạo vị ngọt
+- Các chất phức tạp sẽ bị phân giải thành đường và tạo vị ngọt
+#55 Sự bốc nóng của khối hạt là tổng hợp của các quá trình:
++ Sinh lý, sinh hóa và hoạt động của vi sinh vật trong khối hạt
+- Biến đổi vật lý, biến đổi hóa học giữa các chất trong khối hạt
+- Trao đổi chất trong khối hạt và hoạt động của vi sinh vật trong hạt
+- Tự phân thành các chất đơn giản và có giải phóng năng lượng
+#56 Yếu tố quyết định đến sự nảy mầm của hạt là:
++ Độ ẩm
+- Ánh sáng
+- Nhiệt độ
+- Không khí
+#57 Nguyên nhân lý học chính dẫn đến sự bốc nóng của khối hạt là:
++ Tính dẫn nhiệt kém
+- Tính tan rời hạt cao
+- Độ chặt khối hạt cao
+- Góc trượt khối hạt lớn
+#58 Có bao nhiêu phương pháp bảo quản hạt nông sản:
++ 3 phương pháp
+- 2 phương pháp
+- 4 phương pháp
+- 5 phương pháp
+#59 Yếu tố quan trọng nhất ảnh hưởng đến chất lượng hạt trong bảo quản là:
++ Độ ẩm hạt
+- Nhiệt độ hạt
+- Độ tạp chất
+- Độ tan rời
+#60 Hình thức bảo quản hạt nông sản trong kho thường sử dụng là:
++ Xếp bao hoặc đổ rời
+- Xếp trên các giàn giá
+- Xếp trực tiếp nền kho
+- Xếp trên các tủ, bục
+#61 Trong bảo quản hạt nông sản, các bao hạt nông sản xếp cách nền tối thiểu là:
++ 0,5m
+- 0,3m
+- 0,4m
+- 0,6m
+#62 Bảo quản hạt nông sản trong kho bằng hình thức đổ rời, đối với hạt khô có thể đổ đống cao tối đa là:
++ 4,5m
+- 5,5m
+- 6,0m
+- 6,5m
+#63 Chỉ tiêu chất lượng về độ ẩm đối với hạt gạo là:
++ ≤ 13%
+- ≤ 14%
+- ≤ 15%
+- ≤ 16%
+#64 Khi hạt nảy mầm hoặc tự ........... các loại Enzyme thủy phân, Enzyme oxy hóa hoạt động rất mạnh, làm giảm phẩm chất của hạt.
+= bốc nóng
+#65 Đối với các sản phẩm chế biến từ hạt (gạo, bột,...) nếu ........ càng thấp có nghĩa việc tách vỏ càng triệt để và chất lượng thành phẩm càng cao.
+= độ tro
+#66 Lượng nước .......... chứa trong hạt tính bằng % so với khối lượng được gọi là độ ẩm hay thuỷ phần của hạt.
+= tự do
+#67 Độ đồng nhất của khối hạt có chất lượng tốt được biểu thị bằng sự đồng nhất về ....., độ lớn, độ ẩm và độ trắng trong (đối với gạo).
+= màu sắc
+#68 Khối lượng 1000 hạt: Biểu thị độ lớn, ......... và mẩy của hạt.
+= độ chắc
+#69 Độ vỏ của LTTP: Độ vỏ càng thấp thì ...... hạt càng cao.
+= chất lượng
+#70 Trong chỉ tiêu chất lượng của các loại hạt, người ta thường quy định mật độ ....... bằng không.
+= côn trùng
+#71 Độ rời (tính tan rời): Là sự chuyển dịch của khối hạt, được đặc trưng bằng ............ và góc trượt.
+= góc nghiêng
+#72 Tính hấp thụ của khối hạt là khả năng hút vào hoặc nhả ra các khí khác nhau và ............ của khối hạt.
+= hơi nước
+#73 Ở hạt lương thực 1 lá mầm: Lớp alơrôn nằm ở bên trong vỏ hạt, bao bọc ......... hạt.
+= nội nhũ
+#74 Hoạt động sinh lý của hạt cũng như hoạt động của vi sinh vật, côn trùng sống trong khối hạt mạnh hay yếu là tuỳ thuộc vào ......... của hạt.
+= độ ẩm
+#75 Khối lượng 1000 hạt: Biểu thị độ lớn, độ chắc và ............ của hạt.
+= độ mẩy
+#76 Những hoạt động sống của hạt trong quá trình bảo quản là:
++ Sự hô hấp
++ Sự chín sau thu hoạch
++ Sự nảy mầm
+- Sự tự phân
+- Sự bốc nóng
+- Sự bay hơi
+#77 Trong quá trình bảo quản hạt nông sản, khối hạt luôn có xu hướng:
++ Tăng độ chặt
++ Giảm độ trống rỗng
++ Tăng nhiệt độ
+- Giảm nhiệt độ
+- Giảm góc rơi
+- Giảm độ ẩm
+#78 Những đặc điểm của các phương pháp bảo quản hạt nông sản:
++ Bảo quản khô dựa trên việc giảm độ ẩm đến mức an toàn.
++ Bảo quản kín giúp hạn chế tác động của môi trường bên ngoài.
+- Bảo quản thoáng tích cực nhằm tăng độ chặt của khối hạt.
+- Bảo quản khô yêu cầu duy trì độ ẩm hạt ở mức cao.
+#79 Những điều kiện và chế độ bảo quản hạt nông sản:
++ Nhà kho phải khô, sạch, thoáng và có khả năng cách ẩm.
++ Thường xuyên kiểm tra nhiệt độ, độ ẩm và mật độ côn trùng.
+- Kho bảo quản cần ẩm ướt để hạn chế hạt bị mất nước.
+- Chồng bao trong kho đơn giản được xếp cao không hạn chế.
+#80 Những đặc điểm về chất lượng và bảo quản gạo:
++ Gạo có độ ẩm không vượt quá 13% theo yêu cầu tài liệu.
++ Gạo được bảo quản khô và thực hiện luân phiên đổi hạt.
+- Gạo bảo quản tốt khi độ ẩm vượt quá 15% và có côn trùng.
+- Gạo chỉ được bảo quản bằng cách đổ rời trên nền kho.
+#81 Những đặc điểm của khoai, sắn và sản phẩm chế biến:
++ Chất độc trong sắn có thể tạo thành Axit Xianhydric khi thủy phân.
++ Khoai, sắn thái lát khô có độ ẩm yêu cầu không quá 12%.
+- Khoai, sắn thái lát khô được bảo quản tốt khi độ ẩm cao.
+- Bột khoai, sắn khô không cần loại bỏ xơ và tạp chất.
+#82 Tỷ lệ (%) trung bình của các thành phần trong hạt một lá mầm là bao nhiêu:
+> Vỏ | Khoảng 8,5% khối lượng hạt.
+> Lớp alơrôn | Khoảng 7% khối lượng hạt.
+> Nội nhũ | Khoảng 60 – 85% khối lượng hạt.
+~ Khoảng 85 – 90% khối lượng hạt.
+~ Khoảng 10% khối lượng hạt.
+#83 Hàm lượng Protein (% chất khô) có trong các hạt nông sản là bao nhiêu:
+> Lúa | 11%
+> Ngô | 12,8%
+> Đậu tương | 40%
+~ 23%
+~ 30%
+#84 Hàm lượng Lipid (% chất khô) có trong một số hạt nông sản:
+> Lúa | 22%
+> Lúa mỳ | 3,1%
+> Ngô | 7,5%
+~ 25%
+~ 10%
+#85 Độ ẩm an toàn của một số loại nông sản là:
+> Gạo | Nhỏ hơn 13%
+> Ngô | Nhỏ hơn 12%
+> Đậu tương | Nhỏ hơn 9%
+~ Nhỏ hơn 14%
+~ Lớn hơn 13%
+#86 Hàm lượng một số thành phần chính có trong hạt gạo tẻ (tốt) là:
+> Protein | 7,6%
+> Lipid | 1,0%
+> Glucid | 76,2%
+~ 86,2%
+~ 6,7%
+#87 Chỉ tiêu chất lượng gạo tẻ loại 1 là:
+> Tỷ lệ tấm | Nhỏ hơn 15%
+> Tỷ lệ tạp chất | Nhỏ hơn 0,5%
+> Độ ẩm | Nhỏ hơn 13%
+~ Lớn hơn 15%
+~ Nhỏ hơn 17%
+#88 Hàm lượng một số thành phần chính có trong hạt ngô (tốt) là:
+> Protein | 8,6%
+> Lipid | 4,7%
+> Glucid | 69,4%
+~ 79,4%
+~ 5,7%
+#89 Hàm lượng một số thành phần có trong đậu phụ là:
+> Protein | 10,9%
+> Lipid | 5,4%
+> Glucid | 0,7%
+~ 11,5%
+~ 6,5%
+#90 Hàm lượng một số thành phần chính có trong hạt lạc:
+> Protein | 27,5%
+> Lipid | 44,5%
+> Glucid | 15,5%
+~ 45,5%
+~ 15,5%
+@ Bài 3. Rau, quả và sản phẩm chế biến
+#91 Glucid trong rau quả chủ yếu là:
++ Cellulose
+- Glucose
+- Saccarose
+- Fructose
+#92 Độ chín mà rau, quả được thu hoạch theo yêu cầu kỹ thuật của quá trình chế biến một sản phẩm nào đó, được gọi là:
++ Độ chín kỹ thuật
+- Độ chín sử dụng
+- Độ chín thu hoạch
+- Độ chín sinh lý
+#93 Độ chín mà rau, quả vượt qua độ chín sử dụng, là độ chín bảo đảm cho rau, quả phát triển sinh sản, được gọi là:
++ Độ chín sinh lý
+- Độ chín sử dụng
+- Độ chín thu hoạch
+- Độ chín kỹ thuật
+#94 Hàm lượng nước trong quả khoảng:
++ 72÷90%
+- 75÷98%
+- 62÷90%
+- 62÷98%
+#95 Chất khoáng trong rau, quả tươi có khoảng:
++ 60 loại khác nhau
+- 67 loại khác nhau
+- 56 loại khác nhau
+- 70 loại khác nhau
+#96 Đơn vị tính khối lượng riêng của rau quả tươi là:
++ Gam/cm³
+- Kilogram/cm³
+- Gam/m³
+- Gam/lít
+#97 Độ chín của rau quả được chia làm mấy loại:
++ 4 loại
+- 3 loại
+- 5 loại
+- 6 loại
+#98 Rau quả ở độ chín nào có hương vị thơm ngon, màu sắc mùi vị đặc trưng và phát triển đến giai đoạn hoàn thiện nhất:
++ Độ chín sử dụng
+- Độ chín thu hoạch
+- Độ chín kỹ thuật
+- Độ chín sinh lý
+#99 Vi sinh vật làm hư hỏng rau quả chủ yếu thông qua các quá trình:
++ Thối rữa, lên men và mốc.
+- Thối rữa, tự phân, lên men.
+- Nấm mốc, tự phân, lên men.
+- Thối rữa, lên men và Lactic.
+#100 Loại rau nào sau đây là rau ăn hoa:
++ Xúp lơ
+- Su hào
+- Mồng tơi
+- Rau đay
+#101 Chất độc Solanin có trong:
++ Khoai tây
+- Cây sắn
+- Cây mỳ
+- Củ măng
+#102 Khi muối chua rau quả, nước hoặc muối nhiễm kim loại là cho:
++ Dưa bị thâm đen
+- Dưa bị mùi khú
+- Dưa váng trắng
+- Dưa bị quá chua
+#103 Trong muối chua, thành phần nào trong rau quả là nguyên liệu để tạo thành acid Lactic:
++ Đường
+- Protein
+- Chất xơ
+- Vitamin
+#104 Rau quả muối chua phải có hàm lượng đường:
++ Lớn hơn hoặc bằng 1%
+- Nhỏ hơn hoặc bằng 1%
+- Lớn hơn hoặc bằng 0,1%
+- Nhỏ hơn hoặc bằng 0,2%
+#105 Nhiệt độ thích hợp nhất cho muối chua rau quả là:
++ 20°C
+- 15°C
+- 25°C
+- 30°C
+#106 Khi muối chua rau quả, nồng độ Acid lactic bao nhiêu thì có thể ức chế các vi sinh vật có hại nhưng vi khuẩn Lactic vẫn hoạt động bình thường:
++ 0,5%
+- 0,1%
+- 1%
+- 2%
+#107 Có mấy phương pháp sấy khô rau, quả:
++ 3 phương pháp
+- 2 phương pháp
+- 4 phương pháp
+- 5 phương pháp
+#108 Phương pháp sấy khô nào mang lại thành phẩm có chất lượng cao nhất:
++ Sấy khô bằng phương pháp thăng hoa.
+- Sấy khô bằng phương pháp tự nhiên.
+- Sấy khô nhân tạo bằng các hầm sấy.
+- Sấy khô nhân tạo bằng các loại tủ sấy.
+#109 Rau, quả tự bốc hơi nước vì áp suất riêng phần của hơi nước trong rau, quả:
++ Cao hơn áp suất riêng phần của hơi nước trong không khí.
+- Thấp hơn áp suất riêng phần của hơi nước trong không khí.
+- Bằng với áp suất riêng phần của hơi nước trong rau, quả.
+- Thấp hơn hoặc bằng áp suất riêng phần hơi nước trong rau, quả.
+#110 Lượng nhiệt cần thiết để nâng nhiệt độ 1kg sản phẩm lên 1°C được gọi là:
++ Nhiệt dung riêng
+- Nhiệt năng riêng
+- Nhiệt lượng riêng
+- Khối lượng nhiệt
+#111 Độ cứng của rau, quả là cơ sở để đánh giá:
++ Mức độ trưởng thành rau, quả.
+- Mức độ hư hỏng của rau, quả.
+- Thời gian bảo quản của rau, quả.
+- Hàm lượng chất xơ của rau, quả.
+#112 Trong bảo quản rau, quả tươi, yếu tố quan trọng nhất để rau, quả tươi giữ được chất lượng là: ..........
+= độ ẩm
+#113 Nếu để rau quả tươi trong môi trường không khí nhiệt độ ........ thì rau quả sẽ tự bốc hơi nước.
+= cao
+#114 Nhiệt dung riêng của rau, quả phụ thuộc vào thành phần và tỷ lệ các thành phần các chất có trong nó, đặc biệt là hàm lượng ........
+= nước
+#115 Bản chất của hô hấp ở rau, quả tươi là quá trình phân giải các hợp chất hữu cơ trong đó chủ yếu là .............. để tạo thành các sản phẩm khác nhau.
+= Glucid
+#116 Sự chín của rau quả dẫn đến sự hoàn thiện ............, làm cho rau quả có vị ngọt hơn, mềm hơn, có trạng thái, màu sắc, mùi vị đặc trưng thơm ngon.
+= chất lượng
+#117 Giá trị thực phẩm của rau ......... là nó tạo ra hương vị hấp dẫn cho các món ăn, từ đó kích thích khả năng hấp thụ của bộ máy tiêu hoá cơ thể người.
+= gia vị
+#118 Bản chất của quá trình muối chua rau, quả là sự lên men .......... do vi sinh vật thực hiện.
+= Lactic
+#119 Chọn bước còn thiếu trong quy trình sấy khô rau, quả: Nguyên liệu → ............ → pha thái → sấy khô → thành phẩm.
+= làm sạch
+#120 Rau, quả muối chua thường có hiện tượng hư hỏng như .........., váng trắng, bị khú.
+= thâm đen
+#121 Chỉ tiêu chất lượng của rau, quả muối chua:
++ Có vị chua dịu, mùi thơm đặc trưng.
++ Có vị ngọt của sản phẩm, ăn mềm.
+- Có màu hơi xanh đến thâm đen.
+- Có vị hăng nồng, màu vàng đậm.
+#122 Loại rau thuộc nhóm rau gia vị gồm:
++ Rau răm
++ Húng quế
++ Thìa là
+- Chuối tiêu
+- Măng tây
+- Khoai tây
+#123 Những nhận định đúng về đồ hộp quả:
++ Là đồ hộp được chế biến từ các loại quả.
++ Khi bảo quản lâu đồ hộp sẽ bị giảm chất lượng.
+- Thường được sử dụng trong điều kiện tĩnh tại.
+- Càng bảo quản lâu hàm lượng Vitamin càng tăng.
+#124 Những nhận định đúng về rau, quả muối chua:
++ Chọn nguyên liệu bánh tẻ không dập nát, tiến hành loại bỏ tạp chất.
++ Có thể dùng dung dịch Acid ascorbic nồng độ 0,05% để bảo quản.
+- Khi sản phẩm đã lên men đầy đủ thì cần tăng cường thêm nước.
+- Có thể dùng dung dịch Acid lactic nồng độ 0,05% để bảo quản.
+#125 Chỉ tiêu chất lượng của rau, quả muối chua:
++ Có vị chua dịu, mùi thơm đặc trưng.
++ Có vị ngọt của sản phẩm, ăn mềm.
+- Có màu hơi xanh đến thâm đen.
+- Có vị hăng nồng, màu vàng đậm.
+#126 Những nhận định đúng về chất lượng của rau quả khi thu hoạch:
++ Rau quả thu hoạch đúng độ chín.
++ Rau quả còn nguyên vẹn, lành lặn.
+- Không thu hoạch rau quả lúc xanh.
+- Rau, quả bị dập không sử dụng được.
+#127 Hàm lượng một số thành phần chính trong quả tươi:
+> Nước | 72÷90%
+> Glucid | 0,8÷12%
+> Chất khoáng | 0,25÷1%
+~ 65÷90%
+~ 8÷12%
+#128 Hàm lượng một số thành phần chính trong rau tươi:
+> Nước | 65÷95%
+> Glucid | 0,8÷12%
+> Chất khoáng | 0,25÷1%
+~ 75÷90%
+~ 0,5÷3,2%
+#129 Hàm lượng một số thành phần chính có trong rau muống tươi:
+> Protein | 3,2%
+> Glucid | 2,5%
+> Cellulose | 1,0%
+~ 4,5%
+~ 1,5%
+#130 Hàm lượng vitamin có trong các loại rau cải tươi:
+> Cải thìa | 26mg%
+> Cải xen | 51mg%
+> Cải cúc | 6mg%
+~ 35mg%
+~ 7,5mg%
+#131 Hàm lượng vitamin có trong rau cải bắp tươi:
+> Vitamin B₁ | 0,6mg%
+> Vitamin PP | 0,4mg%
+> Vitamin C | 30mg%
+~ 34,8%
+~ 0,5%
+#132 Hàm lượng một số thành phần chính có trong khoai tây tươi:
+> Tinh bột | 15÷25%
+> Đường | 0,4÷1,8%
+> Solanin (ở vỏ) | 2÷10mg%
+~ 30÷35%
+~ 2÷10%
+#133 Hàm lượng một số chất khoáng có trong củ cà rốt tươi:
+> Calci | 43mg%
+> Phosphor | 39mg%
+> Sắt | 1,0÷9,0mg%
+~ 35mg%
+~ 2,0mg%
+#134 Hàm lượng một số vitamin có trong củ cà rốt tươi:
+> Caroten | 0,8mg%
+> Vitamin PP | 0,4mg%
+> Vitamin C | 8mg%
+~ 10mg%
+~ 0,5mg%
+#135 Hàm lượng vitamin C có trong quả cam, quýt và chanh tương ứng:
+> Cam | 40mg%
+> Quýt | 55mg%
+> Chanh | 40mg%
+~ 30mg%
+~ 60mg%
+@ Bài 4. Thịt và sản phẩm chế biến
+#136 Thịt bò có tỷ lệ mô cơ khoảng:
++ 57 - 62%
+- 40 - 58%
+- 49 - 58%
+- 50 - 62%
+#137 Thịt lợn có tỷ lệ mô cơ khoảng:
++ 40 - 58%
+- 57 - 62%
+- 49 - 58%
+- 50 - 62%
+#138 Thịt lợn có tỷ lệ mô mỡ khoảng:
++ 15 - 46%
+- 13 - 16%
+- 15 - 16%
+- 13 - 34%
+#139 Mô cơ của thịt bao gồm:
++ Mô cơ vân, mô cơ trơn, cơ tim.
+- Mô cơ trơn, cơ tim, mô cơ bắp.
+- Mô cơ tim, cơ trơn, cơ mao mạch.
+- Mô cơ vòng, mô cơ tim, cơ xoắn.
+#140 Mô được cấu tạo từ các sợi cơ và những chất gian bào, được gọi là:
++ Mô cơ
+- Mô biểu bì
+- Mô liên kết
+- Mô xương
+#141 Mô được cấu tạo từ nhiều tế bào và chất gian bào là:
++ Mô máu
+- Mô cơ
+- Mô mỡ
+- Mô xương
+#142 Mô thần kinh của động vật tập trung nhiều nhất ở:
++ Não và tủy sống
+- Não, xương sống
+- Tủy sống, xương
+- Tủy sống và tim
+#143 Mô có giá trị thực phẩm cao nhất của động vật là:
++ Mô cơ
+- Mô mỡ
+- Mô xương
+- Mô sụn
+#144 Trong thịt gia súc, gia cầm, có bao nhiêu loại mô:
++ 8 loại
+- 6 loại
+- 7 loại
+- 9 loại
+#145 Đáp án nào dưới đây là đúng nhất:
++ Mô liên kết làm giảm giá trị thương phẩm của thịt gia súc, gia cầm.
+- Mô cơ và mô mỡ có giá trị thực phẩm cao nhất, sau đó là mô xương.
+- Súc thịt càng nhiều mô liên kết thì giá trị thương phẩm thịt càng cao.
+- Mô sụn phân bố chủ yếu ở lưỡi, má, phần đầu và mông của động vật.
+#146 Bộ xương của gia súc được chia thành các phần:
++ Xương đầu, xương thân, xương tứ chi.
+- Xương sọ, xương sống, xương tứ chi.
+- Xương thân, xương tứ chi, xương vai.
+- Xương đầu, xương sống, xương thân.
+#147 Giai đoạn đầu tiên trong quá trình tự phân ở mô cơ của thịt gia súc, gia cầm là:
++ Tươi nóng
+- Tê cóng
+- Chín tới
+- Phân hủy
+#148 Giai đoạn tự phân thứ hai ở mô cơ của thịt gia súc, gia cầm là:
++ Tê cóng
+- Tươi nóng
+- Chín tới
+- Phân hủy
+#149 Giai đoạn tự phân thứ ba ở mô cơ của thịt gia súc, gia cầm là:
++ Chín tới
+- Tươi nóng
+- Tê cóng
+- Phân hủy
+#150 Chất lượng thịt gia súc, gia cầm tốt nhất ở giai đoạn:
++ Chín tới
+- Tê cóng
+- Tươi nóng
+- Phân hủy
+#151 Thịt gia súc, gia cầm ở nhiệt độ 20°C, thời gian thịt tươi nóng kéo dài:
++ 2÷3h
+- 3÷4h
+- 4÷5h
+- 5÷6h
+#152 Ở giai đoạn tự phân nào, thịt gia súc, gia cầm mất tính đàn hồi:
++ Tê cóng
+- Tươi nóng
+- Chín tới
+- Phân hủy
+#153 Yếu tố nào mang tính quyết định đến thời gian biến đổi tự phân của mô cơ:
++ Nhiệt độ bảo quản
+- Độ ẩm môi trường
+- Hàm lượng Nitơ
+- Thời gian bảo quản
+#154 Khi bảo quản thịt ở nhiệt độ -2°C đến -10°C và độ ẩm không khí cao hơn 80% sẽ xảy ra:
++ Hiện tượng nhầy
+- Hiện tượng ôi
+- Hiện tượng thiu
+- Hiện tượng râm
+#155 Nâng nhiệt độ lương thực, thực phẩm lên 90÷100°C trong thời gian từ vài giây đến vài chục giây, sau đó làm lạnh đột ngột là cách làm của phương pháp bảo quản:
++ Pasteur
+- Vô trùng
+- Khử trùng
+- Diệt trùng
+#156 Ướp muối thịt cá có mấy phương pháp:
++ 3 phương pháp
+- 2 phương pháp
+- 4 phương pháp
+- 5 phương pháp
+#157 Nâng nhiệt độ lương thực, thực phẩm lên 63÷80°C trong thời gian từ 10÷40 giây, sau đó làm lạnh đột ngột là cách làm của phương pháp bảo quản:
++ Phương pháp Pasteur
+- Phương pháp vô trùng
+- Hấp nhiệt độ, áp suất cao
+- Làm lạnh nhanh, đột ngột
+#158 Sản phẩm thịt ướp muối có màu nâu xám vì trong thịt ướp muối chứa:
++ Metmyoglobin
+- Myoglobin
+- Acid Ascorbic
+- Natriglutamat
+#159 Điều kiện thích hợp về nhiệt độ và độ ẩm để bảo quản đồ hộp thịt là:
++ (0÷15)°C và độ ẩm (75÷78%)
+- (0÷10)°C và độ ẩm (75÷78%)
+- (0÷15)°C và độ ẩm (75÷79%)
+- (0÷10)°C và độ ẩm (75÷79%)
+#160 Tỷ lệ Protein hoàn thiện (so với tổng Protein trong thịt gia súc, gia cầm) là:
++ Từ 80÷84%
+- Từ 70÷80%
+- Từ 75÷80%
+- Từ 67÷74%
+#161 Độ tiêu hóa của Protein thịt gia súc, gia cầm là:
++ 90÷97%
+- 80÷85%
+- 80÷93%
+- 80÷97%
+#162 Mô ............ bao phủ mặt ngoài cơ thể động vật hoặc lót mặt trong các khoang ngực, bụng và các cơ quan rỗng như ống tiêu hoá, khí quản.
+= biểu bì
+#163 Một trong các yếu tố ảnh hưởng đến chất lượng thịt là ...... của động vật trước khi giết mổ, kỹ thuật lấy tiết và điều kiện bảo quản.
+= trạng thái
+#164 Chất .......... có tác dụng kích thích tiêu hoá, tạo cho thịt mùi vị thơm ngon đặc trưng.
+= trích ly
+#165 Lipid thịt gia cầm có tỷ lệ acid béo chưa no lớn hơn Lipid trong thịt gia súc. Nhìn chung, giá trị thực phẩm của thịt gia cầm ........ thịt gia súc.
+= cao hơn
+#166 Lưỡi có thành phần hoá học tương tự cơ xương. Tuy nhiên hàm lượng Protein hoàn thiện và Protein tổng cộng thấp, hàm lượng ............ cao hơn.
+= Collagen / Colagen
+#167 Não bộ (óc) có thành phần hóa học chính là: ..........
+= Lipit / Lipid
+#168 Giai đoạn tiếp theo của ......... là giai đoạn chín tới ở thịt gia súc, gia cầm sau giết mổ.
+= tê cóng
+#169 Tốc độ và ...... tê cóng còn phụ thuộc vào loại động vật, trạng thái con vật khi giết mổ, vị trí súc thịt trên con vật.
+= thời gian
+#170 Ở giai đoạn ......... thịt có chất lượng mềm mại, sau khi luộc, thịt mềm, nước luộc trong và thịt thơm ngon đặc trưng.
+= chín tới
+#171 Nếu ......... nhiệt độ bảo quản, thời gian đạt chín tới của thịt sẽ rút ngắn.
+= tăng
+#172 Sự bốc hơi nước ở lớp .......... súc thịt gây nên hao hụt khối lượng của súc thịt.
+= bề mặt
+#173 Hiện tượng bốc hơi nước tạo ra trên bề mặt súc thịt tạo lớp ......, hạn chế sự bốc hơi nước tiếp theo và sự xâm nhập của vi sinh vật.
+= màng khô
+#174 Súc thịt bị bốc hơi quá mạnh hoặc không tạo lớp màng khô thì khối lượng, chất lượng thịt giảm sút và ......... kém đi.
+= độ đồng hóa
+#175 Khi quá trình ........... xảy ra mạnh, trong thịt sẽ tích tụ các andehyt, xêtôn, oxy Acid làm thịt có vị khó chịu và gây độc thực phẩm.
+= oxy hóa / oxi hóa
+#176 Thịt bị lên men chua có màu xám và vị chua khó chịu, nguyên nhân do các ..... lactic gây nên.
+= vi khuẩn
+#177 Tuỳ thuộc vào sự phát triển của vi khuẩn và nấm men, .... của thịt sẽ bị chuyển hoá thành Acid lactic, CO₂, rượu.
+= Glucid
+#178 Hiện tượng thối rữa: Là hiện tượng phân giải sâu ........ của thịt dưới tác dụng của vi khuẩn gây thối rữa, trong điều kiện hiếu khí hoặc kỵ khí.
+= Protein
+#179 Trong các mô của thịt, mô ... bao phủ mặt ngoài cơ thể động vật (da) hoặc lót mặt trong các khoang ngực, bụng và các cơ quan rỗng như ống tiêu hoá, khí quản.
+= biểu bì
+#180 Mô mỡ cấu tạo từ mô liên kết xốp và tế bào mỡ. Đối với trâu, bò, lợn mô mỡ phân bố chủ yếu ...., trong khoang bụng và giữa các bắp cơ.
+= dưới da
+#181 Trong quá trình bảo quản thịt lạnh, hao hụt khối lượng thịt bảo quản phụ thuộc vào loài gia súc và mức độ béo của thịt, điều kiện và ........ bảo quản.
+= thời gian
+#182 Những nhược điểm của phương pháp ướp muối khô thịt:
++ Muối phân bố không đồng đều.
++ Hao hụt khối lượng nhiều.
+- Sản phẩm không mặn, thịt dai.
+- Sản phẩm quá mặn, thịt mềm.
+#183 Các thành phần hóa học của dung dịch ướp muối ướt thịt gồm:
++ Muối, đường
++ Natriglutamat
+- Acid ascobic
+- Muối, mioglobin
+#184 Những yêu cầu chất lượng của thịt ướp muối khô là:
++ Mô cơ rắn chắc, màu hồng.
++ Mô mỡ chắc màu trắng hoặc hồng nhạt.
+- Mô cơ mềm mại, màu hồng.
+- Mô mỡ mềm màu hồng nhạt hoặc trắng.
+#185 Những yêu cầu chất lượng của thịt ướp muối ướt là:
++ Mô cơ rắn chắc, màu đỏ hồng.
++ Sản phẩm không có nấm mốc, ruồi bọ.
+- Mô cơ rắn chắc, màu nâu xám.
+- Sản phẩm có mùi vị chua, mặn.
+#186 Thành phần hóa học của thịt gia súc gồm những thành phần nào?
++ Protein chiếm khoảng 16 đến 21% khối lượng.
++ Nước chiếm khoảng 55 đến 78% khối lượng.
+- Gluxit chiếm khoảng 4 đến 8% khối lượng.
+- Chất khoáng chiếm khoảng 7 đến 13% khối lượng.
+#187 Những đặc điểm cấu tạo nào thuộc về thịt gia cầm?
++ Sợi cơ cấu tạo chặt chẽ, mịn và nhỏ hơn.
++ Hàm lượng mô liên kết ít hơn so với thịt gia súc.
+- Sợi cơ gia cầm cái thô hơn so với gia cầm đực.
+- Mô liên kết chiếm tỷ lệ lớn hơn so với thịt gia súc.
+#188 Những đặc điểm nào đúng về các loại mô trong thịt?
++ Mô cơ vân có giá trị thực phẩm cao nhất trong súc thịt.
++ Mô biểu bì có chức năng che chở và bài tiết.
+- Mô cơ trơn co giãn nhanh theo ý muốn của con vật.
+- Mô liên kết chỉ có chức năng dự trữ chất dinh dưỡng.
+#189 Những chỉ tiêu nào thể hiện chất lượng cảm quan của thịt tươi?
++ Thịt có màu sắc đặc trưng cho từng loại động vật.
++ Thịt đàn hồi tốt, vết lõm nhanh chóng đầy lại.
+- Thịt có mùi chua nhẹ và bề mặt hơi dính nhớp.
+- Nước luộc đục màu, có mùi vị lạ và khó chịu.
+#190 Những đặc điểm nào thuộc về cơ vùng thân của động vật?
++ Chứa ít mô liên kết, sợi cơ nhỏ mịn và màu sáng.
++ Có giá trị dinh dưỡng cao và mùi vị thơm ngon.
+- Chứa nhiều mô liên kết, sợi cơ thô và màu sẫm.
+- Chịu sức nâng đỡ lớn, sợi cơ dày và thô cứng.
+#191 Những chỉ tiêu nào thể hiện chất lượng cảm quan của thịt tươi?
++ Thịt có màu sắc đặc trưng cho từng loại động vật.
++ Thịt đàn hồi tốt, vết lõm nhanh chóng đầy lại.
+- Thịt có mùi chua nhẹ và bề mặt hơi dính nhớp.
+- Nước luộc đục màu, có mùi vị lạ và khó chịu.
+#192 Thời gian chín tới của mô cơ thịt bò tương ứng với nhiệt độ bảo quản của súc thịt:
+> Ở 0°C | Thời gian chín tới sau 2÷4 ngày.
+> Ở 8÷10°C | Thời gian chín tới sau 6 ngày.
+> Ở 18÷20°C | Thời gian chín tới sau 2 ngày.
+~ Thời gian chín tới sau 18÷20 ngày.
+~ Thời gian chín tới sau 8 ngày.
+#193 Một số chỉ tiêu cảm quan của thịt bò có chất lượng tốt là:
+> Hình dạng | Thịt sạch sẽ, không còn lông, không có máu đông, không dính cặn bã, chất bẩn của ruột và dạ dày, không có máu khô bên ngoài.
+> Màu sắc mô cơ | Có màu đỏ nhạt, bó cơ cấu tạo chặt, mặt cắt bó cơ mịn.
+> Mùi | Có mùi thơm đặc trưng như sữa bò.
+> Mô mỡ | Có màu trắng, không mùi, khi miết ngón tay có cảm giác xốp.
+~ Có màu đỏ nhạt, bó cơ cấu tạo thô và lỏng lẻo.
+~ Có màu đỏ sẫm, bó cơ cấu tạo chặt, mặt cắt bó cơ thô.
+~ Có mùi thơm mát hoặc hơi hôi.
+#194 Điều kiện cần để bảo quản thịt lợn bằng phương pháp bảo quản lạnh là:
+> Nhiệt độ | Từ 0÷1,5°C
+> Độ ẩm không khí | 90÷95%
+> Thời hạn bảo quản tối đa | 15 ngày
+~ 0÷2,5°C
+~ 0,5÷1m/s
+~ 21 ngày
+#195 Điều kiện cần để bảo quản thịt gia cầm bằng phương pháp bảo quản lạnh:
+> Nhiệt độ | Từ 0÷1,0°C
+> Độ ẩm không khí | 85÷90%
+> Thời hạn bảo quản tối đa | 7÷10 ngày
+~ 2,0÷3,0°C
+~ 75÷80%
+~ 10÷15 ngày
+#196 Điều kiện cần có để làm súc thịt (trâu, bò) lạnh đông trước khi đưa vào bảo quản bằng phương pháp lạnh đông:
+> Nhiệt độ | Từ (-25)÷(-30)°C
+> Độ ẩm không khí | 95÷98%
+> Thời hạn làm lạnh đông | 20÷30 giờ
+~ (-18)÷(-23)°C
+~ 80÷90%
+~ 10÷15 giờ
+#197 Nội dung của phương pháp ướp muối khô với đặc điểm tương ứng:
+> Thành phần muối trong hỗn hợp | 93%
+> Thành phần đường trong hỗn hợp | 5%
+> Thành phần Axit Ascorbic | 2%
+~ 92%
+~ 6%
+#198 Thành phần dung dịch ướp muối ướt với nồng độ tương ứng:
+> Muối ăn | 14÷25%
+> Đường | 0,5%
+> Natri Ascorbinat | 0,6%
+~ 0,4%
+~ Không thấp hơn 0,5%
+~ Không thấp hơn 0,6%
+#199 Nội dung của phương pháp ướp muối hỗn hợp với đặc điểm tương ứng:
+> Bản chất phương pháp | Kết hợp khô và ướt
+> Xử lý thịt trước khi ngâm | Tiêm hoặc xát hỗn hợp muối khô
+> Nồng độ dung dịch muối | Không thấp hơn 12%
+~ Không thấp hơn 11%
+~ Sử dụng ướp muối khô
+~ Sử dụng ướp muối ướt
+#200 Nội dung phương pháp sấy thịt với đặc điểm tương ứng:
+> Sấy ở nhiệt độ thấp | Dưới 80°C
+> Sấy ở nhiệt độ cao | Trên 160°C
+> Sấy thăng hoa | Một phương pháp sấy nhân tạo
+~ Dưới 50°C
+~ 80÷170°C
+@ Bài 5. Thủy sản và sản phẩm chế biến
+#201 Thành phần hóa học các chất chủ yếu trong cá gồm:
++ Protein, Lipid, Glucid, vitamin, chất khoáng, nước, enzyme, chất trích ly.
+- Hợp chất chứa Nitơ, Protein, Lipid, Glucid, vitamin, chất khoáng, nước.
+- Protein, Lipid, Glucid, tinh bột, vitamin, chất khoáng, enzyme, chất nhờn.
+- Hợp chất chứa Nitơ, Protein, Lipid, Glucid, vitamin, chất nhờn, enzyme.
+#202 Hàm lượng trung bình của Protein trong cá (so với khối lượng cá) là:
++ Từ 15÷21%
+- Từ 10÷15%
+- Từ 21÷25%
+- Từ 25÷30%
+#203 Hàm lượng Lipid trong cá (so với khối lượng cá) là:
++ Từ 0,2÷30%
+- Từ 10÷15%
+- Từ 10÷25%
+- Từ 10÷30%
+#204 Hàm lượng Glucid trong cá (so với khối lượng cá) là:
++ 1%
+- 5%
+- 2%
+- 4%
+#205 Vitamin trong cá có khoảng 30 loại nhưng chủ yếu là:
++ A, D, E, K, B
+- A, D, E, K, PP
+- A, D, E, K, C
+- A, D, E, B, PP
+#206 Vitamin nhóm B trong cá chủ yếu có trong bộ phận:
++ Thịt cá
+- Mỡ cá
+- Gan cá
+- Da cá
+#207 Sự biến đổi tự phân ở cá sau khi chết gồm các giai đoạn:
++ Tiết chất nhờn, tê cóng, tự phân, thối rữa.
+- Tiết chất nhờn, tê cóng, thối rữa, phân hủy.
+- Hấp hối, tiết chất nhờn, tự phân, thối rữa.
+- Hấp hối, tiết chất nhờn, tê cóng, phân hủy.
+#208 Thời gian tê cóng của cá sau khi chết, phụ thuộc vào các yếu tố:
++ Loài, đặc tính trước khi chết, nhiệt độ môi trường.
+- Loài, đặc tính trước khi chết, thời gian bảo quản.
+- Loài, nhiệt độ môi trường và thời gian bảo quản.
+- Loài, nhiệt độ môi trường và độ pH có trong cá.
+#209 Mùi tanh của cá là do chất nào trong cá gây ra:
++ Trimetylamin
+- Dimetylamin
+- Metylamin
+- Amoniac
+#210 Ở phương pháp bảo quản lạnh, cá được ướp lạnh ở nhiệt độ:
++ Từ (-2) ÷ 1°C
+- Từ (-2) ÷ 0°C
+- Từ (-3) ÷ 1°C
+- Từ (-3) ÷ 0°C
+#211 Trong bảo quản lạnh, cá được làm lạnh bằng mấy phương pháp:
++ 3 phương pháp
+- 2 phương pháp
+- 4 phương pháp
+- 5 phương pháp
+#212 Làm lạnh cá bằng phương pháp dung dịch muối NaCl lạnh cần nồng độ dung dịch và nhiệt độ là:
++ Nồng độ 2%, nhiệt độ 0÷4°C
+- Nồng độ 2%, nhiệt độ 1÷4°C
+- Nồng độ 3%, nhiệt độ 0÷4°C
+- Nồng độ 3%, nhiệt độ 1÷4°C
+#213 Điều kiện về nhiệt độ và độ ẩm khi bảo quản cá ướp lạnh là:
++ Nhiệt độ 0÷2°C, độ ẩm 95÷98%
+- Nhiệt độ 0÷2°C, độ ẩm 96÷98%
+- Nhiệt độ 1÷3°C, độ ẩm 95÷98%
+- Nhiệt độ 1÷3°C, độ ẩm 96÷98%
+#214 Quá trình chế biến nước mắm, các phương pháp kéo rút nước mắm là:
++ Nấu toàn tinh và kéo rút qua lù.
+- Nấu toàn tinh và xả van ở đáy.
+- Kéo rút qua lù và xả van ở đáy.
+- Xả van ở đáy và nấu từng phần.
+#215 Điều kiện độ ẩm không khí thích hợp để bảo quản cá ướp muối là:
++ 85÷95%
+- 80÷90%
+- 70÷80%
+- 75÷85%
+#216 Hàm lượng Protein (so với khối lượng chung) trong tôm tươi là:
++ 18÷22%
+- 22÷32%
+- 12÷20%
+- 23÷47%
+#217 Hàm lượng Lipid (so với khối lượng chung) trong mực tươi là:
++ 0,2÷3%
+- 0,2÷5%
+- 0,5÷5%
+- 0,5÷4%
+#218 Một số sản phẩm chế biến từ cá:
++ Đồ hộp cá, nước mắm, cá khô
+- Đồ hộp cá, nước mắm, mắm tôm
+- Đồ hộp cá, mắm tôm, cá khô
+- Nước mắm, cá khô, mắm ruốc
+#219 Chỉ tiêu chất lượng của cá tươi sống:
++ Cá bơi khỏe, thần kinh nhạy bén.
++ Bơi lội bình thường trong nước.
++ Không mắc bệnh nấm mang, tróc vẩy.
+- Chất nhờn ban đầu trong sau đục.
+- Thịt cá săn chắc, cơ mất tính đàn hồi.
+#220 Chỉ tiêu cảm quan của cá chết chất lượng tốt:
++ Cá chìm hẳn trong nước, vây nguyên vẹn, không rách nát.
++ Mình cá sạch không bám nhiều bùn cát, có ít chất nhờn.
++ Vảy có màu sắc bình thường tự nhiên, bám chắc vào cơ thể.
+- Thịt cá mềm nhũn, cơ thể cá không còn tính đàn hồi.
+- Mắt cá lồi to, bụng cá phình ra, màu sắc nhợt nhạt.
+#221 Các phương pháp bảo quản cá sau khi chết:
++ Bảo quản bằng nhiệt độ thấp
++ Bảo quản cá bằng ướp muối
+- Bảo quản cá bằng khí CO₂
+- Bảo quản bằng cách làm mắm
+#222 Những yêu cầu chất lượng trong bảo quản cá ướp muối:
++ Cá có màu sắc đẹp, phù hợp với màu sắc sẵn có của từng loài.
++ Mình cá sạch sẽ không có hiện tượng nấm mốc phát triển.
++ Mùi vị đặc trưng, muối ngấm đồng đều trên cơ thể cá.
+- Cá có mùi tanh nhiều, cơ thể cá có tính đàn hồi kém.
+- Mang mềm khép chặt chứng tỏ cá đang ở thời kì tê cóng.
+#223 Chỉ tiêu chất lượng của đồ hộp cá:
++ Mặt trong, ngoài hộp không han rỉ, sạch sẽ, kí nhãn hiệu đẹp, rõ ràng.
++ Có màu sắc phù hợp với từng loài, mùi vị thơm ngon, mặn vừa phải.
+- Nắp hộp cá có thể bị phồng, chứa đựng cá không đồng đều trong hộp.
+- Có thể chứa một số kim loại nặng vượt quá so với yêu cầu cho phép.
+#224 Các phương pháp chế biến nước mắm:
++ Phương pháp chượp gài nén
++ Phương pháp chượp quậy
+- Phương pháp chượp khuấy
+- Phương pháp chượp pha đấu
+#225 Các phương pháp kéo rút nước mắm là:
++ Phương pháp nấu toàn tinh
++ Phương pháp kéo rút qua lù
+- Phương pháp đun toàn tinh
+- Phương pháp nấu cách thủy
+#226 Yêu cầu chất lượng của nước mắm:
++ Màu sắc từ vàng rơm đến cánh gián, trong không vẩn đục.
++ Có mùi thơm ngon đặc trưng, không có mùi, vị lạ khác.
+- Hàm lượng Nitơ, acid Amoniac trong nước mắm cao.
+- Hàm lượng Nitơ, acid Amin trong nước mắm thấp.
+#227 Những nguyên liệu để sản xuất nước mắm tốt:
++ Cá nục
++ Cá trích
++ Cá mòi
+- Cá trắm
+- Cá diếc
+#228 Những yếu tố ảnh hưởng đến chất lượng nước mắm:
++ Nguyên liệu làm mắm
++ Kỹ thuật chượp
++ Điều kiện môi trường, vệ sinh
+- Độ ẩm của chượp.
+- Độ bão hòa muối.
+#229 Những biểu hiện suy giảm chất lượng của nước mắm trong bảo quản:
++ Xuất hiện nhiều bọt khí, nước xanh hoặc hơi đen.
++ Có vị chua tanh, ủng hoặc hơi thối, không ngọt đậm.
+- Có màu vàng đến vàng cánh gián, trong không đục.
+- Có vị thơm đặc trưng của nguyên liệu, độ đạm cao.
+#230 Một số chỉ tiêu chất lượng cá khô:
++ Có màu vàng hoặc nâu đen đồng đều.
++ Không có lớp váng muối trên bề mặt.
++ Không bị mốc xanh, đen hoặc xám.
+- Có màu nâu đỏ, mùi có thể hơi khét.
+- Cho phép tỷ lệ gẫy (rơi đầu) 20÷30%.
+#231 Một số điều kiện để bảo quản cá khô:
++ Nhiệt độ bảo quản 8÷10°C.
++ Độ ẩm không khí khoảng 75%.
++ Kho cao ráo, sạch sẽ, thoáng mát.
+- Nhiệt độ bảo quản 18÷20°C.
+- Độ ẩm không khí 65÷70%.
+#232 Với những chượp có chất lượng kém hoặc khối lượng chượp ít, thường kéo rút nước mắm bằng cách nấu .....
+= toàn tinh
+#233 Tôm sau khi chết, dưới tác dụng của ............ cơ thể tôm bị thối rữa, màu sắc tái nhợt, bề mặt tôm xuất hiện nhiều chất nhầy.
+= vi khuẩn
+#234 Cấu trúc thịt tôm không chặt chẽ vì Protein trong tôm ít thuộc ............
+= mô liên kết
+#235 Cấu trúc của thịt tôm không ........ vì Protein của tôm ít thuộc mô liên kết (colagen và elastin).
+= chặt chẽ
+#236 Cá sau khi chết ở giai đoạn tiết chất nhờn, thịt cá vẫn giữ được tính ... tốt, khả năng ngậm nước, giữ nước của Protein bình thường.
+= đàn hồi
+#237 Hàm lượng trung bình của một số thành phần có trong cá:
+> Nước | 52÷85%
+> Chất khoáng | 1,2÷1,5%
+> Vitamin | Có trên 30 loại vitamin
+~ 72÷80%
+~ 1,2÷15%
+#238 Một số chỉ tiêu chất lượng của cá chết có chất lượng tốt:
+> Tỷ trọng | Lớn hơn 1 (cá chìm trong nước).
+> Vây | Nguyên vẹn, không rách.
+> Chất nhờn | Tiết nhiều và trong.
+> Mang | Màu đỏ tươi.
+~ Tiết nhiều và đục mờ.
+~ Màu đỏ đậm.
+#239 Một số chỉ tiêu chất lượng của cá chết có chất lượng tốt:
+> Bụng | Không phình to.
+> Mắt | Trong không đục, hốc mắt không lõm.
+> Mùi tanh | Bình thường, không hôi thối.
+> Nếu mổ cá | Ruột, mật nguyên vẹn, không vỡ, không thối.
+~ Hơi phình to.
+~ Trong không đục, có thể hốc mắt hơi lõm một chút.
+#240 Điều kiện về nhiệt độ, độ ẩm và thời gian bảo quản cá ướp lạnh:
+> Nhiệt độ | 0÷2°C
+> Độ ẩm | 95÷98%
+> Thời gian bảo quản | 12 ngày
+~ 2÷3°C
+~ 21 ngày
+#241 Hàm lượng muối tương ứng với các phương pháp ướp muối cá:
+> Phương pháp ướp muối nhạt | Nồng độ muối NaCl từ 6÷10%.
+> Phương pháp ướp muối trung bình | Nồng độ muối NaCl từ 10÷14%.
+> Phương pháp ướp muối mặn | Nồng độ muối NaCl từ >14%.
+~ Nồng độ muối NaCl từ 10÷16%.
+~ Nồng độ muối NaCl từ >16%.
+#242 Một số chỉ tiêu cảm quan chính của đồ cá hộp có chất lượng tốt:
+> Mặt ngoài hộp | Sạch sẽ, không bẹp méo, không han rỉ.
+> Kí, nhãn hiệu | Trình bày đẹp, rõ ràng, địa chỉ sản xuất cụ thể.
+> Thời hạn sử dụng | Còn thời gian dài sử dụng.
+> Màu sắc sản phẩm | Phù hợp với từng loài.
+~ Có màu vàng cam hoặc màu nâu.
+~ Trình bày đẹp, rõ ràng, địa chỉ bán hàng cụ thể.
+#243 Hàm lượng một số thành phần chính có trong tôm tươi:
+> Protein | 18÷22%
+> Lipid | 0,7÷23%
+> Nước | 71,5÷79,6%
+~ 65÷70,8%
+~ 28÷32%
+#244 Một số yêu cầu chất lượng chính đối với mực khô chất lượng tốt:
+> Màu sắc | Có màu hồng nhạt, có thể có phấn trắng lấm tấm trên bề mặt.
+> Tạp chất | Không dính cát, tạp chất.
+> Hương vị | Thơm, ngọt, không mặn.
+~ Có màu hơi đỏ, có thể có phấn trắng lấm tấm trên bề mặt.
+~ Thơm, ngọt, có vị hơi mặn.
+#245 Một số yêu cầu chất lượng chính đối với mực khô chất lượng tốt:
+> Hàm lượng nước | 16÷18%
+> Tỷ lệ muối | Không quá 2%
+> Vi sinh vật | Không có nấm mốc, vi sinh vật phát triển
+~ 18÷20%
+~ Không quá 6%
+@ Bài 6. Dầu, mỡ ăn
+#246 Thành phần chính của dầu, mỡ ăn:
++ Glycerid và các chất kèm theo.
+- Glycerin và các chất kèm theo.
+- Glycerol và các chất kèm theo.
+- Axit béo và các chất kèm theo.
+#247 Chất tạo màu vàng cho dầu, mỡ là:
++ Xanthophyl
+- Saccarose
+- Caroten
+- Cholesterol
+#248 Chất tạo màu xanh cho dầu, mỡ là:
++ Chlorophyl
+- Xanthophyl
+- Vitamin C
+- Cholesterol
+#249 Chất tạo màu cam cho dầu, mỡ là:
++ Caroten
+- Chlorophyl
+- Protein
+- Cholesterol
+#250 Tỷ trọng của dầu, mỡ ăn là tỉ lệ giữa:
++ Oxy acid và acid béo no phân tử lượng trong dầu, mỡ ăn.
+- Acid béo no phân tử lượng thấp và phân tử lượng cao.
+- Acid béo no phân tử lượng thấp và acid béo không no.
+- Acid béo không no và acid béo no phân tử lượng thấp.
+#251 Tỉ trọng của dầu mỡ ăn ở 15°C là:
++ 0,9÷0,98
+- 0,8÷0,91
+- 0,8÷0,93
+- 0,9÷0,94
+#252 Nhiệt độ phân hủy của dầu, mỡ ăn ở khoảng:
++ 260 ÷ 280°C
+- 270 ÷ 290°C
+- 260 ÷ 290°C
+- 270 ÷ 280°C
+#253 Tính chất hóa học chủ yếu của dầu, mỡ ăn phụ thuộc vào chất:
++ Triglycerid
+- Diglycerid
+- Acid béo
+- Glycerin
+#254 Những yếu tố trong dầu, mỡ ăn gây khó khăn trong công tác bảo quản là:
++ Enzyme, acid béo tự do và nước.
+- Enzyme, acid béo tự do, chất màu.
+- Acid béo tự do, nước, chất màu.
+- Enzyme, chất tạo màu và Lipid.
+#255 Những yếu tố làm dầu, mỡ ăn bị oxy hóa:
++ Nhiệt độ, oxy không khí, ánh sáng.
+- Nhiệt độ, vi sinh vật và ánh sáng.
+- Vi sinh vật, ánh sáng, nước tự do.
+- Vi sinh vật, nước tự do và Lipid.
+#256 Dầu, mỡ ăn có mấy chỉ tiêu lý hóa:
++ 8 chỉ tiêu
+- 6 chỉ tiêu
+- 7 chỉ tiêu
+- 9 chỉ tiêu
+#257 Dầu, mỡ ăn có mấy tính chất lý học:
++ 5 tính chất
+- 3 tính chất
+- 4 tính chất
+- 6 tính chất
+#258 Những nguyên liệu có thể sản xuất dầu thực vật là:
++ Vừng, lạc nhân, cùi dừa tươi, cơm dừa khô, đậu tương.
+- Vừng, lạc nhân, cùi dừa tươi, cơm dừa khô và lúa mạch.
+- Vừng, lạc nhân, cùi dừa tươi, lúa mạch và hạt cây ngô.
+- Vừng, lạc nhân, lúa mạch, hạt ngô, cơm dừa khô, khoai.
+#259 Trạng thái của mỡ động vật khi ở nhiệt độ 20÷30°C là:
++ Từ đặc sệt đến rắn
+- Từ lỏng đến đặc sệt
+- Từ lỏng đến rắn
+- Rắn không đồng đều
+#260 Dầu, mỡ ăn có nhiệt độ nóng chảy càng thấp thì:
++ Chất lượng càng cao
+- Chất lượng càng thấp
+- Tỷ lệ Acid no càng cao
+- Tỷ lệ Lipid càng thấp
+#261 Các tính chất lý học của dầu, mỡ ăn gồm:
++ Tỷ trọng, độ nhớt, tính hòa tan, tính bay hơi, độ năng lượng.
+- Tỷ trọng, độ nhớt, tính hòa tan, tính bay hơi, nhiệt độ nóng chảy.
+- Tỷ trọng, độ nhớt, tính hòa tan, nhiệt độ nóng chảy, chỉ số acid.
+- Tỷ trọng, độ nhớt, tính hòa tan, tính bay hơi, nhiệt độ đông đặc.
+#262 Chọn đáp án đúng về dầu, mỡ ăn:
++ Tỷ trọng dầu, mỡ ăn càng tăng thì chất lượng dầu, mỡ ăn càng giảm.
+- Tỷ trọng dầu, mỡ ăn càng tăng thì chất lượng dầu, mỡ ăn càng tăng.
+- Tỷ lệ acid béo no phân tử lượng thấp tăng thì chất lượng dầu, mỡ ăn tăng.
+- Khi tỷ lệ oxy acid trong dầu mỡ ăn giảm thì chất lượng dầu, mỡ ăn giảm.
+#263 Nhận định nào sau đây là đúng đối với độ nhớt của dầu mỡ ăn:
++ Độ nhớt cao và thay đổi theo nhiệt độ.
++ Nhiệt độ tăng, độ nhớt dầu, mỡ giảm.
+- Nhiệt độ giảm, độ nhớt dầu, mỡ giảm.
+- Độ nhớt của dầu lớn hơn độ nhớt mỡ.
+#264 Ứng dụng nào sau đây dựa trên độ nhớt của dầu, mỡ ăn:
++ Ứng dụng để sản xuất dầu bằng phương pháp ép nóng.
++ Ứng dụng để rửa dụng cụ chứa đựng, bát, đĩa, chén.
+- Ứng dụng để sản xuất dầu bằng phương pháp trích ly.
+- Ứng dụng để xác định tỷ lệ chất béo trong nguyên liệu.
+#265 Các phương pháp sản xuất dầu thực vật gồm:
++ Phương pháp ép
++ Phương pháp trích ly
+- Phương pháp nén
+- Phương pháp gia nhiệt
+#266 Những mô tả đúng đối với dầu thực vật và mỡ động vật:
++ Trong mỡ Acid béo chưa no nhiều hơn Acid béo no.
++ Tỷ lệ Acid béo chưa no trong mỡ thấp hơn so với dầu.
+- Tỷ lệ Acid béo chưa no trong mỡ cao hơn so với dầu.
+- Trong dầu Acid béo no nhiều hơn Acid béo chưa no.
+#267 Một số ứng dụng của dầu, mỡ ăn trong đời sống con người:
++ Tham gia chế biến các món ăn phục vụ con người.
++ Làm nguyên liệu cho ngành công nghiệp thực phẩm.
+- Ứng dụng trong rửa bát đũa, trang thiết bị, dụng cụ.
+- Làm nguyên liệu (phụ) trong muối chua rau, củ quả.
+#268 Nhận định nào sau đây là đúng về mỡ lợn:
++ Có màu từ trắng đến vàng nhạt, mùi thơm đặc trưng.
++ Dùng để chế biến món ăn, sản xuất bánh kẹo, đồ hộp.
+- Có màu vàng hoặc màu trắng, mùi thơm đặc trưng.
+- Một số trường hợp sử dụng trong muối chua rau, quả.
+#269 Nhận định nào sau đây là đúng về Phosphatit:
++ Là este của Glyxerin với Acid Phosphoric.
++ Là thành phần chính cấu tạo màng tế bào.
+- Là este của Glyxerin với Acid Pamitic.
+- Có giá trị sinh lí thấp đối với cơ thể người.
+#270 Những nhận định đúng về giá trị dinh dưỡng của dầu, mỡ ăn:
++ Nguồn cung cấp năng lượng quan trọng cho con người.
++ Mỡ động vật chứa nhiều Cholesterol hơn dầu thực vật.
+- Dầu thực vật có ít Vitamin và các Acid béo không no.
+- Dầu thực vật có độ đồng hóa thấp hơn mỡ động vật.
+#271 Những nhận định đúng về dầu lạc:
++ Dầu lạc được sản xuất từ hạt lạc, gồm: Dầu thô, dầu lọc, dầu tinh chế.
++ Dầu lạc thô có màu vàng sẫm hoặc vàng nhạt, có nhiều nước, tạp chất.
+- Dầu lọc chất lượng cao hơn dầu thô, có khả năng bảo quản được lâu.
+- Dầu tinh chế có màu vàng xanh trong suốt, mùi thơm tự nhiên của lạc.
+#272 Những nhận định đúng về mỡ động vật:
++ Được lấy từ mô mỡ ở khoang bụng, dưới da của gia súc.
++ Đối với cá mỡ tập trung chủ yếu ở nội tạng (trong gan).
+- Mỡ động vật có tác dụng sinh lý tốt hơn dầu thực vật.
+- Dầu thực vật có tác dụng sinh lý tốt hơn mỡ động vật.
+#273 Những nhận định đúng về bảo quản dầu mỡ ăn:
++ Dầu mỡ ăn được bảo quản trong kho kín, khô, sạch sẽ.
++ Bảo quản dầu mỡ ăn ở chế độ nhiệt độ, độ ẩm cố định.
+- Thời gian bảo quản dầu ăn không phụ thuộc loại dầu.
+- Có thể bảo quản mỡ ăn cùng các thực phẩm có mùi.
+#274 Các tính chất hóa học của dầu mỡ ăn:
++ Sự thủy phân dầu, mỡ ăn.
++ Sự oxy hóa dầu, mỡ ăn.
+- Sự tự bốc hơi dầu, mỡ ăn.
+- Sự ngưng tụ dầu, mỡ ăn.
+#275 Các loại Acid béo có trong dầu lạc:
++ Acid Oleic, acid Linoleic
++ Acid Pamitic, acid Stearic
+- Acid Ascobic, Acid Oleic
+- Acid Ascobic, Acid Lactic
+#276 Sự có mặt của ..... trong dầu mỡ làm cho quá trình oxy hóa xảy ra mạnh hơn.
+= kim loại
+#277 Khi dầu mỡ ăn bị ............. nhiệt độ nóng chảy tăng và mùi vị thay đổi.
+= thủy phân / thuỷ phân
+#278 Dầu .... được sản xuất từ các loại hạt có hàm lượng chất béo cao như lạc, vừng, đậu tương, hạt cải, dừa, ngô.
+= thực vật
+#279 Mỗi loại dầu, mỡ đều có mùi vị đặc trưng. Dầu, mỡ tốt phải có mùi vị tự nhiên của ....., không có mùi vị lạ hoặc chua, ôi, khét.
+= nguyên liệu
+#280 Dầu, mỡ tốt phải giữ được màu tự nhiên. Trong quá trình sản xuất, vận chuyển, bảo quản dầu, mỡ ăn có thể bị nhiễm bẩn làm ..... màu sắc.
+= thay đổi
+#281 Sự thủy phân dầu, mỡ ăn xảy ra khi có mặt của nước cùng với chất xúc tác có sẵn trong ..... hoặc từ vi sinh vật xâm nhập vào.
+= dầu mỡ
+#282 Dầu, mỡ ăn tốt phải giữ được màu sắc .... Trong quá trình sản xuất, vận chuyển và bảo quản dầu, mỡ có thể bị nhiễm bẩn làm màu sắc thay đổi.
+= tự nhiên
+#283 Dầu, mỡ ăn tốt phải có chỉ số xà phòng nằm trong giới hạn nhất định đối với từng loại. Qua thời gian bảo quản chỉ số xà phòng ..... theo mức độ tăng của sự thủy phân dầu, mỡ ăn.
+= tăng lên
+#284 Trong sản xuất dầu ...., có 2 phương pháp sản xuất là phương pháp ép và phương pháp trích ly.
+= thực vật
+#285 Tính chất lý học của dầu mỡ ăn với đặc điểm tương ứng:
+> Tỷ trọng | Dầu mỡ nhẹ hơn nước, dao động từ 0,9 đến 0,98 ở 15°C.
+> Độ nhớt | Giảm khi nhiệt độ tăng và tăng khi nhiệt độ giảm.
+> Tính hòa tan | Không tan trong nước nhưng tan tốt trong dung môi hữu cơ.
+~ Dầu mỡ nhẹ hơn nước, dao động từ 0,9 đến 0,95 ở 16°C.
+~ Giảm khi nhiệt độ giảm và tăng khi nhiệt độ tăng.
+~ Không tan trong nước và trong dung môi hữu cơ.
+#286 Quá trình biến đổi hóa học của dầu mỡ ăn với sản phẩm tạo thành:
+> Thủy phân hoàn toàn Triglycerit | Glycerin và axit béo tự do.
+> Thủy phân không hoàn toàn Triglycerit | Glycerin, axit béo tự do, Mono và Diglycerit.
+> Oxi hóa dầu mỡ | Peroxit, Hydroperoxit, Aldehyd và Ceton.
+~ Peroxit, Hydroperoxit, Aldehyd.
+~ Axit béo tự do, Mono và Diglycerit.
+#287 Chỉ tiêu chất lượng của dầu mỡ ăn với ý nghĩa tương ứng:
+> Chỉ số Axit | Cho biết lượng axit béo tự do có trong dầu mỡ.
+> Chỉ số Iot | Cho biết mức độ chưa no của dầu mỡ.
+> Chỉ số Peroxit | Cho biết mức độ oxi hóa của dầu mỡ.
+~ Cho biết lượng axit béo có trong dầu mỡ.
+~ Cho biết mức độ no của dầu mỡ.
+#288 Các loại dầu thực vật với hàm lượng dầu trong nguyên liệu tương ứng:
+> Dầu lạc | Hàm lượng dầu trong hạt 40 đến 55%.
+> Dầu vừng | Hàm lượng dầu trong hạt 45 đến 55%.
+> Dầu đậu tương | Hàm lượng dầu trong hạt đạt 18 đến 22%.
+~ Hàm lượng dầu trong hạt đạt 30 đến 35%.
+~ Hàm lượng dầu trong hạt đạt 15 đến 20%.
+#289 Các nguyên nhân gây hư hỏng dầu mỡ với biểu hiện tương ứng:
+> Thủy phân | Làm tăng chỉ số Axit và thay đổi mùi vị dầu mỡ.
+> Oxi hóa | Làm xuất hiện mùi ôi khét, vị đắng và giảm chỉ số Iot.
+> Kim loại | Xúc tác làm quá trình tự oxi hóa dầu mỡ xảy ra nhanh hơn.
+~ Làm giảm chỉ số Axit và thay đổi mùi vị dầu mỡ.
+~ Làm xuất hiện mùi ôi khét, vị đắng và giảm chỉ số xà phòng.
+~ Xúc tác làm quá trình tự oxi hóa dầu mỡ xảy ra chậm hơn.
+#290 Các điều kiện bảo quản mỡ với thời gian bảo quản tương ứng:
+> Ở 5 đến 6°C, độ ẩm không khí 80% | Bảo quản được 1 tháng
+> Ở -8 đến -5°C, độ ẩm không khí 85 đến 90% | Bảo quản được 6 tháng
+> Ở -12°C, độ ẩm không khí 85 đến 90% | Bảo quản được 12 tháng
+~ Bảo quản được 2 tháng
+~ Bảo quản được 3 tháng
+~ Bảo quản được 9 tháng
+@ Bài 7. Sữa, trứng và sản phẩm chế biến
+#291 Cấu tạo của vỏ trứng gia cầm gồm:
++ Màng ngoài vỏ trứng, vỏ trứng, màng trong vỏ trứng.
+- Màng ngoài vỏ trứng, vỏ trứng và các lỗ thoát khí.
+- Vỏ trứng, các lỗ thoát khí và màng trong vỏ trứng.
+- Vỏ trứng, màng lòng trắng trứng, buồng hơi trứng.
+#292 Đặc điểm của vỏ trứng gia cầm:
++ Cứng nhưng giòn, rất dễ vỡ, trứng mới vỏ đục mờ và ráp, trứng cũ vỏ bóng.
+- Cứng nhưng giòn, không dễ vỡ, trứng mới đục mờ, ráp, trứng cũ nhẵn bóng.
+- Cứng, giòn, dễ vỡ, trứng mới trắng bóng, trứng cũ thô ráp và có màu đục mờ.
+- Cứng, giòn, dễ vỡ, trứng mới màu xanh hoặc xám, trứng cũ có màu xanh đục.
+#293 Các loại vitamin có trong lòng đỏ trứng gia cầm:
++ A, D, E, B
+- A, D, E, K
+- A, D, E, PP
+- A, D, B, K
+#294 Chọn đáp án đúng nhất:
++ Trứng bảo quản càng lâu thì kích thước buồng hơi càng lớn.
+- Trứng bảo quản càng lâu thì kích thước buồng hơi càng bé.
+- Buồng hơi trứng lớn dần cho đến khi chiếm trọn quả trứng.
+- Buồng hơi của trứng phản ánh thành phần dinh dưỡng trứng.
+#295 Trứng gia cầm hỏng có mùi của các chất:
++ NH₃, H₂S
+- NH₃, H₂SO₄
+- H₂S, NaCl
+- H₂SO₄, NaCl
+#296 Đặc điểm của lòng trắng trứng gia cầm là:
++ Có ít Lipid hơn lòng đỏ.
+- Nhiều Protein hơn lòng đỏ.
+- Nhiều Glucid hơn lòng đỏ.
+- Nhiều Cholesterol hơn lòng đỏ.
+#297 Trứng gia cầm tươi là trứng có thời gian bảo quản tối đa:
++ 30 ngày ở nhiệt độ -2°C
+- 20 ngày ở nhiệt độ -2°C
+- 15 ngày ở nhiệt độ -2°C
+- 10 ngày ở nhiệt độ -2°C
+#298 Không nên bảo quản trứng gia cầm lẫn với các hàng hóa khác vì:
++ Trứng rất dễ hấp thụ các mùi lạ.
+- Trứng không hấp thụ các mùi lạ.
+- Trứng dễ bị hư hỏng và dập vỡ.
+- Trứng tăng kích thước buồng hơi.
+#299 Sữa tươi tốt có chỉ tiêu chất lượng về màu sắc là:
++ Màu trắng ngà, đồng đều, sữa đã tách mỡ có màu trắng xanh.
+- Màu trắng xanh, đồng đều, sữa đã tách mỡ có màu trắng ngà.
+- Màu trắng đục, đồng đều, sữa đã tách mỡ có màu trắng ngà.
+- Màu trắng đục, đồng đều, sữa đã tách mỡ có màu trắng xanh.
+#300 Sữa tươi tốt có chỉ tiêu chất lượng về mùi vị:
++ Mùi thơm đặc trưng, vị ngọt mát.
+- Mùi tanh ngậy và có vị Glucose.
+- Mùi thơm nồng bơ, vị ngọt mát.
+- Mùi thơm nồng vị ngọt Glucose.
+#301 Sữa tươi tốt có chỉ tiêu chất lượng tỷ trọng khoảng:
++ 1,028÷1,034
+- 1,038÷1,045
+- 1,046÷1,053
+- 1,012÷1,023
+#302 Các cách chế biến nhiệt sữa là:
++ Khử trùng, thanh trùng.
+- Khử trùng và sát trùng.
+- Thanh trùng và vô trùng.
+- Sát trùng, vô trùng sữa.
+#303 Sữa bột là sản phẩm được sản xuất từ:
++ Sữa tươi bằng phương pháp sấy khô để tách hầu hết nước ra khỏi nguyên liệu.
+- Bột sữa bằng phương pháp sấy khô để tách hầu hết nước ra khỏi nguyên liệu.
+- Bột sữa bằng phương pháp thêm một ít nước vào nguyên liệu mà thành.
+- Sữa tươi bằng phương pháp chưng cất để tách nước ra khỏi nguyên liệu.
+#304 Cấu tạo của màng ngoài vỏ trứng là lớp ......... trong suốt, phủ trên toàn bộ mặt ngoài của vỏ trứng.
+= keo mỏng
+#305 Cấu tạo của màng trong vỏ trứng có bản chất là ..........
+= dạng sợi
+#306 Sữa đặc là sản phẩm được sản xuất bằng phương pháp cô đặc để tách ..... nước ra khỏi nguyên liệu.
+= phần lớn
+#307 Sữa bột là sản phẩm được sản xuất bằng phương pháp sấy khô để tách ....... nước ra khỏi nguyên liệu.
+= hầu hết
+#308 ......... có tác dụng bảo vệ ruột trứng tránh những tác động cơ học, vi sinh vật và nhiệt độ môi trường.
+= vỏ trứng
+#309 Màng lòng đỏ bao quanh ruột ......., giữ cho ruột lòng đỏ luôn có dạng hình cầu.
+= lòng đỏ
+#310 Một số thành phần hóa học của sữa đặc có đường:
++ Nước 25÷26%
++ Saccarose 43÷45%
++ Chất béo 8÷10%
+- Nước 28÷30%
+- Saccarose 50÷56%
+#311 Một số yêu cầu cảm quan của sữa đặc có đường là:
++ Có màu vàng kem, đồng đều trong toàn hộp sữa.
++ Mùi đặc trưng, thơm tự nhiên, ngọt đậm saccarose.
++ Ở 20°C chảy thành sợi liên tục. Không có tạp chất.
+- Sữa mịn, khi ăn có cảm giác lạo xạo trong miệng.
+- Có màu từ vàng kem đến nâu xám và đồng đều.
+#312 Những thành phần hóa học thể hiện sự khác biệt giữa lòng trắng và lòng đỏ của trứng gia cầm:
++ Nước
++ Lipid
+- Protein
+- Glucid
+#313 Những chỉ tiêu cảm quan của sữa bột:
++ Có màu trắng ngà đồng đều, mùi thơm tự nhiên, vị ngọt mát.
++ Hạt sữa có kích thước nhỏ đồng đều, mịn, khả năng hòa tan cao.
+- Có màu trắng vàng đồng đều, mùi thơm tự nhiên, vị ngọt mát.
+- Hạt sữa có kích thước nhỏ đồng đều, mịn, vị sữa ngọt đậm.
+#314 Một số phương pháp bảo quản trứng:
++ Bảo quản lạnh
++ Bảo quản trong dung dịch nước vôi
++ Bảo quản trong môi trường khí CO₂
+- Bảo quản đơn giản trên nền kho
+- Bảo quản trong chum, nơi thoáng mát
+#315 Các chỉ tiêu chất lượng cảm quan của sữa đặc:
++ Sản phẩm có màu vàng kem đồng đều, mùi đặc trưng, vị ngọt đậm.
++ Sữa có độ đặc đồng đều, sữa mịn khi ăn không có cảm giác lạo xạo.
+- Sản phẩm có màu trắng đồng đều, mùi đặc trưng, có vị ngọt đậm.
+- Sản phẩm có màu vàng kem đồng đều, mùi đặc trưng, vị ngọt mát.
+#316 Các chỉ tiêu chất lượng của bơ:
++ Màu vàng kem đồng đều, mùi thơm đặc trưng, vị béo ngậy.
++ Không có mùi ôi khét, vị lạ, khối bơ trạng thái chắc, mịn.
+- Màu trắng ngà đồng đều, mùi thơm đặc trưng, vị béo ngậy.
+- Không có mùi ôi khét, vị lạ, khối bơ trạng thái lỏng, mịn.
+#317 Khối lượng trung bình của trứng gà, vịt, ngỗng tương ứng là:
+> Trứng Gà | 40÷60g
+> Trứng Vịt | 60÷80g
+> Trứng Ngỗng | 160÷200g
+~ 30÷50g
+~ 180÷250g
+#318 Hàm lượng một số thành phần chính có trong lòng trắng trứng gia cầm:
+> Nước | 88%
+> Protein | 10,3%
+> Lipid | 0,1%
+~ 2%
+~ 13,6%
+#319 Hàm lượng một số thành phần chính có trong lòng đỏ trứng gia cầm:
+> Nước | 54%
+> Protein | 13,6%
+> Lipid | 22,8%
+~ 28,2%
+~ 10,3%
+#320 Một số chỉ tiêu chất lượng của sữa bò tươi có chất lượng tốt:
+> Màu sắc | Có màu trắng ngà, đồng đều, sữa đã tách mỡ có màu trắng xanh.
+> Mùi vị | Có mùi thơm đặc trưng, vị ngọt mát.
+> Tỷ trọng | Nằm trong giới hạn từ 1,028÷1,034.
+~ Màu trắng sữa hoặc hồng nhạt, sữa tách mỡ có màu trắng xanh.
+~ Nằm trong giới hạn 1,328÷1,547.
+#321 Tỷ lệ một số chất chính trong sữa tươi:
+> Nước | 25÷26%
+> Chất béo | 8÷10%
+> Saccarose | 43÷45%
+~ 35÷36%
+~ 18÷20%
+#322 Chỉ tiêu chất lượng lý, hóa của sữa đặc:
+> Nước | Không quá 26,5%
+> Chất béo | Không ít hơn 8,5%
+> Saccarose | Không ít hơn 43,5%
+~ Không quá 36,5%
+~ Không ít hơn 28,5%
+#323 Điều kiện thích hợp để bảo quản sữa đặc:
+> Phương pháp | Bảo quản lạnh
+> Nhiệt độ | Từ 0÷10°C
+> Độ ẩm | Từ 75÷85%
+~ Bảo quản đông
+~ Từ 0÷20°C
+@ Bài 8. Hàng vị giác
+#324 Ở cây chè, vitamin C có nhiều trong bộ phận:
++ Búp chè
+- Lá chè
+- Thân chè
+- Hoa chè
+#325 Thành phần cho cánh chè xoăn lại khi sao chè:
++ Pectin
+- Protein
+- Glucid
+- Enzyme
+#326 Những đặc điểm của chè liên quan đến công tác bảo quản:
++ Tính hút ẩm, tính hóa cũ, tính dễ mất mùi và hấp thụ mùi lạ.
+- Tính hút ẩm, tính oxy hóa, tính dễ mất mùi và hấp thụ mùi lạ.
+- Tính hóa cũ, tính oxy hóa, tính dễ hút mùi và hấp thụ mùi lạ.
+- Tính hút ẩm, bốc hơi nước, tính dễ hút mùi và hấp thụ mùi lạ.
+#327 Điều kiện thích hợp để bảo quản chè là:
++ Nhiệt độ 18÷33°C và độ ẩm của không khí ≤ 75%
+- Nhiệt độ 15÷20°C và độ ẩm của không khí ≤ 75%
+- Nhiệt độ 20÷30°C và độ ẩm của không khí ≤ 80%
+- Nhiệt độ 30÷35°C và độ ẩm của không khí ≤ 80%
+#328 Thành phần hóa học chủ yếu của cà phê:
++ Cafein, Glucid, Protein, Lipid, chất khoáng, vitamin, chất thơm, nước.
+- Cafein, Glucid, Protein, tanin, chất khoáng, vitamin, chất thơm, nước.
+- Cafein, Glucid, tanin, chất thơm, chất màu, Glycerin và nước.
+- Cafein, tanin, Protein, vitamin, chất thơm, Glycerol, chất màu và nước.
+#329 Hàm lượng trung bình cafein có trong cà phê:
++ Khoảng 0,7 ÷ 2,5% lượng chất khô
+- Khoảng 0,7 ÷ 2,6% lượng chất khô
+- Khoảng 0,8 ÷ 2,5% lượng chất khô
+- Khoảng 0,8 ÷ 2,6% lượng chất khô
+#330 Hàm lượng chất khoáng trong cà phê là:
++ 3 ÷ 5%
+- 2 ÷ 3%
+- 3 ÷ 7%
+- 4 ÷ 8%
+#331 Chất có tác dụng kích thích tiêu hóa trong cà phê là:
++ Acid nicotinic
+- Acid panmitic
+- Acid oleic
+- Acid lactic
+#332 Thành phần quyết định đến chất lượng của cà phê là:
++ Cafein
+- Tanin
+- Glucid
+- Chất thơm
+#333 Điều kiện phù hợp để bảo quản cà phê là:
++ Nhiệt độ bảo quản 18 ÷ 20°C, độ ẩm không khí ≤ 75%
+- Nhiệt độ bảo quản 18 ÷ 20°C, độ ẩm không khí ≤ 65%
+- Nhiệt độ bảo quản 20 ÷ 30°C, độ ẩm không khí ≤ 75%
+- Nhiệt độ bảo quản 20 ÷ 30°C, độ ẩm không khí ≤ 65%
+#334 Thành phần hóa học chủ yếu của rượu trắng:
++ Cồn ethylic, glycerin, este, nước.
+- Cồn ethylic, glycerin, este, acid béo.
+- Cồn ethylic, glycerol, este, nước.
+- Cồn ethylic, glycerol, este, acid béo.
+#335 Trong rượu, cồn ethylic chiếm tỉ lệ:
++ 12 ÷ 45%
+- 15 ÷ 45%
+- 18 ÷ 55%
+- 20 ÷ 50%
+#336 Hiện tượng thường xảy ra khi bảo quản muối:
++ Chảy nước, kết tảng.
+- Nóng chảy, kết tảng.
+- Hấp thụ mùi lạ, đông đặc.
+- Chảy nước, đông đặc.
+#337 Thành phần hóa học chính của mì chính:
++ Natriglutamat
+- Dinatriglutamat
+- Kaliglutamat
+- Dikaliglutamat
+#338 Một số tác dụng của Tanin là:
++ Tạo ra vị chát, tạo màu sắc và tạo mùi thơm cho nước chè (trà).
++ Làm tăng sức bền của thành mạch máu, tăng đồng hoá Vitamin C.
+- Tanin còn làm tăng sức bền của thành mạch máu, tăng đồng hoá Vitamin A.
+- Tác dụng của Tanin là tạo vị ngọt, tạo màu sắc và mùi thơm cho nước chè.
+#339 Một số tác dụng của Cafein:
++ Cafein kích thích hệ thần kinh làm cơ thể tỉnh táo, giải độc, giải khát.
++ Giúp máu giữ được muối và nước, lợi tiểu, kích thích cơ năng, tim phổi.
+- Cafein còn làm tăng sức bền của thành mạch máu, tăng đồng hoá Vitamin A.
+- Cafein còn làm tăng sức bền của các mô biểu bì, tăng đồng hoá Vitamin C.
+#340 Một số tác dụng của Chè (trà):
++ Kích thích thần kinh, tim, phổi, giải khát, giải độc, lợi tiểu.
++ Kích thích tiêu hoá, ngoài ra còn cung cấp Vitamin C, P, PP.
+- Kích thích tiêu hoá, ngoài ra còn cung cấp Vitamin A, B, D.
+- Sử dụng làm nước giải khát, có khả năng tăng cường thị lực.
+#341 Những thành phần hóa học chính có trong Chè gồm:
++ Tanin, Cafein, chất thơm, Protein, Pectin.
++ Enzyme, nước, vitamin và chất khoáng.
+- Tanin, Cafein, chất thơm, Protein, Lipid.
+- Tanin, Cafein, Protein, Lipid, Glucid.
+#342 Một số chỉ tiêu chất lượng của chè đen:
++ Cánh chè nhỏ, xoăn đều, màu đen tự nhiên.
++ Nước chè đỏ sẫm, hương thơm dượm, vị đậm dịu.
+- Bã chè xanh vàng, mềm, vẫn còn nguyên vẹn.
+- Độ ẩm, tỷ lệ vụn nát theo quy định, nhiều tạp chất.
+#343 Tính hút ẩm của Chè (trà):
++ Chè hút ẩm mạnh do cấu trúc xốp.
++ Chè đen hút ẩm mạnh hơn chè xanh.
+- Bảo quản chè cùng thực phẩm tươi.
+- Chè xanh hút ẩm mạnh hơn chè đen.
+#344 Bảo quản chè (trà) cần thực hiện một số nội dung là:
++ Bao gói kín tránh để chè tiếp xúc với không khí, độ ẩm và ánh sáng.
++ Không nên để chè gần hàng hóa có mùi, chè bị mất hương vị đặc trưng.
+- Bảo quản chè trong môi trường nhiệt độ thấp và độ ẩm cao là tốt nhất.
+- Bảo quản chè cùng với các hàng hóa có mùi thơm để chè thơm hơn.
+#345 Ở rượu trắng, thành phần chủ yếu là cồn ....., glycerin, este, nước, chất tạo mùi, chất tạo màu.
+= ethylic / etylic
+#346 Ở trong rượu: “Sự hình thành ............ trong rượu làm cho mùi khó ngửi, vị đắng, gây độc cho cơ thể”.
+= andehit / andehyt / aldehyd / aldehyt
+#347 Sản phẩm thu được sau khi chế biến chè búp tươi được gọi là ........
+= chè xanh
+#348 Sản phẩm thu được bằng cách sao ủ hương từ nguyên liệu khô tán nhỏ hoặc phun hương từ dịch hương liệu vào chè gọi là ..........
+= chè hương
+#349 Tanin là thành phần chủ yếu trong chè. Tác dụng của tanin trong chè là tạo ...., tạo màu sắc và mùi thơm cho nước chè.
+= vị chát
+#350 Chè hòa tan là sản phẩm tinh chế thu được bằng cách chiết lấy dịch chè rồi đem ...., khi pha không có bã nhưng hương vị không ngon lắm.
+= sấy khô
+#351 Chè .... mạnh do có cấu trúc xốp và trong thành phần của chè có chất mang tính của hệ keo háo nước.
+= hút ẩm
+#352 Chè để lâu, những thành phần quan trọng giảm dần, hương vị mất dần, cánh chè mất bóng và chuyển màu nước. Đặc tính này được gọi là tính .... của chè.
+= hóa cũ / hoá cũ
+#353 Một số chỉ tiêu chất lượng của chè xanh (chè trà xanh) chất lượng tốt:
+> Cánh chè | Nhỏ, xoăn, màu xanh đen bạc.
+> Độ ẩm | ≤ 7%.
+> Tỷ lệ vụn | ≤ 6%.
+> Nước chè | Màu vàng, trong, hương thơm dượm, vị chát dịu, ngọt hậu.
+~ Màu vàng, trong, hương thơm dượm, vị chát dịu nhưng không có vị ngọt.
+~ To, xoăn, màu xanh đen bạc.
+#354 Một số chỉ tiêu chất lượng của chè xanh (chè trà đen) chất lượng tốt:
+> Cánh chè | Xoăn đều, màu đen tự nhiên.
+> Độ ẩm | ≤ 6,5%.
+> Tỷ lệ vụn | ≤ 8%.
+> Nước chè | Màu đỏ sẫm, hương thơm dượm, vị đậm dịu có hậu.
+~ Màu vàng, trong, hương thơm dượm, vị đậm dịu có hậu.
+~ Xoăn đều, màu hơi đỏ tự nhiên.
+#355 Một số chỉ tiêu chất lượng của bột cà phê xay chất lượng tốt:
+> Màu sắc | Có màu nâu sẫm đều
+> Mùi | Thơm đặc trưng
+> Vị | Vị đắng của Cafein
+> Hàm lượng Cafein | Lớn hơn 2,8%
+~ Có màu nâu hơi đỏ đều
+~ Lớn hơn 3,8%
+</script>
+<script>
+'use strict';
+const EXAM_Q = 50, EXAM_MIN = 60, EXAM_SEC = EXAM_MIN * 60;
+const LETTERS = 'ABCDEFGH';
+const PREFIX = 'lttp_thuongpham_v1_';
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function readStore(k, f){ try{ const s = localStorage.getItem(PREFIX+k); return s ? JSON.parse(s) : f; }catch{ return f; } }
+function writeStore(k, v){ try{ localStorage.setItem(PREFIX+k, JSON.stringify(v)); }catch{} }
+function removeStore(k){ try{ localStorage.removeItem(PREFIX+k); }catch{} }
+function shuffle(a){ a=[...a]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function fmtTime(s){ s=Math.max(0,Math.floor(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+
+/* ---------- Ngân hàng câu hỏi ---------- */
+const normText = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[đĐ]/g,'d').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const keyMatch = s => String(s ?? '').normalize('NFC').toLowerCase().replace(/\s+/g,'').replace(/\.+$/,'');
+function parseBank(txt){
+  const out=[]; let lesson='', cur=null;
+  for(const raw of txt.split(/\r?\n/)){
+    const line=raw.trim(); if(!line) continue;
+    const tag=line[0], body=line.slice(1).trim();
+    if(tag==='@'){ lesson=body; continue; }
+    if(tag==='#'){ const m=body.match(/^(\d+)\s+([\s\S]*)$/); cur={number:+m[1], id:'q'+m[1], q:m[2], lesson, options:[], answer:[], rows:[], pool:[], alts:[]}; out.push(cur); continue; }
+    if(!cur) continue;
+    if(tag==='+'){ cur.answer.push(LETTERS[cur.options.length]); cur.options.push(body); }
+    else if(tag==='-') cur.options.push(body);
+    else if(tag==='=') cur.alts=body.split('/').map(s=>s.trim()).filter(Boolean);
+    else if(tag==='>'){ const i=body.indexOf('|'); cur.rows.push({left:body.slice(0,i).trim(), right:body.slice(i+1).trim()}); }
+    else if(tag==='~') cur.pool.push(body);
+  }
+  for(const q of out){
+    q.type = q.alts.length ? 'text' : q.rows.length ? 'match' : q.answer.length>1 ? 'multi' : 'single';
+    if(q.type==='match'){ const seen=new Set(), pool=[]; for(const v of [...q.rows.map(r=>r.right), ...q.pool]){ const k=keyMatch(v); if(!seen.has(k)){ seen.add(k); pool.push(v); } } q.pool=pool; }
+  }
+  return out;
+}
+const BANK = parseBank($('bank').textContent);
+const TOTAL = BANK.length;
+const LESSONS = [...new Set(BANK.map(q=>q.lesson))];
+
+/* Biến thể hiển thị: đảo phương án (trắc nghiệm) hoặc đảo danh sách thả xuống (ghép cặp) */
+function randomOrder(n, prev){ let o=shuffle([...Array(n).keys()]); const base=prev||[...Array(n).keys()]; if(n>1 && o.every((v,i)=>v===base[i])) o.push(o.shift()); return o; }
+function applyOrder(q, order){
+  if(q.type==='text') return {...q};
+  if(q.type==='match') return {...q, pool: order.map(i=>q.pool[i])};
+  return {...q, options: order.map(i=>q.options[i]), answer: order.flatMap((i,j)=>q.answer.includes(LETTERS[i]) ? [LETTERS[j]] : [])};
+}
+const orderLen = q => q.type==='match' ? q.pool.length : q.type==='text' ? 0 : q.options.length;
+let lastOrders = readStore('last_orders', {});
+function makeVariant(q){ if(q.type==='text') return {...q}; const o=randomOrder(orderLen(q), lastOrders[q.id]); lastOrders[q.id]=o; return applyOrder(q,o); }
+
+/* Chấm điểm */
+function hasAnswer(a){ return Array.isArray(a) ? a.some(x=>x && String(x).length) : typeof a==='string' && a.trim().length>0; }
+function isCorrect(q, a){
+  if(q.type==='text') return typeof a==='string' && q.alts.some(x=>normText(x)===normText(a)) && normText(a).length>0;
+  if(q.type==='match') return Array.isArray(a) && q.rows.every((r,i)=>a[i] && keyMatch(a[i])===keyMatch(r.right));
+  return Array.isArray(a) && a.length===q.answer.length && q.answer.every(x=>a.includes(x));
+}
+function correctText(q){
+  if(q.type==='text') return q.alts.join(' / ');
+  if(q.type==='match') return q.rows.map(r=>r.left+' → '+r.right).join(' ; ');
+  return q.answer.join(', ');
+}
+const typeLabel = q => ({single:'Một đáp án', multi:'Nhiều đáp án đúng', match:'Ghép cặp – chọn trong ô thả xuống', text:'Điền từ'})[q.type];
+
+/* ---------- Hiển thị câu hỏi ---------- */
+function renderQuestion(q, a, c, num, feedback){
+  let h=`<div class="qhead"><span class="badge">Câu ${num}</span><span class="tag ${q.type}">${typeLabel(q)}</span>${c==='p'?`<span class="lessontag">${esc(q.lesson)}</span>`:''}</div><div class="qtext">${esc(q.q)}</div>`;
+  if(q.type==='text'){
+    const v = typeof a==='string' ? a : '';
+    const cls = feedback ? (isCorrect(q,a)?'good':'wrong') : '';
+    h+=`<label for="tAns" style="font-size:14px;font-weight:700">Câu trả lời của bạn</label><input id="tAns" class="tinput ${cls}" type="text" autocomplete="off" spellcheck="false" placeholder="Gõ từ hoặc cụm từ còn thiếu" value="${esc(v)}" ${feedback?'disabled':''} oninput="setText('${c}',this.value)" onkeydown="if(event.key==='Enter'&&'${c}'==='p'){event.preventDefault();checkPractice()}"><p class="small">Không phân biệt chữ hoa/thường; gõ có dấu hoặc không dấu đều được.</p>`;
+  } else if(q.type==='match'){
+    const arr = Array.isArray(a) ? a : [];
+    q.rows.forEach((r,i)=>{
+      const v=arr[i]||''; const ok = v && keyMatch(v)===keyMatch(r.right);
+      const opts = q.pool.map((p,j)=>`<option value="${j}" ${v && keyMatch(p)===keyMatch(v)?'selected':''}>${esc(p)}</option>`).join('');
+      h+=`<div class="mrow ${feedback?(ok?'good':'wrong'):''}"><div class="lft">${esc(r.left)}</div><select aria-label="${esc(r.left)}" class="${v?'filled':''}" ${feedback?'disabled':''} onchange="setMatch('${c}',${i},this.value,this)"><option value="">-- Chọn đáp án --</option>${opts}</select>${feedback&&!ok?`<div class="fix">✔ Đáp án đúng: ${esc(r.right)}</div>`:''}</div>`;
+    });
+  } else {
+    const arr = Array.isArray(a) ? a : [];
+    h+='<div class="opts" role="group">';
+    q.options.forEach((t,i)=>{
+      const L=LETTERS[i], sel=arr.includes(L), cor=q.answer.includes(L);
+      let cls = sel ? 'sel' : '';
+      if(feedback){ cls = cor ? 'good' : (sel ? 'wrong' : ''); }
+      h+=`<button type="button" class="opt ${q.type==='multi'?'sq':''} ${cls}" aria-pressed="${sel}" ${feedback?'disabled':''} onclick="pick('${c}','${L}')"><span class="L">${L}</span><span class="t">${esc(t)}</span></button>`;
+    });
+    h+='</div>';
+  }
+  if(feedback){ const ok=isCorrect(q,a); h+=`<div class="fb ${ok?'ok':'no'}" role="status">${ok?'✅ Bạn đã trả lời đúng!':'❌ Câu trả lời chưa đúng.'}${q.type==='match'?'':` • Đáp án chính xác: <u>${esc(correctText(q))}</u>`}</div>`; }
+  return h;
+}
+
+/* ---------- Trạng thái chung ---------- */
+let P = {lesson: readStore('p_lesson','all'), index:0, answers: readStore('p_answers',{}), checked: readStore('p_checked',{})};
+let S = {questions:[], index:0, answers:{}, marked:{}, submitted:true, startedAt:0};
+let E = {questions:[], index:0, answers:{}, marked:{}, filter:'all', submitted:true, deadline:0, timer:null};
+
+let pOrders = readStore('p_orders', {});
+const PBANK = BANK.map(q=>{ if(q.type==='text') return {...q}; let o=pOrders[q.id]; const n=orderLen(q); if(!Array.isArray(o)||o.length!==n||new Set(o).size!==n||o.some(i=>!(i>=0&&i<n))){ o=randomOrder(n); pOrders[q.id]=o; } return applyOrder(q,o); });
+writeStore('p_orders', pOrders);
+let PVIEW = [];
+
+function curQ(c){ return c==='p' ? PVIEW[P.index] : c==='s' ? S.questions[S.index] : E.questions[E.index]; }
+function store(c){ return c==='p' ? P.answers : c==='s' ? S.answers : E.answers; }
+function key(c){ return c==='p' ? curQ('p').id : c==='s' ? S.index : E.index; }
+function canEdit(c){ if(c==='p') return !P.checked[curQ('p').id]; if(c==='s') return !S.submitted; return canAnswerExam(); }
+function changed(c, rerender){
+  if(c==='p'){ writeStore('p_answers', P.answers); rerender ? renderPractice() : renderPracticeMatrix(); }
+  else if(c==='s'){ rerender ? renderQuiz('s') : renderQuizSide('s'); }
+  else { rerender ? renderQuiz('e') : renderQuizSide('e'); }
+}
+function pick(c, L){
+  if(!canEdit(c)) return; const q=curQ(c), st=store(c), k=key(c); let a=Array.isArray(st[k])?st[k]:[];
+  if(q.type==='single') a = a.includes(L) ? [] : [L];
+  else a = a.includes(L) ? a.filter(x=>x!==L) : [...a, L].sort();
+  if(a.length) st[k]=a; else delete st[k]; changed(c, true);
+}
+function setText(c, v){ if(!canEdit(c)) return; const st=store(c), k=key(c); if(v.trim()) st[k]=v; else delete st[k]; changed(c, false); }
+function setMatch(c, row, idx, el){
+  if(!canEdit(c)) return; const q=curQ(c), st=store(c), k=key(c);
+  const a = Array.isArray(st[k]) ? [...st[k]] : Array(q.rows.length).fill('');
+  a[row] = idx==='' ? '' : q.pool[+idx];
+  if(el) el.classList.toggle('filled', idx!=='');
+  if(a.some(x=>x)) st[k]=a; else delete st[k]; changed(c, false);
+}
+
+/* ---------- Ôn tập ---------- */
+function buildPView(){ PVIEW = P.lesson==='all' ? PBANK : PBANK.filter(q=>q.lesson===P.lesson); if(!PVIEW.length){ P.lesson='all'; PVIEW=PBANK; } }
+function setLesson(v){ P.lesson=v; writeStore('p_lesson',v); buildPView(); P.index=0; renderPractice(); }
+function renderPractice(){
+  const q=PVIEW[P.index]; writeStore('p_pos', {lesson:P.lesson, index:P.index});
+  const a = P.answers[q.id];
+  $('pCard').innerHTML = renderQuestion(q, a, 'p', q.number, !!P.checked[q.id]) +
+    `<div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px"><button class="b b-red" onclick="checkPractice()">Kiểm tra đáp án</button>${P.checked[q.id]?'<button class="b b-gray" onclick="retryPractice()">Làm lại câu này</button>':''}</div>`;
+  $('pProgress').textContent = `Câu ${P.index+1} / ${PVIEW.length}`;
+  $('pPrev').disabled = P.index===0; $('pNext').disabled = P.index===PVIEW.length-1;
+  renderPracticeMatrix();
+}
+function renderPracticeMatrix(){
+  $('pStat').textContent = `Đã làm: ${PVIEW.filter(q=>hasAnswer(P.answers[q.id])).length}/${PVIEW.length}`;
+  $('pMatrix').innerHTML = PVIEW.map((q,i)=>{ let cls='cell'; if(P.checked[q.id]) cls+= isCorrect(q,P.answers[q.id])?' ok':' bad'; else if(hasAnswer(P.answers[q.id])) cls+=' ans'; if(i===P.index) cls+=' cur';
+    return `<button class="${cls}" aria-label="Câu ${q.number}" onclick="P.index=${i};renderPractice()">${q.number}</button>`; }).join('');
+}
+function checkPractice(){ const q=PVIEW[P.index]; if(!hasAnswer(P.answers[q.id])){ alert(q.type==='text'?'Bạn chưa nhập câu trả lời.':'Bạn chưa chọn đáp án cho câu này.'); return; } P.checked[q.id]=true; writeStore('p_checked',P.checked); renderPractice(); }
+function retryPractice(){ const q=PVIEW[P.index]; delete P.answers[q.id]; delete P.checked[q.id]; writeStore('p_answers',P.answers); writeStore('p_checked',P.checked); renderPractice(); }
+function movePractice(d){ P.index=Math.max(0,Math.min(PVIEW.length-1,P.index+d)); renderPractice(); window.scrollTo({top:0,behavior:'smooth'}); }
+function clearPractice(){ if(confirm('Bạn có chắc muốn xóa toàn bộ câu trả lời đã lưu trong phần Ôn tập?')){ P.answers={}; P.checked={}; removeStore('p_answers'); removeStore('p_checked'); renderPractice(); } }
+
+/* ---------- Xáo trộn & Thi thật ---------- */
+const Q = c => c==='s' ? S : E;
+function answeredCount(st){ return Object.values(st.answers).filter(hasAnswer).length; }
+function startShuffle(){
+  const prev=readStore('s_sig',''); let picked; do{ picked=shuffle(BANK); }while(TOTAL>1 && picked.map(q=>q.id).join('|')===prev);
+  writeStore('s_sig', picked.map(q=>q.id).join('|'));
+  S={questions:picked.map(makeVariant), index:0, answers:{}, marked:{}, submitted:false, startedAt:Date.now()}; writeStore('last_orders', lastOrders);
+  $('sHome').classList.add('hidden'); $('sResult').classList.add('hidden'); $('sActive').classList.remove('hidden'); renderQuiz('s'); window.scrollTo({top:0,behavior:'smooth'});
+}
+function startExam(){
+  clearInterval(E.timer);
+  const n=Math.min(EXAM_Q,TOTAL), prev=readStore('e_sig',''); let picked, sig; do{ picked=shuffle(BANK).slice(0,n); sig=picked.map(q=>q.id).sort().join('|'); }while(TOTAL>n && sig===prev);
+  writeStore('e_sig', sig);
+  E={questions:picked.map(makeVariant), index:0, answers:{}, marked:{}, filter:'all', submitted:false, deadline:Date.now()+EXAM_SEC*1000, timer:null}; writeStore('last_orders', lastOrders);
+  $('eHome').classList.add('hidden'); $('eResult').classList.add('hidden'); $('eActive').classList.remove('hidden'); $('timer').textContent=fmtTime(EXAM_SEC);
+  renderQuiz('e'); E.timer=setInterval(tick,250); window.scrollTo({top:0,behavior:'smooth'});
+}
+function tick(){ if(E.submitted) return; const r=Math.max(0,Math.ceil((E.deadline-Date.now())/1000)); $('timer').textContent=fmtTime(r); if(r===0) submitExam(true); }
+function canAnswerExam(){ if(E.submitted) return false; if(Date.now()>=E.deadline){ submitExam(true); return false; } return true; }
+function renderQuiz(c){
+  const st=Q(c), q=st.questions[st.index]; if(!q) return;
+  $(c+'Card').innerHTML = renderQuestion(q, st.answers[st.index], c, st.index+1, false);
+  $(c+'Prev').disabled = st.index===0; $(c+'Next').disabled = st.index===st.questions.length-1;
+  const m=$(c+'Mark'); m.textContent = st.marked[st.index] ? '🚩 Bỏ đánh dấu' : '🚩 Đánh dấu'; m.classList.toggle('on', !!st.marked[st.index]);
+  renderQuizSide(c);
+}
+function renderQuizSide(c){
+  const st=Q(c);
+  $(c+'Done').textContent = `Đã trả lời: ${answeredCount(st)} / ${st.questions.length} câu`;
+  let list = st.questions.map((q,i)=>i);
+  if(c==='e'){
+    document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on', b.dataset.f===E.filter));
+    list = list.filter(i=> E.filter==='done' ? hasAnswer(E.answers[i]) : E.filter==='undone' ? !hasAnswer(E.answers[i]) : E.filter==='marked' ? E.marked[i] : true);
+  }
+  $(c+'Matrix').innerHTML = list.map(i=>{ let cls='cell'; if(st.marked[i]) cls+=' mk'; else if(hasAnswer(st.answers[i])) cls+= c==='s'?' ans ind':' ans'; if(i===st.index) cls+= c==='s'?' cur ind2':' cur';
+    return `<button class="${cls}" onclick="jump('${c}',${i})">${i+1}</button>`; }).join('') || '<p class="small" style="grid-column:1/-1">Không có câu phù hợp.</p>';
+}
+function jump(c,i){ if(c==='e' && !canAnswerExam()) return; Q(c).index=i; renderQuiz(c); }
+function moveQuiz(c,d){ if(c==='e' && !canAnswerExam()) return; const st=Q(c); st.index=Math.max(0,Math.min(st.questions.length-1,st.index+d)); renderQuiz(c); window.scrollTo({top:0,behavior:'smooth'}); }
+function markQuiz(c){ if(c==='e' && !canAnswerExam()) return; if(c==='s' && S.submitted) return; const st=Q(c); st.marked[st.index]=!st.marked[st.index]; renderQuiz(c); }
+function setFilter(f){ E.filter=f; renderQuizSide('e'); }
+
+function reviewHTML(st){
+  return st.questions.map((q,i)=>{
+    const a=st.answers[i], ok=isCorrect(q,a), answered=hasAnswer(a);
+    let body='';
+    if(q.type==='text') body=`<div class="o ${ok?'good':'wrong'}">Bạn trả lời: <b>${esc(answered?a:'(chưa trả lời)')}</b></div>${ok?'':`<div class="o good">Đáp án: ${esc(correctText(q))}</div>`}`;
+    else if(q.type==='match') body=q.rows.map((r,j)=>{ const v=Array.isArray(a)?a[j]:''; const g=v && keyMatch(v)===keyMatch(r.right);
+      return `<div class="o ${g?'good':'wrong'}"><b>${esc(r.left)}</b> → ${esc(v||'(chưa chọn)')}${g?'':` <span style="color:#047857;font-weight:700">• Đúng: ${esc(r.right)}</span>`}</div>`; }).join('');
+    else body=q.options.map((t,j)=>{ const L=LETTERS[j], sel=Array.isArray(a)&&a.includes(L), cor=q.answer.includes(L);
+      return `<div class="o ${cor?'good':sel?'wrong':''}"><b>${L}.</b> ${esc(t)}${cor?' ✔':''}${sel&&!cor?' ✘ (bạn chọn)':''}</div>`; }).join('');
+    return `<div class="rv ${ok?'ok':'no'}"><div class="top"><span>Câu ${i+1} • Bộ gốc: Câu ${q.number}</span><span class="st ${ok?'ok':'no'}">${ok?'ĐÚNG':answered?'SAI':'CHƯA TRẢ LỜI'}</span></div><div class="q">${esc(q.q)}</div>${body}</div>`;
+  }).join('');
+}
+function resultHTML(title, icon, correct, total, time, again, color, notice, st){
+  const pct=Math.round(correct/total*100), score=(correct/total*10).toFixed(2).replace(/\.?0+$/,'').replace('.',',');
+  return `<div class="result-head"><div style="font-size:40px">${icon}</div><h2>${title}</h2><div class="stats"><div><div class="k">SỐ CÂU ĐÚNG</div><div class="v" style="color:#059669">${correct} / ${total}</div></div><div><div class="k">ĐIỂM (THANG 10)</div><div class="v" style="color:#b91c1c">${score}</div></div><div><div class="k">TỶ LỆ ĐÚNG</div><div class="v" style="color:#f59e0b">${pct}%</div></div><div><div class="k">THỜI GIAN LÀM</div><div class="v" style="color:#4f46e5">${time}</div></div></div>
+  <div class="mt4"><button class="b ${color}" style="padding:12px 24px" onclick="${again}">Tạo đề mới</button></div></div><div class="mt4">${notice||''}${reviewHTML(st)}</div><div style="text-align:center" class="mt4"><button class="b ${color}" style="padding:12px 24px" onclick="${again}">Tạo đề mới</button></div>`;
+}
+function submitShuffle(){
+  if(S.submitted) return; if(!confirm(`Bạn có chắc muốn nộp bài? Đã làm ${answeredCount(S)} trên tổng số ${S.questions.length} câu.`)) return;
+  S.submitted=true; const total=S.questions.length, correct=S.questions.filter((q,i)=>isCorrect(q,S.answers[i])).length, time=fmtTime((Date.now()-S.startedAt)/1000);
+  $('sActive').classList.add('hidden'); const r=$('sResult'); r.classList.remove('hidden');
+  r.innerHTML=resultHTML('KẾT QUẢ ĐỀ XÁO TRỘN','🎉',correct,total,time,'startShuffle()','b-indigo','',S);
+  saveHistory('shuffle',{date:new Date().toLocaleString('vi-VN'),score:correct,total,percent:Math.round(correct/total*100),time}); window.scrollTo({top:0,behavior:'smooth'});
+}
+function submitExam(auto){
+  if(E.submitted) return; if(!auto && !confirm(`Bạn có chắc muốn nộp bài thi? Đã hoàn thành ${answeredCount(E)}/${E.questions.length} câu.`)) return;
+  E.submitted=true; clearInterval(E.timer);
+  const spent = auto ? EXAM_SEC : Math.min(EXAM_SEC, Math.max(0, Math.floor((Date.now()-(E.deadline-EXAM_SEC*1000))/1000)));
+  const total=E.questions.length, correct=E.questions.filter((q,i)=>isCorrect(q,E.answers[i])).length, time=fmtTime(spent);
+  $('eActive').classList.add('hidden'); const r=$('eResult'); r.classList.remove('hidden');
+  r.innerHTML=resultHTML('KẾT QUẢ THI THẬT','🏆',correct,total,time,'startExam()','b-red', auto?`<div class="notice" role="status">Đã hết ${EXAM_MIN} phút. Hệ thống đã tự động nộp bài.</div>`:'', E);
+  saveHistory('exam',{date:new Date().toLocaleString('vi-VN'),score:correct,total,percent:Math.round(correct/total*100),time}); window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- Lịch sử ---------- */
+function saveHistory(t,rec){ let h=readStore('hist_'+t,[]); if(!Array.isArray(h)) h=[]; h.unshift(rec); writeStore('hist_'+t,h.slice(0,50)); renderHistory(t); }
+function renderHistory(t){ let h=readStore('hist_'+t,[]); if(!Array.isArray(h)) h=[];
+  $('hist-'+t).innerHTML = h.length ? h.map(r=>`<div class="hitem"><span class="small">${esc(r.date)}</span><span><b>${esc(r.score)}/${esc(r.total)} câu (${esc(r.percent)}%)</b> <span class="small">⏱ ${esc(r.time)}</span></span></div>`).join('') : '<div class="small" style="font-style:italic">Chưa có lượt làm bài nào được ghi lại.</div>'; }
+function clearHistory(t){ if(confirm('Bạn có muốn xóa toàn bộ lịch sử điểm phần này?')){ removeStore('hist_'+t); renderHistory(t); } }
+
+/* ---------- Chung ---------- */
+function switchMode(m){ ['practice','shuffle','exam'].forEach(x=>{ $('sec-'+x).classList.toggle('hidden', x!==m); $('tab-'+x).classList.toggle('on', x===m); }); if(m!=='practice') renderHistory(m); if(!E.submitted) tick(); }
+const busy = () => !E.submitted || (S.questions.length && !S.submitted);
+function refreshPage(){ if(busy() && !confirm('Bạn đang làm bài. Làm mới sẽ bỏ bài đang làm. Bạn có muốn tiếp tục?')) return; window.__leaving=true; location.reload(); }
+window.addEventListener('beforeunload', e=>{ if(busy() && !window.__leaving){ e.preventDefault(); e.returnValue=''; } });
+window.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.nTotal').forEach(e=>e.textContent=TOTAL);
+  document.querySelectorAll('.nExam').forEach(e=>e.textContent=Math.min(EXAM_Q,TOTAL));
+  document.querySelectorAll('.nMin').forEach(e=>e.textContent=EXAM_MIN);
+  const cnt=t=>BANK.filter(q=>q.type===t).length;
+  $('typeStat').textContent=`${cnt('single')} câu một đáp án, ${cnt('multi')} câu nhiều đáp án, ${cnt('match')} câu ghép cặp, ${cnt('text')} câu điền từ`;
+  $('lessonSel').innerHTML = `<option value="all">Tất cả các bài (${TOTAL} câu)</option>` + LESSONS.map(l=>`<option value="${esc(l)}">${esc(l)} (${BANK.filter(q=>q.lesson===l).length})</option>`).join('');
+  if(P.lesson!=='all' && !LESSONS.includes(P.lesson)) P.lesson='all';
+  $('lessonSel').value=P.lesson; buildPView();
+  const pos=readStore('p_pos',null); if(pos && pos.lesson===P.lesson) P.index=Math.max(0,Math.min(PVIEW.length-1,+pos.index||0));
+  renderPractice(); renderHistory('shuffle'); renderHistory('exam');
+  const header=document.querySelector('header'), nav=document.querySelector('nav');
+  const resize=()=>{ const h=header.getBoundingClientRect().height; document.documentElement.style.setProperty('--header-height',h+'px'); document.documentElement.style.setProperty('--quiz-top',(h+nav.getBoundingClientRect().height+8)+'px'); };
+  resize(); new ResizeObserver(resize).observe(header); new ResizeObserver(resize).observe(nav);
+});
+</script>
+</body>
+</html>
